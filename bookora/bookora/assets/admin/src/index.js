@@ -8,6 +8,8 @@ import SettingsScreen from './screens/SettingsScreen';
 import ServicesScreen from './screens/ServicesScreen';
 import ResourcesScreen from './screens/ResourcesScreen';
 import HoursScreen from './screens/HoursScreen';
+import FormsScreen from './screens/FormsScreen';
+import './builder/builder.scss';
 import Placeholder from './screens/Placeholder';
 import './style.scss';
 
@@ -16,6 +18,7 @@ const SCREENS = {
 	services: ServicesScreen,
 	resources: ResourcesScreen,
 	hours: HoursScreen,
+	forms: FormsScreen,
 };
 
 const TITLES = {
