@@ -106,9 +106,77 @@ Zeitangaben = konzentrierte Entwicklungstage in gemeinsamen Sessions (ich progra
 - KI-Assistent für E-Mail-Texte und Formularvorschläge
 - PWA für Mitarbeiter (Push-Benachrichtigung bei neuer Buchung)
 
-## 8. Offene Entscheidungen
+## 8. Entscheidungen (Stand 23.11.2026)
 
-1. **Geschäftsmodell:** komplett kostenlos oder Free (wordpress.org) + Pro-Add-on? Das beeinflusst die Architektur von Anfang an.
-2. **Plugin-Name:** „Marinov Booking“ oder ein eigener Produktname? Muss auf wordpress.org noch frei sein.
-3. **Sprachen zum Start:** Deutsch, Englisch, Bulgarisch?
-4. **Welche Zusatzideen** aus Abschnitt 7 sollen in Version 1.0?
+| Thema | Entscheidung |
+|---|---|
+| Geschäftsmodell | **Free + Pro (Abo)**, faire Preise, Fokus auf hohe Nutzerzahl |
+| Produktname | eigener Name mit Bezug zu Marinov Solutions, offen (siehe Abschnitt 10) |
+| Startsprachen | Deutsch, Englisch, Bulgarisch |
+| Umfang 1.0 | alle Anforderungen + „Empfohlen für 1.0“ aus Abschnitt 7 |
+
+## 9. Free- und Pro-Strategie
+
+**Grundsatz:** Die Free-Version enthält alles, wofür andere Plugins Geld verlangen und was ein
+kleiner Betrieb täglich braucht. Pro bringt Funktionen für Wachstum und Umsatz, nicht für die Grundlagen.
+Laut den Regeln von wordpress.org darf die Free-Version nicht künstlich beschränkt sein
+(keine Testphasen, keine gesperrten Funktionen). Pro wird deshalb ein **separates Add-on-Plugin**,
+das sich über Hooks in den Free-Kern einklinkt.
+
+**Free (wordpress.org)**
+- Unbegrenzte Formulare, Leistungen, Buchungen (keine künstlichen Limits)
+- Alle Feldtypen, bedingte Logik, mehrstufige Formulare
+- Frontend-Kalender, Live-Verfügbarkeit, Doppelbuchungsschutz
+- Admin-Zeitstrahl mit Drag & Drop
+- Ein-Klick-Bestätigung/Absage, alle E-Mail-Vorlagen frei editierbar, Erinnerungen
+- Kalender-Sync: ICS-Feed, Google Calendar (Zwei-Wege), iCloud CalDAV (Zwei-Wege)
+- Bis zu 3 Mitarbeiter/Ressourcen
+- Kunden-Selbstservice (Umbuchen/Stornieren), Zeitzonen, Gruppenbuchungen
+- Eigenes CSS/JS, Entwickler-Hooks, DSGVO-Werkzeuge, CSV-Export
+
+**Pro (Abo)**
+- Unbegrenzte Mitarbeiter/Ressourcen mit eigenem Login und eigenem Kalender-Sync
+- Outlook/Microsoft 365-Sync
+- Online-Zahlung und Anzahlung (Stripe, PayPal), Gutscheine, Rabattcodes
+- SMS- und WhatsApp-Erinnerungen
+- Automatische Videolinks (Google Meet, Zoom, Jitsi)
+- Wiederkehrende Termine, Warteliste mit Auto-Benachrichtigung
+- Webhooks, Zapier/Make
+- Statistik-Dashboard (Auslastung, No-Shows, Umsatz)
+- KI-Assistent für Texte, White-Label, Priority-Support
+
+**Preisvorschlag (netto, jährlich, monatlich kündbar als Option)**
+
+| Paket | Websites | Jahr | Monat |
+|---|---|---|---|
+| Starter | 1 | 39 € | 4,90 € |
+| Business | 5 | 79 € | 8,90 € |
+| Agency | unbegrenzt | 149 € | 15,90 € |
+
+Zum Vergleich: Vergleichbare Pro-Versionen kosten am Markt meist 80–250 € pro Jahr für eine Website.
+
+**Lizenz- und Zahlungsabwicklung:** Empfehlung ist ein „Merchant of Record“ (z. B. Freemius, Paddle
+oder Lemon Squeezy). Der Anbieter übernimmt EU-Umsatzsteuer, Rechnungen und Lizenzschlüssel,
+das spart dir Buchhaltungsaufwand. Die Entscheidung fällt vor Phase 11.
+
+**Architekturfolgen**
+- Free-Kern mit klaren Erweiterungspunkten (Feldtypen, Zahlungs-Gateways, Benachrichtigungskanäle, Sync-Anbieter als Module)
+- Pro-Add-on als eigenes Repository/Plugin mit eigenem Update-Server über den Lizenzanbieter
+- Kein Pro-Code im Free-Plugin (Vorgabe von wordpress.org)
+
+## 10. Produktname
+
+„MS-Booking“ ist leider riskant: „MS Bookings“ wird allgemein als **Microsoft Bookings** verstanden.
+Das führt zu Markenrechtsproblemen, möglicher Ablehnung auf wordpress.org und Verwechslung in der Suche.
+
+Vorschläge (Anzeige auf wordpress.org z. B. „Bookora – Termine & Buchungen von Marinov Solutions“):
+
+| Name | Wirkung |
+|---|---|
+| **Bookora** | kurz, international, leicht merkbar, klingt nach Plattform |
+| **Slotwise** | erklärt das Produkt (Zeitfenster + clever), stark für SEO |
+| **Kalendra** | elegant, funktioniert in DE/EN/BG gleich gut |
+| **Termivo** | modern, Bezug zu „Termin“ |
+| **MarSol Booking** | direkter Bezug zu **Mar**inov **Sol**utions, ohne Microsoft-Assoziation |
+
+Vor der finalen Wahl prüfen: freier Slug auf wordpress.org, Marken (DPMA, EUIPO), Domain (.com/.de).
