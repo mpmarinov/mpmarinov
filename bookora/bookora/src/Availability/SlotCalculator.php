@@ -212,6 +212,33 @@ final class SlotCalculator {
 	}
 
 	/**
+	 * Opening windows of a local date as UTC timestamp pairs (public view for the timeline).
+	 *
+	 * @param string $date Y-m-d.
+	 * @return array<int, array{0:int,1:int}>
+	 */
+	public function windows( string $date ): array {
+		$day = DateTimeImmutable::createFromFormat( '!Y-m-d', $date, $this->tz );
+		return $day ? $this->windows_for( $day ) : array();
+	}
+
+	/**
+	 * Whether a time range lies completely within the opening hours.
+	 *
+	 * @param int $start UTC start.
+	 * @param int $end   UTC end.
+	 */
+	public function within_hours( int $start, int $end ): bool {
+		$date = ( new DateTimeImmutable( '@' . $start ) )->setTimezone( $this->tz )->format( 'Y-m-d' );
+		foreach ( $this->windows( $date ) as [ $a, $b ] ) {
+			if ( $start >= $a && $end <= $b ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Free seats for a candidate slot, considering buffers of the requested service.
 	 *
 	 * @param int       $start Slot start.

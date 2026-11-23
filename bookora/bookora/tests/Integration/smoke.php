@@ -413,6 +413,71 @@ check( 404 === api( 'PUT', '/emails/evil', array( 'subject' => 'x', 'body' => 'y
 $logged = (int) $wpdb->get_var( 'SELECT COUNT(*) FROM ' . \Bookora\Install\Schema::table( $wpdb->prefix, 'notification_log' ) . " WHERE status = 'sent'" );
 check( $logged >= 4, 'every send is logged', $logged );
 
+echo "Timeline & moving appointments\n";
+$tday = ( new DateTimeImmutable( next_weekday( 1 ) ) )->modify( '+28 days' )->format( 'Y-m-d' );
+$tt   = static fn( string $hm, string $d = '' ) => ( new DateTimeImmutable( ( $d ?: $tday ) . ' ' . $hm, wp_timezone() ) )->getTimestamp();
+$m1   = $bookings->create( array( 'service_id' => $treat['id'], 'start' => $tt( '08:00' ), 'customer' => array( 'email' => 'move1@example.com', 'name' => 'Mia Move' ) ) );
+$m2   = $bookings->create( array( 'service_id' => $treat['id'], 'start' => $tt( '12:00' ), 'customer' => array( 'email' => 'move2@example.com' ) ) );
+check( ! is_wp_error( $m1 ) && ! is_wp_error( $m2 ), 'two bookings for the timeline created', array( $m1, $m2 ) );
+
+$tl = api( 'GET', '/timeline', array(), array( 'view' => 'day', 'date' => $tday ) );
+$td = $tl->get_data();
+check( 200 === $tl->get_status() && 'day' === $td['view'] && array( $tday ) === $td['dates'], 'day view answers' );
+$ids_tl = array_column( $td['bookings'], 'id' );
+check( in_array( $m1['booking_id'], $ids_tl, true ) && in_array( $m2['booking_id'], $ids_tl, true ), 'day view contains the bookings of that day', $ids_tl );
+$bm1 = current( array_filter( $td['bookings'], static fn( $b ) => $b['id'] === $m1['booking_id'] ) );
+check( 480 === $bm1['start_min'] && 540 === $bm1['end_min'], 'booking position in minutes', $bm1 );
+$biz = current( array_filter( $td['rows'], static fn( $r ) => 0 === $r['id'] ) );
+check( $biz && array( array( 480, 1140 ) ) === $biz['open'], 'business row shows the opening hours', $td['rows'] );
+check( $td['from'] <= 480 && $td['to'] >= 1140, 'time axis covers the opening hours', array( $td['from'], $td['to'] ) );
+$wk = api( 'GET', '/timeline', array(), array( 'view' => 'week', 'date' => $tday ) )->get_data();
+check( 7 === count( $wk['dates'] ) && 7 === count( $wk['rows'] ) && in_array( $tday, $wk['dates'], true ), 'week view has 7 day rows', $wk['dates'] );
+wp_set_current_user( 0 );
+check( in_array( api( 'GET', '/timeline', array(), array( 'date' => $tday ) )->get_status(), array( 401, 403 ), true ), 'timeline requires login' );
+check( in_array( api( 'POST', '/bookings/' . $m1['booking_id'] . '/move', array( 'date' => $tday, 'time' => '10:00' ) )->get_status(), array( 401, 403 ), true ), 'moving requires permission' );
+wp_set_current_user( 1 );
+
+$mv = api( 'POST', '/bookings/' . $m1['booking_id'] . '/move', array( 'date' => $tday, 'time' => '10:30' ) );
+check( 409 === $mv->get_status() && 'bookora_conflict' === $mv->get_data()['code'], 'move into the break of the next appointment is refused', $mv->get_data() );
+check( '08:00' === $adm->booking( $m1['booking_id'] )['time'], 'refused move leaves the booking unchanged' );
+
+$mails = array();
+$mv    = api( 'POST', '/bookings/' . $m1['booking_id'] . '/move', array( 'date' => $tday, 'time' => '10:00' ) );
+$md    = $mv->get_data();
+check( 200 === $mv->get_status() && '10:00' === $md['booking']['time'] && '11:00' === $md['booking']['end_time'], 'move to a free time succeeds (duration kept)', $md );
+check( false === $md['outside_hours'] && true === $md['notified'], 'move inside opening hours is not flagged' );
+$to_customer = array_values( array_filter( $mails, static fn( $m ) => 'move1@example.com' === $m['to'] ) );
+check( 1 === count( $to_customer ) && str_contains( $to_customer[0]['message'], '08:00' ) && str_contains( $to_customer[0]['message'], '10:00' ) && str_contains( $to_customer[0]['message'], 'bookora_ics=' ), 'customer gets the reschedule email with old and new time', array_column( $mails, 'subject' ) );
+$times = array_column( ( (array) api( 'GET', '/availability', array(), array( 'service' => $treat['id'], 'from' => $tday, 'to' => $tday ) )->get_data()['days'] )[ $tday ] ?? array(), 'time' );
+check( ! in_array( '10:00', $times, true ), 'new time is blocked after the move', $times );
+
+$mails = array();
+$mv    = api( 'POST', '/bookings/' . $m1['booking_id'] . '/move', array( 'date' => $tday, 'time' => '18:30', 'notify' => false ) );
+check( 200 === $mv->get_status() && true === $mv->get_data()['outside_hours'], 'move beyond closing time is allowed but flagged', $mv->get_data() );
+check( 0 === count( array_filter( $mails, static fn( $m ) => 'move1@example.com' === $m['to'] ) ), 'notify=false sends no email to the customer', array_column( $mails, 'subject' ) );
+
+$next = ( new DateTimeImmutable( $tday ) )->modify( '+1 day' )->format( 'Y-m-d' );
+$mv   = api( 'POST', '/bookings/' . $m1['booking_id'] . '/move', array( 'date' => $next, 'time' => '09:00', 'notify' => false ) );
+check( 200 === $mv->get_status() && $next === $mv->get_data()['booking']['date'], 'move to another day', $mv->get_data() );
+check( 400 === api( 'POST', '/bookings/' . $m1['booking_id'] . '/move', array( 'date' => '2026-02-30', 'time' => '09:00' ) )->get_status(), 'invalid target date is rejected' );
+
+$c1 = $bookings->create( array_merge( $input, array( 'service_id' => $consult['id'], 'start' => $tt( '09:00' ), 'resource_id' => $ids[0] ) ) );
+$c2 = $bookings->create( array_merge( $input, array( 'service_id' => $consult['id'], 'start' => $tt( '09:00' ), 'resource_id' => $ids[1] ) ) );
+check( ! is_wp_error( $c1 ) && ! is_wp_error( $c2 ) && $c1['resource_id'] !== $c2['resource_id'], 'two staff bookings at the same time', array( $c1, $c2 ) );
+$res_day = api( 'GET', '/timeline', array(), array( 'view' => 'day', 'date' => $tday ) )->get_data();
+check( count( array_intersect( array( $ids[0], $ids[1] ), array_column( $res_day['rows'], 'id' ) ) ) === 2, 'day view has a row per staff member', array_column( $res_day['rows'], 'id' ) );
+$mv = api( 'POST', '/bookings/' . $c1['booking_id'] . '/move', array( 'date' => $tday, 'time' => '09:00', 'resource_id' => $c2['resource_id'], 'notify' => false ) );
+check( 409 === $mv->get_status(), 'moving onto a busy staff member is refused', $mv->get_data() );
+$mv = api( 'POST', '/bookings/' . $c1['booking_id'] . '/move', array( 'date' => $tday, 'time' => '11:00', 'resource_id' => $c2['resource_id'], 'notify' => false ) );
+check( 200 === $mv->get_status() && $c2['resource_id'] === $mv->get_data()['booking']['resource_id'], 'move to another staff member', $mv->get_data() );
+$mv = api( 'POST', '/bookings/' . $c1['booking_id'] . '/move', array( 'date' => $tday, 'time' => '11:00', 'resource_id' => $ids[2], 'notify' => false ) );
+check( 400 === $mv->get_status() && 'bookora_unknown_resource' === $mv->get_data()['code'], 'staff member without the service is refused', $mv->get_data() );
+
+api( 'POST', '/bookings/' . $m2['booking_id'] . '/status', array( 'status' => 'rejected' ) );
+$mv = api( 'POST', '/bookings/' . $m2['booking_id'] . '/move', array( 'date' => $tday, 'time' => '14:00' ) );
+check( 409 === $mv->get_status() && 'bookora_not_movable' === $mv->get_data()['code'], 'rejected booking cannot be moved', $mv->get_data() );
+check( 404 === api( 'POST', '/bookings/999999/move', array( 'date' => $tday, 'time' => '14:00' ) )->get_status(), 'unknown booking returns 404' );
+
 echo "Cleanup\n";
 check( 200 === api( 'DELETE', '/services/' . $service['id'] )->get_status(), 'service deleted' );
 check( 404 === api( 'GET', '/services/' . $service['id'] )->get_status(), 'deleted service is gone' );

@@ -26,6 +26,7 @@ use Bookora\Repository\ResourceRepository;
 use Bookora\Repository\ScheduleRepository;
 use Bookora\Repository\ServiceRepository;
 use Bookora\Rest\AvailabilityController;
+use Bookora\Rest\TimelineController;
 use Bookora\Rest\EmailsController;
 use Bookora\Rest\EntriesController;
 use Bookora\Rest\FormsController;
@@ -164,6 +165,16 @@ final class Plugin {
 				$c->get( Settings::class )
 			)
 		);
+		$c->set(
+			TimelineController::class,
+			static fn( Container $c ) => new TimelineController(
+				$c->get( EntryRepository::class ),
+				$c->get( ResourceRepository::class ),
+				$c->get( AvailabilityService::class ),
+				$c->get( BookingService::class ),
+				$c->get( Settings::class )
+			)
+		);
 		$c->set( EmailsController::class, static fn( Container $c ) => new EmailsController( $c->get( Templates::class ), $c->get( Mailer::class ) ) );
 		$c->set( Export::class, static fn( Container $c ) => new Export( $c->get( EntryRepository::class ), $c->get( FormRepository::class ) ) );
 		$c->set( EntriesController::class, static fn( Container $c ) => new EntriesController( $c->get( EntryRepository::class ), $c->get( BookingRepository::class ), $c->get( ServiceRepository::class ) ) );
@@ -184,7 +195,7 @@ final class Plugin {
 		add_action(
 			'rest_api_init',
 			static function () use ( $c ) {
-				foreach ( array( SettingsController::class, ServicesController::class, ResourcesController::class, SchedulesController::class, AvailabilityController::class, FormsController::class, PublicFormController::class, EntriesController::class, EmailsController::class ) as $controller ) {
+				foreach ( array( SettingsController::class, ServicesController::class, ResourcesController::class, SchedulesController::class, AvailabilityController::class, FormsController::class, PublicFormController::class, EntriesController::class, EmailsController::class, TimelineController::class ) as $controller ) {
 					$c->get( $controller )->register_routes();
 				}
 			}

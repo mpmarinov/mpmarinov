@@ -182,7 +182,7 @@ final class EntryRepository {
 		}
 
 		$order    = in_array( $view, array( 'past', 'closed', 'all' ), true ) ? 'DESC' : 'ASC';
-		$per_page = max( 1, min( 100, (int) ( $args['per_page'] ?? 25 ) ) );
+		$per_page = max( 1, min( 1000, (int) ( $args['per_page'] ?? 25 ) ) );
 		$offset   = ( max( 1, (int) ( $args['page'] ?? 1 ) ) - 1 ) * $per_page;
 		$from     = self::t( 'bookings' ) . ' b LEFT JOIN ' . self::t( 'customers' ) . ' c ON c.id = b.customer_id LEFT JOIN ' . self::t( 'services' ) . ' s ON s.id = b.service_id LEFT JOIN ' . self::t( 'resources' ) . ' r ON r.id = b.resource_id';
 		$sql      = implode( ' AND ', $where );
@@ -503,6 +503,7 @@ final class EntryRepository {
 			'seats'         => (int) $b['seats'],
 			'notes'         => (string) $b['notes'],
 			'service_id'    => $b['service_id'] ? (int) $b['service_id'] : null,
+			'resource_id'   => $b['resource_id'] ? (int) $b['resource_id'] : null,
 			'service_name'  => (string) ( $b['service_name'] ?? '' ),
 			'service_color' => (string) ( $b['service_color'] ?? '#2563eb' ),
 			'resource_name' => (string) ( $b['resource_name'] ?? '' ),

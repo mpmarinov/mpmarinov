@@ -75,6 +75,18 @@ msgstr "Bitte geben Sie eine gültige E-Mail-Adresse ein."
 msgid "Sorry, this time has just been booked. Please choose another time."
 msgstr "Diese Zeit wurde gerade gebucht. Bitte wählen Sie eine andere Zeit."
 
+msgid "Only pending or confirmed appointments can be moved."
+msgstr "Nur offene oder bestätigte Termine können verschoben werden."
+
+msgid "This staff member does not offer the service."
+msgstr "Diese Mitarbeiterin bzw. dieser Mitarbeiter bietet die Leistung nicht an."
+
+msgid "Please try again in a moment."
+msgstr "Bitte versuche es gleich noch einmal."
+
+msgid "This time overlaps with another appointment (including breaks)."
+msgstr "Diese Zeit überschneidet sich mit einem anderen Termin (inkl. Pausen)."
+
 msgid "The booking could not be saved. Please try again."
 msgstr "Die Buchung konnte nicht gespeichert werden. Bitte versuchen Sie es erneut."
 
@@ -351,6 +363,12 @@ msgstr "Terminerinnerung"
 msgid "To the customer before the appointment (time set in the settings)."
 msgstr "An den Kunden vor dem Termin (Zeitpunkt in den Einstellungen)."
 
+msgid "Appointment moved"
+msgstr "Termin verschoben"
+
+msgid "To the customer when you move the appointment in the timeline. Includes the new calendar file."
+msgstr "An den Kunden, wenn du den Termin im Zeitstrahl verschiebst. Enthält die neue Kalenderdatei."
+
 msgid "New booking (to you)"
 msgstr "Neue Buchung (an Sie)"
 
@@ -399,6 +417,12 @@ msgstr "Erinnerung: Ihr Termin am {date} um {time} Uhr"
 msgid "Hello {customer_name},\n\nwe would like to remind you of your appointment:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n\n{calendar_button}\n\nIf you cannot make it, please let us know as soon as possible.\n\nSee you soon!\n{business_name}"
 msgstr "Hallo {customer_name},\n\nwir möchten Sie an Ihren Termin erinnern:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} Uhr\n\n{calendar_button}\n\nFalls Sie verhindert sind, sagen Sie bitte so früh wie möglich Bescheid.\n\nBis bald!\n{business_name}"
 
+msgid "Your appointment has been moved to {date} at {time}"
+msgstr "Dein Termin wurde auf {date} um {time} verschoben"
+
+msgid "Hello {customer_name},\n\nyour appointment has been moved:\n\n<strong>{service}</strong>\nNew: {date}, {time} – {end_time}\n<s>Previously: {previous_date}, {previous_time}</s>\n\n{calendar_button}\n\nIf the new time does not suit you, please let us know.\n\nKind regards\n{business_name}"
+msgstr "Hallo {customer_name},\n\ndein Termin wurde verschoben:\n\n<strong>{service}</strong>\nNeu: {date}, {time} – {end_time}\n<s>Bisher: {previous_date}, {previous_time}</s>\n\n{calendar_button}\n\nFalls dir die neue Zeit nicht passt, melde dich bitte bei uns.\n\nViele Grüße\n{business_name}"
+
 msgid "New booking: {service} on {date} at {time}"
 msgstr "Neue Buchung: {service} am {date} um {time} Uhr"
 
@@ -431,6 +455,12 @@ msgstr "Startzeit"
 
 msgid "End time"
 msgstr "Endzeit"
+
+msgid "Previous date (when moved)"
+msgstr "Bisheriges Datum (beim Verschieben)"
+
+msgid "Previous time (when moved)"
+msgstr "Bisherige Uhrzeit (beim Verschieben)"
 
 msgid "Duration"
 msgstr "Dauer"
@@ -548,6 +578,9 @@ msgstr "Dieses Formular ist nicht verfügbar."
 
 msgid "The free version supports up to %d staff members or resources. Upgrade to Bookora Pro for unlimited resources."
 msgstr "Die kostenlose Version unterstützt bis zu %d Mitarbeiter oder Ressourcen. Mit Bookora Pro sind es unbegrenzt viele."
+
+msgid "Not assigned"
+msgstr "Nicht zugeordnet"
 
 msgid "Search fields"
 msgstr "Felder suchen"
@@ -1713,6 +1746,51 @@ msgstr "Alle Bookora-Daten beim Deinstallieren löschen"
 
 msgid "Save settings"
 msgstr "Einstellungen speichern"
+
+msgid "Move appointment"
+msgstr "Termin verschieben"
+
+msgid "Inform the customer by email"
+msgstr "Kunden per E-Mail informieren"
+
+msgid "Move"
+msgstr "Verschieben"
+
+msgid "%1$s moved to %2$s, %3$s."
+msgstr "%1$s verschoben auf %2$s, %3$s."
+
+msgid "The customer has been informed."
+msgstr "Der Kunde wurde informiert."
+
+msgid "Note: the new time is outside the opening hours."
+msgstr "Hinweis: Die neue Zeit liegt außerhalb der Öffnungszeiten."
+
+msgid "Previous"
+msgstr "Zurück"
+
+msgid "Today"
+msgstr "Heute"
+
+msgid "View"
+msgstr "Ansicht"
+
+msgid "Day"
+msgstr "Tag"
+
+msgid "Week"
+msgstr "Woche"
+
+msgid "No staff members."
+msgstr "Keine Mitarbeitenden."
+
+msgid "%d appt."
+msgstr "%d Term."
+
+msgid "Drag appointments to move them (15-minute steps)."
+msgstr "Termine ziehen, um sie zu verschieben (15-Minuten-Schritte)."
+
+msgid "Move appointment?"
+msgstr "Termin verschieben?"
 
 msgid "Month"
 msgstr "Monat"

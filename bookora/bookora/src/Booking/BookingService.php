@@ -8,6 +8,7 @@
 namespace Bookora\Booking;
 
 use Bookora\Availability\AvailabilityService;
+use Bookora\Availability\SlotCalculator;
 use Bookora\Availability\SlotRules;
 use Bookora\Install\Schema;
 use Bookora\Repository\ServiceRepository;
@@ -116,6 +117,108 @@ final class BookingService {
 		}
 
 		return new WP_Error( 'bookora_slot_taken', __( 'Sorry, this time has just been booked. Please choose another time.', 'bookora' ), array( 'status' => 409 ) );
+	}
+
+	/**
+	 * Move a booking to a new start time and/or resource (admin). Keeps the duration.
+	 * Overlaps (incl. breaks) are refused; outside opening hours is allowed but reported.
+	 *
+	 * @param int      $booking_id  Booking id.
+	 * @param int      $start       New UTC start.
+	 * @param int|null $resource_id New resource (null = keep for bookings with resource, or business-wide).
+	 * @return array{outside_hours:bool, previous_start:string, previous_resource:int|null}|WP_Error
+	 */
+	public function move( int $booking_id, int $start, ?int $resource_id ) {
+		global $wpdb;
+		$table = Schema::table( $wpdb->prefix, 'bookings' );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared -- internal table name.
+		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table} WHERE id = %d", $booking_id ), ARRAY_A );
+
+		if ( ! $row ) {
+			return new WP_Error( 'bookora_not_found', __( 'Not found.', 'bookora' ), array( 'status' => 404 ) );
+		}
+		if ( ! in_array( $row['status'], array( 'pending', 'confirmed' ), true ) ) {
+			return new WP_Error( 'bookora_not_movable', __( 'Only pending or confirmed appointments can be moved.', 'bookora' ), array( 'status' => 409 ) );
+		}
+
+		$service_id = (int) $row['service_id'];
+		$service    = $service_id ? $this->services->find( $service_id ) : null;
+		$current    = $row['resource_id'] ? (int) $row['resource_id'] : null;
+		$target     = null === $resource_id ? $current : ( $resource_id > 0 ? $resource_id : null );
+
+		$assigned = $service_id ? $this->services->resource_ids( $service_id ) : array();
+		if ( $assigned && ( null === $target || ! in_array( $target, $assigned, true ) ) ) {
+			return new WP_Error( 'bookora_unknown_resource', __( 'This staff member does not offer the service.', 'bookora' ), array( 'status' => 400 ) );
+		}
+
+		$duration = strtotime( $row['end_utc'] . ' UTC' ) - strtotime( $row['start_utc'] . ' UTC' );
+		$end      = $start + $duration;
+		$before   = (int) ( $service['buffer_before'] ?? 0 ) * 60;
+		$after    = (int) ( $service['buffer_after'] ?? 0 ) * 60;
+		$capacity = max( 1, (int) ( $service['capacity'] ?? 1 ) );
+		$lock     = $this->lock_name( $target );
+
+		if ( ! $this->acquire_lock( $lock ) ) {
+			return new WP_Error( 'bookora_busy', __( 'Please try again in a moment.', 'bookora' ), array( 'status' => 409 ) );
+		}
+
+		try {
+			$calc = $this->availability->calculator( $service_id, $target, $start - DAY_IN_SECONDS, $end + DAY_IN_SECONDS, $booking_id );
+			$used = (int) $row['seats'];
+
+			foreach ( $this->bookings_busy( $target, $service_id, $start - $before, $end + $after, $booking_id ) as $busy ) {
+				if ( $busy['start'] < $end + $after && $busy['end'] > $start - $before ) {
+					$used = SlotCalculator::FULL_BLOCK === $busy['seats'] ? PHP_INT_MAX : $used + $busy['seats'];
+				}
+				if ( $used > $capacity ) {
+					return new WP_Error( 'bookora_conflict', __( 'This time overlaps with another appointment (including breaks).', 'bookora' ), array( 'status' => 409 ) );
+				}
+			}
+
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->update(
+				$table,
+				array(
+					'start_utc'   => gmdate( 'Y-m-d H:i:s', $start ),
+					'end_utc'     => gmdate( 'Y-m-d H:i:s', $end ),
+					'resource_id' => $target,
+					'updated_at'  => current_time( 'mysql', true ),
+				),
+				array( 'id' => $booking_id )
+			);
+			$outside = ! $calc->within_hours( $start, $end );
+		} finally {
+			$this->release_lock( $lock );
+		}
+
+		/**
+		 * Fires after a booking was moved.
+		 *
+		 * @param int      $booking_id        Booking id.
+		 * @param string   $previous_start    Previous UTC start (Y-m-d H:i:s).
+		 * @param int|null $previous_resource Previous resource.
+		 */
+		do_action( 'bookora_booking_moved', $booking_id, $row['start_utc'], $current );
+
+		return array(
+			'outside_hours'     => $outside,
+			'previous_start'    => $row['start_utc'],
+			'previous_resource' => $current,
+		);
+	}
+
+	/**
+	 * Busy intervals for a resource without one booking.
+	 *
+	 * @param int|null $resource_id Resource.
+	 * @param int      $service_id  Service.
+	 * @param int      $from        From.
+	 * @param int      $to          To.
+	 * @param int      $exclude_id  Booking to ignore.
+	 * @return array<int, array{start:int,end:int,seats:int}>
+	 */
+	private function bookings_busy( ?int $resource_id, int $service_id, int $from, int $to, int $exclude_id ): array {
+		return ( new \Bookora\Repository\BookingRepository() )->busy( $resource_id, $service_id, $from, $to, $exclude_id );
 	}
 
 	/**

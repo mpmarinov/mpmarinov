@@ -201,9 +201,10 @@ Vor der finalen Wahl prüfen: freier Slug auf wordpress.org, Marken (DPMA, EUIPO
 |---|---|
 | 0 – Konzept & Datenmodell | ✅ erledigt (`docs/DATENMODELL.md`) |
 | 1 – Grundgerüst | ✅ erledigt: Plugin-Bootstrap, Autoloader, DI-Container, 15 DB-Tabellen mit Migrationen, Rollen & Rechte, Einstellungen + REST-API, React-Admin mit Einstellungsseite, Verschlüsselung (libsodium), DSGVO-Export/-Löschung, Deinstallation, Unit-Tests, PHPCS, CI |
-| i18n | 🔄 Deutsch komplett (416 Texte, PHP + JS), Werkzeug `npm run i18n`; Bulgarisch folgt |
+| i18n | 🔄 Deutsch komplett (610 Texte, PHP + JS), Werkzeug `npm run i18n`; Bulgarisch folgt |
 | 2 – Leistungen, Öffnungszeiten, Slot-Engine | ✅ erledigt: Slot-Engine (Puffer, Gruppen, Ausnahmen, Zeitumstellung), Doppelbuchungsschutz, REST-API, MySQL + SQLite (Playground), Admin-Bildschirme für Leistungen, Mitarbeiter/Ressourcen, Öffnungszeiten, Feiertage & Sonderöffnungen. 23 Unit-Tests, 62 Integrationsprüfungen, Browser-Test Desktop + Mobil grün |
 | 3 – Formular-Builder & Eintragsverwaltung | ✅ Builder, Formulare auf der Webseite, Kalender, Buchungsverwaltung (Bestätigen/Ablehnen/Stornieren/Erschienen, Notizen, Wiedereröffnen mit Konfliktprüfung), Eintragsverwaltung (Lesen, Markieren, Spam, Papierkorb, Sammelaktionen, CSV-Export), Menü-Zähler. **Offen:** Datei-Upload & Unterschrift |
 | 4–5 – Kalender & Status-Workflow | ✅ in Phase 2/3 enthalten; Ein-Klick-Bestätigung per E-Mail-Link folgt mit Phase 6 |
-| 6 – E-Mail-System | ✅ 8 E-Mail-Vorlagen (Kunde/Betreiber/Formulare), Editor mit Platzhaltern und Live-Vorschau, Test-E-Mail, Ein-Klick-Bestätigen/Ablehnen (Scanner-sicher, einmalig, ablaufend), .ics-Anhang + Google-Kalender-Link, Erinnerungen per Cron, Versandprotokoll |
-| 7 – Admin-Zeitstrahl | ⏳ als Nächstes |
+| 6 – E-Mail-System | ✅ 9 E-Mail-Vorlagen (Kunde/Betreiber/Formulare), Editor mit Platzhaltern und Live-Vorschau, Test-E-Mail, Ein-Klick-Bestätigen/Ablehnen (Scanner-sicher, einmalig, ablaufend), .ics-Anhang + Google-Kalender-Link, Erinnerungen per Cron, Versandprotokoll |
+| 7 – Admin-Zeitstrahl | ✅ Tages- (Zeile je Mitarbeiter) und Wochenansicht, Öffnungs-/Schließzeiten, Jetzt-Linie, Verschieben per Drag & Drop (15-Min.-Raster, auch auf andere Mitarbeiter) oder per Formular, Konfliktprüfung inkl. Pausen, Hinweis außerhalb der Öffnungszeiten, E-Mail „Termin verschoben“ mit neuer Kalenderdatei (abwählbar), mobil scrollbar. 155 Integrationsprüfungen |
+| 8 – Kalender-Sync | ⏳ als Nächstes |

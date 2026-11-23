@@ -33,9 +33,10 @@ final class BookingRepository {
 	 * @param int      $service_id  Service that is being booked.
 	 * @param int      $from        UTC timestamp.
 	 * @param int      $to          UTC timestamp.
+	 * @param int      $exclude_id  Booking to ignore (when moving it).
 	 * @return array<int, array{start:int,end:int,seats:int}>
 	 */
-	public function busy( ?int $resource_id, int $service_id, int $from, int $to ): array {
+	public function busy( ?int $resource_id, int $service_id, int $from, int $to, int $exclude_id = 0 ): array {
 		global $wpdb;
 
 		$bookings    = Schema::table( $wpdb->prefix, 'bookings' );
@@ -55,8 +56,9 @@ final class BookingRepository {
 				"SELECT b.start_utc, b.end_utc, b.seats, b.service_id,
 					COALESCE(s.buffer_before, 0) AS buffer_before, COALESCE(s.buffer_after, 0) AS buffer_after
 				FROM {$bookings} b LEFT JOIN {$services} s ON s.id = b.service_id
-				WHERE b.resource_id {$res_sql} AND b.status IN ({$statuses})
+				WHERE b.resource_id {$res_sql} AND b.status IN ({$statuses}) AND b.id <> %d
 				AND b.start_utc < %s AND b.end_utc > %s",
+				$exclude_id,
 				$to_sql,
 				$from_sql
 			),

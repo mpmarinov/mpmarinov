@@ -58,6 +58,7 @@ final class Mailer {
 		add_action( 'bookora_booking_created', array( $this, 'on_booking_created' ), 10, 2 );
 		add_action( 'bookora_booking_status_changed', array( $this, 'on_status_changed' ), 20, 3 );
 		add_action( 'bookora_entry_created', array( $this, 'on_entry_created' ), 10, 3 );
+		add_action( 'bookora_booking_moved', array( $this, 'on_booking_moved' ), 10, 2 );
 		add_action( self::CRON_REMINDERS, array( $this, 'send_reminders' ) );
 		add_action( 'phpmailer_init', array( $this, 'phpmailer_init' ) );
 
@@ -106,6 +107,33 @@ final class Mailer {
 		if ( $ctx ) {
 			$this->send( $map[ $status ], $ctx );
 		}
+	}
+
+	/**
+	 * Booking moved in the timeline → inform the customer (can be suppressed per move).
+	 *
+	 * @param int    $booking_id     Booking id.
+	 * @param string $previous_start Previous UTC start.
+	 */
+	public function on_booking_moved( int $booking_id, string $previous_start ): void {
+		/**
+		 * Whether to email the customer about a moved appointment.
+		 *
+		 * @param bool $send       Send.
+		 * @param int  $booking_id Booking id.
+		 */
+		if ( ! apply_filters( 'bookora_send_reschedule_email', true, $booking_id ) ) {
+			return;
+		}
+		$ctx = $this->booking_context( $booking_id );
+		if ( ! $ctx ) {
+			return;
+		}
+		$prev                         = (int) strtotime( $previous_start . ' UTC' );
+		$tf                           = '12h' === $this->settings->get( 'time_format', '24h' ) ? 'g:i A' : 'H:i';
+		$ctx['vars']['previous_date'] = wp_date( 'l, ' . get_option( 'date_format' ), $prev );
+		$ctx['vars']['previous_time'] = wp_date( $tf, $prev );
+		$this->send( 'booking_rescheduled', $ctx );
 	}
 
 	/**
@@ -192,7 +220,7 @@ final class Mailer {
 		}
 
 		$this->attachments = array();
-		if ( ! $admin && ! empty( $ctx['booking'] ) && in_array( $event, array( 'booking_confirmed', 'booking_reminder', 'booking_cancelled' ), true ) ) {
+		if ( ! $admin && ! empty( $ctx['booking'] ) && in_array( $event, array( 'booking_confirmed', 'booking_reminder', 'booking_cancelled', 'booking_rescheduled' ), true ) ) {
 			$this->attachments[] = array(
 				'content' => Ics::event( $ctx['booking'], $ctx['vars']['service'] . ' – ' . $ctx['vars']['business_name'], $ctx['vars']['business_address'], '', 'booking_cancelled' === $event ? 'CANCELLED' : 'CONFIRMED' ),
 				'name'    => 'termin.ics',
@@ -284,6 +312,8 @@ final class Mailer {
 			'price'          => $service && (float) $service['price'] > 0 ? number_format_i18n( (float) $service['price'], 2 ) . ' ' . apply_filters( 'bookora_currency_symbol', '€' ) : '',
 			'staff'          => $booking['resource_name'],
 			'form_title'     => (string) ( $entry['form_title'] ?? '' ),
+			'previous_date'  => '',
+			'previous_time'  => '',
 		);
 		$vars['google_calendar_link'] = Ics::google_link( $booking, $vars['service'] . ' – ' . $vars['business_name'], $vars['business_address'] );
 		$vars['calendar_link']        = '' !== $booking['uid'] ? CalendarLink::url( $booking['uid'] ) : '';
@@ -368,6 +398,8 @@ final class Mailer {
 			'price'          => number_format_i18n( 35, 2 ) . ' €',
 			'staff'          => '',
 			'form_title'     => __( 'Contact', 'bookora' ),
+			'previous_date'  => wp_date( 'l, ' . get_option( 'date_format' ), $start - DAY_IN_SECONDS ),
+			'previous_time'  => '09:00',
 		);
 		$vars['google_calendar_link'] = Ics::google_link( $booking, $vars['service'], $vars['business_address'] );
 		$vars['calendar_link']        = home_url( '/' );

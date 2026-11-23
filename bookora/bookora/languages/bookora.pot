@@ -73,6 +73,18 @@ msgstr ""
 msgid "Sorry, this time has just been booked. Please choose another time."
 msgstr ""
 
+msgid "Only pending or confirmed appointments can be moved."
+msgstr ""
+
+msgid "This staff member does not offer the service."
+msgstr ""
+
+msgid "Please try again in a moment."
+msgstr ""
+
+msgid "This time overlaps with another appointment (including breaks)."
+msgstr ""
+
 msgid "The booking could not be saved. Please try again."
 msgstr ""
 
@@ -349,6 +361,12 @@ msgstr ""
 msgid "To the customer before the appointment (time set in the settings)."
 msgstr ""
 
+msgid "Appointment moved"
+msgstr ""
+
+msgid "To the customer when you move the appointment in the timeline. Includes the new calendar file."
+msgstr ""
+
 msgid "New booking (to you)"
 msgstr ""
 
@@ -397,6 +415,12 @@ msgstr ""
 msgid "Hello {customer_name},\n\nwe would like to remind you of your appointment:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n\n{calendar_button}\n\nIf you cannot make it, please let us know as soon as possible.\n\nSee you soon!\n{business_name}"
 msgstr ""
 
+msgid "Your appointment has been moved to {date} at {time}"
+msgstr ""
+
+msgid "Hello {customer_name},\n\nyour appointment has been moved:\n\n<strong>{service}</strong>\nNew: {date}, {time} – {end_time}\n<s>Previously: {previous_date}, {previous_time}</s>\n\n{calendar_button}\n\nIf the new time does not suit you, please let us know.\n\nKind regards\n{business_name}"
+msgstr ""
+
 msgid "New booking: {service} on {date} at {time}"
 msgstr ""
 
@@ -428,6 +452,12 @@ msgid "Start time"
 msgstr ""
 
 msgid "End time"
+msgstr ""
+
+msgid "Previous date (when moved)"
+msgstr ""
+
+msgid "Previous time (when moved)"
 msgstr ""
 
 msgid "Duration"
@@ -545,6 +575,9 @@ msgid "This form is not available."
 msgstr ""
 
 msgid "The free version supports up to %d staff members or resources. Upgrade to Bookora Pro for unlimited resources."
+msgstr ""
+
+msgid "Not assigned"
 msgstr ""
 
 msgid "Search fields"
@@ -1710,6 +1743,51 @@ msgid "Delete all Bookora data when the plugin is uninstalled"
 msgstr ""
 
 msgid "Save settings"
+msgstr ""
+
+msgid "Move appointment"
+msgstr ""
+
+msgid "Inform the customer by email"
+msgstr ""
+
+msgid "Move"
+msgstr ""
+
+msgid "%1$s moved to %2$s, %3$s."
+msgstr ""
+
+msgid "The customer has been informed."
+msgstr ""
+
+msgid "Note: the new time is outside the opening hours."
+msgstr ""
+
+msgid "Previous"
+msgstr ""
+
+msgid "Today"
+msgstr ""
+
+msgid "View"
+msgstr ""
+
+msgid "Day"
+msgstr ""
+
+msgid "Week"
+msgstr ""
+
+msgid "No staff members."
+msgstr ""
+
+msgid "%d appt."
+msgstr ""
+
+msgid "Drag appointments to move them (15-minute steps)."
+msgstr ""
+
+msgid "Move appointment?"
 msgstr ""
 
 msgid "Month"

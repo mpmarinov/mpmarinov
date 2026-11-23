@@ -81,7 +81,13 @@ function Actions( { booking, onChange, busy, size } ) {
 	);
 }
 
-function BookingDetail( { booking, onClose, onChange, busy } ) {
+export function BookingDetail( {
+	booking,
+	onClose,
+	onChange,
+	busy,
+	children,
+} ) {
 	const [ entry, setEntry ] = useState( null );
 	const [ notes, setNotes ] = useState( booking.notes || '' );
 	const [ saved, setSaved ] = useState( false );
@@ -209,6 +215,8 @@ function BookingDetail( { booking, onClose, onChange, busy } ) {
 							: __( 'Save notes', 'bookora' ) }
 					</Button>
 				) }
+
+				{ children }
 
 				<div className="bookora-modal-actions">
 					<Actions

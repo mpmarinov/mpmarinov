@@ -102,7 +102,7 @@ final class EntriesController {
 							'resource_id' => (int) $r->get_param( 'resource_id' ),
 							'search'      => sanitize_text_field( (string) $r->get_param( 'search' ) ),
 							'page'        => (int) $r->get_param( 'page' ),
-							'per_page'    => (int) $r->get_param( 'per_page' ),
+							'per_page'    => min( 100, (int) $r->get_param( 'per_page' ) ),
 						)
 					)
 				),

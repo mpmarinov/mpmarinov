@@ -12,6 +12,7 @@ import FormsScreen from './screens/FormsScreen';
 import BookingsScreen from './screens/BookingsScreen';
 import EntriesScreen from './screens/EntriesScreen';
 import EmailsScreen from './screens/EmailsScreen';
+import TimelineScreen from './screens/TimelineScreen';
 import './builder/builder.scss';
 import Placeholder from './screens/Placeholder';
 import './style.scss';
@@ -25,6 +26,7 @@ const SCREENS = {
 	bookings: BookingsScreen,
 	entries: EntriesScreen,
 	emails: EmailsScreen,
+	timeline: TimelineScreen,
 };
 
 const TITLES = {
