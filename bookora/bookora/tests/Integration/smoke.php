@@ -386,6 +386,8 @@ api( 'POST', '/bookings/' . $mb['booking_id'] . '/status', array( 'status' => 'c
 check( 1 === count( $mails ) && 'kunde@example.com' === $mails[0]['to'] && str_contains( $mails[0]['message'], 'calendar.google.com' ), 'confirming sends the confirmation (with calendar link) to the customer', array_column( $mails, 'subject' ) );
 check( null === $links->find( $tokens[0] ) && null === $links->find( $tokens[1] ), 'one-click links are invalid after the booking was processed' );
 
+$cal_url = \Bookora\Notifications\CalendarLink::url( $adm->booking( $mb['booking_id'] )['uid'] );
+check( str_contains( $mails[0]['message'], 'bookora_ics=' ) && str_contains( $mails[0]['message'], esc_url( $cal_url ) ), 'confirmation contains the "Add to calendar" button' );
 $ics = \Bookora\Notifications\Ics::event( $adm->booking( $mb['booking_id'] ), 'Mail-Test; Praxis, Test' );
 check( str_contains( $ics, 'BEGIN:VEVENT' ) && str_contains( $ics, 'SUMMARY:Mail-Test\; Praxis\, Test' ) && preg_match( '/DTSTART:\d{8}T\d{6}Z/', $ics ), 'calendar file is valid and escaped' );
 

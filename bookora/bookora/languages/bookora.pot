@@ -310,6 +310,15 @@ msgstr ""
 msgid "You will see the booking details once more before anything is changed."
 msgstr ""
 
+msgid "Add to calendar"
+msgstr ""
+
+msgid "Works with iPhone, Android and Outlook."
+msgstr ""
+
+msgid "Google Calendar"
+msgstr ""
+
 msgid "Open in WordPress"
 msgstr ""
 
@@ -367,7 +376,7 @@ msgstr ""
 msgid "Your appointment on {date} is confirmed"
 msgstr ""
 
-msgid "Hello {customer_name},\n\nyour appointment is confirmed:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n{staff}\n\nYou can add the appointment to your calendar with the attached file or this link: {google_calendar_link}\n\nIf you cannot make it, please let us know in good time.\n\nWe look forward to seeing you!\n{business_name}"
+msgid "Hello {customer_name},\n\nyour appointment is confirmed:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n{staff}\n\n{calendar_button}\n\nIf you cannot make it, please let us know in good time.\n\nWe look forward to seeing you!\n{business_name}"
 msgstr ""
 
 msgid "Your booking request for {date}"
@@ -385,7 +394,7 @@ msgstr ""
 msgid "Reminder: your appointment on {date} at {time}"
 msgstr ""
 
-msgid "Hello {customer_name},\n\nwe would like to remind you of your appointment:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n\nIf you cannot make it, please let us know as soon as possible.\n\nSee you soon!\n{business_name}"
+msgid "Hello {customer_name},\n\nwe would like to remind you of your appointment:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n\n{calendar_button}\n\nIf you cannot make it, please let us know as soon as possible.\n\nSee you soon!\n{business_name}"
 msgstr ""
 
 msgid "New booking: {service} on {date} at {time}"
@@ -443,6 +452,9 @@ msgid "All form answers as a table"
 msgstr ""
 
 msgid "A single answer, e.g. {field:message}"
+msgstr ""
+
+msgid "Button \"Add to calendar\" (iPhone, Android, Outlook)"
 msgstr ""
 
 msgid "Link \"Add to Google Calendar\""

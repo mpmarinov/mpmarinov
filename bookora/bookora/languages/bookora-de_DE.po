@@ -312,6 +312,15 @@ msgstr "Ablehnen"
 msgid "You will see the booking details once more before anything is changed."
 msgstr "Sie sehen die Buchungsdetails noch einmal, bevor etwas geändert wird."
 
+msgid "Add to calendar"
+msgstr "Zum Kalender hinzufügen"
+
+msgid "Works with iPhone, Android and Outlook."
+msgstr "Funktioniert mit iPhone, Android und Outlook."
+
+msgid "Google Calendar"
+msgstr "Google Kalender"
+
 msgid "Open in WordPress"
 msgstr "In WordPress öffnen"
 
@@ -369,8 +378,8 @@ msgstr "Hallo {customer_name},\n\nvielen Dank für Ihre Anfrage. Wir haben folge
 msgid "Your appointment on {date} is confirmed"
 msgstr "Ihr Termin am {date} ist bestätigt"
 
-msgid "Hello {customer_name},\n\nyour appointment is confirmed:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n{staff}\n\nYou can add the appointment to your calendar with the attached file or this link: {google_calendar_link}\n\nIf you cannot make it, please let us know in good time.\n\nWe look forward to seeing you!\n{business_name}"
-msgstr "Hallo {customer_name},\n\nIhr Termin ist bestätigt:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} Uhr\n{staff}\n\nMit der angehängten Datei oder diesem Link können Sie den Termin in Ihren Kalender übernehmen: {google_calendar_link}\n\nFalls Sie verhindert sind, sagen Sie bitte rechtzeitig Bescheid.\n\nWir freuen uns auf Sie!\n{business_name}"
+msgid "Hello {customer_name},\n\nyour appointment is confirmed:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n{staff}\n\n{calendar_button}\n\nIf you cannot make it, please let us know in good time.\n\nWe look forward to seeing you!\n{business_name}"
+msgstr "Hallo {customer_name},\n\nIhr Termin ist bestätigt:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} Uhr\n{staff}\n\n{calendar_button}\n\nFalls Sie verhindert sind, sagen Sie bitte rechtzeitig Bescheid.\n\nWir freuen uns auf Sie!\n{business_name}"
 
 msgid "Your booking request for {date}"
 msgstr "Ihre Buchungsanfrage für {date}"
@@ -387,8 +396,8 @@ msgstr "Hallo {customer_name},\n\nIhr Termin wurde storniert:\n\n{service}\n{dat
 msgid "Reminder: your appointment on {date} at {time}"
 msgstr "Erinnerung: Ihr Termin am {date} um {time} Uhr"
 
-msgid "Hello {customer_name},\n\nwe would like to remind you of your appointment:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n\nIf you cannot make it, please let us know as soon as possible.\n\nSee you soon!\n{business_name}"
-msgstr "Hallo {customer_name},\n\nwir möchten Sie an Ihren Termin erinnern:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} Uhr\n\nFalls Sie verhindert sind, sagen Sie bitte so früh wie möglich Bescheid.\n\nBis bald!\n{business_name}"
+msgid "Hello {customer_name},\n\nwe would like to remind you of your appointment:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n\n{calendar_button}\n\nIf you cannot make it, please let us know as soon as possible.\n\nSee you soon!\n{business_name}"
+msgstr "Hallo {customer_name},\n\nwir möchten Sie an Ihren Termin erinnern:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} Uhr\n\n{calendar_button}\n\nFalls Sie verhindert sind, sagen Sie bitte so früh wie möglich Bescheid.\n\nBis bald!\n{business_name}"
 
 msgid "New booking: {service} on {date} at {time}"
 msgstr "Neue Buchung: {service} am {date} um {time} Uhr"
@@ -446,6 +455,9 @@ msgstr "Alle Formularangaben als Tabelle"
 
 msgid "A single answer, e.g. {field:message}"
 msgstr "Eine einzelne Angabe, z. B. {field:nachricht}"
+
+msgid "Button \"Add to calendar\" (iPhone, Android, Outlook)"
+msgstr "Button „Zum Kalender hinzufügen“ (iPhone, Android, Outlook)"
 
 msgid "Link \"Add to Google Calendar\""
 msgstr "Link „In Google Kalender eintragen“"

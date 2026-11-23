@@ -15,6 +15,7 @@ use Bookora\Forms\Submission;
 use Bookora\Frontend\Renderer;
 use Bookora\Install\Installer;
 use Bookora\Notifications\ActionLinks;
+use Bookora\Notifications\CalendarLink;
 use Bookora\Notifications\Mailer;
 use Bookora\Notifications\Templates;
 use Bookora\Privacy\Privacy;
@@ -149,6 +150,7 @@ final class Plugin {
 			)
 		);
 		$c->set( Templates::class, static fn() => new Templates() );
+		$c->set( CalendarLink::class, static fn( Container $c ) => new CalendarLink( $c->get( EntryRepository::class ), $c->get( Settings::class ) ) );
 		$c->set( ActionLinks::class, static fn( Container $c ) => new ActionLinks( $c->get( EntryRepository::class ), $c->get( Settings::class ) ) );
 		$c->set(
 			Mailer::class,
@@ -176,6 +178,7 @@ final class Plugin {
 		$c->get( Privacy::class )->register();
 		$c->get( Renderer::class )->register();
 		$c->get( ActionLinks::class )->register();
+		$c->get( CalendarLink::class )->register();
 		$c->get( Mailer::class )->register();
 
 		add_action(

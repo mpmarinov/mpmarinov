@@ -233,9 +233,10 @@ final class Mailer {
 		$subject = trim( (string) preg_replace( '/\s+/', ' ', wp_strip_all_tags( $replace( (string) $tpl['subject'], false ) ) ) );
 
 		$blocks = array(
-			'{all_fields}'     => $this->fields_table( (array) ( $ctx['labeled'] ?? array() ) ),
-			'{action_buttons}' => 'admin_new_booking' === $event ? $this->action_buttons( $ctx ) : '',
-			'{admin_link}'     => $this->admin_link( $ctx ),
+			'{all_fields}'      => $this->fields_table( (array) ( $ctx['labeled'] ?? array() ) ),
+			'{action_buttons}'  => 'admin_new_booking' === $event ? $this->action_buttons( $ctx ) : '',
+			'{admin_link}'      => $this->admin_link( $ctx ),
+			'{calendar_button}' => $this->calendar_button( $ctx ),
 		);
 
 		$body = wp_kses_post( (string) $tpl['body'] );
@@ -285,6 +286,7 @@ final class Mailer {
 			'form_title'     => (string) ( $entry['form_title'] ?? '' ),
 		);
 		$vars['google_calendar_link'] = Ics::google_link( $booking, $vars['service'] . ' – ' . $vars['business_name'], $vars['business_address'] );
+		$vars['calendar_link']        = '' !== $booking['uid'] ? CalendarLink::url( $booking['uid'] ) : '';
 
 		return array(
 			'booking' => $booking,
@@ -368,6 +370,7 @@ final class Mailer {
 			'form_title'     => __( 'Contact', 'bookora' ),
 		);
 		$vars['google_calendar_link'] = Ics::google_link( $booking, $vars['service'], $vars['business_address'] );
+		$vars['calendar_link']        = home_url( '/' );
 
 		return array(
 			'booking' => $booking,
@@ -472,6 +475,23 @@ final class Mailer {
 
 		return '<p style="margin:20px 0 4px;">' . $button( $confirm, __( 'Confirm', 'bookora' ), '#15803d' ) . $button( $reject, __( 'Reject', 'bookora' ), '#b91c1c' ) . '</p>'
 			. '<p style="font-size:13px;color:#6b7280;margin:4px 0 0;">' . esc_html__( 'You will see the booking details once more before anything is changed.', 'bookora' ) . '</p>';
+	}
+
+	/**
+	 * "Add to calendar" button (own .ics download) plus a small Google Calendar link.
+	 *
+	 * @param array<string, mixed> $ctx Context.
+	 */
+	private function calendar_button( array $ctx ): string {
+		$url = (string) ( $ctx['vars']['calendar_link'] ?? '' );
+		if ( '' === $url ) {
+			return '';
+		}
+		$color = sanitize_hex_color( (string) $this->settings->get( 'primary_color', '#2563eb' ) );
+		$color = $color ? $color : '#2563eb';
+
+		return '<p style="margin:20px 0 6px;"><a href="' . esc_url( $url ) . '" style="display:inline-block;padding:12px 22px;background:' . $color . ';color:#ffffff;text-decoration:none;border-radius:8px;font-weight:bold;">&#128197; ' . esc_html__( 'Add to calendar', 'bookora' ) . '</a></p>'
+			. '<p style="margin:0 0 16px;font-size:13px;color:#6b7280;">' . esc_html__( 'Works with iPhone, Android and Outlook.', 'bookora' ) . ' <a href="' . esc_url( (string) $ctx['vars']['google_calendar_link'] ) . '" style="color:#6b7280;">' . esc_html__( 'Google Calendar', 'bookora' ) . '</a></p>';
 	}
 
 	/**

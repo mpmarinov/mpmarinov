@@ -397,6 +397,18 @@ final class EntryRepository {
 	}
 
 	/**
+	 * One booking by its public uid.
+	 *
+	 * @param string $uid Booking uid.
+	 * @return array<string, mixed>|null
+	 */
+	public function booking_by_uid( string $uid ): ?array {
+		global $wpdb;
+		$id = (int) $wpdb->get_var( $wpdb->prepare( 'SELECT id FROM ' . self::t( 'bookings' ) . ' WHERE uid = %s', $uid ) );
+		return $id ? $this->booking( $id ) : null;
+	}
+
+	/**
 	 * Counters for the admin menu.
 	 *
 	 * @return array{pending:int, new_entries:int}
@@ -480,6 +492,7 @@ final class EntryRepository {
 
 		return array(
 			'id'            => (int) $b['id'],
+			'uid'           => (string) ( $b['uid'] ?? '' ),
 			'entry_id'      => $b['entry_id'] ? (int) $b['entry_id'] : null,
 			'status'        => $b['status'],
 			'start'         => $start->format( 'c' ),

@@ -129,7 +129,7 @@ final class Templates {
 			),
 			'booking_confirmed' => array(
 				'subject' => __( 'Your appointment on {date} is confirmed', 'bookora' ),
-				'body'    => __( "Hello {customer_name},\n\nyour appointment is confirmed:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n{staff}\n\nYou can add the appointment to your calendar with the attached file or this link: {google_calendar_link}\n\nIf you cannot make it, please let us know in good time.\n\nWe look forward to seeing you!\n{business_name}", 'bookora' ),
+				'body'    => __( "Hello {customer_name},\n\nyour appointment is confirmed:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n{staff}\n\n{calendar_button}\n\nIf you cannot make it, please let us know in good time.\n\nWe look forward to seeing you!\n{business_name}", 'bookora' ),
 			),
 			'booking_rejected'  => array(
 				'subject' => __( 'Your booking request for {date}', 'bookora' ),
@@ -141,7 +141,7 @@ final class Templates {
 			),
 			'booking_reminder'  => array(
 				'subject' => __( 'Reminder: your appointment on {date} at {time}', 'bookora' ),
-				'body'    => __( "Hello {customer_name},\n\nwe would like to remind you of your appointment:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n\nIf you cannot make it, please let us know as soon as possible.\n\nSee you soon!\n{business_name}", 'bookora' ),
+				'body'    => __( "Hello {customer_name},\n\nwe would like to remind you of your appointment:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n\n{calendar_button}\n\nIf you cannot make it, please let us know as soon as possible.\n\nSee you soon!\n{business_name}", 'bookora' ),
 			),
 			'admin_new_booking' => array(
 				'subject' => __( 'New booking: {service} on {date} at {time}', 'bookora' ),
@@ -186,6 +186,7 @@ final class Templates {
 			'{form_title}'           => __( 'Form title', 'bookora' ),
 			'{all_fields}'           => __( 'All form answers as a table', 'bookora' ),
 			'{field:key}'            => __( 'A single answer, e.g. {field:message}', 'bookora' ),
+			'{calendar_button}'      => __( 'Button "Add to calendar" (iPhone, Android, Outlook)', 'bookora' ),
 			'{google_calendar_link}' => __( 'Link "Add to Google Calendar"', 'bookora' ),
 			'{action_buttons}'       => __( 'Buttons confirm / reject (only in emails to you)', 'bookora' ),
 			'{admin_link}'           => __( 'Link to the entry in WordPress', 'bookora' ),
