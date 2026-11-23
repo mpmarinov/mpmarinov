@@ -7,13 +7,13 @@ selten gefilterte Daten (Formularfelder, Einstellungen) liegen als JSON in `LONG
 ## Übersicht
 
 ```
-forms ──< bookings >── services >──< resources ──< schedules
-            │  │                         │    └──< schedule_exceptions
-            │  └──< booking_values       └──< calendar_connections ──< external_events
-            │                                                   └──< booking_sync
-            ├──< action_tokens
-            ├──< notification_log
-customers ──┘
+forms ──< entries ──< entry_values
+            │
+            └──1 bookings >── services >──< resources ──< schedules
+                  │                          │    └──< schedule_exceptions
+                  ├──< action_tokens         └──< calendar_connections ──< external_events
+                  └──< notification_log                          └──< booking_sync
+customers ──< entries
 email_templates (pro Ereignis, optional pro Formular und Sprache)
 ```
 
@@ -21,15 +21,16 @@ email_templates (pro Ereignis, optional pro Formular und Sprache)
 
 | Tabelle | Zweck | Wichtige Spalten |
 |---|---|---|
-| `forms` | Buchungsformulare | `title`, `status`, `fields` (JSON), `settings` (JSON), `custom_css`, `custom_js` |
+| `forms` | Alle Formulare | `title`, `type` (standard/booking), `status`, `fields` (JSON), `settings` (JSON), `custom_css`, `custom_js` |
 | `services` | Leistungen | `name`, `duration`, `buffer_before`, `buffer_after`, `capacity`, `price`, `color`, `min_notice`, `max_advance` |
 | `resources` | Mitarbeiter, Räume, Geräte | `type`, `name`, `email`, `user_id`, `timezone`, `color` |
 | `resource_services` | Welche Ressource bietet welche Leistung | `resource_id`, `service_id` |
 | `schedules` | Wöchentliche Arbeitszeiten | `resource_id` (NULL = global), `weekday` 0–6, `start_time`, `end_time` |
 | `schedule_exceptions` | Feiertage, Urlaub, Sonderöffnung | `resource_id`, `date_start`, `date_end`, `start_time`, `end_time`, `type` (closed/open) |
 | `customers` | Kunden | `email`, `name`, `phone`, `user_id`, `locale`, `timezone` |
-| `bookings` | Buchungen | `uid`, `form_id`, `service_id`, `resource_id`, `customer_id`, `start_utc`, `end_utc`, `timezone`, `status`, `seats` |
-| `booking_values` | Eingaben aus dem Formular | `booking_id`, `field_key`, `value` |
+| `entries` | Jede Formular-Einsendung (mit oder ohne Termin) | `uid`, `form_id`, `customer_id`, `status` (new/read/starred/spam/trash), `ip_hash`, `user_agent`, `source_url` |
+| `entry_values` | Eingaben aus dem Formular | `entry_id`, `field_key`, `value` |
+| `bookings` | Termin zu einem Eintrag | `uid`, `entry_id`, `form_id`, `service_id`, `resource_id`, `customer_id`, `start_utc`, `end_utc`, `timezone`, `status`, `seats` |
 | `action_tokens` | Ein-Klick-Links | `booking_id`, `action`, `token_hash` (SHA-256), `expires_at`, `used_at` |
 | `email_templates` | Eigene Texte | `event`, `form_id`, `locale`, `subject`, `body` |
 | `notification_log` | Versandprotokoll | `booking_id`, `channel`, `event`, `recipient`, `status`, `error` |

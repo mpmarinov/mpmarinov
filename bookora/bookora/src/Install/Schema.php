@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Schema {
 
-	public const VERSION = '1.0.0';
+	public const VERSION = '1.1.0';
 
 	/**
 	 * Unprefixed table names.
@@ -28,8 +28,9 @@ final class Schema {
 		'schedules',
 		'schedule_exceptions',
 		'customers',
+		'entries',
+		'entry_values',
 		'bookings',
-		'booking_values',
 		'action_tokens',
 		'email_templates',
 		'notification_log',
@@ -62,6 +63,7 @@ final class Schema {
 			'forms'                => "CREATE TABLE {$t('forms')} (
   id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   title varchar(191) NOT NULL DEFAULT '',
+  type varchar(20) NOT NULL DEFAULT 'standard',
   status varchar(20) NOT NULL DEFAULT 'draft',
   fields longtext NULL,
   settings longtext NULL,
@@ -70,7 +72,7 @@ final class Schema {
   created_at datetime NOT NULL,
   updated_at datetime NOT NULL,
   PRIMARY KEY  (id),
-  KEY status (status)
+  KEY type_status (type,status)
 ) $collate;",
 
 			'services'             => "CREATE TABLE {$t('services')} (
@@ -155,9 +157,37 @@ final class Schema {
   KEY user_id (user_id)
 ) $collate;",
 
+			'entries'              => "CREATE TABLE {$t('entries')} (
+  id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  uid char(36) NOT NULL,
+  form_id bigint(20) unsigned NOT NULL,
+  customer_id bigint(20) unsigned NULL,
+  status varchar(20) NOT NULL DEFAULT 'new',
+  ip_hash char(64) NOT NULL DEFAULT '',
+  user_agent varchar(255) NOT NULL DEFAULT '',
+  source_url varchar(2048) NOT NULL DEFAULT '',
+  locale varchar(20) NOT NULL DEFAULT '',
+  created_at datetime NOT NULL,
+  updated_at datetime NOT NULL,
+  PRIMARY KEY  (id),
+  UNIQUE KEY uid (uid),
+  KEY form_status (form_id,status,created_at),
+  KEY customer_id (customer_id)
+) $collate;",
+
+			'entry_values'         => "CREATE TABLE {$t('entry_values')} (
+  id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  entry_id bigint(20) unsigned NOT NULL,
+  field_key varchar(64) NOT NULL,
+  value longtext NULL,
+  PRIMARY KEY  (id),
+  KEY entry_field (entry_id,field_key)
+) $collate;",
+
 			'bookings'             => "CREATE TABLE {$t('bookings')} (
   id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   uid char(36) NOT NULL,
+  entry_id bigint(20) unsigned NULL,
   form_id bigint(20) unsigned NULL,
   service_id bigint(20) unsigned NULL,
   resource_id bigint(20) unsigned NULL,
@@ -176,16 +206,8 @@ final class Schema {
   KEY resource_time (resource_id,start_utc,end_utc),
   KEY status_time (status,start_utc),
   KEY customer_id (customer_id),
+  KEY entry_id (entry_id),
   KEY form_id (form_id)
-) $collate;",
-
-			'booking_values'       => "CREATE TABLE {$t('booking_values')} (
-  id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  booking_id bigint(20) unsigned NOT NULL,
-  field_key varchar(64) NOT NULL,
-  value longtext NULL,
-  PRIMARY KEY  (id),
-  KEY booking_field (booking_id,field_key)
 ) $collate;",
 
 			'action_tokens'        => "CREATE TABLE {$t('action_tokens')} (
@@ -217,6 +239,7 @@ final class Schema {
 
 			'notification_log'     => "CREATE TABLE {$t('notification_log')} (
   id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  entry_id bigint(20) unsigned NULL,
   booking_id bigint(20) unsigned NULL,
   channel varchar(20) NOT NULL DEFAULT 'email',
   event varchar(40) NOT NULL,
@@ -225,6 +248,7 @@ final class Schema {
   error text NULL,
   created_at datetime NOT NULL,
   PRIMARY KEY  (id),
+  KEY entry_id (entry_id),
   KEY booking_id (booking_id),
   KEY status (status)
 ) $collate;",

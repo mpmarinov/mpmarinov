@@ -31,6 +31,7 @@ Veröffentlichung im offiziellen WordPress-Plugin-Verzeichnis (wordpress.org).
 | 11 | Eigener Zeitstrahl-Kalender | Admin-Timeline (horizontaler Zeitstrahl pro Tag/Woche, Ressourcen als Zeilen), Drag & Drop zum Verschieben, Farbcodes nach Status |
 | 12 | Mobile & Web | Mobile-First, responsives Admin-Dashboard, Touch-Bedienung, Barrierefreiheit (WCAG 2.2 AA) |
 | 13 | Automatische E-Mails | Eingang, Bestätigung, Absage, Erinnerung (z. B. 24 h / 1 h vorher), Umbuchung, Storno, Admin-Benachrichtigung; Versand über Warteschlange (Action Scheduler), kompatibel mit SMTP-Plugins |
+| 15 | Allgemeine Formulare (ohne Termin) | Jedes Formular ist entweder **Standard** (Kontakt, Anfrage, Umfrage, Bewerbung …) oder **Buchung**. Gleicher Builder, gleiche Felder, gleiche E-Mails – Einträge werden in einer eigenen Eintragsverwaltung gespeichert (Filter, Suche, Status, CSV-Export, Spam-Schutz) |
 | 14 | Eigenes CSS & JavaScript | Pro Formular und global: CSS-Editor (Code-Editor von WP), JS-Hooks (`marinovBooking.on('slotSelected', …)`), PHP-Filter/Actions für Entwickler, CSS-Variablen für Theming |
 
 ## 3. Technologie (Stand der Technik 2026)
@@ -54,7 +55,7 @@ Zeitangaben = konzentrierte Entwicklungstage in gemeinsamen Sessions (ich progra
 | 0 | Konzept final abstimmen, Datenmodell, UI-Entwürfe, offene Fragen klären | 1–2 Tage |
 | 1 | Grundgerüst: Plugin-Struktur, Build-Pipeline, CI, DB-Tabellen, Rollen, Einstellungen | 2 Tage |
 | 2 | Leistungen, Öffnungszeiten, Ausnahmen, Slot-Engine mit Doppelbuchungsschutz | 3–4 Tage |
-| 3 | Formular-Builder (alle Feldtypen, bedingte Logik, Mehrschritt) + Frontend-Rendering | 5–6 Tage |
+| 3 | Formular-Builder (alle Feldtypen, bedingte Logik, Mehrschritt) + Frontend-Rendering, Standard- und Buchungsformulare, Eintragsverwaltung | 8–10 Tage |
 | 4 | Frontend-Kalender & Live-Verfügbarkeit, Gutenberg-Block, Shortcode | 3 Tage |
 | 5 | Buchungsverwaltung, Ein-Klick-Bestätigung/Absage, Status-Workflow | 2–3 Tage |
 | 6 | E-Mail-System: Vorlagen-Editor, Platzhalter, Erinnerungen, ICS-Anhänge | 3 Tage |
@@ -62,8 +63,11 @@ Zeitangaben = konzentrierte Entwicklungstage in gemeinsamen Sessions (ich progra
 | 8 | Kalender-Sync: ICS-Feed, Google (Android), iCloud CalDAV (iOS), Outlook | 5–6 Tage |
 | 9 | Custom CSS/JS, Entwickler-Hooks, Theming | 1–2 Tage |
 | 10 | Sicherheits-Audit, Performance, Barrierefreiheit, Tests, Dokumentation | 3–4 Tage |
-| 11 | WordPress.org: readme.txt, Screenshots, Banner/Icon, Plugin-Check, Einreichung | 1–2 Tage |
-| | **Summe Entwicklung (Version 1.0)** | **ca. 32–41 Tage ≈ 7–9 Wochen** |
+| 11 | Formularvorlagen (Friseur, Arzt, Beratung, Werkstatt, Kurs, Kontakt, Anfrage …) + Einrichtungsassistent | 2–3 Tage |
+| 12 | Integrationen 1.0: Mailchimp, Brevo, Google Sheets, Slack, Telegram, reCAPTCHA/Turnstile/hCaptcha | 3–4 Tage |
+| 13 | Produktseite unter `mpmarinov.com/bookora`: Landingpage, Preise, Doku, Changelog, Support, Lizenzbedingungen | 3–4 Tage |
+| 14 | WordPress.org: readme.txt, Screenshots, Banner/Icon, Plugin-Check, Einreichung | 1–2 Tage |
+| | **Summe Entwicklung (Version 1.0)** | **ca. 43–56 Tage ≈ 9–12 Wochen** |
 | | WordPress.org-Review (Wartezeit, nicht beeinflussbar) | 1–6 Wochen |
 
 **Meilensteine**
@@ -115,6 +119,9 @@ Zeitangaben = konzentrierte Entwicklungstage in gemeinsamen Sessions (ich progra
 | Produktname | **Bookora** (Slug `bookora`) |
 | Startsprachen | Deutsch, Englisch, Bulgarisch |
 | Umfang 1.0 | alle Anforderungen + „Empfohlen für 1.0“ aus Abschnitt 7 |
+| Formulare ohne Termin | **Ja** – Bookora ist Formular-Builder **und** Buchungssystem in einem Plugin |
+| Produktseite | Unterordner `mpmarinov.com/bookora` (kein eigenes Hosting); Domain bookora.com/.de als Weiterleitung reservieren |
+| Verkauf & Lizenzen | über einen Merchant of Record (Freemius/Paddle/Lemon Squeezy), kein eigener Shop |
 
 ## 9. Free- und Pro-Strategie
 
@@ -165,7 +172,13 @@ das spart dir Buchhaltungsaufwand. Die Entscheidung fällt vor Phase 11.
 - Pro-Add-on als eigenes Repository/Plugin mit eigenem Update-Server über den Lizenzanbieter
 - Kein Pro-Code im Free-Plugin (Vorgabe von wordpress.org)
 
-## 10. Produktname
+## 10. Positionierung
+
+**„Ein Plugin statt zwei.“** Andere Hersteller trennen Formular-Plugin und Buchungs-Plugin.
+Bookora vereint beides – mit einer Free-Version ohne künstliche Limits.
+Wer Bookora für ein einfaches Kontaktformular installiert, entdeckt die Buchungsfunktionen direkt im selben Plugin.
+
+## 10a. Produktname
 
 „MS-Booking“ ist leider riskant: „MS Bookings“ wird allgemein als **Microsoft Bookings** verstanden.
 Das führt zu Markenrechtsproblemen, möglicher Ablehnung auf wordpress.org und Verwechslung in der Suche.
@@ -188,4 +201,4 @@ Vor der finalen Wahl prüfen: freier Slug auf wordpress.org, Marken (DPMA, EUIPO
 |---|---|
 | 0 – Konzept & Datenmodell | ✅ erledigt (`docs/DATENMODELL.md`) |
 | 1 – Grundgerüst | ✅ erledigt: Plugin-Bootstrap, Autoloader, DI-Container, 15 DB-Tabellen mit Migrationen, Rollen & Rechte, Einstellungen + REST-API, React-Admin mit Einstellungsseite, Verschlüsselung (libsodium), DSGVO-Export/-Löschung, Deinstallation, Unit-Tests, PHPCS, CI |
-| 2 – Leistungen, Öffnungszeiten, Slot-Engine | ⏳ als Nächstes |
+| 2 – Leistungen, Öffnungszeiten, Slot-Engine | 🔄 in Arbeit |
