@@ -13,7 +13,8 @@
     "plugin-zip": "wp-scripts plugin-zip",
     "build:admin": "wp-scripts build assets/admin/src/index.js --output-path=build/admin",
     "build:frontend": "wp-scripts build assets/frontend/src/index.js --output-path=build/frontend",
-    "start:frontend": "wp-scripts start assets/frontend/src/index.js --output-path=build/frontend"
+    "start:frontend": "wp-scripts start assets/frontend/src/index.js --output-path=build/frontend",
+    "i18n": "python3 tools/i18n-build.py"
   },
   "files": [
     "bookora.php",

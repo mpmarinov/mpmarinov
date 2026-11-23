@@ -1,0 +1,1259 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Bookora\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"X-Domain: bookora\n"
+
+msgid "Bookora requires PHP %1$s or higher. Your server runs PHP %2$s."
+msgstr ""
+
+msgid "Dashboard"
+msgstr ""
+
+msgid "Timeline"
+msgstr ""
+
+msgid "Bookings"
+msgstr ""
+
+msgid "Forms"
+msgstr ""
+
+msgid "Services"
+msgstr ""
+
+msgid "Staff & Resources"
+msgstr ""
+
+msgid "Opening Hours"
+msgstr ""
+
+msgid "Emails"
+msgstr ""
+
+msgid "Calendar Sync"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Bookora"
+msgstr ""
+
+msgid "Loading…"
+msgstr ""
+
+msgid "This service is not available."
+msgstr ""
+
+msgid "The selected staff member or resource is not available for this service."
+msgstr ""
+
+msgid "No staff member or resource is available for this service."
+msgstr ""
+
+msgid "Invalid date range."
+msgstr ""
+
+msgid "The requested date range is too long."
+msgstr ""
+
+msgid "Please enter a valid email address."
+msgstr ""
+
+msgid "Sorry, this time has just been booked. Please choose another time."
+msgstr ""
+
+msgid "The booking could not be saved. Please try again."
+msgstr ""
+
+msgid "Please check the highlighted fields."
+msgstr ""
+
+msgid "Thank you! Your booking request has been received. You will receive a confirmation by email."
+msgstr ""
+
+msgid "Thank you! We have received your message and will get back to you soon."
+msgstr ""
+
+msgid "An email address is required to book an appointment."
+msgstr ""
+
+msgid "Your message could not be saved. Please try again."
+msgstr ""
+
+msgid "Please choose one of the available days."
+msgstr ""
+
+msgid "Please choose one of the available times."
+msgstr ""
+
+msgid "This booking form is not configured yet."
+msgstr ""
+
+msgid "Please choose a service."
+msgstr ""
+
+msgid "Please choose a staff member."
+msgstr ""
+
+msgid "Please choose a date and time."
+msgstr ""
+
+msgid "This field is required."
+msgstr ""
+
+msgid "Please choose one of the options."
+msgstr ""
+
+msgid "Please confirm to continue."
+msgstr ""
+
+msgid "Please enter a valid web address."
+msgstr ""
+
+msgid "Please enter a valid phone number."
+msgstr ""
+
+msgid "Please enter a number."
+msgstr ""
+
+msgid "Please enter a value between %1$s and %2$s."
+msgstr ""
+
+msgid "Please choose a valid date."
+msgstr ""
+
+msgid "Please enter a valid time."
+msgstr ""
+
+msgid "Please use at most %d characters."
+msgstr ""
+
+msgid "Your submission could not be processed."
+msgstr ""
+
+msgid "The form has expired. Please reload the page and try again."
+msgstr ""
+
+msgid "That was a bit too fast. Please wait a moment and submit again."
+msgstr ""
+
+msgid "Too many submissions. Please try again in a few minutes."
+msgstr ""
+
+msgid "Bookora: this form does not exist or is not published."
+msgstr ""
+
+msgid "Preview: this form is a draft and only visible to you."
+msgstr ""
+
+msgid "Step %d"
+msgstr ""
+
+msgid "Leave this field empty"
+msgstr ""
+
+msgid "Back"
+msgstr ""
+
+msgid "Next"
+msgstr ""
+
+msgid "Book now"
+msgstr ""
+
+msgid "Send"
+msgstr ""
+
+msgid "Please enable JavaScript to use this form."
+msgstr ""
+
+msgid "— Please choose —"
+msgstr ""
+
+msgid "First name"
+msgstr ""
+
+msgid "Last name"
+msgstr ""
+
+msgid "Street and number"
+msgstr ""
+
+msgid "ZIP"
+msgstr ""
+
+msgid "City"
+msgstr ""
+
+msgid "Country"
+msgstr ""
+
+msgid "Please choose a date and time"
+msgstr ""
+
+msgid "Please choose a date"
+msgstr ""
+
+msgid "Any available"
+msgstr ""
+
+msgid "This field type will be available in an upcoming version."
+msgstr ""
+
+msgid "%d min"
+msgstr ""
+
+msgid "Bookora entries and bookings"
+msgstr ""
+
+msgid "Submitted (UTC)"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Phone"
+msgstr ""
+
+msgid "Appointment (UTC)"
+msgstr ""
+
+msgid "Form entries and bookings"
+msgstr ""
+
+msgid "When you submit a form or book an appointment, we store the data you enter in the form (such as name, email address, phone number and your message) together with the date and time of a booked appointment. We use this data to process your request, manage your appointment and send you confirmations and reminders."
+msgstr ""
+
+msgid "%s (copy)"
+msgstr ""
+
+msgid "Please enter a valid date range."
+msgstr ""
+
+msgid "Please enter a valid time range."
+msgstr ""
+
+msgid "Special opening hours need a start and end time."
+msgstr ""
+
+msgid "Could not save."
+msgstr ""
+
+msgid "Please enter a name."
+msgstr ""
+
+msgid "Not found."
+msgstr ""
+
+msgid "Please enter a form title."
+msgstr ""
+
+msgid "Invalid form fields."
+msgstr ""
+
+msgid "This form is not available."
+msgstr ""
+
+msgid "The free version supports up to %d staff members or resources. Upgrade to Bookora Pro for unlimited resources."
+msgstr ""
+
+msgid "Search fields"
+msgstr ""
+
+msgid "This field can only be used once."
+msgstr ""
+
+msgid "Want a calendar? Switch the form type to \"Booking form\" in the Form tab."
+msgstr ""
+
+msgid "%1$s: %2$s"
+msgstr ""
+
+msgid "Drag to reorder"
+msgstr ""
+
+msgid "Conditional logic"
+msgstr ""
+
+msgid "Duplicate"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Form saved."
+msgstr ""
+
+msgid "Discard unsaved changes?"
+msgstr ""
+
+msgid "All forms"
+msgstr ""
+
+msgid "Published"
+msgstr ""
+
+msgid "Draft"
+msgstr ""
+
+msgid "Paste this shortcode into any page, or use the Bookora block."
+msgstr ""
+
+msgid "Preview size"
+msgstr ""
+
+msgid "Desktop"
+msgstr ""
+
+msgid "Mobile"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Saved"
+msgstr ""
+
+msgid "Add fields"
+msgstr ""
+
+msgid "A booking form needs a \"Date & time\" field."
+msgstr ""
+
+msgid "Add it"
+msgstr ""
+
+msgid "Add an email field so you can reply and send confirmations."
+msgstr ""
+
+msgid "Multi-step form with %d steps"
+msgstr ""
+
+msgid "Click a field on the left to add it to your form."
+msgstr ""
+
+msgid "Field"
+msgstr ""
+
+msgid "Form"
+msgstr ""
+
+msgid "Select a field in the form to edit its settings."
+msgstr ""
+
+msgid "Heading"
+msgstr ""
+
+msgid "Page break"
+msgstr ""
+
+msgid "Drop files here or click to upload"
+msgstr ""
+
+msgid "Sign here"
+msgstr ""
+
+msgid "General"
+msgstr ""
+
+msgid "Form title"
+msgstr ""
+
+msgid "Only visible to you."
+msgstr ""
+
+msgid "Form type"
+msgstr ""
+
+msgid "Standard form (contact, request, survey …)"
+msgstr ""
+
+msgid "Booking form (with calendar)"
+msgstr ""
+
+msgid "Booking fields are only available in booking forms."
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Draft (not visible on the website)"
+msgstr ""
+
+msgid "After submitting"
+msgstr ""
+
+msgid "Button text"
+msgstr ""
+
+msgid "Success message"
+msgstr ""
+
+msgid "Thank you! We have received your message."
+msgstr ""
+
+msgid "Redirect to page (optional)"
+msgstr ""
+
+msgid "Notify me by email about new entries"
+msgstr ""
+
+msgid "Store entries in the database"
+msgstr ""
+
+msgid "Booking forms always store entries."
+msgstr ""
+
+msgid "Appearance"
+msgstr ""
+
+msgid "Labels"
+msgstr ""
+
+msgid "Above the field"
+msgstr ""
+
+msgid "Left of the field"
+msgstr ""
+
+msgid "Hidden (placeholder only)"
+msgstr ""
+
+msgid "Progress for multi-step forms"
+msgstr ""
+
+msgid "Progress bar"
+msgstr ""
+
+msgid "Step names"
+msgstr ""
+
+msgid "None"
+msgstr ""
+
+msgid "Custom CSS & JavaScript"
+msgstr ""
+
+msgid "Only administrators can edit custom code."
+msgstr ""
+
+msgid "CSS for this form"
+msgstr ""
+
+msgid "Scope your rules with .bookora-form-%d."
+msgstr ""
+
+msgid "JavaScript for this form"
+msgstr ""
+
+msgid "Runs after the form has loaded. Example: bookora.on( \"submit\", ( e ) => { … } );"
+msgstr ""
+
+msgid "is"
+msgstr ""
+
+msgid "is not"
+msgstr ""
+
+msgid "contains"
+msgstr ""
+
+msgid "does not contain"
+msgstr ""
+
+msgid "is empty"
+msgstr ""
+
+msgid "is not empty"
+msgstr ""
+
+msgid "is greater than"
+msgstr ""
+
+msgid "is less than"
+msgstr ""
+
+msgid "Option label"
+msgstr ""
+
+msgid "Move up"
+msgstr ""
+
+msgid "Move down"
+msgstr ""
+
+msgid "Remove option"
+msgstr ""
+
+msgid "Option %d"
+msgstr ""
+
+msgid "Add option"
+msgstr ""
+
+msgid "Show or hide this field depending on other answers."
+msgstr ""
+
+msgid "Add condition"
+msgstr ""
+
+msgid "Add other fields first."
+msgstr ""
+
+msgid "Action"
+msgstr ""
+
+msgid "Show this field"
+msgstr ""
+
+msgid "Hide this field"
+msgstr ""
+
+msgid "Match"
+msgstr ""
+
+msgid "if all conditions match"
+msgstr ""
+
+msgid "if any condition matches"
+msgstr ""
+
+msgid "Condition"
+msgstr ""
+
+msgid "Value"
+msgstr ""
+
+msgid "Remove condition"
+msgstr ""
+
+msgid "Text"
+msgstr ""
+
+msgid "Label"
+msgstr ""
+
+msgid "Size"
+msgstr ""
+
+msgid "Large"
+msgstr ""
+
+msgid "Medium"
+msgstr ""
+
+msgid "Small"
+msgstr ""
+
+msgid "Allowed: <strong>, <em>, <a>, <br>."
+msgstr ""
+
+msgid "Title of the next step"
+msgstr ""
+
+msgid "Consent text"
+msgstr ""
+
+msgid "You can link your privacy policy with <a href=\"…\">…</a>."
+msgstr ""
+
+msgid "Placeholder"
+msgstr ""
+
+msgid "Help text"
+msgstr ""
+
+msgid "Required"
+msgstr ""
+
+msgid "Options"
+msgstr ""
+
+msgid "Format"
+msgstr ""
+
+msgid "First and last name"
+msgstr ""
+
+msgid "One field"
+msgstr ""
+
+msgid "Offer these services"
+msgstr ""
+
+msgid "None selected = all active services."
+msgstr ""
+
+msgid "Offer \"any available staff member\""
+msgstr ""
+
+msgid "Advanced"
+msgstr ""
+
+msgid "Field key"
+msgstr ""
+
+msgid "Used in email placeholders, e.g. {key}. Leave empty to generate it from the label."
+msgstr ""
+
+msgid "Default value"
+msgstr ""
+
+msgid "Tip: use {url:param} or {user:email} for dynamic values."
+msgstr ""
+
+msgid "Maximum characters (0 = unlimited)"
+msgstr ""
+
+msgid "Rows"
+msgstr ""
+
+msgid "Min"
+msgstr ""
+
+msgid "Max"
+msgstr ""
+
+msgid "Step"
+msgstr ""
+
+msgid "Number of stars"
+msgstr ""
+
+msgid "Layout"
+msgstr ""
+
+msgid "Below each other"
+msgstr ""
+
+msgid "Side by side"
+msgstr ""
+
+msgid "Ask for country"
+msgstr ""
+
+msgid "Only working days can be selected"
+msgstr ""
+
+msgid "Uses the general opening hours, holidays and vacation."
+msgstr ""
+
+msgid "Also choose a time (within opening hours)"
+msgstr ""
+
+msgid "For requests without fixed booking. For real bookings with blocked times, use a booking form."
+msgstr ""
+
+msgid "Earliest date"
+msgstr ""
+
+msgid "e.g. today, +1 day, 2026–12–01"
+msgstr ""
+
+msgid "Latest date"
+msgstr ""
+
+msgid "e.g. +3 months"
+msgstr ""
+
+msgid "Allowed file types"
+msgstr ""
+
+msgid "Comma separated, e.g. jpg, png, pdf"
+msgstr ""
+
+msgid "Max. size (MB)"
+msgstr ""
+
+msgid "Max. files"
+msgstr ""
+
+msgid "Width"
+msgstr ""
+
+msgid "Full width"
+msgstr ""
+
+msgid "Half width"
+msgstr ""
+
+msgid "One third"
+msgstr ""
+
+msgid "Conditional logic (active)"
+msgstr ""
+
+msgid "Booking"
+msgstr ""
+
+msgid "Basic fields"
+msgstr ""
+
+msgid "Choices"
+msgstr ""
+
+msgid "Option 1"
+msgstr ""
+
+msgid "Option 2"
+msgstr ""
+
+msgid "Option 3"
+msgstr ""
+
+msgid "Service"
+msgstr ""
+
+msgid "Staff member"
+msgstr ""
+
+msgid "Date & time"
+msgstr ""
+
+msgid "Choose a date and time"
+msgstr ""
+
+msgid "Single line text"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Paragraph text"
+msgstr ""
+
+msgid "Message"
+msgstr ""
+
+msgid "Number"
+msgstr ""
+
+msgid "Website / URL"
+msgstr ""
+
+msgid "Website"
+msgstr ""
+
+msgid "Dropdown"
+msgstr ""
+
+msgid "Radio buttons"
+msgstr ""
+
+msgid "Choose one"
+msgstr ""
+
+msgid "Checkboxes"
+msgstr ""
+
+msgid "Choose any"
+msgstr ""
+
+msgid "Consent (GDPR)"
+msgstr ""
+
+msgid "Privacy"
+msgstr ""
+
+msgid "I agree that my data will be processed to handle my request."
+msgstr ""
+
+msgid "Rating"
+msgstr ""
+
+msgid "Slider"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "Address"
+msgstr ""
+
+msgid "File upload"
+msgstr ""
+
+msgid "Upload file"
+msgstr ""
+
+msgid "Signature"
+msgstr ""
+
+msgid "Hidden field"
+msgstr ""
+
+msgid "Hidden"
+msgstr ""
+
+msgid "Text block"
+msgstr ""
+
+msgid "Add an explanation for your visitors here."
+msgstr ""
+
+msgid "Divider"
+msgstr ""
+
+msgid "Page break (step)"
+msgstr ""
+
+msgid "Next step"
+msgstr ""
+
+msgid "Are you sure?"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Sunday"
+msgstr ""
+
+msgid "Monday"
+msgstr ""
+
+msgid "Tuesday"
+msgstr ""
+
+msgid "Wednesday"
+msgstr ""
+
+msgid "Thursday"
+msgstr ""
+
+msgid "Friday"
+msgstr ""
+
+msgid "Saturday"
+msgstr ""
+
+msgid "Set your opening hours to see the daily schedule."
+msgstr ""
+
+msgid "Daily schedule on %1$s (%2$s):"
+msgstr ""
+
+msgid "%d min break after each appointment"
+msgstr ""
+
+msgid "= max. %d appointment per day"
+msgid_plural "= max. %d appointments per day"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Saved."
+msgstr ""
+
+msgid "Deleted."
+msgstr ""
+
+msgid "Booking form"
+msgstr ""
+
+msgid "Customers choose a service, date and time. Booked times are blocked automatically."
+msgstr ""
+
+msgid "Standard form"
+msgstr ""
+
+msgid "Contact form, request, survey, application – any form without a calendar."
+msgstr ""
+
+msgid "Contact form"
+msgstr ""
+
+msgid "New form"
+msgstr ""
+
+msgid "e.g. Book an appointment"
+msgstr ""
+
+msgid "e.g. Contact"
+msgstr ""
+
+msgid "We start you with the most common fields – you can change everything in the next step."
+msgstr ""
+
+msgid "Create form"
+msgstr ""
+
+msgid "Create booking forms with a calendar or any other form – contact, request, survey."
+msgstr ""
+
+msgid "No forms yet. Create your first form in under a minute."
+msgstr ""
+
+msgid "Create your first form"
+msgstr ""
+
+msgid "Copy shortcode"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Delete the form \"%s\"? Entries are kept."
+msgstr ""
+
+msgid "%d field"
+msgid_plural "%d fields"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%d entry"
+msgid_plural "%d entries"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "End time must be after start time."
+msgstr ""
+
+msgid "Time ranges overlap."
+msgstr ""
+
+msgid "Opening hours saved."
+msgstr ""
+
+msgid "Weekly hours"
+msgstr ""
+
+msgid "This staff member uses the general opening hours. Change and save the hours below to give them their own schedule."
+msgstr ""
+
+msgid "Closed"
+msgstr ""
+
+msgid "From"
+msgstr ""
+
+msgid "To"
+msgstr ""
+
+msgid "Remove time range"
+msgstr ""
+
+msgid "+ Add break / range"
+msgstr ""
+
+msgid "Copy to Mon–Fri"
+msgstr ""
+
+msgid "Save opening hours"
+msgstr ""
+
+msgid "Use general opening hours"
+msgstr ""
+
+msgid "Holidays, vacation & special opening hours"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "Closed (holiday, vacation, break)"
+msgstr ""
+
+msgid "Special opening hours"
+msgstr ""
+
+msgid "To (optional)"
+msgstr ""
+
+msgid "All day"
+msgstr ""
+
+msgid "Start time"
+msgstr ""
+
+msgid "End time"
+msgstr ""
+
+msgid "Note (internal)"
+msgstr ""
+
+msgid "e.g. Christmas"
+msgstr ""
+
+msgid "Add"
+msgstr ""
+
+msgid "No upcoming holidays or special opening hours."
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+msgid "(applies to everyone)"
+msgstr ""
+
+msgid "Delete the entry for %s?"
+msgstr ""
+
+msgid "General opening hours (business)"
+msgstr ""
+
+msgid "Show hours for"
+msgstr ""
+
+msgid "This section is being built and will be available in an upcoming version."
+msgstr ""
+
+msgid "Room"
+msgstr ""
+
+msgid "Equipment"
+msgstr ""
+
+msgid "Website timezone (%s)"
+msgstr ""
+
+msgid "Edit staff member / resource"
+msgstr ""
+
+msgid "New staff member / resource"
+msgstr ""
+
+msgid "Receives notifications about own bookings."
+msgstr ""
+
+msgid "Timezone"
+msgstr ""
+
+msgid "Color"
+msgstr ""
+
+msgid "Active"
+msgstr ""
+
+msgid "Inactive (not bookable)"
+msgstr ""
+
+msgid "%1$d of %2$d staff members/resources used in the free version."
+msgstr ""
+
+msgid "Add staff member / resource"
+msgstr ""
+
+msgid "Need more staff members or rooms? Bookora Pro supports unlimited resources."
+msgstr ""
+
+msgid "Working alone? Then you do not need any staff members – Bookora uses the general opening hours."
+msgstr ""
+
+msgid "Inactive"
+msgstr ""
+
+msgid "Working hours"
+msgstr ""
+
+msgid "Delete \"%s\" including working hours? Existing bookings are kept."
+msgstr ""
+
+msgid "Free"
+msgstr ""
+
+msgid "Edit service"
+msgstr ""
+
+msgid "New service"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Duration (minutes)"
+msgstr ""
+
+msgid "Price (%s)"
+msgstr ""
+
+msgid "Preparation before (minutes)"
+msgstr ""
+
+msgid "Break after the appointment (minutes)"
+msgstr ""
+
+msgid "e.g. cleaning, preparing the room"
+msgstr ""
+
+msgid "Max. appointments per day"
+msgstr ""
+
+msgid "0 = as many as fit into the working hours."
+msgstr ""
+
+msgid "Places per appointment"
+msgstr ""
+
+msgid "1 = individual appointment, more = group or class."
+msgstr ""
+
+msgid "Minimum notice (minutes)"
+msgstr ""
+
+msgid "0 = use the global setting."
+msgstr ""
+
+msgid "Bookable up to (days ahead)"
+msgstr ""
+
+msgid "Start times"
+msgstr ""
+
+msgid "Appointments are always placed within the working hours and end before closing time."
+msgstr ""
+
+msgid "One after another – every %d min (duration + preparation + break)"
+msgstr ""
+
+msgid "Fixed grid – every %d min"
+msgstr ""
+
+msgid "Inactive (hidden)"
+msgstr ""
+
+msgid "Who provides this service?"
+msgstr ""
+
+msgid "No staff members yet. Without assignment, the service uses the general opening hours."
+msgstr ""
+
+msgid "Services are what customers can book – e.g. a haircut, a consultation or a course."
+msgstr ""
+
+msgid "Add service"
+msgstr ""
+
+msgid "No services yet."
+msgstr ""
+
+msgid "Create your first service"
+msgstr ""
+
+msgid "%d places"
+msgstr ""
+
+msgid "Delete the service \"%s\"? Existing bookings are kept."
+msgstr ""
+
+msgid "Settings saved."
+msgstr ""
+
+msgid "Business name"
+msgstr ""
+
+msgid "Notification email"
+msgstr ""
+
+msgid "New bookings are sent here. Leave empty to use the site admin email."
+msgstr ""
+
+msgid "Time format"
+msgstr ""
+
+msgid "Booking rules"
+msgstr ""
+
+msgid "Time grid for date fields without a service"
+msgstr ""
+
+msgid "Booking forms use the start times defined per service."
+msgstr ""
+
+msgid "New bookings are"
+msgstr ""
+
+msgid "Pending – confirm with one click"
+msgstr ""
+
+msgid "Confirmed automatically"
+msgstr ""
+
+msgid "Fill gaps between appointments"
+msgstr ""
+
+msgid "Also offers a start time directly after an existing appointment (incl. break). Less idle time, but start times are less regular."
+msgstr ""
+
+msgid "Max. appointments per day (all services)"
+msgstr ""
+
+msgid "0 = no limit. Limits per service can be set in the service."
+msgstr ""
+
+msgid "Customers can cancel up to (hours before)"
+msgstr ""
+
+msgid "Security & privacy"
+msgstr ""
+
+msgid "Spam protection (honeypot)"
+msgstr ""
+
+msgid "CAPTCHA"
+msgstr ""
+
+msgid "Delete all Bookora data when the plugin is uninstalled"
+msgstr ""
+
+msgid "Save settings"
+msgstr ""
+
+msgid "Month"
+msgstr ""
+
+msgid "Year"
+msgstr ""
+
+msgid "Previous month"
+msgstr ""
+
+msgid "Next month"
+msgstr ""
+
+msgid "Loading available days…"
+msgstr ""
+
+msgid "No free days in this month. Please choose another month."
+msgstr ""
+
+msgid "Availability could not be loaded. Please try again."
+msgstr ""
+
+msgid "Please enter your first and last name."
+msgstr ""
+
+msgid "Something went wrong. Please try again."
+msgstr ""
+
+msgid "Connection problem. Please check your internet connection and try again."
+msgstr ""
+
+msgid "Please choose a service first."
+msgstr ""
+
+msgid "Choose a day to see the free times."
+msgstr ""
+
+msgid "Available times"
+msgstr ""
+
+msgid "until %s"
+msgstr ""
+
+msgid "%d free"
+msgstr ""
+
+msgid "No free times on this day."
+msgstr ""
+
+msgid "Selected: %1$s, %2$s"
+msgstr ""
+
+msgid "%1$s at %2$s"
+msgstr ""

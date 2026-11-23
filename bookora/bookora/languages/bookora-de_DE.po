@@ -1,0 +1,1261 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Bookora\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Bookora requires PHP %1$s or higher. Your server runs PHP %2$s."
+msgstr "Bookora benötigt PHP %1$s oder höher. Ihr Server verwendet PHP %2$s."
+
+msgid "Dashboard"
+msgstr "Übersicht"
+
+msgid "Timeline"
+msgstr "Zeitstrahl"
+
+msgid "Bookings"
+msgstr "Buchungen"
+
+msgid "Forms"
+msgstr "Formulare"
+
+msgid "Services"
+msgstr "Leistungen"
+
+msgid "Staff & Resources"
+msgstr "Mitarbeiter & Ressourcen"
+
+msgid "Opening Hours"
+msgstr "Öffnungszeiten"
+
+msgid "Emails"
+msgstr "E-Mails"
+
+msgid "Calendar Sync"
+msgstr "Kalender-Sync"
+
+msgid "Settings"
+msgstr "Einstellungen"
+
+msgid "Bookora"
+msgstr "Bookora"
+
+msgid "Loading…"
+msgstr "Wird geladen …"
+
+msgid "This service is not available."
+msgstr "Diese Leistung ist nicht verfügbar."
+
+msgid "The selected staff member or resource is not available for this service."
+msgstr "Der gewählte Mitarbeiter bzw. die gewählte Ressource ist für diese Leistung nicht verfügbar."
+
+msgid "No staff member or resource is available for this service."
+msgstr "Für diese Leistung ist kein Mitarbeiter und keine Ressource verfügbar."
+
+msgid "Invalid date range."
+msgstr "Ungültiger Zeitraum."
+
+msgid "The requested date range is too long."
+msgstr "Der angefragte Zeitraum ist zu lang."
+
+msgid "Please enter a valid email address."
+msgstr "Bitte geben Sie eine gültige E-Mail-Adresse ein."
+
+msgid "Sorry, this time has just been booked. Please choose another time."
+msgstr "Diese Zeit wurde gerade gebucht. Bitte wählen Sie eine andere Zeit."
+
+msgid "The booking could not be saved. Please try again."
+msgstr "Die Buchung konnte nicht gespeichert werden. Bitte versuchen Sie es erneut."
+
+msgid "Please check the highlighted fields."
+msgstr "Bitte prüfen Sie die markierten Felder."
+
+msgid "Thank you! Your booking request has been received. You will receive a confirmation by email."
+msgstr "Vielen Dank! Ihre Buchungsanfrage ist eingegangen. Sie erhalten eine Bestätigung per E-Mail."
+
+msgid "Thank you! We have received your message and will get back to you soon."
+msgstr "Vielen Dank! Wir haben Ihre Nachricht erhalten und melden uns in Kürze."
+
+msgid "An email address is required to book an appointment."
+msgstr "Für eine Buchung wird eine E-Mail-Adresse benötigt."
+
+msgid "Your message could not be saved. Please try again."
+msgstr "Ihre Nachricht konnte nicht gespeichert werden. Bitte versuchen Sie es erneut."
+
+msgid "Please choose one of the available days."
+msgstr "Bitte wählen Sie einen der verfügbaren Tage."
+
+msgid "Please choose one of the available times."
+msgstr "Bitte wählen Sie eine der verfügbaren Uhrzeiten."
+
+msgid "This booking form is not configured yet."
+msgstr "Dieses Buchungsformular ist noch nicht eingerichtet."
+
+msgid "Please choose a service."
+msgstr "Bitte wählen Sie eine Leistung."
+
+msgid "Please choose a staff member."
+msgstr "Bitte wählen Sie einen Mitarbeiter."
+
+msgid "Please choose a date and time."
+msgstr "Bitte wählen Sie Datum und Uhrzeit."
+
+msgid "This field is required."
+msgstr "Dies ist ein Pflichtfeld."
+
+msgid "Please choose one of the options."
+msgstr "Bitte wählen Sie eine der Optionen."
+
+msgid "Please confirm to continue."
+msgstr "Bitte bestätigen Sie, um fortzufahren."
+
+msgid "Please enter a valid web address."
+msgstr "Bitte geben Sie eine gültige Webadresse ein."
+
+msgid "Please enter a valid phone number."
+msgstr "Bitte geben Sie eine gültige Telefonnummer ein."
+
+msgid "Please enter a number."
+msgstr "Bitte geben Sie eine Zahl ein."
+
+msgid "Please enter a value between %1$s and %2$s."
+msgstr "Bitte geben Sie einen Wert zwischen %1$s und %2$s ein."
+
+msgid "Please choose a valid date."
+msgstr "Bitte wählen Sie ein gültiges Datum."
+
+msgid "Please enter a valid time."
+msgstr "Bitte geben Sie eine gültige Uhrzeit ein."
+
+msgid "Please use at most %d characters."
+msgstr "Bitte verwenden Sie höchstens %d Zeichen."
+
+msgid "Your submission could not be processed."
+msgstr "Ihre Eingabe konnte nicht verarbeitet werden."
+
+msgid "The form has expired. Please reload the page and try again."
+msgstr "Das Formular ist abgelaufen. Bitte laden Sie die Seite neu und versuchen Sie es erneut."
+
+msgid "That was a bit too fast. Please wait a moment and submit again."
+msgstr "Das ging etwas zu schnell. Bitte warten Sie einen Moment und senden Sie erneut."
+
+msgid "Too many submissions. Please try again in a few minutes."
+msgstr "Zu viele Anfragen. Bitte versuchen Sie es in einigen Minuten erneut."
+
+msgid "Bookora: this form does not exist or is not published."
+msgstr "Bookora: Dieses Formular existiert nicht oder ist nicht veröffentlicht."
+
+msgid "Preview: this form is a draft and only visible to you."
+msgstr "Vorschau: Dieses Formular ist ein Entwurf und nur für Sie sichtbar."
+
+msgid "Step %d"
+msgstr "Schritt %d"
+
+msgid "Leave this field empty"
+msgstr "Dieses Feld leer lassen"
+
+msgid "Back"
+msgstr "Zurück"
+
+msgid "Next"
+msgstr "Weiter"
+
+msgid "Book now"
+msgstr "Jetzt buchen"
+
+msgid "Send"
+msgstr "Senden"
+
+msgid "Please enable JavaScript to use this form."
+msgstr "Bitte aktivieren Sie JavaScript, um dieses Formular zu nutzen."
+
+msgid "— Please choose —"
+msgstr "— Bitte wählen —"
+
+msgid "First name"
+msgstr "Vorname"
+
+msgid "Last name"
+msgstr "Nachname"
+
+msgid "Street and number"
+msgstr "Straße und Hausnummer"
+
+msgid "ZIP"
+msgstr "PLZ"
+
+msgid "City"
+msgstr "Ort"
+
+msgid "Country"
+msgstr "Land"
+
+msgid "Please choose a date and time"
+msgstr "Bitte Datum und Uhrzeit wählen"
+
+msgid "Please choose a date"
+msgstr "Bitte Datum wählen"
+
+msgid "Any available"
+msgstr "Beliebig (erster freier)"
+
+msgid "This field type will be available in an upcoming version."
+msgstr "Dieser Feldtyp ist in einer kommenden Version verfügbar."
+
+msgid "%d min"
+msgstr "%d Min."
+
+msgid "Bookora entries and bookings"
+msgstr "Bookora: Einträge und Buchungen"
+
+msgid "Submitted (UTC)"
+msgstr "Gesendet (UTC)"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Phone"
+msgstr "Telefon"
+
+msgid "Appointment (UTC)"
+msgstr "Termin (UTC)"
+
+msgid "Form entries and bookings"
+msgstr "Formulareinträge und Buchungen"
+
+msgid "When you submit a form or book an appointment, we store the data you enter in the form (such as name, email address, phone number and your message) together with the date and time of a booked appointment. We use this data to process your request, manage your appointment and send you confirmations and reminders."
+msgstr "Wenn Sie ein Formular absenden oder einen Termin buchen, speichern wir die eingegebenen Daten (z. B. Name, E-Mail-Adresse, Telefonnummer und Ihre Nachricht) zusammen mit Datum und Uhrzeit eines gebuchten Termins. Wir verwenden diese Daten, um Ihre Anfrage zu bearbeiten, Ihren Termin zu verwalten und Ihnen Bestätigungen und Erinnerungen zu senden."
+
+msgid "%s (copy)"
+msgstr "%s (Kopie)"
+
+msgid "Please enter a valid date range."
+msgstr "Bitte geben Sie einen gültigen Zeitraum ein."
+
+msgid "Please enter a valid time range."
+msgstr "Bitte geben Sie einen gültigen Zeitbereich ein."
+
+msgid "Special opening hours need a start and end time."
+msgstr "Sonderöffnungszeiten benötigen eine Start- und Endzeit."
+
+msgid "Could not save."
+msgstr "Speichern fehlgeschlagen."
+
+msgid "Please enter a name."
+msgstr "Bitte geben Sie einen Namen ein."
+
+msgid "Not found."
+msgstr "Nicht gefunden."
+
+msgid "Please enter a form title."
+msgstr "Bitte geben Sie einen Formulartitel ein."
+
+msgid "Invalid form fields."
+msgstr "Ungültige Formularfelder."
+
+msgid "This form is not available."
+msgstr "Dieses Formular ist nicht verfügbar."
+
+msgid "The free version supports up to %d staff members or resources. Upgrade to Bookora Pro for unlimited resources."
+msgstr "Die kostenlose Version unterstützt bis zu %d Mitarbeiter oder Ressourcen. Mit Bookora Pro sind es unbegrenzt viele."
+
+msgid "Search fields"
+msgstr "Felder suchen"
+
+msgid "This field can only be used once."
+msgstr "Dieses Feld kann nur einmal verwendet werden."
+
+msgid "Want a calendar? Switch the form type to \"Booking form\" in the Form tab."
+msgstr "Sie möchten einen Kalender? Stellen Sie im Tab „Formular“ den Typ auf „Buchungsformular“."
+
+msgid "%1$s: %2$s"
+msgstr "%1$s: %2$s"
+
+msgid "Drag to reorder"
+msgstr "Ziehen zum Verschieben"
+
+msgid "Conditional logic"
+msgstr "Bedingte Logik"
+
+msgid "Duplicate"
+msgstr "Duplizieren"
+
+msgid "Delete"
+msgstr "Löschen"
+
+msgid "Form saved."
+msgstr "Formular gespeichert."
+
+msgid "Discard unsaved changes?"
+msgstr "Ungespeicherte Änderungen verwerfen?"
+
+msgid "All forms"
+msgstr "Alle Formulare"
+
+msgid "Published"
+msgstr "Veröffentlicht"
+
+msgid "Draft"
+msgstr "Entwurf"
+
+msgid "Paste this shortcode into any page, or use the Bookora block."
+msgstr "Fügen Sie diesen Shortcode in eine beliebige Seite ein oder verwenden Sie den Bookora-Block."
+
+msgid "Preview size"
+msgstr "Vorschaugröße"
+
+msgid "Desktop"
+msgstr "Desktop"
+
+msgid "Mobile"
+msgstr "Handy"
+
+msgid "Save"
+msgstr "Speichern"
+
+msgid "Saved"
+msgstr "Gespeichert"
+
+msgid "Add fields"
+msgstr "Felder hinzufügen"
+
+msgid "A booking form needs a \"Date & time\" field."
+msgstr "Ein Buchungsformular braucht ein Feld „Datum & Uhrzeit“."
+
+msgid "Add it"
+msgstr "Hinzufügen"
+
+msgid "Add an email field so you can reply and send confirmations."
+msgstr "Fügen Sie ein E-Mail-Feld hinzu, damit Sie antworten und Bestätigungen senden können."
+
+msgid "Multi-step form with %d steps"
+msgstr "Mehrstufiges Formular mit %d Schritten"
+
+msgid "Click a field on the left to add it to your form."
+msgstr "Klicken Sie links auf ein Feld, um es hinzuzufügen."
+
+msgid "Field"
+msgstr "Feld"
+
+msgid "Form"
+msgstr "Formular"
+
+msgid "Select a field in the form to edit its settings."
+msgstr "Wählen Sie ein Feld im Formular, um es zu bearbeiten."
+
+msgid "Heading"
+msgstr "Überschrift"
+
+msgid "Page break"
+msgstr "Seitenumbruch"
+
+msgid "Drop files here or click to upload"
+msgstr "Dateien hierher ziehen oder klicken zum Hochladen"
+
+msgid "Sign here"
+msgstr "Hier unterschreiben"
+
+msgid "General"
+msgstr "Allgemein"
+
+msgid "Form title"
+msgstr "Formulartitel"
+
+msgid "Only visible to you."
+msgstr "Nur für Sie sichtbar."
+
+msgid "Form type"
+msgstr "Formulartyp"
+
+msgid "Standard form (contact, request, survey …)"
+msgstr "Standardformular (Kontakt, Anfrage, Umfrage …)"
+
+msgid "Booking form (with calendar)"
+msgstr "Buchungsformular (mit Kalender)"
+
+msgid "Booking fields are only available in booking forms."
+msgstr "Buchungsfelder gibt es nur in Buchungsformularen."
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Draft (not visible on the website)"
+msgstr "Entwurf (auf der Webseite nicht sichtbar)"
+
+msgid "After submitting"
+msgstr "Nach dem Absenden"
+
+msgid "Button text"
+msgstr "Button-Text"
+
+msgid "Success message"
+msgstr "Erfolgsmeldung"
+
+msgid "Thank you! We have received your message."
+msgstr "Vielen Dank! Wir haben Ihre Nachricht erhalten."
+
+msgid "Redirect to page (optional)"
+msgstr "Weiterleitung zu Seite (optional)"
+
+msgid "Notify me by email about new entries"
+msgstr "Mich per E-Mail über neue Einträge informieren"
+
+msgid "Store entries in the database"
+msgstr "Einträge in der Datenbank speichern"
+
+msgid "Booking forms always store entries."
+msgstr "Buchungsformulare speichern Einträge immer."
+
+msgid "Appearance"
+msgstr "Darstellung"
+
+msgid "Labels"
+msgstr "Beschriftungen"
+
+msgid "Above the field"
+msgstr "Über dem Feld"
+
+msgid "Left of the field"
+msgstr "Links neben dem Feld"
+
+msgid "Hidden (placeholder only)"
+msgstr "Ausgeblendet (nur Platzhalter)"
+
+msgid "Progress for multi-step forms"
+msgstr "Fortschritt bei mehrstufigen Formularen"
+
+msgid "Progress bar"
+msgstr "Fortschrittsbalken"
+
+msgid "Step names"
+msgstr "Schrittnamen"
+
+msgid "None"
+msgstr "Keine"
+
+msgid "Custom CSS & JavaScript"
+msgstr "Eigenes CSS & JavaScript"
+
+msgid "Only administrators can edit custom code."
+msgstr "Nur Administratoren können eigenen Code bearbeiten."
+
+msgid "CSS for this form"
+msgstr "CSS für dieses Formular"
+
+msgid "Scope your rules with .bookora-form-%d."
+msgstr "Beginnen Sie Ihre Regeln mit .bookora-form-%d."
+
+msgid "JavaScript for this form"
+msgstr "JavaScript für dieses Formular"
+
+msgid "Runs after the form has loaded. Example: bookora.on( \"submit\", ( e ) => { … } );"
+msgstr "Wird ausgeführt, sobald das Formular geladen ist. Beispiel: bookora.on( \"submit\", ( e ) => { … } );"
+
+msgid "is"
+msgstr "ist"
+
+msgid "is not"
+msgstr "ist nicht"
+
+msgid "contains"
+msgstr "enthält"
+
+msgid "does not contain"
+msgstr "enthält nicht"
+
+msgid "is empty"
+msgstr "ist leer"
+
+msgid "is not empty"
+msgstr "ist nicht leer"
+
+msgid "is greater than"
+msgstr "ist größer als"
+
+msgid "is less than"
+msgstr "ist kleiner als"
+
+msgid "Option label"
+msgstr "Beschriftung der Option"
+
+msgid "Move up"
+msgstr "Nach oben"
+
+msgid "Move down"
+msgstr "Nach unten"
+
+msgid "Remove option"
+msgstr "Option entfernen"
+
+msgid "Option %d"
+msgstr "Option %d"
+
+msgid "Add option"
+msgstr "Option hinzufügen"
+
+msgid "Show or hide this field depending on other answers."
+msgstr "Dieses Feld abhängig von anderen Antworten ein- oder ausblenden."
+
+msgid "Add condition"
+msgstr "Bedingung hinzufügen"
+
+msgid "Add other fields first."
+msgstr "Fügen Sie zuerst weitere Felder hinzu."
+
+msgid "Action"
+msgstr "Aktion"
+
+msgid "Show this field"
+msgstr "Feld anzeigen"
+
+msgid "Hide this field"
+msgstr "Feld ausblenden"
+
+msgid "Match"
+msgstr "Übereinstimmung"
+
+msgid "if all conditions match"
+msgstr "wenn alle Bedingungen zutreffen"
+
+msgid "if any condition matches"
+msgstr "wenn eine Bedingung zutrifft"
+
+msgid "Condition"
+msgstr "Bedingung"
+
+msgid "Value"
+msgstr "Wert"
+
+msgid "Remove condition"
+msgstr "Bedingung entfernen"
+
+msgid "Text"
+msgstr "Text"
+
+msgid "Label"
+msgstr "Beschriftung"
+
+msgid "Size"
+msgstr "Größe"
+
+msgid "Large"
+msgstr "Groß"
+
+msgid "Medium"
+msgstr "Mittel"
+
+msgid "Small"
+msgstr "Klein"
+
+msgid "Allowed: <strong>, <em>, <a>, <br>."
+msgstr "Erlaubt: <strong>, <em>, <a>, <br>."
+
+msgid "Title of the next step"
+msgstr "Titel des nächsten Schritts"
+
+msgid "Consent text"
+msgstr "Einwilligungstext"
+
+msgid "You can link your privacy policy with <a href=\"…\">…</a>."
+msgstr "Ihre Datenschutzerklärung können Sie mit <a href=\"…\">…</a> verlinken."
+
+msgid "Placeholder"
+msgstr "Platzhalter"
+
+msgid "Help text"
+msgstr "Hilfetext"
+
+msgid "Required"
+msgstr "Pflichtfeld"
+
+msgid "Options"
+msgstr "Optionen"
+
+msgid "Format"
+msgstr "Format"
+
+msgid "First and last name"
+msgstr "Vor- und Nachname"
+
+msgid "One field"
+msgstr "Ein Feld"
+
+msgid "Offer these services"
+msgstr "Diese Leistungen anbieten"
+
+msgid "None selected = all active services."
+msgstr "Keine ausgewählt = alle aktiven Leistungen."
+
+msgid "Offer \"any available staff member\""
+msgstr "„Beliebiger Mitarbeiter“ anbieten"
+
+msgid "Advanced"
+msgstr "Erweitert"
+
+msgid "Field key"
+msgstr "Feldschlüssel"
+
+msgid "Used in email placeholders, e.g. {key}. Leave empty to generate it from the label."
+msgstr "Wird in E-Mail-Platzhaltern verwendet, z. B. {key}. Leer lassen, um ihn aus der Beschriftung zu erzeugen."
+
+msgid "Default value"
+msgstr "Standardwert"
+
+msgid "Tip: use {url:param} or {user:email} for dynamic values."
+msgstr "Tipp: {url:param} oder {user:email} für dynamische Werte verwenden."
+
+msgid "Maximum characters (0 = unlimited)"
+msgstr "Maximale Zeichen (0 = unbegrenzt)"
+
+msgid "Rows"
+msgstr "Zeilen"
+
+msgid "Min"
+msgstr "Min."
+
+msgid "Max"
+msgstr "Max."
+
+msgid "Step"
+msgstr "Schrittweite"
+
+msgid "Number of stars"
+msgstr "Anzahl Sterne"
+
+msgid "Layout"
+msgstr "Layout"
+
+msgid "Below each other"
+msgstr "Untereinander"
+
+msgid "Side by side"
+msgstr "Nebeneinander"
+
+msgid "Ask for country"
+msgstr "Land abfragen"
+
+msgid "Only working days can be selected"
+msgstr "Nur Arbeitstage wählbar"
+
+msgid "Uses the general opening hours, holidays and vacation."
+msgstr "Verwendet die allgemeinen Öffnungszeiten, Feiertage und Urlaub."
+
+msgid "Also choose a time (within opening hours)"
+msgstr "Auch Uhrzeit wählen (innerhalb der Öffnungszeiten)"
+
+msgid "For requests without fixed booking. For real bookings with blocked times, use a booking form."
+msgstr "Für Anfragen ohne feste Buchung. Für echte Buchungen mit blockierten Zeiten ein Buchungsformular verwenden."
+
+msgid "Earliest date"
+msgstr "Frühestes Datum"
+
+msgid "e.g. today, +1 day, 2026–12–01"
+msgstr "z. B. today, +1 day, 2026-12-01"
+
+msgid "Latest date"
+msgstr "Spätestes Datum"
+
+msgid "e.g. +3 months"
+msgstr "z. B. +3 months"
+
+msgid "Allowed file types"
+msgstr "Erlaubte Dateitypen"
+
+msgid "Comma separated, e.g. jpg, png, pdf"
+msgstr "Kommagetrennt, z. B. jpg, png, pdf"
+
+msgid "Max. size (MB)"
+msgstr "Max. Größe (MB)"
+
+msgid "Max. files"
+msgstr "Max. Dateien"
+
+msgid "Width"
+msgstr "Breite"
+
+msgid "Full width"
+msgstr "Volle Breite"
+
+msgid "Half width"
+msgstr "Halbe Breite"
+
+msgid "One third"
+msgstr "Ein Drittel"
+
+msgid "Conditional logic (active)"
+msgstr "Bedingte Logik (aktiv)"
+
+msgid "Booking"
+msgstr "Buchung"
+
+msgid "Basic fields"
+msgstr "Standardfelder"
+
+msgid "Choices"
+msgstr "Auswahlfelder"
+
+msgid "Option 1"
+msgstr "Option 1"
+
+msgid "Option 2"
+msgstr "Option 2"
+
+msgid "Option 3"
+msgstr "Option 3"
+
+msgid "Service"
+msgstr "Leistung"
+
+msgid "Staff member"
+msgstr "Mitarbeiter"
+
+msgid "Date & time"
+msgstr "Datum & Uhrzeit"
+
+msgid "Choose a date and time"
+msgstr "Datum und Uhrzeit wählen"
+
+msgid "Single line text"
+msgstr "Einzeiliger Text"
+
+msgid "Email"
+msgstr "E-Mail"
+
+msgid "Paragraph text"
+msgstr "Mehrzeiliger Text"
+
+msgid "Message"
+msgstr "Nachricht"
+
+msgid "Number"
+msgstr "Zahl"
+
+msgid "Website / URL"
+msgstr "Webseite / URL"
+
+msgid "Website"
+msgstr "Webseite"
+
+msgid "Dropdown"
+msgstr "Auswahlliste"
+
+msgid "Radio buttons"
+msgstr "Optionsfelder"
+
+msgid "Choose one"
+msgstr "Eine auswählen"
+
+msgid "Checkboxes"
+msgstr "Kontrollkästchen"
+
+msgid "Choose any"
+msgstr "Mehrere auswählen"
+
+msgid "Consent (GDPR)"
+msgstr "Einwilligung (DSGVO)"
+
+msgid "Privacy"
+msgstr "Datenschutz"
+
+msgid "I agree that my data will be processed to handle my request."
+msgstr "Ich stimme zu, dass meine Daten zur Bearbeitung meiner Anfrage verarbeitet werden."
+
+msgid "Rating"
+msgstr "Bewertung"
+
+msgid "Slider"
+msgstr "Schieberegler"
+
+msgid "Date"
+msgstr "Datum"
+
+msgid "Time"
+msgstr "Uhrzeit"
+
+msgid "Address"
+msgstr "Adresse"
+
+msgid "File upload"
+msgstr "Datei-Upload"
+
+msgid "Upload file"
+msgstr "Datei hochladen"
+
+msgid "Signature"
+msgstr "Unterschrift"
+
+msgid "Hidden field"
+msgstr "Verstecktes Feld"
+
+msgid "Hidden"
+msgstr "Versteckt"
+
+msgid "Text block"
+msgstr "Textblock"
+
+msgid "Add an explanation for your visitors here."
+msgstr "Fügen Sie hier eine Erklärung für Ihre Besucher ein."
+
+msgid "Divider"
+msgstr "Trennlinie"
+
+msgid "Page break (step)"
+msgstr "Seitenumbruch (Schritt)"
+
+msgid "Next step"
+msgstr "Nächster Schritt"
+
+msgid "Are you sure?"
+msgstr "Sind Sie sicher?"
+
+msgid "Cancel"
+msgstr "Abbrechen"
+
+msgid "Sunday"
+msgstr "Sonntag"
+
+msgid "Monday"
+msgstr "Montag"
+
+msgid "Tuesday"
+msgstr "Dienstag"
+
+msgid "Wednesday"
+msgstr "Mittwoch"
+
+msgid "Thursday"
+msgstr "Donnerstag"
+
+msgid "Friday"
+msgstr "Freitag"
+
+msgid "Saturday"
+msgstr "Samstag"
+
+msgid "Set your opening hours to see the daily schedule."
+msgstr "Legen Sie Ihre Öffnungszeiten fest, um das Tagesraster zu sehen."
+
+msgid "Daily schedule on %1$s (%2$s):"
+msgstr "Tagesraster am %1$s (%2$s):"
+
+msgid "%d min break after each appointment"
+msgstr "%d Min. Pause nach jedem Termin"
+
+msgid "= max. %d appointment per day"
+msgid_plural "= max. %d appointments per day"
+msgstr[0] "= max. %d Termin pro Tag"
+msgstr[1] "= max. %d Termine pro Tag"
+
+msgid "Saved."
+msgstr "Gespeichert."
+
+msgid "Deleted."
+msgstr "Gelöscht."
+
+msgid "Booking form"
+msgstr "Buchungsformular"
+
+msgid "Customers choose a service, date and time. Booked times are blocked automatically."
+msgstr "Kunden wählen Leistung, Datum und Uhrzeit. Gebuchte Zeiten werden automatisch blockiert."
+
+msgid "Standard form"
+msgstr "Standardformular"
+
+msgid "Contact form, request, survey, application – any form without a calendar."
+msgstr "Kontaktformular, Anfrage, Umfrage, Bewerbung – jedes Formular ohne Kalender."
+
+msgid "Contact form"
+msgstr "Kontaktformular"
+
+msgid "New form"
+msgstr "Neues Formular"
+
+msgid "e.g. Book an appointment"
+msgstr "z. B. Termin buchen"
+
+msgid "e.g. Contact"
+msgstr "z. B. Kontakt"
+
+msgid "We start you with the most common fields – you can change everything in the next step."
+msgstr "Wir legen die üblichen Felder für Sie an – im nächsten Schritt können Sie alles ändern."
+
+msgid "Create form"
+msgstr "Formular erstellen"
+
+msgid "Create booking forms with a calendar or any other form – contact, request, survey."
+msgstr "Erstellen Sie Buchungsformulare mit Kalender oder jedes andere Formular – Kontakt, Anfrage, Umfrage."
+
+msgid "No forms yet. Create your first form in under a minute."
+msgstr "Noch keine Formulare. Ihr erstes Formular steht in unter einer Minute."
+
+msgid "Create your first form"
+msgstr "Erstes Formular erstellen"
+
+msgid "Copy shortcode"
+msgstr "Shortcode kopieren"
+
+msgid "Edit"
+msgstr "Bearbeiten"
+
+msgid "Delete the form \"%s\"? Entries are kept."
+msgstr "Formular „%s“ löschen? Einträge bleiben erhalten."
+
+msgid "%d field"
+msgid_plural "%d fields"
+msgstr[0] "%d Feld"
+msgstr[1] "%d Felder"
+
+msgid "%d entry"
+msgid_plural "%d entries"
+msgstr[0] "%d Eintrag"
+msgstr[1] "%d Einträge"
+
+msgid "End time must be after start time."
+msgstr "Die Endzeit muss nach der Startzeit liegen."
+
+msgid "Time ranges overlap."
+msgstr "Die Zeitbereiche überschneiden sich."
+
+msgid "Opening hours saved."
+msgstr "Öffnungszeiten gespeichert."
+
+msgid "Weekly hours"
+msgstr "Wochenplan"
+
+msgid "This staff member uses the general opening hours. Change and save the hours below to give them their own schedule."
+msgstr "Dieser Mitarbeiter verwendet die allgemeinen Öffnungszeiten. Ändern und speichern Sie die Zeiten unten, um eigene Arbeitszeiten festzulegen."
+
+msgid "Closed"
+msgstr "Geschlossen"
+
+msgid "From"
+msgstr "Von"
+
+msgid "To"
+msgstr "Bis"
+
+msgid "Remove time range"
+msgstr "Zeitbereich entfernen"
+
+msgid "+ Add break / range"
+msgstr "+ Pause / Zeitbereich hinzufügen"
+
+msgid "Copy to Mon–Fri"
+msgstr "Auf Mo–Fr übertragen"
+
+msgid "Save opening hours"
+msgstr "Öffnungszeiten speichern"
+
+msgid "Use general opening hours"
+msgstr "Allgemeine Öffnungszeiten verwenden"
+
+msgid "Holidays, vacation & special opening hours"
+msgstr "Feiertage, Urlaub & Sonderöffnungszeiten"
+
+msgid "Type"
+msgstr "Art"
+
+msgid "Closed (holiday, vacation, break)"
+msgstr "Geschlossen (Feiertag, Urlaub, Pause)"
+
+msgid "Special opening hours"
+msgstr "Sonderöffnungszeiten"
+
+msgid "To (optional)"
+msgstr "Bis (optional)"
+
+msgid "All day"
+msgstr "Ganztägig"
+
+msgid "Start time"
+msgstr "Startzeit"
+
+msgid "End time"
+msgstr "Endzeit"
+
+msgid "Note (internal)"
+msgstr "Notiz (intern)"
+
+msgid "e.g. Christmas"
+msgstr "z. B. Weihnachten"
+
+msgid "Add"
+msgstr "Hinzufügen"
+
+msgid "No upcoming holidays or special opening hours."
+msgstr "Keine anstehenden Feiertage oder Sonderöffnungszeiten."
+
+msgid "Open"
+msgstr "Geöffnet"
+
+msgid "(applies to everyone)"
+msgstr "(gilt für alle)"
+
+msgid "Delete the entry for %s?"
+msgstr "Eintrag für %s löschen?"
+
+msgid "General opening hours (business)"
+msgstr "Allgemeine Öffnungszeiten (Betrieb)"
+
+msgid "Show hours for"
+msgstr "Zeiten anzeigen für"
+
+msgid "This section is being built and will be available in an upcoming version."
+msgstr "Dieser Bereich ist in Arbeit und in einer kommenden Version verfügbar."
+
+msgid "Room"
+msgstr "Raum"
+
+msgid "Equipment"
+msgstr "Gerät"
+
+msgid "Website timezone (%s)"
+msgstr "Zeitzone der Webseite (%s)"
+
+msgid "Edit staff member / resource"
+msgstr "Mitarbeiter / Ressource bearbeiten"
+
+msgid "New staff member / resource"
+msgstr "Neuer Mitarbeiter / neue Ressource"
+
+msgid "Receives notifications about own bookings."
+msgstr "Erhält Benachrichtigungen zu eigenen Buchungen."
+
+msgid "Timezone"
+msgstr "Zeitzone"
+
+msgid "Color"
+msgstr "Farbe"
+
+msgid "Active"
+msgstr "Aktiv"
+
+msgid "Inactive (not bookable)"
+msgstr "Inaktiv (nicht buchbar)"
+
+msgid "%1$d of %2$d staff members/resources used in the free version."
+msgstr "%1$d von %2$d Mitarbeitern/Ressourcen in der kostenlosen Version genutzt."
+
+msgid "Add staff member / resource"
+msgstr "Mitarbeiter / Ressource hinzufügen"
+
+msgid "Need more staff members or rooms? Bookora Pro supports unlimited resources."
+msgstr "Mehr Mitarbeiter oder Räume nötig? Bookora Pro unterstützt unbegrenzt viele Ressourcen."
+
+msgid "Working alone? Then you do not need any staff members – Bookora uses the general opening hours."
+msgstr "Sie arbeiten allein? Dann brauchen Sie keine Mitarbeiter – Bookora verwendet die allgemeinen Öffnungszeiten."
+
+msgid "Inactive"
+msgstr "Inaktiv"
+
+msgid "Working hours"
+msgstr "Arbeitszeiten"
+
+msgid "Delete \"%s\" including working hours? Existing bookings are kept."
+msgstr "„%s“ inklusive Arbeitszeiten löschen? Bestehende Buchungen bleiben erhalten."
+
+msgid "Free"
+msgstr "Kostenlos"
+
+msgid "Edit service"
+msgstr "Leistung bearbeiten"
+
+msgid "New service"
+msgstr "Neue Leistung"
+
+msgid "Description"
+msgstr "Beschreibung"
+
+msgid "Duration (minutes)"
+msgstr "Dauer (Minuten)"
+
+msgid "Price (%s)"
+msgstr "Preis (%s)"
+
+msgid "Preparation before (minutes)"
+msgstr "Vorbereitung vorher (Minuten)"
+
+msgid "Break after the appointment (minutes)"
+msgstr "Pause nach der Behandlung (Minuten)"
+
+msgid "e.g. cleaning, preparing the room"
+msgstr "z. B. Reinigung, Raum vorbereiten"
+
+msgid "Max. appointments per day"
+msgstr "Max. Termine pro Tag"
+
+msgid "0 = as many as fit into the working hours."
+msgstr "0 = so viele, wie in die Arbeitszeit passen."
+
+msgid "Places per appointment"
+msgstr "Plätze pro Termin"
+
+msgid "1 = individual appointment, more = group or class."
+msgstr "1 = Einzeltermin, mehr = Gruppe oder Kurs."
+
+msgid "Minimum notice (minutes)"
+msgstr "Mindestvorlauf (Minuten)"
+
+msgid "0 = use the global setting."
+msgstr "0 = globale Einstellung verwenden."
+
+msgid "Bookable up to (days ahead)"
+msgstr "Buchbar bis (Tage im Voraus)"
+
+msgid "Start times"
+msgstr "Startzeiten"
+
+msgid "Appointments are always placed within the working hours and end before closing time."
+msgstr "Termine liegen immer innerhalb der Arbeitszeit und enden vor Feierabend."
+
+msgid "One after another – every %d min (duration + preparation + break)"
+msgstr "Nacheinander – alle %d Min. (Dauer + Vorbereitung + Pause)"
+
+msgid "Fixed grid – every %d min"
+msgstr "Festes Raster – alle %d Min."
+
+msgid "Inactive (hidden)"
+msgstr "Inaktiv (ausgeblendet)"
+
+msgid "Who provides this service?"
+msgstr "Wer bietet diese Leistung an?"
+
+msgid "No staff members yet. Without assignment, the service uses the general opening hours."
+msgstr "Noch keine Mitarbeiter. Ohne Zuordnung gelten die allgemeinen Öffnungszeiten."
+
+msgid "Services are what customers can book – e.g. a haircut, a consultation or a course."
+msgstr "Leistungen sind das, was Kunden buchen können – z. B. ein Haarschnitt, eine Beratung oder ein Kurs."
+
+msgid "Add service"
+msgstr "Leistung hinzufügen"
+
+msgid "No services yet."
+msgstr "Noch keine Leistungen."
+
+msgid "Create your first service"
+msgstr "Erste Leistung anlegen"
+
+msgid "%d places"
+msgstr "%d Plätze"
+
+msgid "Delete the service \"%s\"? Existing bookings are kept."
+msgstr "Leistung „%s“ löschen? Bestehende Buchungen bleiben erhalten."
+
+msgid "Settings saved."
+msgstr "Einstellungen gespeichert."
+
+msgid "Business name"
+msgstr "Name des Betriebs"
+
+msgid "Notification email"
+msgstr "E-Mail für Benachrichtigungen"
+
+msgid "New bookings are sent here. Leave empty to use the site admin email."
+msgstr "Neue Buchungen werden hierher gesendet. Leer lassen, um die Admin-E-Mail der Webseite zu verwenden."
+
+msgid "Time format"
+msgstr "Zeitformat"
+
+msgid "Booking rules"
+msgstr "Buchungsregeln"
+
+msgid "Time grid for date fields without a service"
+msgstr "Zeitraster für Datumsfelder ohne Leistung"
+
+msgid "Booking forms use the start times defined per service."
+msgstr "Buchungsformulare verwenden die Startzeiten der jeweiligen Leistung."
+
+msgid "New bookings are"
+msgstr "Neue Buchungen sind"
+
+msgid "Pending – confirm with one click"
+msgstr "Offen – mit einem Klick bestätigen"
+
+msgid "Confirmed automatically"
+msgstr "Automatisch bestätigt"
+
+msgid "Fill gaps between appointments"
+msgstr "Lücken zwischen Terminen füllen"
+
+msgid "Also offers a start time directly after an existing appointment (incl. break). Less idle time, but start times are less regular."
+msgstr "Bietet zusätzlich einen Start direkt nach einem bestehenden Termin an (inkl. Pause). Weniger Leerlauf, aber weniger gleichmäßige Startzeiten."
+
+msgid "Max. appointments per day (all services)"
+msgstr "Max. Termine pro Tag (alle Leistungen)"
+
+msgid "0 = no limit. Limits per service can be set in the service."
+msgstr "0 = kein Limit. Limits pro Leistung legen Sie in der Leistung fest."
+
+msgid "Customers can cancel up to (hours before)"
+msgstr "Kunden können stornieren bis (Stunden vorher)"
+
+msgid "Security & privacy"
+msgstr "Sicherheit & Datenschutz"
+
+msgid "Spam protection (honeypot)"
+msgstr "Spamschutz (Honeypot)"
+
+msgid "CAPTCHA"
+msgstr "CAPTCHA"
+
+msgid "Delete all Bookora data when the plugin is uninstalled"
+msgstr "Alle Bookora-Daten beim Deinstallieren löschen"
+
+msgid "Save settings"
+msgstr "Einstellungen speichern"
+
+msgid "Month"
+msgstr "Monat"
+
+msgid "Year"
+msgstr "Jahr"
+
+msgid "Previous month"
+msgstr "Vorheriger Monat"
+
+msgid "Next month"
+msgstr "Nächster Monat"
+
+msgid "Loading available days…"
+msgstr "Verfügbare Tage werden geladen …"
+
+msgid "No free days in this month. Please choose another month."
+msgstr "In diesem Monat sind keine Tage frei. Bitte wählen Sie einen anderen Monat."
+
+msgid "Availability could not be loaded. Please try again."
+msgstr "Die Verfügbarkeit konnte nicht geladen werden. Bitte versuchen Sie es erneut."
+
+msgid "Please enter your first and last name."
+msgstr "Bitte geben Sie Vor- und Nachnamen ein."
+
+msgid "Something went wrong. Please try again."
+msgstr "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
+
+msgid "Connection problem. Please check your internet connection and try again."
+msgstr "Verbindungsproblem. Bitte prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut."
+
+msgid "Please choose a service first."
+msgstr "Bitte wählen Sie zuerst eine Leistung."
+
+msgid "Choose a day to see the free times."
+msgstr "Wählen Sie einen Tag, um die freien Zeiten zu sehen."
+
+msgid "Available times"
+msgstr "Freie Zeiten"
+
+msgid "until %s"
+msgstr "bis %s"
+
+msgid "%d free"
+msgstr "%d frei"
+
+msgid "No free times on this day."
+msgstr "An diesem Tag sind keine Zeiten frei."
+
+msgid "Selected: %1$s, %2$s"
+msgstr "Gewählt: %1$s, %2$s"
+
+msgid "%1$s at %2$s"
+msgstr "%1$s um %2$s"

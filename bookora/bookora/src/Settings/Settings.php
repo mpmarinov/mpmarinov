@@ -32,7 +32,7 @@ final class Settings {
 			'min_notice_minutes'  => 60,
 			'max_advance_days'    => 90,
 			'max_per_day'         => 0,
-			'fill_gaps'           => false,
+			'fill_gaps'           => true,
 			'cancel_limit_hours'  => 24,
 			'reminder_hours'      => array( 24 ),
 			'token_ttl_hours'     => 72,

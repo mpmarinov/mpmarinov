@@ -201,5 +201,6 @@ Vor der finalen Wahl prüfen: freier Slug auf wordpress.org, Marken (DPMA, EUIPO
 |---|---|
 | 0 – Konzept & Datenmodell | ✅ erledigt (`docs/DATENMODELL.md`) |
 | 1 – Grundgerüst | ✅ erledigt: Plugin-Bootstrap, Autoloader, DI-Container, 15 DB-Tabellen mit Migrationen, Rollen & Rechte, Einstellungen + REST-API, React-Admin mit Einstellungsseite, Verschlüsselung (libsodium), DSGVO-Export/-Löschung, Deinstallation, Unit-Tests, PHPCS, CI |
+| i18n | 🔄 Deutsch komplett (416 Texte, PHP + JS), Werkzeug `npm run i18n`; Bulgarisch folgt |
 | 2 – Leistungen, Öffnungszeiten, Slot-Engine | ✅ erledigt: Slot-Engine (Puffer, Gruppen, Ausnahmen, Zeitumstellung), Doppelbuchungsschutz, REST-API, MySQL + SQLite (Playground), Admin-Bildschirme für Leistungen, Mitarbeiter/Ressourcen, Öffnungszeiten, Feiertage & Sonderöffnungen. 23 Unit-Tests, 62 Integrationsprüfungen, Browser-Test Desktop + Mobil grün |
 | 3 – Formular-Builder & Eintragsverwaltung | 🔄 Zwischenstand 2: Builder + Frontend fertig (Shortcode/Block, Kalender mit Monat-/Jahresauswahl, echte freie Zeiten, Datumsfeld „nur Arbeitstage“ + Uhrzeit, Logik, Schritte, Validierung, Spamschutz, Absenden, Blockieren/Freigeben). **Offen:** Datei-Upload & Unterschrift, Eintragsverwaltung im Admin |
