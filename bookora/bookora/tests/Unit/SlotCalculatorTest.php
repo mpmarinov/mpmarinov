@@ -156,6 +156,22 @@ final class SlotCalculatorTest extends TestCase {
 		$this->assertFalse( $calc->is_available( $this->ts( '2026-12-06 10:00' ), $r, $this->past ), 'closed day' );
 	}
 
+	public function test_interval_follows_duration_and_buffers(): void {
+		$r = SlotRules::from_service( array( 'duration' => 45, 'buffer_after' => 15 ), array() );
+		$this->assertSame( 60, $r->interval );
+
+		$fixed = SlotRules::from_service( array( 'duration' => 45, 'slot_interval' => 15 ), array() );
+		$this->assertSame( 15, $fixed->interval );
+	}
+
+	public function test_45_minute_service_fills_working_hours(): void {
+		$calc  = new SlotCalculator( $this->tz, array( 1 => array( array( '09:00', '12:30' ), array( '13:30', '18:00' ) ) ) );
+		$rules = SlotRules::from_service( array( 'duration' => 45 ), array() );
+		$slots = $calc->slots( '2026-12-07', '2026-12-07', $rules, $this->past );
+
+		$this->assertSame( array( '09:00', '09:45', '10:30', '11:15', '13:30', '14:15', '15:00', '15:45', '16:30', '17:15' ), $this->starts( $slots ) );
+	}
+
 	public function test_invalid_range_returns_nothing(): void {
 		$calc = new SlotCalculator( $this->tz, $this->weekly );
 		$this->assertSame( array(), $calc->slots( '2026-12-10', '2026-12-01', new SlotRules(), 0 ) );
@@ -165,7 +181,7 @@ final class SlotCalculatorTest extends TestCase {
 	public function test_rules_from_service_fall_back_to_settings(): void {
 		$r = SlotRules::from_service( array( 'duration' => 45, 'capacity' => 0 ), array( 'slot_interval' => 15, 'min_notice_minutes' => 60, 'max_advance_days' => 30 ) );
 		$this->assertSame( 45, $r->duration );
-		$this->assertSame( 15, $r->interval );
+		$this->assertSame( 45, $r->interval, 'start times follow the service duration by default' );
 		$this->assertSame( 1, $r->capacity );
 		$this->assertSame( 60, $r->min_notice );
 		$this->assertSame( 30, $r->max_advance );

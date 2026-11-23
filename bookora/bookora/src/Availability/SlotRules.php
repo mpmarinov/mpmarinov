@@ -41,18 +41,25 @@ final class SlotRules {
 	 * Build from a service row and global settings, clamping invalid values.
 	 *
 	 * @param array<string, mixed> $service  Service row.
-	 * @param array<string, mixed> $settings Global settings.
+	 * @param array<string, mixed> $settings Global settings (minimum notice, booking horizon).
 	 * @param int                  $seats    Requested seats.
 	 */
 	public static function from_service( array $service, array $settings, int $seats = 1 ): self {
 		$min_notice  = (int) ( $service['min_notice'] ?? 0 );
 		$max_advance = (int) ( $service['max_advance'] ?? 0 );
+		$duration    = max( 5, (int) ( $service['duration'] ?? 60 ) );
+		$before      = max( 0, (int) ( $service['buffer_before'] ?? 0 ) );
+		$after       = max( 0, (int) ( $service['buffer_after'] ?? 0 ) );
+
+		// 0 = appointments follow each other: duration plus buffers. Otherwise a fixed grid in minutes.
+		$interval = (int) ( $service['slot_interval'] ?? 0 );
+		$interval = $interval > 0 ? $interval : $duration + $before + $after;
 
 		return new self(
-			max( 5, (int) ( $service['duration'] ?? 60 ) ),
-			max( 5, (int) ( $settings['slot_interval'] ?? 30 ) ),
-			max( 0, (int) ( $service['buffer_before'] ?? 0 ) ),
-			max( 0, (int) ( $service['buffer_after'] ?? 0 ) ),
+			$duration,
+			max( 5, $interval ),
+			$before,
+			$after,
 			max( 1, (int) ( $service['capacity'] ?? 1 ) ),
 			$min_notice > 0 ? $min_notice : max( 0, (int) ( $settings['min_notice_minutes'] ?? 0 ) ),
 			$max_advance > 0 ? $max_advance : max( 0, (int) ( $settings['max_advance_days'] ?? 0 ) ),

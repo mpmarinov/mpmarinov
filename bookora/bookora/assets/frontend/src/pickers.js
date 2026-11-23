@@ -194,6 +194,18 @@ export class AppointmentPicker {
 					this.setValue( slot );
 				},
 			} );
+			if ( slot.end_time ) {
+				btn.append(
+					el( 'small', {
+						className: 'bookora-appt__end',
+						text: sprintf(
+							/* translators: %s: end time. */
+							__( 'until %s', 'bookora' ),
+							formatTime( slot.end_time, this.config )
+						),
+					} )
+				);
+			}
 			if ( slot.available > 1 ) {
 				btn.append(
 					el( 'small', {
@@ -228,9 +240,14 @@ export class AppointmentPicker {
 			this.summary.hidden = false;
 			this.summary.textContent = sprintf(
 				/* translators: 1: date, 2: time. */
-				__( 'Selected: %1$s at %2$s', 'bookora' ),
+				__( 'Selected: %1$s, %2$s', 'bookora' ),
 				longDate( this.selectedDay, this.config.locale ),
-				formatTime( slot.time, this.config )
+				slot.end_time
+					? `${ formatTime(
+							slot.time,
+							this.config
+					  ) } – ${ formatTime( slot.end_time, this.config ) }`
+					: formatTime( slot.time, this.config )
 			);
 		} else {
 			this.summary.hidden = true;

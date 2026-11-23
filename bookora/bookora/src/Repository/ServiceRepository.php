@@ -53,6 +53,11 @@ final class ServiceRepository extends TableRepository {
 				'default' => 0,
 				'max'     => 1440,
 			),
+			'slot_interval' => array(
+				'type'    => 'uint',
+				'default' => 0,
+				'max'     => 720,
+			),
 			'capacity'      => array(
 				'type'    => 'uint',
 				'default' => 1,

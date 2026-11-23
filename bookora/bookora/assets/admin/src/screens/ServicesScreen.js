@@ -21,6 +21,7 @@ const EMPTY = {
 	name: '',
 	description: '',
 	duration: 60,
+	slot_interval: 0,
 	buffer_before: 0,
 	buffer_after: 0,
 	capacity: 1,
@@ -182,6 +183,40 @@ function ServiceForm( { service, resources, onSave, onClose } ) {
 						onChange={ num( 'max_advance' ) }
 					/>
 				</div>
+
+				<SelectControl
+					__nextHasNoMarginBottom
+					label={ __( 'Start times', 'bookora' ) }
+					help={ __(
+						'Appointments are always placed within the working hours and end before closing time.',
+						'bookora'
+					) }
+					value={ String( data.slot_interval || 0 ) }
+					options={ [
+						{
+							label: sprintf(
+								/* translators: %d: minutes. */
+								__(
+									'One after another – every %d min (duration + buffers)',
+									'bookora'
+								),
+								( Number( data.duration ) || 0 ) +
+									( Number( data.buffer_before ) || 0 ) +
+									( Number( data.buffer_after ) || 0 )
+							),
+							value: '0',
+						},
+						...[ 10, 15, 20, 30, 45, 60, 90, 120 ].map( ( m ) => ( {
+							label: sprintf(
+								/* translators: %d: minutes. */
+								__( 'Fixed grid – every %d min', 'bookora' ),
+								m
+							),
+							value: String( m ),
+						} ) ),
+					] }
+					onChange={ ( v ) => set( 'slot_interval' )( Number( v ) ) }
+				/>
 
 				<SelectControl
 					__nextHasNoMarginBottom

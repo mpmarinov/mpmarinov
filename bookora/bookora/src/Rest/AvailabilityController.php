@@ -141,6 +141,7 @@ final class AvailabilityController {
 				'start'     => gmdate( 'c', $slot['start'] ),
 				'end'       => gmdate( 'c', $slot['end'] ),
 				'time'      => $local->format( 'H:i' ),
+				'end_time'  => ( new DateTimeImmutable( '@' . $slot['end'] ) )->setTimezone( $tz )->format( 'H:i' ),
 				'available' => $slot['available'],
 				'resources' => $slot['resources'],
 			);

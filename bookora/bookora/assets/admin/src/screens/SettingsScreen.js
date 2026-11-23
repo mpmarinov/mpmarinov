@@ -110,7 +110,14 @@ export default function SettingsScreen() {
 				</CardHeader>
 				<CardBody>
 					<SelectControl
-						label={ __( 'Slot interval', 'bookora' ) }
+						label={ __(
+							'Time grid for date fields without a service',
+							'bookora'
+						) }
+						help={ __(
+							'Booking forms use the start times defined per service.',
+							'bookora'
+						) }
 						value={ String( settings.slot_interval ) }
 						options={ [ 5, 10, 15, 20, 30, 45, 60, 90, 120 ].map(
 							( m ) => ( {
