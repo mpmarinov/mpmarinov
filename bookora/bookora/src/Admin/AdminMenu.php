@@ -157,10 +157,24 @@ final class AdminMenu {
 			}
 		}
 
+		// WordPress' own code editor (CodeMirror with CSS/JS linting); false if the user disabled syntax highlighting.
+		$code_editor = array(
+			'css' => false,
+			'js'  => false,
+		);
+		$page        = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- only selects assets.
+		if ( current_user_can( 'unfiltered_html' ) && in_array( $page, array( self::SLUG . '-settings', self::SLUG . '-forms' ), true ) ) {
+			$code_editor = array(
+				'css' => wp_enqueue_code_editor( array( 'type' => 'text/css' ) ),
+				'js'  => wp_enqueue_code_editor( array( 'type' => 'text/javascript' ) ),
+			);
+		}
+
 		wp_localize_script(
 			'bookora-admin',
 			'bookoraAdmin',
 			array(
+				'codeEditor'    => $code_editor,
 				'version'       => BOOKORA_VERSION,
 				'restPath'      => '/bookora/v1',
 				'caps'          => array(

@@ -61,12 +61,13 @@ function longDate( key, locale ) {
  * Booking appointment: calendar + free time slots from /availability.
  */
 export class AppointmentPicker {
-	constructor( { field, config, getService, getResource, onChange } ) {
+	constructor( { field, config, getService, getResource, onChange, onDay } ) {
 		this.field = field;
 		this.config = config;
 		this.getService = getService;
 		this.getResource = getResource;
 		this.onChange = onChange;
+		this.onDay = onDay || ( () => {} );
 		this.cache = new Map();
 		this.selectedDay = null;
 
@@ -168,6 +169,7 @@ export class AppointmentPicker {
 	showSlots( key ) {
 		this.selectedDay = key;
 		this.setValue( null );
+		this.onDay( key );
 		const slots = this.days()[ key ] || [];
 		const title = el( 'p', {
 			className: 'bookora-appt__day',
@@ -252,7 +254,17 @@ export class AppointmentPicker {
 		} else {
 			this.summary.hidden = true;
 		}
-		this.onChange();
+		this.onChange(
+			slot
+				? {
+						date: this.selectedDay,
+						time: slot.time,
+						end_time: slot.end_time || '',
+						start: slot.start,
+						resources: slot.resources || [],
+				  }
+				: null
+		);
 	}
 
 	value() {

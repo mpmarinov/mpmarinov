@@ -39,6 +39,10 @@ final class Settings {
 			'reminder_hours'        => array( 24 ),
 			'token_ttl_hours'       => 72,
 			'primary_color'         => '#2563eb',
+			'form_radius'           => 10,
+			'form_density'          => 'normal',
+			'form_scheme'           => 'light',
+			'form_font'             => 'inherit',
 			'global_css'            => '',
 			'global_js'             => '',
 			'antispam_honeypot'     => true,
@@ -137,6 +141,10 @@ final class Settings {
 
 		$color                = sanitize_hex_color( (string) ( $input['primary_color'] ?? '' ) );
 		$out['primary_color'] = $color ? $color : $defaults['primary_color'];
+		$out['form_radius']   = self::int_range( $input['form_radius'] ?? 10, 0, 24 );
+		$out['form_density']  = in_array( $input['form_density'] ?? '', array( 'compact', 'normal', 'comfortable' ), true ) ? $input['form_density'] : 'normal';
+		$out['form_scheme']   = in_array( $input['form_scheme'] ?? '', array( 'light', 'dark', 'auto' ), true ) ? $input['form_scheme'] : 'light';
+		$out['form_font']     = in_array( $input['form_font'] ?? '', array( 'inherit', 'system' ), true ) ? $input['form_font'] : 'inherit';
 
 		// Custom code is only stored for users allowed to add unfiltered HTML.
 		$can_code          = current_user_can( 'unfiltered_html' );

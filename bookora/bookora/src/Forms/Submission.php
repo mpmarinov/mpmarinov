@@ -91,6 +91,15 @@ final class Submission {
 			$booking_input = $this->booking_input( $form, $values, $errors );
 		}
 
+		/**
+		 * Filter validation errors of a submission (add own rules).
+		 *
+		 * @param array<string, string> $errors Errors by field key ("_form" for the whole form).
+		 * @param array<string, mixed>  $clean  Sanitized values.
+		 * @param array<string, mixed>  $form   Form.
+		 */
+		$errors = (array) apply_filters( 'bookora_validate_submission', $errors, $clean, $form );
+
 		if ( $errors ) {
 			return new WP_Error(
 				'bookora_validation',

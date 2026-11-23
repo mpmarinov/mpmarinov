@@ -79,6 +79,9 @@ final class AvailabilityService {
 			$calc = $this->calculator( $service_id, $candidate, $range[0] - DAY_IN_SECONDS, $range[1] + 2 * DAY_IN_SECONDS );
 
 			foreach ( $calc->slots( $from, $to, $rules, $now ) as $slot ) {
+				if ( ! self::allowed( (int) $slot['start'], $service_id, $candidate ) ) {
+					continue;
+				}
 				$key = $slot['start'];
 				if ( ! isset( $merged[ $key ] ) ) {
 					$merged[ $key ] = $slot + array( 'resources' => array() );
@@ -209,5 +212,28 @@ final class AvailabilityService {
 		}
 
 		return array( $f->getTimestamp(), $t->getTimestamp() );
+	}
+
+	/**
+	 * Developer filter for custom rules (e.g. "no new customers on Fridays"). Applied to the slot list
+	 * AND when a booking is created, so hidden times cannot be booked through the API either.
+	 *
+	 * @param int      $start       UTC start.
+	 * @param int      $service_id  Service.
+	 * @param int|null $resource_id Staff member/resource (null = business-wide).
+	 */
+	public static function allowed( int $start, int $service_id, ?int $resource_id ): bool {
+		if ( ! has_filter( 'bookora_slot_available' ) ) {
+			return true;
+		}
+		/**
+		 * Filter whether a start time can be booked.
+		 *
+		 * @param bool     $available   Default true.
+		 * @param int      $start       UTC timestamp.
+		 * @param int      $service_id  Service id.
+		 * @param int|null $resource_id Resource id or null.
+		 */
+		return (bool) apply_filters( 'bookora_slot_available', true, $start, $service_id, $resource_id );
 	}
 }

@@ -92,7 +92,7 @@ final class BookingService {
 
 			try {
 				$calc = $this->availability->calculator( $service_id, $resource_id, $start - DAY_IN_SECONDS, $end + DAY_IN_SECONDS );
-				if ( ! $calc->is_available( $start, $rules, time() ) ) {
+				if ( ! $calc->is_available( $start, $rules, time() ) || ! AvailabilityService::allowed( $start, $service_id, $resource_id ) ) {
 					continue;
 				}
 

@@ -6,12 +6,58 @@ import {
 	Card,
 	CardBody,
 	CardHeader,
+	ColorPalette,
 	Notice,
+	RangeControl,
 	SelectControl,
 	Spinner,
 	TextControl,
 	ToggleControl,
 } from '@wordpress/components';
+
+import CodeEditor from '../components/CodeEditor';
+
+const COLORS = [
+	{ name: __( 'Blue', 'bookora' ), color: '#2563eb' },
+	{ name: __( 'Green', 'bookora' ), color: '#1f6f50' },
+	{ name: __( 'Teal', 'bookora' ), color: '#0e7490' },
+	{ name: __( 'Violet', 'bookora' ), color: '#7c3aed' },
+	{ name: __( 'Rose', 'bookora' ), color: '#be185d' },
+	{ name: __( 'Orange', 'bookora' ), color: '#c2410c' },
+	{ name: __( 'Anthracite', 'bookora' ), color: '#374151' },
+];
+
+function DesignPreview( { settings } ) {
+	const classes = [
+		'bookora-design-preview',
+		`is-${ settings.form_density }`,
+		`is-scheme-${ settings.form_scheme }`,
+		settings.form_font === 'system' ? 'is-font-system' : '',
+	].join( ' ' );
+	return (
+		<div
+			className={ classes }
+			style={ {
+				'--p': settings.primary_color,
+				'--r': `${ settings.form_radius }px`,
+			} }
+			aria-hidden="true"
+		>
+			<span className="bookora-design-preview__label">
+				{ __( 'Your name', 'bookora' ) }
+			</span>
+			<span className="bookora-design-preview__input">Anna Muster</span>
+			<span className="bookora-design-preview__slots">
+				<span>09:00</span>
+				<span className="is-active">10:00</span>
+				<span>11:00</span>
+			</span>
+			<span className="bookora-design-preview__button">
+				{ __( 'Book now', 'bookora' ) }
+			</span>
+		</div>
+	);
+}
 
 const path = `${ window.bookoraAdmin?.restPath || '/bookora/v1' }/settings`;
 
@@ -214,6 +260,139 @@ export default function SettingsScreen() {
 						onChange={ ( v ) =>
 							set( 'cancel_limit_hours' )( Number( v ) )
 						}
+					/>
+				</CardBody>
+			</Card>
+
+			<Card>
+				<CardHeader>
+					<h2>{ __( 'Design & own code', 'bookora' ) }</h2>
+				</CardHeader>
+				<CardBody>
+					<div className="bookora-design">
+						<div className="bookora-design__controls">
+							<div>
+								<p className="bookora-label">
+									{ __( 'Main color', 'bookora' ) }
+								</p>
+								<ColorPalette
+									colors={ COLORS }
+									value={ settings.primary_color }
+									onChange={ ( c ) =>
+										set( 'primary_color' )( c || '#2563eb' )
+									}
+									clearable={ false }
+								/>
+							</div>
+							<RangeControl
+								__nextHasNoMarginBottom
+								label={ __( 'Corner radius', 'bookora' ) }
+								value={ settings.form_radius }
+								min={ 0 }
+								max={ 24 }
+								onChange={ ( v ) =>
+									set( 'form_radius' )( Number( v ) || 0 )
+								}
+							/>
+							<SelectControl
+								__nextHasNoMarginBottom
+								label={ __( 'Spacing', 'bookora' ) }
+								value={ settings.form_density }
+								options={ [
+									{
+										label: __( 'Compact', 'bookora' ),
+										value: 'compact',
+									},
+									{
+										label: __( 'Normal', 'bookora' ),
+										value: 'normal',
+									},
+									{
+										label: __( 'Spacious', 'bookora' ),
+										value: 'comfortable',
+									},
+								] }
+								onChange={ set( 'form_density' ) }
+							/>
+							<SelectControl
+								__nextHasNoMarginBottom
+								label={ __( 'Color scheme', 'bookora' ) }
+								help={ __(
+									'"Dark" for websites with a dark background. "Automatic" follows the visitor\'s device setting.',
+									'bookora'
+								) }
+								value={ settings.form_scheme }
+								options={ [
+									{
+										label: __( 'Light', 'bookora' ),
+										value: 'light',
+									},
+									{
+										label: __( 'Dark', 'bookora' ),
+										value: 'dark',
+									},
+									{
+										label: __( 'Automatic', 'bookora' ),
+										value: 'auto',
+									},
+								] }
+								onChange={ set( 'form_scheme' ) }
+							/>
+							<SelectControl
+								__nextHasNoMarginBottom
+								label={ __( 'Font', 'bookora' ) }
+								value={ settings.form_font }
+								options={ [
+									{
+										label: __(
+											'Like the website (theme)',
+											'bookora'
+										),
+										value: 'inherit',
+									},
+									{
+										label: __(
+											'System font (like apps)',
+											'bookora'
+										),
+										value: 'system',
+									},
+								] }
+								onChange={ set( 'form_font' ) }
+							/>
+						</div>
+						<DesignPreview settings={ settings } />
+					</div>
+
+					{ ! window.bookoraAdmin?.caps?.unfilteredHtml && (
+						<Notice status="info" isDismissible={ false }>
+							{ __(
+								'Only administrators may add own CSS and JavaScript.',
+								'bookora'
+							) }
+						</Notice>
+					) }
+					<CodeEditor
+						mode="css"
+						label={ __( 'CSS for all forms', 'bookora' ) }
+						help={ __(
+							'Example: .bookora { --bookora-gap: 24px; } – all CSS variables are listed in the developer documentation.',
+							'bookora'
+						) }
+						value={ settings.global_css }
+						disabled={ ! window.bookoraAdmin?.caps?.unfilteredHtml }
+						onChange={ set( 'global_css' ) }
+					/>
+					<CodeEditor
+						mode="js"
+						label={ __( 'JavaScript for all forms', 'bookora' ) }
+						help={ __(
+							'Runs once on every page with a Bookora form. Example: bookora.on( "success", ( data, form ) => { … } );',
+							'bookora'
+						) }
+						value={ settings.global_js }
+						disabled={ ! window.bookoraAdmin?.caps?.unfilteredHtml }
+						onChange={ set( 'global_js' ) }
 					/>
 				</CardBody>
 			</Card>

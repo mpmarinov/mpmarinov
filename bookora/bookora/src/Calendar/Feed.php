@@ -311,13 +311,29 @@ final class Feed {
 			}
 			$lines[] = $admin;
 
-			$events[] = array(
-				'booking'     => $b,
-				'summary'     => $summary,
-				'location'    => $location,
-				'description' => implode( "\n", $lines ),
-				'status'      => 'pending' === $b['status'] ? 'TENTATIVE' : 'CONFIRMED',
+			/**
+			 * Filter one appointment of the calendar subscription.
+			 * Return null to leave it out.
+			 *
+			 * @param array<string, mixed>|null $event   summary, location, description, status, booking.
+			 * @param array<string, mixed>      $booking Booking.
+			 * @param string                    $scope   "all" or "r<staff id>".
+			 */
+			$event = apply_filters(
+				'bookora_feed_event',
+				array(
+					'booking'     => $b,
+					'summary'     => $summary,
+					'location'    => $location,
+					'description' => implode( "\n", $lines ),
+					'status'      => 'pending' === $b['status'] ? 'TENTATIVE' : 'CONFIRMED',
+				),
+				$b,
+				$scope
 			);
+			if ( is_array( $event ) && isset( $event['booking'], $event['summary'] ) ) {
+				$events[] = $event;
+			}
 		}
 
 		return Ics::calendar( $events, $this->calendar_name( $scope ), wp_timezone_string() );

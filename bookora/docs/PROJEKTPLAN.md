@@ -201,14 +201,21 @@ Vor der finalen Wahl prüfen: freier Slug auf wordpress.org, Marken (DPMA, EUIPO
 |---|---|
 | 0 – Konzept & Datenmodell | ✅ erledigt (`docs/DATENMODELL.md`) |
 | 1 – Grundgerüst | ✅ erledigt: Plugin-Bootstrap, Autoloader, DI-Container, 15 DB-Tabellen mit Migrationen, Rollen & Rechte, Einstellungen + REST-API, React-Admin mit Einstellungsseite, Verschlüsselung (libsodium), DSGVO-Export/-Löschung, Deinstallation, Unit-Tests, PHPCS, CI |
-| i18n | 🔄 Deutsch komplett (693 Texte, PHP + JS), Werkzeug `npm run i18n`; Bulgarisch folgt |
+| i18n | 🔄 Deutsch komplett (725 Texte, PHP + JS), Werkzeug `npm run i18n`; Bulgarisch folgt |
 | 2 – Leistungen, Öffnungszeiten, Slot-Engine | ✅ erledigt: Slot-Engine (Puffer, Gruppen, Ausnahmen, Zeitumstellung), Doppelbuchungsschutz, REST-API, MySQL + SQLite (Playground), Admin-Bildschirme für Leistungen, Mitarbeiter/Ressourcen, Öffnungszeiten, Feiertage & Sonderöffnungen. 23 Unit-Tests, 62 Integrationsprüfungen, Browser-Test Desktop + Mobil grün |
 | 3 – Formular-Builder & Eintragsverwaltung | ✅ Builder, Formulare auf der Webseite, Kalender, Buchungsverwaltung (Bestätigen/Ablehnen/Stornieren/Erschienen, Notizen, Wiedereröffnen mit Konfliktprüfung), Eintragsverwaltung (Lesen, Markieren, Spam, Papierkorb, Sammelaktionen, CSV-Export), Menü-Zähler. **Offen:** Datei-Upload & Unterschrift |
 | 4–5 – Kalender & Status-Workflow | ✅ in Phase 2/3 enthalten; Ein-Klick-Bestätigung per E-Mail-Link folgt mit Phase 6 |
 | 6 – E-Mail-System | ✅ 9 E-Mail-Vorlagen (Kunde/Betreiber/Formulare), Editor mit Platzhaltern und Live-Vorschau, Test-E-Mail, Ein-Klick-Bestätigen/Ablehnen (Scanner-sicher, einmalig, ablaufend), .ics-Anhang + Google-Kalender-Link, Erinnerungen per Cron, Versandprotokoll |
 | 7 – Admin-Zeitstrahl | ✅ Tages- (Zeile je Mitarbeiter) und Wochenansicht, Öffnungs-/Schließzeiten, Jetzt-Linie, Verschieben per Drag & Drop (15-Min.-Raster, auch auf andere Mitarbeiter) oder per Formular, Konfliktprüfung inkl. Pausen, Hinweis außerhalb der Öffnungszeiten, E-Mail „Termin verschoben“ mit neuer Kalenderdatei (abwählbar), mobil scrollbar. 155 Integrationsprüfungen |
 | 8 – Kalender-Sync | ✅ Kalender-Abo (ICS-Feed) für Betrieb + je Mitarbeiter mit geheimer, zurücksetzbarer Adresse, ETag/304, Datenschutz-Schalter, Abo-Seite mit Geräteerkennung, „Link aufs Handy senden“. Import privater Kalender alle 15 Min.: eigener RFC-5545-Parser (RRULE, EXDATE, Ausnahmen, Zeitzonen inkl. Outlook-Namen), nur Start/Ende gespeichert, Adresse verschlüsselt, SSRF-Schutz, klare Fehlermeldungen, belegte Zeiten im Zeitstrahl. Tests: 16 Parser-Tests, Differenztest gegen python-dateutil (26.000 Regeln, 0 Abweichungen), RFC-Formatprüfung des Feeds, Lasttest 4,7 MB/15.000 Termine (1,9 s, 9 MB), 218 Integrationsprüfungen |
-| 9 – Eigenes CSS/JS, Hooks, Theming | ⏳ als Nächstes |
+| 9 – Eigenes CSS/JS, Hooks, Theming | ✅ Design ohne Code (Hauptfarbe, Eckenradius, Abstände, Hell/Dunkel/Automatisch, Schrift) mit Live-Vorschau; WordPress-Code-Editor (Syntax-Hervorhebung, Fehlerprüfung) für globales und Formular-CSS/JS; Fehler behoben: globales JavaScript wurde nie ausgegeben, globales CSS/JS und Hauptfarbe hatten kein Eingabefeld; eigener Code über Warteschlange (unabhängig von der Ladereihenfolge), Ausbruch aus `<script>` verhindert, Fehler abgefangen; JS-API mit 11 Ereignissen inkl. abbrechbarem `beforeSubmit`, `setValue`/`goTo`, DOM-Ereignisse für Tag Manager; neue PHP-Hooks `bookora_slot_available` (Anzeige **und** Buchung), `bookora_validate_submission`, `bookora_feed_event`, `bookora_form_html`, `bookora_frontend_config`; `docs/ENTWICKLER.md`. Tests: 248 Integrationsprüfungen, Browser-Test der JS-API |
+| 10 – Sicherheits-Audit, Performance, Barrierefreiheit, Doku | ⏳ als Nächstes |
+
+### Code-Review Phase 8 (unabhängiger zweiter Agent)
+
+Gefunden und behoben: 304-Antworten froren das Importfenster ein (schwerwiegend), UTC-Serien, eigene Outlook-Zeitzonen,
+RANGE=THISANDFUTURE, TZID mit Doppelpunkt, Schutz vor bösartigen Serien (Zeitbudget), abgeschnittene Downloads und
+Datenbankfehler ersetzten gute Daten, Zeitstrahl an Umstellungstagen, nur noch https-Adressen. Jeder Punkt hat jetzt einen eigenen Test.
 
 ### Entscheidungen Phase 8 (selbstständig getroffen)
 

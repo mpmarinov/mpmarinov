@@ -859,7 +859,7 @@ msgstr ""
 msgid "JavaScript for this form"
 msgstr ""
 
-msgid "Runs after the form has loaded. Example: bookora.on( \"submit\", ( e ) => { … } );"
+msgid "Runs when the form is ready. Example: bookora.on( \"slot\", ( slot ) => { … } ); – see the developer documentation."
 msgstr ""
 
 msgid "is"
@@ -1950,6 +1950,30 @@ msgstr ""
 msgid "Delete the service \"%s\"? Existing bookings are kept."
 msgstr ""
 
+msgid "Blue"
+msgstr ""
+
+msgid "Green"
+msgstr ""
+
+msgid "Teal"
+msgstr ""
+
+msgid "Violet"
+msgstr ""
+
+msgid "Rose"
+msgstr ""
+
+msgid "Orange"
+msgstr ""
+
+msgid "Anthracite"
+msgstr ""
+
+msgid "Your name"
+msgstr ""
+
 msgid "Notification email"
 msgstr ""
 
@@ -1990,6 +2014,66 @@ msgid "0 = no limit. Limits per service can be set in the service."
 msgstr ""
 
 msgid "Customers can cancel up to (hours before)"
+msgstr ""
+
+msgid "Design & own code"
+msgstr ""
+
+msgid "Main color"
+msgstr ""
+
+msgid "Corner radius"
+msgstr ""
+
+msgid "Spacing"
+msgstr ""
+
+msgid "Compact"
+msgstr ""
+
+msgid "Normal"
+msgstr ""
+
+msgid "Spacious"
+msgstr ""
+
+msgid "Color scheme"
+msgstr ""
+
+msgid "\"Dark\" for websites with a dark background. \"Automatic\" follows the visitor's device setting."
+msgstr ""
+
+msgid "Light"
+msgstr ""
+
+msgid "Dark"
+msgstr ""
+
+msgid "Automatic"
+msgstr ""
+
+msgid "Font"
+msgstr ""
+
+msgid "Like the website (theme)"
+msgstr ""
+
+msgid "System font (like apps)"
+msgstr ""
+
+msgid "Only administrators may add own CSS and JavaScript."
+msgstr ""
+
+msgid "CSS for all forms"
+msgstr ""
+
+msgid "Example: .bookora { --bookora-gap: 24px; } – all CSS variables are listed in the developer documentation."
+msgstr ""
+
+msgid "JavaScript for all forms"
+msgstr ""
+
+msgid "Runs once on every page with a Bookora form. Example: bookora.on( \"success\", ( data, form ) => { … } );"
 msgstr ""
 
 msgid "Security & privacy"

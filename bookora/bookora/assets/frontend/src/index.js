@@ -96,6 +96,76 @@ function isEmpty( value ) {
 	return String( value ).trim() === '';
 }
 
+/* ---------- Public JavaScript API (documented in docs/ENTWICKLER.md) ---------- */
+
+const forms = [];
+const globalListeners = {};
+const readyCallbacks = [];
+
+function safe( fn, ...args ) {
+	try {
+		return fn( ...args );
+	} catch ( e ) {
+		// eslint-disable-next-line no-console
+		console.error( 'Bookora custom code:', e );
+	}
+	return undefined;
+}
+
+const bookora = Object.assign( window.bookora || {}, {
+	/** APIs of all forms on the page. */
+	forms,
+	/**
+	 * Listen to an event of every form (also forms added later).
+	 *
+	 * @param {string}   event Event name.
+	 * @param {Function} cb    Callback( detail, formApi ).
+	 */
+	on( event, cb ) {
+		( globalListeners[ event ] ||= [] ).push( cb );
+	},
+	off( event, cb ) {
+		globalListeners[ event ] = ( globalListeners[ event ] || [] ).filter(
+			( c ) => c !== cb
+		);
+	},
+	/**
+	 * Run code for every form once it is ready.
+	 *
+	 * @param {Function} cb Callback( formApi ).
+	 */
+	ready( cb ) {
+		readyCallbacks.push( cb );
+		forms.forEach( ( api ) => safe( cb, api ) );
+	},
+} );
+window.bookora = bookora;
+
+/**
+ * Custom code queue: works no matter whether it runs before or after this script.
+ * Items: function( bookora ) or { id: formId|null, fn: function( api, element ) }.
+ *
+ * @param {Function|Object} item Queued code.
+ */
+function runQueued( item ) {
+	if ( typeof item === 'function' ) {
+		safe( item, bookora );
+	} else if ( item && typeof item.fn === 'function' ) {
+		if ( item.id === null || item.id === undefined ) {
+			safe( item.fn, bookora );
+		} else {
+			bookora.ready( ( api ) => {
+				if ( api.id === Number( item.id ) ) {
+					item.fn( api, api.element );
+				}
+			} );
+		}
+	}
+}
+const queued = Array.isArray( window.bookoraQueue ) ? window.bookoraQueue : [];
+window.bookoraQueue = { push: runQueued };
+queued.forEach( runQueued );
+
 class BookoraForm {
 	constructor( root ) {
 		this.root = root;
@@ -111,6 +181,7 @@ class BookoraForm {
 				.map( ( f ) => [ f.key, f ] )
 		);
 		this.listeners = {};
+		this.publicApi = this.api();
 
 		this.setupPickers();
 		this.form.addEventListener( 'input', () => this.update() );
@@ -135,33 +206,101 @@ class BookoraForm {
 		this.go( 0, false );
 		root.classList.add( 'is-ready' );
 
+		forms.push( this.publicApi );
+		readyCallbacks.forEach( ( cb ) => safe( cb, this.publicApi ) );
+		this.emit( 'ready', { id: this.config.id } );
+		// Backwards compatible window event.
 		window.dispatchEvent(
 			new window.CustomEvent( 'bookora:ready', {
-				detail: { id: this.config.id, element: root, api: this.api() },
+				detail: {
+					id: this.config.id,
+					element: root,
+					api: this.publicApi,
+				},
 			} )
 		);
 	}
 
-	/** Small public API for custom JavaScript. */
+	/** Public API of one form (see docs/ENTWICKLER.md). */
 	api() {
 		return {
+			id: Number( this.config.id ),
+			element: this.root,
+			form: this.form,
 			on: ( event, cb ) => {
 				( this.listeners[ event ] ||= [] ).push( cb );
 			},
+			off: ( event, cb ) => {
+				this.listeners[ event ] = (
+					this.listeners[ event ] || []
+				).filter( ( c ) => c !== cb );
+			},
 			values: () => serialize( this.form ),
-			form: this.form,
+			setValue: ( key, value ) => this.setValue( key, value ),
+			step: () => this.step,
+			goTo: ( index ) => this.go( Number( index ) ),
 		};
 	}
 
+	/**
+	 * Notify listeners (form, global) and dispatch a bubbling DOM event "bookora:<event>".
+	 *
+	 * @param {string} event  Event name.
+	 * @param {*}      detail Data.
+	 * @return {boolean} False when a listener returned false (used by beforeSubmit).
+	 */
 	emit( event, detail ) {
-		( this.listeners[ event ] || [] ).forEach( ( cb ) => {
-			try {
-				cb( detail );
-			} catch ( e ) {
-				// eslint-disable-next-line no-console
-				console.error( e );
+		let proceed = true;
+		const callbacks = [
+			...( this.listeners[ event ] || [] ),
+			...( globalListeners[ event ] || [] ),
+		];
+		callbacks.forEach( ( cb ) => {
+			if ( safe( cb, detail, this.publicApi ) === false ) {
+				proceed = false;
 			}
 		} );
+		const domEvent = new window.CustomEvent( `bookora:${ event }`, {
+			bubbles: true,
+			cancelable: event === 'beforeSubmit',
+			detail: { formId: Number( this.config.id ), data: detail },
+		} );
+		if ( ! this.root.dispatchEvent( domEvent ) ) {
+			proceed = false;
+		}
+		return proceed;
+	}
+
+	/**
+	 * Set a field value from custom code and re-run conditional logic.
+	 *
+	 * @param {string}                      key   Field key.
+	 * @param {string|string[]|Object|null} value Value.
+	 * @return {boolean} Whether the field exists.
+	 */
+	setValue( key, value ) {
+		const inputs = [
+			...this.form.querySelectorAll(
+				`[name="fields[${ key }]"], [name="fields[${ key }][]"], [name^="fields[${ key }]["]`
+			),
+		];
+		inputs.forEach( ( input ) => {
+			const sub = input.name.match( /\]\[([^\]]+)\]$/ );
+			if ( input.type === 'checkbox' || input.type === 'radio' ) {
+				const list = Array.isArray( value ) ? value : [ value ];
+				input.checked = list.map( String ).includes( input.value );
+			} else if ( sub && value && typeof value === 'object' ) {
+				input.value = value[ sub[ 1 ] ] ?? '';
+			} else {
+				input.value = value ?? '';
+			}
+		} );
+		if ( inputs.length ) {
+			inputs[ 0 ].dispatchEvent(
+				new window.Event( 'change', { bubbles: true } )
+			);
+		}
+		return inputs.length > 0;
 	}
 
 	setupPickers() {
@@ -200,15 +339,23 @@ class BookoraForm {
 						? ''
 						: String( this.config.service || '' ) ),
 				getResource: () => resource?.value || '',
-				onChange: () => this.update(),
+				onChange: ( slot ) => {
+					this.update();
+					this.emit( 'slot', slot || null );
+				},
+				onDay: ( date ) => this.emit( 'date', { date } ),
 			} );
 		}
 
 		service?.addEventListener( 'change', () => {
 			fillResources();
+			this.emit( 'service', { id: Number( service.value ) || null } );
 			this.appointment?.reset();
 		} );
-		resource?.addEventListener( 'change', () => this.appointment?.reset() );
+		resource?.addEventListener( 'change', () => {
+			this.emit( 'resource', { id: Number( resource.value ) || null } );
+			this.appointment?.reset();
+		} );
 
 		this.form
 			.querySelectorAll( '.bookora__field--date' )
@@ -227,6 +374,14 @@ class BookoraForm {
 	onChange( e ) {
 		this.update();
 		const field = e.target.closest( '.bookora__field' );
+		if ( field?.dataset.key ) {
+			const values = serialize( this.form );
+			this.emit( 'change', {
+				key: field.dataset.key,
+				value: values[ field.dataset.key ],
+				values,
+			} );
+		}
 		if ( field?.classList.contains( 'has-error' ) ) {
 			this.validateField( field );
 		}
@@ -374,6 +529,7 @@ class BookoraForm {
 		if ( index < 0 || index >= this.steps.length ) {
 			return;
 		}
+		const changed = this.step !== index;
 		this.step = index;
 		this.steps.forEach( ( s, i ) => {
 			s.hidden = i !== index;
@@ -401,6 +557,10 @@ class BookoraForm {
 				li.classList.toggle( 'is-active', i === index );
 				li.classList.toggle( 'is-done', i < index );
 			} );
+
+		if ( changed ) {
+			this.emit( 'step', { index, total: this.steps.length } );
+		}
 
 		if ( focus ) {
 			this.root.scrollIntoView( { behavior: 'smooth', block: 'start' } );
@@ -434,7 +594,6 @@ class BookoraForm {
 			}
 		}
 
-		const button = this.root.querySelector( '.bookora__submit' );
 		const payload = {
 			fields: serialize( this.form ),
 			_bk_t: this.form.querySelector( '[name="_bk_t"]' ).value,
@@ -444,6 +603,20 @@ class BookoraForm {
 			_timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || '',
 		};
 
+		// beforeSubmit: listeners may add values, or cancel (return false / detail.cancel( message )).
+		let cancelMessage = null;
+		const before = {
+			values: payload.fields,
+			cancel: ( message = '' ) => {
+				cancelMessage = String( message );
+			},
+		};
+		if ( ! this.emit( 'beforeSubmit', before ) || cancelMessage !== null ) {
+			this.showMessage( cancelMessage || '' );
+			return;
+		}
+
+		const button = this.root.querySelector( '.bookora__submit' );
 		this.emit( 'submit', payload );
 		this.showMessage( '' );
 		button.disabled = true;

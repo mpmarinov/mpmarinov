@@ -513,6 +513,11 @@ check( str_contains( $r0, 'Frida Feed' ) && ! str_contains( $r0, 'Paul Pending' 
 $private = $feed->build( 'all' );
 check( ! str_contains( $private, 'Frida' ) && ! str_contains( $private, 'feed1@example.com' ) && ! str_contains( $private, 'Paul Pending' ), 'privacy mode hides customer data and pending appointments' );
 \Bookora\Core\Plugin::instance()->container()->get( \Bookora\Settings\Settings::class )->update( array( 'feed_customer_details' => true, 'feed_include_pending' => true ) );
+$hide_pending = static fn( $e, $b ) => 'pending' === $b['status'] ? null : array_merge( $e, array( 'summary' => 'X ' . $e['summary'] ) );
+add_filter( 'bookora_feed_event', $hide_pending, 10, 2 );
+$filtered = $feed->build( 'all' );
+remove_filter( 'bookora_feed_event', $hide_pending, 10 );
+check( ! str_contains( $filtered, 'Paul Pending' ) && str_contains( $filtered, 'SUMMARY:X Consulting' ), 'filter bookora_feed_event can change or remove appointments' );
 $mails = array();
 $sent  = api( 'POST', '/calendars/feeds/r' . $ids[0] . '/send' );
 check( 200 === $sent->get_status() && 'staff1@example.com' === $sent->get_data()['sent_to'], 'subscription link is sent to the staff member\'s email by default', $sent->get_data() );
@@ -733,6 +738,62 @@ check( 200 === api( 'DELETE', '/calendars/connections/' . $res2['connection']['i
 $left = (int) $wpdb->get_var( 'SELECT COUNT(*) FROM ' . \Bookora\Install\Schema::table( $wpdb->prefix, 'external_events' ) . ' WHERE connection_id = ' . (int) $res2['connection']['id'] );
 check( 0 === $left, 'its busy times are deleted too' );
 check( 404 === api( 'DELETE', '/calendars/connections/' . $res2['connection']['id'] )->get_status(), 'deleting twice returns 404' );
+
+echo "Design, own code and developer hooks (phase 9)\n";
+$st  = \Bookora\Core\Plugin::instance()->container()->get( \Bookora\Settings\Settings::class );
+$saved = api( 'POST', '/settings', array( 'form_radius' => 99, 'form_density' => 'compact', 'form_scheme' => 'evil', 'form_font' => 'system', 'primary_color' => '#be185d' ) )->get_data();
+check( 24 === $saved['form_radius'] && 'compact' === $saved['form_density'] && 'light' === $saved['form_scheme'] && 'system' === $saved['form_font'], 'design settings are validated (radius max 24, unknown scheme → light)', $saved );
+$style = \Bookora\Frontend\Renderer::design_style( $st->all() );
+check( str_contains( $style, '--bookora-primary: #be185d' ) && str_contains( $style, '--bookora-radius: 24px' ), 'design becomes CSS variables', $style );
+check( array( 'bookora--compact', 'bookora--font-system' ) === \Bookora\Frontend\Renderer::design_classes( $st->all() ), 'design becomes modifier classes' );
+check( array() === \Bookora\Frontend\Renderer::design_classes( array( 'form_density' => 'x" onload="y', 'form_scheme' => 'dark"', 'form_font' => 'evil' ) ), 'manipulated design values produce no classes' );
+
+$code_form = api( 'POST', '/forms', array( 'title' => 'Code-Test', 'type' => 'standard', 'status' => 'published', 'fields' => array( array( 'type' => 'text', 'label' => 'Vorname' ) ), 'custom_js' => 'console.log("</script><script>alert(1)</script>");' ) )->get_data();
+api( 'POST', '/settings', array( 'global_js' => 'window.__bk_global = (window.__bk_global||0)+1; // </SCRIPT>', 'global_css' => '.bookora{--bookora-gap:30px}</style><script>x</script>', 'form_density' => 'normal', 'form_font' => 'inherit', 'form_radius' => 10, 'primary_color' => '#2563eb' ) );
+check( ! str_contains( $st->get( 'global_css' ), '<' ), 'global CSS cannot contain HTML' );
+$renderer = \Bookora\Core\Plugin::instance()->container()->get( \Bookora\Frontend\Renderer::class );
+ob_start();
+$renderer->print_custom_scripts();
+$before = ob_get_clean();
+check( '' === $before, 'no custom JavaScript on pages without a Bookora form' );
+add_filter( 'bookora_form_html', static fn( $html, $f ) => $html . '<!--hooked-' . $f['id'] . '-->', 10, 2 );
+add_filter( 'bookora_frontend_config', static fn( $c ) => $c + array( 'extra' => 'yes' ) );
+$html = $renderer->render( (int) $code_form['id'] );
+check( str_contains( $html, '<!--hooked-' . $code_form['id'] . '-->' ), 'filter bookora_form_html works' );
+check( str_contains( $html, '&quot;extra&quot;:&quot;yes&quot;' ), 'filter bookora_frontend_config works' );
+check( (bool) preg_match( '/style="--bookora-primary: #2563eb; --bookora-radius: 10px;"/', $html ), 'form root carries the design variables' );
+ob_start();
+$renderer->print_custom_scripts();
+$out = ob_get_clean();
+check( 1 === substr_count( $out, 'id="bookora-global-js"' ) && str_contains( $out, 'id="bookora-form-' . $code_form['id'] . '-js"' ), 'global and form JavaScript are printed once' );
+check( ! str_contains( $out, '</script><script>alert' ) && str_contains( $out, '<\/script><script>alert' ) && ! preg_match( '#//\s*</SCRIPT>#', $out ), 'custom code cannot break out of its script element', $out );
+check( str_contains( $out, 'window.bookoraQueue' ), 'custom code is queued (works with any script order)' );
+
+$slot_rule = static fn( $ok, $start, $service_id ) => $ok && 'Fri' !== wp_date( 'D', $start );
+add_filter( 'bookora_slot_available', $slot_rule, 10, 3 );
+api( 'PUT', '/schedules/weekly', array( 'weekly' => array( 1 => array( array( '08:00', '19:00' ) ), 5 => array( array( '08:00', '12:00' ) ) ) ) );
+$fri   = ( new DateTimeImmutable( next_weekday( 5 ) ) )->modify( '+21 days' )->format( 'Y-m-d' );
+$fdays = (array) api( 'GET', '/availability', array(), array( 'service' => $service['id'], 'from' => $fri, 'to' => $fri ) )->get_data()['days'];
+check( empty( $fdays[ $fri ] ), 'filter bookora_slot_available hides times', $fdays );
+$fbook = $bookings->create( array( 'service_id' => $service['id'], 'start' => ( new DateTimeImmutable( $fri . ' 09:00', wp_timezone() ) )->getTimestamp(), 'customer' => array( 'email' => 'fri@example.com' ) ) );
+check( is_wp_error( $fbook ), '… and the same rule also blocks bookings via the API' );
+remove_filter( 'bookora_slot_available', $slot_rule, 10 );
+$fdays = (array) api( 'GET', '/availability', array(), array( 'service' => $service['id'], 'from' => $fri, 'to' => $fri ) )->get_data()['days'];
+check( ! empty( $fdays[ $fri ] ), 'without the filter the Friday times are back' );
+api( 'PUT', '/schedules/weekly', array( 'weekly' => array( 1 => array( array( '08:00', '19:00' ) ) ) ) );
+
+$vrule = static function ( $errors, $clean ) {
+	if ( isset( $clean['vorname'] ) && 'Spam' === $clean['vorname'] ) {
+		$errors['vorname'] = 'Kein Spam bitte.';
+	}
+	return $errors;
+};
+add_filter( 'bookora_validate_submission', $vrule, 10, 2 );
+$sub = \Bookora\Core\Plugin::instance()->container()->get( \Bookora\Forms\Submission::class );
+$vr  = $sub->handle( \Bookora\Core\Plugin::instance()->container()->get( \Bookora\Repository\FormRepository::class )->find( (int) $code_form['id'] ), array( '_bk_t' => $old_token( 10 ), 'fields' => array( 'vorname' => 'Spam' ) ), array( 'ip' => '198.51.100.9' ) );
+check( is_wp_error( $vr ) && 'Kein Spam bitte.' === ( $vr->get_error_data()['fields']['vorname'] ?? '' ), 'filter bookora_validate_submission adds own rules', is_wp_error( $vr ) ? $vr->get_error_data() : $vr );
+remove_filter( 'bookora_validate_submission', $vrule, 10 );
+api( 'POST', '/settings', array( 'global_js' => '', 'global_css' => '' ) );
 
 echo "Cleanup\n";
 check( 200 === api( 'DELETE', '/services/' . $service['id'] )->get_status(), 'service deleted' );

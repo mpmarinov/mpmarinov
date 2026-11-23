@@ -12,6 +12,7 @@ import {
 } from '@wordpress/components';
 
 import { config } from '../api';
+import CodeEditor from '../components/CodeEditor';
 
 export default function FormSettings( { form, onChange } ) {
 	const settings = form.settings || {};
@@ -194,9 +195,8 @@ export default function FormSettings( { form, onChange } ) {
 						) }
 					</Notice>
 				) }
-				<TextareaControl
-					__nextHasNoMarginBottom
-					className="bookora-code"
+				<CodeEditor
+					mode="css"
 					label={ __( 'CSS for this form', 'bookora' ) }
 					help={ sprintf(
 						/* translators: %d: form id. */
@@ -211,12 +211,11 @@ export default function FormSettings( { form, onChange } ) {
 					onChange={ set( 'custom_css' ) }
 					rows={ 6 }
 				/>
-				<TextareaControl
-					__nextHasNoMarginBottom
-					className="bookora-code"
+				<CodeEditor
+					mode="js"
 					label={ __( 'JavaScript for this form', 'bookora' ) }
 					help={ __(
-						'Runs after the form has loaded. Example: bookora.on( "submit", ( e ) => { … } );',
+						'Runs when the form is ready. Example: bookora.on( "slot", ( slot ) => { … } ); – see the developer documentation.',
 						'bookora'
 					) }
 					value={ form.custom_js || '' }

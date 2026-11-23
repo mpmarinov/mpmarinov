@@ -30,6 +30,20 @@ final class Renderer {
 	private array $scripts = array();
 
 	/**
+	 * Whether a form was rendered on this page.
+	 *
+	 * @var bool
+	 */
+	private bool $rendered = false;
+
+	/**
+	 * Whether the global CSS was already attached.
+	 *
+	 * @var bool
+	 */
+	private bool $global_css_added = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param FormRepository     $forms     Forms.
@@ -126,16 +140,20 @@ final class Renderer {
 		wp_enqueue_script( 'bookora-frontend' );
 		wp_enqueue_style( 'bookora-frontend' );
 
-		$settings = FormRepository::sanitize_settings( $form['settings'] );
-		$fields   = (array) $form['fields'];
-		$site     = $this->settings->all();
-		$config   = $this->config( $form, $fields, $site );
-		$classes  = array(
-			'bookora',
-			'bookora-form-' . $form['id'],
-			'bookora--' . $form['type'],
-			'bookora--labels-' . $settings['labelPlacement'],
+		$settings       = FormRepository::sanitize_settings( $form['settings'] );
+		$fields         = (array) $form['fields'];
+		$site           = $this->settings->all();
+		$config         = $this->config( $form, $fields, $site );
+		$classes        = array_merge(
+			array(
+				'bookora',
+				'bookora-form-' . $form['id'],
+				'bookora--' . $form['type'],
+				'bookora--labels-' . $settings['labelPlacement'],
+			),
+			self::design_classes( $site )
 		);
+		$this->rendered = true;
 
 		$steps   = array( array() );
 		$titles  = array( '' );
@@ -153,7 +171,7 @@ final class Renderer {
 
 		ob_start();
 		?>
-		<div class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" data-bookora="<?php echo esc_attr( (string) wp_json_encode( $config ) ); ?>" style="--bookora-primary: <?php echo esc_attr( (string) $site['primary_color'] ); ?>">
+		<div class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>" data-bookora="<?php echo esc_attr( (string) wp_json_encode( $config ) ); ?>" style="<?php echo esc_attr( self::design_style( $site ) ); ?>">
 			<?php if ( 'published' !== $form['status'] ) : ?>
 				<p class="bookora__draft"><?php esc_html_e( 'Preview: this form is a draft and only visible to you.', 'bookora' ); ?></p>
 			<?php endif; ?>
@@ -210,7 +228,8 @@ final class Renderer {
 		if ( '' !== trim( (string) $form['custom_css'] ) ) {
 			$html .= '<style id="bookora-form-' . (int) $form['id'] . '-css">' . FormRepository::clean_css( (string) $form['custom_css'] ) . '</style>';
 		}
-		if ( '' !== trim( (string) ( $site['global_css'] ?? '' ) ) && ! wp_style_is( 'bookora-global-css', 'done' ) ) {
+		if ( ! $this->global_css_added && '' !== trim( (string) ( $site['global_css'] ?? '' ) ) ) {
+			$this->global_css_added = true;
 			wp_add_inline_style( 'bookora-frontend', FormRepository::clean_css( (string) $site['global_css'] ) );
 		}
 		if ( '' !== trim( (string) $form['custom_js'] ) ) {
@@ -218,18 +237,84 @@ final class Renderer {
 			$this->scripts[ (int) $form['id'] ] = (string) $form['custom_js'];
 		}
 
-		return $html;
+		/**
+		 * Filter the complete HTML of a form.
+		 *
+		 * @param string               $html HTML.
+		 * @param array<string, mixed> $form Form.
+		 */
+		return (string) apply_filters( 'bookora_form_html', $html, $form );
 	}
 
 	/**
-	 * Print per-form custom JavaScript, wrapped so it receives the form API.
+	 * CSS variables for the design settings (Bookora → Settings → Design).
+	 *
+	 * @param array<string, mixed> $site Settings.
+	 */
+	public static function design_style( array $site ): string {
+		$color = sanitize_hex_color( (string) ( $site['primary_color'] ?? '' ) );
+		$vars  = array(
+			'--bookora-primary' => $color ? $color : '#2563eb',
+			'--bookora-radius'  => max( 0, min( 24, (int) ( $site['form_radius'] ?? 10 ) ) ) . 'px',
+		);
+		$out   = '';
+		foreach ( $vars as $name => $value ) {
+			$out .= $name . ': ' . $value . '; ';
+		}
+		return trim( $out );
+	}
+
+	/**
+	 * Modifier classes for density, color scheme and font.
+	 *
+	 * @param array<string, mixed> $site Settings.
+	 * @return list<string>
+	 */
+	public static function design_classes( array $site ): array {
+		$classes = array();
+		if ( in_array( $site['form_density'] ?? 'normal', array( 'compact', 'comfortable' ), true ) ) {
+			$classes[] = 'bookora--' . $site['form_density'];
+		}
+		if ( in_array( $site['form_scheme'] ?? 'light', array( 'dark', 'auto' ), true ) ) {
+			$classes[] = 'bookora--scheme-' . $site['form_scheme'];
+		}
+		if ( 'system' === ( $site['form_font'] ?? 'inherit' ) ) {
+			$classes[] = 'bookora--font-system';
+		}
+		return $classes;
+	}
+
+	/**
+	 * Make admin code safe to place inside a script element (no early "</script>").
+	 *
+	 * @param string $code JavaScript.
+	 */
+	private static function script_safe( string $code ): string {
+		return str_ireplace( array( '</script', '<!--' ), array( '<\/script', '<\!--' ), $code );
+	}
+
+	/**
+	 * Print the global and per-form custom JavaScript.
+	 * Each block is queued (window.bookoraQueue), so it works regardless of script order,
+	 * and wrapped so errors in one block do not affect the form or other blocks.
 	 */
 	public function print_custom_scripts(): void {
+		if ( ! $this->rendered ) {
+			return;
+		}
+		$global = trim( (string) $this->settings->get( 'global_js', '' ) );
+		if ( '' !== $global ) {
+			// Global code runs once per page and receives window.bookora.
+			printf(
+				"<script id=\"bookora-global-js\">(window.bookoraQueue=window.bookoraQueue||[]).push({id:null,fn:function(bookora){\n%s\n}});</script>\n",
+				self::script_safe( $global ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted admin code (unfiltered_html).
+			);
+		}
 		foreach ( $this->scripts as $id => $code ) {
 			printf(
-				"<script>window.addEventListener('bookora:ready',function(e){if(e.detail.id!==%d){return;}(function(bookora,form){\n%s\n})(e.detail.api,e.detail.element);});</script>\n",
+				"<script id=\"bookora-form-%1\$d-js\">(window.bookoraQueue=window.bookoraQueue||[]).push({id:%1\$d,fn:function(bookora,form){\n%2\$s\n}});</script>\n",
 				(int) $id,
-				$code // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted admin code (unfiltered_html).
+				self::script_safe( $code ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- trusted admin code (unfiltered_html).
 			);
 		}
 	}
@@ -272,7 +357,7 @@ final class Renderer {
 			}
 		}
 
-		return array(
+		$config = array(
 			'id'         => (int) $form['id'],
 			'type'       => $form['type'],
 			'rest'       => esc_url_raw( rest_url( 'bookora/v1' ) ),
@@ -285,6 +370,14 @@ final class Renderer {
 			'locale'     => str_replace( '_', '-', determine_locale() ),
 			'timezone'   => wp_timezone_string(),
 		);
+
+		/**
+		 * Filter the configuration passed to the form script (data-bookora attribute).
+		 *
+		 * @param array<string, mixed> $config Config.
+		 * @param array<string, mixed> $form   Form.
+		 */
+		return (array) apply_filters( 'bookora_frontend_config', $config, $form );
 	}
 
 	/**

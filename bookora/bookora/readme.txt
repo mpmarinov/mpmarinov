@@ -23,7 +23,8 @@ Bookora by Marinov Solutions turns your WordPress site into a complete booking s
 * Calendar subscription for iPhone, Android (Google Calendar) and Outlook – one calendar for the business and one per staff member
 * Private calendars (Google, iCloud, Outlook) block busy times automatically – only start and end times are stored
 * Mobile-first, accessible and translation-ready (English, German, Bulgarian)
-* Custom CSS and JavaScript per form, developer hooks and REST API
+* Design without code: main color, corner radius, spacing, light/dark/automatic color scheme
+* Custom CSS and JavaScript (global and per form) with code editor, JavaScript events (e.g. for Google Tag Manager), developer hooks and REST API
 * GDPR tools: data export and erasure
 
 This plugin is under active development.

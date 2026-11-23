@@ -861,8 +861,8 @@ msgstr "Beginnen Sie Ihre Regeln mit .bookora-form-%d."
 msgid "JavaScript for this form"
 msgstr "JavaScript für dieses Formular"
 
-msgid "Runs after the form has loaded. Example: bookora.on( \"submit\", ( e ) => { … } );"
-msgstr "Wird ausgeführt, sobald das Formular geladen ist. Beispiel: bookora.on( \"submit\", ( e ) => { … } );"
+msgid "Runs when the form is ready. Example: bookora.on( \"slot\", ( slot ) => { … } ); – see the developer documentation."
+msgstr "Läuft, sobald das Formular bereit ist. Beispiel: bookora.on( \"slot\", ( slot ) => { … } ); – siehe Entwickler-Dokumentation."
 
 msgid "is"
 msgstr "ist"
@@ -1952,6 +1952,30 @@ msgstr "Erste Leistung anlegen"
 msgid "Delete the service \"%s\"? Existing bookings are kept."
 msgstr "Leistung „%s“ löschen? Bestehende Buchungen bleiben erhalten."
 
+msgid "Blue"
+msgstr "Blau"
+
+msgid "Green"
+msgstr "Grün"
+
+msgid "Teal"
+msgstr "Petrol"
+
+msgid "Violet"
+msgstr "Violett"
+
+msgid "Rose"
+msgstr "Rosé"
+
+msgid "Orange"
+msgstr "Orange"
+
+msgid "Anthracite"
+msgstr "Anthrazit"
+
+msgid "Your name"
+msgstr "Ihr Name"
+
 msgid "Notification email"
 msgstr "E-Mail für Benachrichtigungen"
 
@@ -1993,6 +2017,66 @@ msgstr "0 = kein Limit. Limits pro Leistung legen Sie in der Leistung fest."
 
 msgid "Customers can cancel up to (hours before)"
 msgstr "Kunden können stornieren bis (Stunden vorher)"
+
+msgid "Design & own code"
+msgstr "Design & eigener Code"
+
+msgid "Main color"
+msgstr "Hauptfarbe"
+
+msgid "Corner radius"
+msgstr "Eckenradius"
+
+msgid "Spacing"
+msgstr "Abstände"
+
+msgid "Compact"
+msgstr "Kompakt"
+
+msgid "Normal"
+msgstr "Normal"
+
+msgid "Spacious"
+msgstr "Großzügig"
+
+msgid "Color scheme"
+msgstr "Farbschema"
+
+msgid "\"Dark\" for websites with a dark background. \"Automatic\" follows the visitor's device setting."
+msgstr "„Dunkel“ für Webseiten mit dunklem Hintergrund. „Automatisch“ folgt der Einstellung des Geräts der Besucher."
+
+msgid "Light"
+msgstr "Hell"
+
+msgid "Dark"
+msgstr "Dunkel"
+
+msgid "Automatic"
+msgstr "Automatisch"
+
+msgid "Font"
+msgstr "Schrift"
+
+msgid "Like the website (theme)"
+msgstr "Wie die Webseite (Theme)"
+
+msgid "System font (like apps)"
+msgstr "Systemschrift (wie in Apps)"
+
+msgid "Only administrators may add own CSS and JavaScript."
+msgstr "Eigenes CSS und JavaScript dürfen nur Administratoren hinzufügen."
+
+msgid "CSS for all forms"
+msgstr "CSS für alle Formulare"
+
+msgid "Example: .bookora { --bookora-gap: 24px; } – all CSS variables are listed in the developer documentation."
+msgstr "Beispiel: .bookora { --bookora-gap: 24px; } – alle CSS-Variablen stehen in der Entwickler-Dokumentation."
+
+msgid "JavaScript for all forms"
+msgstr "JavaScript für alle Formulare"
+
+msgid "Runs once on every page with a Bookora form. Example: bookora.on( \"success\", ( data, form ) => { … } );"
+msgstr "Läuft einmal auf jeder Seite mit einem Bookora-Formular. Beispiel: bookora.on( \"success\", ( data, form ) => { … } );"
 
 msgid "Security & privacy"
 msgstr "Sicherheit & Datenschutz"

@@ -737,3 +737,43 @@
 		animation: none !important;
 	}
 }
+
+/* Design settings (Bookora → Settings → Design) */
+.bookora.bookora--compact {
+	--bookora-gap: 12px;
+	--bookora-input-height: 40px;
+	font-size: 0.95rem;
+}
+
+.bookora.bookora--comfortable {
+	--bookora-gap: 24px;
+	--bookora-input-height: 52px;
+	font-size: 1.05rem;
+}
+
+.bookora.bookora--font-system {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+@mixin bookora-dark {
+	--bookora-text: #f3f4f6;
+	--bookora-muted: #9ca3af;
+	--bookora-border: #4b5563;
+	--bookora-bg: #1f2937;
+	--bookora-soft: color-mix(in srgb, var(--bookora-primary) 22%, #1f2937);
+	--bookora-error: #f87171;
+	color-scheme: dark;
+}
+
+.bookora.bookora--scheme-dark {
+
+	@include bookora-dark;
+}
+
+@media (prefers-color-scheme: dark) {
+
+	.bookora.bookora--scheme-auto {
+
+		@include bookora-dark;
+	}
+}
