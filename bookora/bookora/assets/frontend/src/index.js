@@ -500,9 +500,28 @@ class BookoraForm {
 		}
 		field
 			.querySelectorAll( 'input, select, textarea' )
-			.forEach( ( input ) =>
-				input.setAttribute( 'aria-invalid', msg ? 'true' : 'false' )
-			);
+			.forEach( ( input ) => {
+				input.setAttribute( 'aria-invalid', msg ? 'true' : 'false' );
+				// Link the message to every input of the field (also grouped inputs like first/last name).
+				if ( error?.id ) {
+					const ids = (
+						input.getAttribute( 'aria-describedby' ) || ''
+					)
+						.split( ' ' )
+						.filter( ( x ) => x && x !== error.id );
+					if ( msg ) {
+						ids.push( error.id );
+					}
+					if ( ids.length ) {
+						input.setAttribute(
+							'aria-describedby',
+							ids.join( ' ' )
+						);
+					} else {
+						input.removeAttribute( 'aria-describedby' );
+					}
+				}
+			} );
 		return ! msg;
 	}
 

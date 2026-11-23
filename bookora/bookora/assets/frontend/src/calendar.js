@@ -64,6 +64,55 @@ export default class Calendar {
 		} ).format( new Date( 2026, m, 1 ) );
 	}
 
+	/**
+	 * Arrow keys move between selectable days (←/→ one day, ↑/↓ one week, Home/End first/last day).
+	 *
+	 * @param {KeyboardEvent} e    Event.
+	 * @param {HTMLElement}   grid Grid.
+	 */
+	onKey( e, grid ) {
+		const current = e.target.closest( '.bookora-cal__day' );
+		if ( ! current ) {
+			return;
+		}
+		const days = [ ...grid.querySelectorAll( '.bookora-cal__day' ) ];
+		const enabled = days.filter( ( d ) => ! d.disabled );
+		const index = days.indexOf( current );
+		let target = null;
+		const seek = ( from, step ) => {
+			for ( let i = from; i >= 0 && i < days.length; i += step ) {
+				if ( ! days[ i ].disabled ) {
+					return days[ i ];
+				}
+			}
+			return null;
+		};
+		switch ( e.key ) {
+			case 'ArrowRight':
+				target = seek( index + 1, 1 );
+				break;
+			case 'ArrowLeft':
+				target = seek( index - 1, -1 );
+				break;
+			case 'ArrowDown':
+				target = seek( index + 7, 1 );
+				break;
+			case 'ArrowUp':
+				target = seek( index - 7, -1 );
+				break;
+			case 'Home':
+				target = enabled[ 0 ];
+				break;
+			case 'End':
+				target = enabled[ enabled.length - 1 ];
+				break;
+			default:
+				return;
+		}
+		e.preventDefault();
+		target?.focus();
+	}
+
 	weekdayNames() {
 		const fmt = new Intl.DateTimeFormat( this.opts.locale, {
 			weekday: 'short',
@@ -193,20 +242,21 @@ export default class Calendar {
 			} ),
 		] );
 
+		// Day buttons carry the full date as label; weekday headers are visual only.
 		const grid = el( 'div', {
 			className: 'bookora-cal__grid',
-			role: 'grid',
 			'aria-busy': 'true',
 		} );
 		this.weekdayNames().forEach( ( name ) =>
 			grid.append(
 				el( 'span', {
 					className: 'bookora-cal__weekday',
-					role: 'columnheader',
+					'aria-hidden': 'true',
 					text: name,
 				} )
 			)
 		);
+		grid.addEventListener( 'keydown', ( e ) => this.onKey( e, grid ) );
 
 		const offset =
 			( new Date( year, month, 1 ).getDay() - this.opts.weekStart + 7 ) %

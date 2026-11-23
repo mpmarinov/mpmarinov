@@ -398,7 +398,8 @@ final class Renderer {
 		$help    = (string) ( $field['help'] ?? '' );
 		$place   = (string) ( $field['placeholder'] ?? '' );
 		$value   = (string) ( $field['defaultValue'] ?? '' );
-		$aria    = $help ? ' aria-describedby="' . esc_attr( $id . '-help' ) . '"' : '';
+		// Help text and the (initially empty) error message are announced together with the field.
+		$aria    = ' aria-describedby="' . esc_attr( trim( ( $help ? $id . '-help ' : '' ) . $id . '-error' ) ) . '"';
 		$req_att = $req ? ' required aria-required="true"' : '';
 
 		$group = in_array( $type, array( 'radio', 'checkboxes', 'name', 'address', 'rating', 'appointment' ), true );
@@ -412,7 +413,7 @@ final class Renderer {
 		);
 
 		if ( $group ) {
-			echo '<fieldset class="bookora__group"><legend class="bookora__label">' . esc_html( $label ) . ( $req ? '<span class="bookora__req" aria-hidden="true">*</span>' : '' ) . '</legend>';
+			echo '<fieldset class="bookora__group" aria-describedby="' . esc_attr( trim( ( $help ? $id . '-help ' : '' ) . $id . '-error' ) ) . '"><legend class="bookora__label">' . esc_html( $label ) . ( $req ? '<span class="bookora__req" aria-hidden="true">*</span>' : '' ) . '</legend>';
 		} elseif ( '' !== $label && ! in_array( $type, array( 'heading', 'paragraph', 'divider', 'consent', 'hidden' ), true ) ) {
 			echo '<label class="bookora__label" for="' . esc_attr( $id ) . '">' . esc_html( $label ) . ( $req ? '<span class="bookora__req" aria-hidden="true">*</span>' : '' ) . '</label>';
 		}
@@ -624,7 +625,7 @@ final class Renderer {
 		if ( '' !== $help && 'hidden' !== $type ) {
 			echo '<p class="bookora__help" id="' . esc_attr( $id . '-help' ) . '">' . esc_html( $help ) . '</p>';
 		}
-		echo '<p class="bookora__error" role="alert" hidden></p>';
+		echo '<p class="bookora__error" id="' . esc_attr( $id . '-error' ) . '" role="alert" hidden></p>';
 
 		if ( $group ) {
 			echo '</fieldset>';
