@@ -1,0 +1,26 @@
+{
+  "name": "bookora",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Bookora – Appointments & Booking Forms by Marinov Solutions",
+  "license": "GPL-2.0-or-later",
+  "scripts": {
+    "build": "wp-scripts build assets/admin/src/index.js --output-path=build/admin",
+    "start": "wp-scripts start assets/admin/src/index.js --output-path=build/admin",
+    "lint:js": "wp-scripts lint-js assets",
+    "lint:css": "wp-scripts lint-style \"assets/**/*.scss\"",
+    "test:js": "wp-scripts test-unit-js --passWithNoTests",
+    "plugin-zip": "wp-scripts plugin-zip"
+  },
+  "files": [
+    "bookora.php",
+    "uninstall.php",
+    "readme.txt",
+    "src",
+    "build",
+    "languages"
+  ],
+  "devDependencies": {
+    "@wordpress/scripts": "^30.0.0"
+  }
+}

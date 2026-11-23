@@ -1,7 +1,8 @@
-# Marinov Booking – Projektplan
+# Bookora – Projektplan
 
 **Hersteller:** Marinov Solutions
-**Plugin-Slug (Vorschlag):** `marinov-booking`
+**Produktname:** Bookora – Termine & Buchungen von Marinov Solutions
+**Plugin-Slug:** `bookora` · Textdomain `bookora` · REST `bookora/v1` · Tabellenpräfix `bookora_`
 **Stand:** 23.11.2026 · Version des Plans: 1.0
 
 ---
@@ -111,7 +112,7 @@ Zeitangaben = konzentrierte Entwicklungstage in gemeinsamen Sessions (ich progra
 | Thema | Entscheidung |
 |---|---|
 | Geschäftsmodell | **Free + Pro (Abo)**, faire Preise, Fokus auf hohe Nutzerzahl |
-| Produktname | eigener Name mit Bezug zu Marinov Solutions, offen (siehe Abschnitt 10) |
+| Produktname | **Bookora** (Slug `bookora`) |
 | Startsprachen | Deutsch, Englisch, Bulgarisch |
 | Umfang 1.0 | alle Anforderungen + „Empfohlen für 1.0“ aus Abschnitt 7 |
 
@@ -180,3 +181,11 @@ Vorschläge (Anzeige auf wordpress.org z. B. „Bookora – Termine & Buchungen 
 | **MarSol Booking** | direkter Bezug zu **Mar**inov **Sol**utions, ohne Microsoft-Assoziation |
 
 Vor der finalen Wahl prüfen: freier Slug auf wordpress.org, Marken (DPMA, EUIPO), Domain (.com/.de).
+
+## 11. Fortschritt
+
+| Phase | Status |
+|---|---|
+| 0 – Konzept & Datenmodell | ✅ erledigt (`docs/DATENMODELL.md`) |
+| 1 – Grundgerüst | ✅ erledigt: Plugin-Bootstrap, Autoloader, DI-Container, 15 DB-Tabellen mit Migrationen, Rollen & Rechte, Einstellungen + REST-API, React-Admin mit Einstellungsseite, Verschlüsselung (libsodium), DSGVO-Export/-Löschung, Deinstallation, Unit-Tests, PHPCS, CI |
+| 2 – Leistungen, Öffnungszeiten, Slot-Engine | ⏳ als Nächstes |
