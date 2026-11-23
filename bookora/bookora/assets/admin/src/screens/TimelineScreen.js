@@ -564,6 +564,41 @@ export default function TimelineScreen() {
 													} }
 												/>
 											) ) }
+											{ ( data.blocks || [] )
+												.filter(
+													( bl ) =>
+														bl.row === row.id &&
+														bl.end_min > from &&
+														bl.start_min < to
+												)
+												.map( ( bl, i ) => (
+													<span
+														key={ `bl${ i }` }
+														className="bookora-tl__block"
+														title={ bl.label }
+														style={ {
+															left:
+																( Math.max(
+																	bl.start_min,
+																	from
+																) -
+																	from ) *
+																ppm,
+															width:
+																( Math.min(
+																	bl.end_min,
+																	to
+																) -
+																	Math.max(
+																		bl.start_min,
+																		from
+																	) ) *
+																ppm,
+														} }
+													>
+														{ bl.label }
+													</span>
+												) ) }
 											{ isToday &&
 												data.now_min >= from &&
 												data.now_min <= to && (
@@ -649,6 +684,12 @@ export default function TimelineScreen() {
 							<i className="is-closed" />{ ' ' }
 							{ __( 'Closed', 'bookora' ) }
 						</span>
+						{ ( data.blocks || [] ).length > 0 && (
+							<span>
+								<i className="is-external" />{ ' ' }
+								{ __( 'Busy (own calendar)', 'bookora' ) }
+							</span>
+						) }
 						{ canManage && (
 							<span className="bookora-muted">
 								{ __(

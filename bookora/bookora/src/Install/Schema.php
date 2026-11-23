@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Schema {
 
-	public const VERSION = '1.3.0';
+	public const VERSION = '1.4.0';
 
 	/**
 	 * Unprefixed table names.
@@ -259,11 +259,14 @@ final class Schema {
   id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   resource_id bigint(20) unsigned NULL,
   provider varchar(20) NOT NULL,
+  label varchar(191) NOT NULL DEFAULT '',
   account varchar(191) NOT NULL DEFAULT '',
   credentials longtext NULL,
   calendar_id varchar(255) NOT NULL DEFAULT '',
   sync_token text NULL,
+  options longtext NULL,
   status varchar(20) NOT NULL DEFAULT 'active',
+  last_error text NULL,
   last_synced_at datetime NULL,
   created_at datetime NOT NULL,
   PRIMARY KEY  (id),
@@ -276,6 +279,7 @@ final class Schema {
   external_id varchar(255) NOT NULL,
   start_utc datetime NOT NULL,
   end_utc datetime NOT NULL,
+  all_day tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY  (id),
   KEY connection_ext (connection_id,external_id(150)),
   KEY time_range (start_utc,end_utc)

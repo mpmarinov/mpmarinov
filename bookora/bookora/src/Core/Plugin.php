@@ -10,6 +10,9 @@ namespace Bookora\Core;
 use Bookora\Admin\AdminMenu;
 use Bookora\Admin\Export;
 use Bookora\Availability\AvailabilityService;
+use Bookora\Calendar\ConnectionRepository;
+use Bookora\Calendar\Feed;
+use Bookora\Calendar\IcsImporter;
 use Bookora\Booking\BookingService;
 use Bookora\Forms\Submission;
 use Bookora\Frontend\Renderer;
@@ -26,6 +29,7 @@ use Bookora\Repository\ResourceRepository;
 use Bookora\Repository\ScheduleRepository;
 use Bookora\Repository\ServiceRepository;
 use Bookora\Rest\AvailabilityController;
+use Bookora\Rest\CalendarsController;
 use Bookora\Rest\TimelineController;
 use Bookora\Rest\EmailsController;
 use Bookora\Rest\EntriesController;
@@ -35,6 +39,7 @@ use Bookora\Rest\ResourcesController;
 use Bookora\Rest\SchedulesController;
 use Bookora\Rest\ServicesController;
 use Bookora\Rest\SettingsController;
+use Bookora\Security\Crypto;
 use Bookora\Settings\Settings;
 
 defined( 'ABSPATH' ) || exit;
@@ -172,7 +177,23 @@ final class Plugin {
 				$c->get( ResourceRepository::class ),
 				$c->get( AvailabilityService::class ),
 				$c->get( BookingService::class ),
-				$c->get( Settings::class )
+				$c->get( Settings::class ),
+				$c->get( ConnectionRepository::class )
+			)
+		);
+		$c->set( Crypto::class, static fn() => new Crypto() );
+		$c->set( ConnectionRepository::class, static fn( Container $c ) => new ConnectionRepository( $c->get( Crypto::class ) ) );
+		$c->set( IcsImporter::class, static fn( Container $c ) => new IcsImporter( $c->get( ConnectionRepository::class ), $c->get( AvailabilityService::class ), $c->get( Settings::class ) ) );
+		$c->set( Feed::class, static fn( Container $c ) => new Feed( $c->get( EntryRepository::class ), $c->get( ResourceRepository::class ), $c->get( Settings::class ) ) );
+		$c->set(
+			CalendarsController::class,
+			static fn( Container $c ) => new CalendarsController(
+				$c->get( Feed::class ),
+				$c->get( ConnectionRepository::class ),
+				$c->get( IcsImporter::class ),
+				$c->get( ResourceRepository::class ),
+				$c->get( Settings::class ),
+				$c->get( Mailer::class )
 			)
 		);
 		$c->set( EmailsController::class, static fn( Container $c ) => new EmailsController( $c->get( Templates::class ), $c->get( Mailer::class ) ) );
@@ -190,12 +211,14 @@ final class Plugin {
 		$c->get( Renderer::class )->register();
 		$c->get( ActionLinks::class )->register();
 		$c->get( CalendarLink::class )->register();
+		$c->get( Feed::class )->register();
+		$c->get( IcsImporter::class )->register();
 		$c->get( Mailer::class )->register();
 
 		add_action(
 			'rest_api_init',
 			static function () use ( $c ) {
-				foreach ( array( SettingsController::class, ServicesController::class, ResourcesController::class, SchedulesController::class, AvailabilityController::class, FormsController::class, PublicFormController::class, EntriesController::class, EmailsController::class, TimelineController::class ) as $controller ) {
+				foreach ( array( SettingsController::class, ServicesController::class, ResourcesController::class, SchedulesController::class, AvailabilityController::class, FormsController::class, PublicFormController::class, EntriesController::class, EmailsController::class, TimelineController::class, CalendarsController::class ) as $controller ) {
 					$c->get( $controller )->register_routes();
 				}
 			}

@@ -8,6 +8,7 @@
 namespace Bookora\Rest;
 
 use Bookora\Availability\AvailabilityService;
+use Bookora\Calendar\ConnectionRepository;
 use Bookora\Booking\BookingService;
 use Bookora\Repository\EntryRepository;
 use Bookora\Repository\ResourceRepository;
@@ -32,11 +33,12 @@ final class TimelineController {
 	/**
 	 * Constructor.
 	 *
-	 * @param EntryRepository     $entries      Entries/bookings.
-	 * @param ResourceRepository  $resources    Resources.
-	 * @param AvailabilityService $availability Availability.
-	 * @param BookingService      $bookings     Booking service.
-	 * @param Settings            $settings     Settings.
+	 * @param EntryRepository      $entries      Entries/bookings.
+	 * @param ResourceRepository   $resources    Resources.
+	 * @param AvailabilityService  $availability Availability.
+	 * @param BookingService       $bookings     Booking service.
+	 * @param Settings             $settings     Settings.
+	 * @param ConnectionRepository $connections Imported calendars.
 	 */
 	public function __construct(
 		private EntryRepository $entries,
@@ -44,6 +46,7 @@ final class TimelineController {
 		private AvailabilityService $availability,
 		private BookingService $bookings,
 		private Settings $settings,
+		private ConnectionRepository $connections,
 	) {}
 
 	/**
@@ -183,7 +186,8 @@ final class TimelineController {
 		}
 		unset( $b );
 
-		$now = new DateTimeImmutable( 'now', $tz );
+		$now    = new DateTimeImmutable( 'now', $tz );
+		$blocks = $this->blocks( $rows, $dates, $view, $resources );
 
 		return new WP_REST_Response(
 			array(
@@ -193,6 +197,7 @@ final class TimelineController {
 				'to'        => (int) min( 1440, ceil( $max / 60 ) * 60 ),
 				'rows'      => $rows,
 				'bookings'  => $bookings,
+				'blocks'    => $blocks,
 				'today'     => $now->format( 'Y-m-d' ),
 				'now_min'   => (int) $now->format( 'G' ) * 60 + (int) $now->format( 'i' ),
 				'resources' => array_map(
@@ -204,6 +209,66 @@ final class TimelineController {
 				),
 			)
 		);
+	}
+
+	/**
+	 * Busy times imported from external calendars, clipped to each visible day.
+	 *
+	 * @param array<int, array<string, mixed>> $rows      Rows.
+	 * @param array<int, string>               $dates     Visible dates.
+	 * @param string                           $view      day|week.
+	 * @param array<int, array<string, mixed>> $resources Active staff.
+	 * @return list<array{row:int|string, start_min:int, end_min:int, label:string, all_day:bool}>
+	 */
+	private function blocks( array $rows, array $dates, string $view, array $resources ): array {
+		$tz    = wp_timezone();
+		$first = new DateTimeImmutable( $dates[0], $tz );
+		$last  = ( new DateTimeImmutable( end( $dates ), $tz ) )->modify( '+1 day' );
+		$names = array();
+		foreach ( $resources as $r ) {
+			$names[ (int) $r['id'] ] = (string) $r['name'];
+		}
+
+		$out = array();
+		foreach ( $this->connections->events_between( $first->getTimestamp(), $last->getTimestamp() ) as $e ) {
+			foreach ( $dates as $d ) {
+				$day_start = ( new DateTimeImmutable( $d, $tz ) )->getTimestamp();
+				$day_end   = ( new DateTimeImmutable( $d, $tz ) )->modify( '+1 day' )->getTimestamp();
+				$a         = max( $e['start'], $day_start );
+				$b         = min( $e['end'], $day_end );
+				if ( $a >= $b ) {
+					continue;
+				}
+				$start_min = (int) round( ( $a - $day_start ) / 60 );
+				$end_min   = $b >= $day_end ? 1440 : (int) round( ( $b - $day_start ) / 60 );
+				$label     = $e['label'];
+				if ( 'week' === $view && null !== $e['resource_id'] && isset( $names[ $e['resource_id'] ] ) ) {
+					$label = $names[ $e['resource_id'] ] . ': ' . $label;
+				}
+
+				$targets = array();
+				if ( 'week' === $view ) {
+					$targets[] = $d;
+				} else {
+					foreach ( $rows as $row ) {
+						// A calendar of the whole business blocks every row.
+						if ( null === $e['resource_id'] || $row['id'] === $e['resource_id'] ) {
+							$targets[] = $row['id'];
+						}
+					}
+				}
+				foreach ( $targets as $row_id ) {
+					$out[] = array(
+						'row'       => $row_id,
+						'start_min' => $start_min,
+						'end_min'   => $end_min,
+						'label'     => $label,
+						'all_day'   => $e['all_day'],
+					);
+				}
+			}
+		}
+		return $out;
 	}
 
 	/**

@@ -15,6 +15,11 @@ require_once __DIR__ . '/src/autoload.php';
 function bookora_uninstall_site(): void {
 	global $wpdb;
 
+	// Scheduled tasks are always removed – the plugin code is gone.
+	wp_clear_scheduled_hook( 'bookora_daily_maintenance' );
+	wp_clear_scheduled_hook( 'bookora_send_reminders' );
+	wp_clear_scheduled_hook( 'bookora_sync_calendars' );
+
 	$settings = get_option( 'bookora_settings', array() );
 	if ( empty( $settings['delete_on_uninstall'] ) ) {
 		return;
@@ -27,9 +32,8 @@ function bookora_uninstall_site(): void {
 
 	delete_option( 'bookora_settings' );
 	delete_option( 'bookora_db_version' );
+	delete_option( 'bookora_feed_tokens' );
 	\Bookora\Security\Capabilities::uninstall();
-	wp_clear_scheduled_hook( 'bookora_daily_maintenance' );
-	wp_clear_scheduled_hook( 'bookora_send_reminders' );
 }
 
 if ( is_multisite() ) {

@@ -69,7 +69,7 @@ final class BookingRepository {
 			$wpdb->prepare(
 				"SELECT e.start_utc, e.end_utc FROM {$events} e
 				INNER JOIN {$connections} c ON c.id = e.connection_id
-				WHERE c.resource_id {$res_sql} AND c.status = 'active'
+				WHERE ( c.resource_id {$res_sql} OR c.resource_id IS NULL ) AND c.status <> 'paused'
 				AND e.start_utc < %s AND e.end_utc > %s",
 				$to_sql,
 				$from_sql

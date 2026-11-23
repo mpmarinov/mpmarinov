@@ -478,6 +478,204 @@ $mv = api( 'POST', '/bookings/' . $m2['booking_id'] . '/move', array( 'date' => 
 check( 409 === $mv->get_status() && 'bookora_not_movable' === $mv->get_data()['code'], 'rejected booking cannot be moved', $mv->get_data() );
 check( 404 === api( 'POST', '/bookings/999999/move', array( 'date' => $tday, 'time' => '14:00' ) )->get_status(), 'unknown booking returns 404' );
 
+echo "Calendar sync: subscription feeds\n";
+$cday = ( new DateTimeImmutable( next_weekday( 1 ) ) )->modify( '+35 days' )->format( 'Y-m-d' );
+$ct   = static fn( string $hm ) => ( new DateTimeImmutable( $cday . ' ' . $hm, wp_timezone() ) )->getTimestamp();
+$cols = $wpdb->get_col( 'SHOW COLUMNS FROM ' . \Bookora\Install\Schema::table( $wpdb->prefix, 'calendar_connections' ) );
+check( empty( array_diff( array( 'label', 'options', 'last_error' ), (array) $cols ) ), 'schema 1.4.0: new connection columns exist', $cols );
+
+$cal = api( 'GET', '/calendars' );
+$cd  = $cal->get_data();
+check( 200 === $cal->get_status() && 'all' === $cd['feeds'][0]['scope'], 'calendar overview answers' );
+$scopes = array_column( $cd['feeds'], 'scope' );
+check( in_array( 'r' . $ids[0], $scopes, true ) && in_array( 'r' . $ids[1], $scopes, true ), 'one feed per staff member', $scopes );
+$all_url = $cd['feeds'][0]['urls']['https'];
+check( (bool) preg_match( '/bookora_feed=[a-f0-9]{40}$/', $all_url ) && str_starts_with( $cd['feeds'][0]['urls']['webcal'], 'webcal://' ), 'feed address with secret token + webcal variant', $cd['feeds'][0]['urls'] );
+check( str_contains( $cd['feeds'][0]['urls']['google'], 'calendar.google.com' ) && str_contains( $cd['feeds'][0]['urls']['outlook'], 'outlook.live.com' ), 'one-click links for Google and Outlook' );
+
+$f1 = $bookings->create( array( 'service_id' => $consult['id'], 'start' => $ct( '09:00' ), 'resource_id' => $ids[0], 'customer' => array( 'email' => 'feed1@example.com', 'name' => 'Frida Feed', 'phone' => '0171 111' ), 'status' => 'confirmed' ) );
+$f2 = $bookings->create( array( 'service_id' => $consult['id'], 'start' => $ct( '09:00' ), 'resource_id' => $ids[1], 'customer' => array( 'email' => 'feed2@example.com', 'name' => 'Paul Pending' ) ) );
+$f3 = $bookings->create( array( 'service_id' => $consult['id'], 'start' => $ct( '13:00' ), 'resource_id' => $ids[0], 'customer' => array( 'email' => 'feed3@example.com', 'name' => 'Carl Cancel' ) ) );
+api( 'POST', '/bookings/' . $f3['booking_id'] . '/status', array( 'status' => 'rejected' ) );
+$feed = \Bookora\Core\Plugin::instance()->container()->get( \Bookora\Calendar\Feed::class );
+$ics  = $feed->build( 'all' );
+check( str_contains( $ics, 'BEGIN:VCALENDAR' ) && str_contains( $ics, 'X-WR-CALNAME:Bookora' ) && str_contains( $ics, 'REFRESH-INTERVAL' ), 'feed is a valid calendar with name and refresh interval' );
+check( str_contains( $ics, 'UID:bookora-' . $f1['booking_id'] . '@' ) && str_contains( $ics, 'Frida Feed' ) && str_contains( $ics, '0171 111' ), 'confirmed booking with customer details in feed' );
+$unfold = str_replace( "\r\n ", '', $ics );
+check( (bool) preg_match( '/SUMMARY:\[[^\]]+\] Consulting – Paul Pending[^\r]*\r\nSTATUS:TENTATIVE/u', $unfold ), 'pending booking marked as unconfirmed (TENTATIVE)', substr( $unfold, 0, 3000 ) );
+check( ! str_contains( $ics, 'Carl Cancel' ), 'rejected booking is not in the feed' );
+check( $ics === $feed->build( 'all' ), 'feed output is stable (ETag/304 friendly)' );
+$parsed = ( new \Bookora\Calendar\IcsParser( wp_timezone() ) )->busy( $ics, $ct( '00:00' ), $ct( '23:59' ) );
+check( 2 === count( $parsed ) && $parsed[0]['start'] === $ct( '09:00' ), 'feed can be read back by a calendar parser', $parsed );
+$r0 = $feed->build( 'r' . $ids[0] );
+check( str_contains( $r0, 'Frida Feed' ) && ! str_contains( $r0, 'Paul Pending' ), 'staff feed only contains own appointments' );
+\Bookora\Core\Plugin::instance()->container()->get( \Bookora\Settings\Settings::class )->update( array( 'feed_customer_details' => false, 'feed_include_pending' => false ) );
+$private = $feed->build( 'all' );
+check( ! str_contains( $private, 'Frida' ) && ! str_contains( $private, 'feed1@example.com' ) && ! str_contains( $private, 'Paul Pending' ), 'privacy mode hides customer data and pending appointments' );
+\Bookora\Core\Plugin::instance()->container()->get( \Bookora\Settings\Settings::class )->update( array( 'feed_customer_details' => true, 'feed_include_pending' => true ) );
+$mails = array();
+$sent  = api( 'POST', '/calendars/feeds/r' . $ids[0] . '/send' );
+check( 200 === $sent->get_status() && 'staff1@example.com' === $sent->get_data()['sent_to'], 'subscription link is sent to the staff member\'s email by default', $sent->get_data() );
+check( 1 === count( $mails ) && str_contains( $mails[0]['message'], 'subscribe=1' ) && str_contains( $mails[0]['message'], 'bookora_feed=' ), 'email contains the device-independent subscribe link', array_column( $mails, 'subject' ) );
+check( 400 === api( 'POST', '/calendars/feeds/all/send', array( 'email' => 'nope' ) )->get_status(), 'invalid email address is rejected' );
+check( 200 === api( 'POST', '/calendars/feeds/all/send', array( 'email' => 'owner@example.com' ) )->get_status(), 'link can be sent to any address' );
+$reset = api( 'POST', '/calendars/feeds/all/reset' )->get_data();
+check( $reset['https'] !== $all_url && (bool) preg_match( '/[a-f0-9]{40}$/', $reset['https'] ), 'feed address can be reset' );
+check( 404 === api( 'POST', '/calendars/feeds/r999999/reset' )->get_status(), 'reset of unknown staff feed is rejected' );
+check( 404 === api( 'POST', '/calendars/feeds/evil/reset' )->get_status(), 'invalid feed scope is rejected' );
+
+$http = static function ( string $url, array $headers = array() ): array {
+	$ctx  = stream_context_create( array( 'http' => array( 'ignore_errors' => true, 'header' => implode( "\r\n", $headers ), 'timeout' => 10 ) ) );
+	$body = @file_get_contents( $url, false, $ctx ); // phpcs:ignore
+	return array( (int) preg_replace( '/^HTTP\/\S+ (\d+).*$/', '$1', $http_response_header[0] ?? '0' ), (string) $body, $http_response_header ?? array() );
+};
+$live = 'http://localhost:8089/';
+if ( 0 !== $http( $live . 'wp-login.php' )[0] ) {
+	$token = substr( $reset['https'], -40 );
+	[ $code, $body, $hdr ] = $http( $live . '?bookora_feed=' . $token );
+	$ctype = implode( "\n", $hdr );
+	check( 200 === $code && str_contains( $body, 'Frida Feed' ) && str_contains( $ctype, 'text/calendar' ), 'feed is served over HTTP as text/calendar', $code );
+	check( str_contains( strtolower( $ctype ), 'x-robots-tag: noindex' ), 'feed is excluded from search engines' );
+	preg_match( '/ETag: (".+")/i', $ctype, $em );
+	check( ! empty( $em[1] ) && 304 === $http( $live . '?bookora_feed=' . $token, array( 'If-None-Match: ' . $em[1] ) )[0], 'unchanged feed answers 304 Not Modified' );
+	check( 404 === $http( $live . '?bookora_feed=' . substr( $all_url, -40 ) )[0], 'old feed address no longer works after reset' );
+	check( 404 === $http( $live . '?bookora_feed=' . str_repeat( 'a', 40 ) )[0] && 404 === $http( $live . '?bookora_feed=../../wp-config' )[0], 'guessed or malformed tokens get 404' );
+	[ $code, $page ] = $http( $live . '?bookora_feed=' . $token . '&subscribe=1', array( 'User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X)' ) );
+	check( 200 === $code && str_contains( $page, 'http-equiv="refresh" content="0;url=webcal://' ), 'subscribe page forwards iPhones straight to the calendar app', $code );
+	[ $code, $page ] = $http( $live . '?bookora_feed=' . $token . '&subscribe=1', array( 'User-Agent: Mozilla/5.0 (Linux; Android 15; Pixel 9)' ) );
+	check( 200 === $code && ! str_contains( $page, 'http-equiv="refresh"' ) && str_contains( $page, 'calendar.google.com' ) && str_contains( $page, 'noindex' ), 'Android sees buttons for Google/Outlook (no forced redirect)' );
+} else {
+	echo "  (web server not running – HTTP feed checks skipped)\n";
+}
+
+echo "Calendar sync: importing busy times\n";
+$mock     = array();
+$requests = array();
+add_filter(
+	'pre_http_request',
+	static function ( $pre, $args, $url ) use ( &$mock, &$requests ) {
+		if ( ! isset( $mock[ $url ] ) ) {
+			return $pre;
+		}
+		$requests[] = array( 'url' => $url, 'headers' => $args['headers'] ?? array() );
+		$m          = $mock[ $url ];
+		return is_wp_error( $m ) ? $m : array(
+			'headers'  => new \WpOrg\Requests\Utility\CaseInsensitiveDictionary( $m['headers'] ?? array() ),
+			'body'     => $m['body'] ?? '',
+			'response' => array( 'code' => $m['code'] ?? 200, 'message' => '' ),
+			'cookies'  => array(),
+			'filename' => null,
+		);
+	},
+	10,
+	3
+);
+$gmt = static fn( int $ts ) => gmdate( 'Ymd\THis\Z', $ts );
+$host_own = (string) wp_parse_url( home_url(), PHP_URL_HOST );
+$google   = 'https://calendar.google.com/calendar/ical/owner%40gmail.com/private-secret123/basic.ics';
+$mock[ $google ] = array(
+	'headers' => array( 'etag' => '"v1"' ),
+	'body'    => "BEGIN:VCALENDAR\r\nX-WR-TIMEZONE:Europe/Berlin\r\nBEGIN:VEVENT\r\nUID:dentist@google.com\r\nDTSTART:" . $gmt( $ct( '10:00' ) ) . "\r\nDTEND:" . $gmt( $ct( '11:00' ) ) . "\r\nSUMMARY:Zahnarzt (geheim)\r\nEND:VEVENT\r\n"
+		. "BEGIN:VEVENT\r\nUID:bookora-123@{$host_own}\r\nDTSTART:" . $gmt( $ct( '14:00' ) ) . "\r\nDTEND:" . $gmt( $ct( '15:00' ) ) . "\r\nEND:VEVENT\r\n"
+		. "BEGIN:VEVENT\r\nUID:free@google.com\r\nDTSTART:" . $gmt( $ct( '16:00' ) ) . "\r\nDTEND:" . $gmt( $ct( '17:00' ) ) . "\r\nTRANSP:TRANSPARENT\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n",
+);
+$slots_of = static function ( int $service_id ) use ( $cday ) {
+	$days = (array) api( 'GET', '/availability', array(), array( 'service' => $service_id, 'from' => $cday, 'to' => $cday ) )->get_data()['days'];
+	return $days[ $cday ] ?? array();
+};
+check( in_array( '10:00', array_column( $slots_of( $service['id'] ), 'time' ), true ), 'before import: 10:00 is free' );
+
+check( 400 === api( 'POST', '/calendars/connections', array( 'url' => 'ftp://example.com/cal.ics' ) )->get_status(), 'non-http address is rejected' );
+check( 400 === api( 'POST', '/calendars/connections', array( 'url' => 'http://127.0.0.1/cal.ics' ) )->get_status() && 400 === api( 'POST', '/calendars/connections', array( 'url' => 'https://localhost/x.ics' ) )->get_status() && 400 === api( 'POST', '/calendars/connections', array( 'url' => 'https://user:pw@example.com/x.ics' ) )->get_status(), 'internal addresses and credentials in URL are rejected' );
+check( 400 === api( 'POST', '/calendars/connections', array( 'url' => $reset['https'] ) )->get_status(), 'own Bookora feed cannot be imported (no double blocking)' );
+check( 400 === api( 'POST', '/calendars/connections', array( 'url' => $google, 'resource_id' => 999999 ) )->get_status(), 'unknown staff member is rejected' );
+
+$res = api( 'POST', '/calendars/connections', array( 'url' => str_replace( 'https://', 'webcal://', $google ), 'label' => 'Privat <b>Inhaber</b>' ) );
+$con = $res->get_data();
+check( 201 === $res->get_status() && true === $con['result']['ok'] && 1 === $con['result']['events'], 'webcal address imported right away (1 busy time)', $con );
+check( 'Privat Inhaber' === $con['connection']['label'] && 'calendar.google.com' === $con['connection']['host'], 'label sanitized, only the host is shown' );
+check( $google === $requests[0]['url'] ?? '', 'webcal:// is fetched as https://' );
+check( ! str_contains( wp_json_encode( api( 'GET', '/calendars' )->get_data() ), 'private-secret123' ), 'secret calendar address never leaves the server' );
+$raw = $wpdb->get_var( 'SELECT credentials FROM ' . \Bookora\Install\Schema::table( $wpdb->prefix, 'calendar_connections' ) . ' WHERE id = ' . (int) $con['connection']['id'] );
+check( str_starts_with( (string) $raw, 'bk1:' ) && ! str_contains( (string) $raw, 'secret123' ), 'calendar address is stored encrypted' );
+$stored = $wpdb->get_results( 'SELECT * FROM ' . \Bookora\Install\Schema::table( $wpdb->prefix, 'external_events' ), ARRAY_A );
+check( ! str_contains( wp_json_encode( $stored ), 'Zahnarzt' ), 'event titles are not stored (privacy)' );
+
+$slots = $slots_of( $service['id'] );
+check( ! in_array( '10:00', array_column( $slots, 'time' ), true ), 'imported appointment blocks 10:00', array_column( $slots, 'time' ) );
+check( in_array( '14:00', array_column( $slots, 'time' ), true ), 'own Bookora appointment from the feed is not imported again' );
+check( in_array( '16:00', array_column( $slots, 'time' ), true ), '"free" (transparent) event does not block' );
+$blocked = $bookings->create( array( 'service_id' => $service['id'], 'start' => $ct( '10:00' ), 'customer' => array( 'email' => 'x@example.com' ) ) );
+check( is_wp_error( $blocked ), 'booking into a private appointment is refused' );
+$tl = api( 'GET', '/timeline', array(), array( 'view' => 'day', 'date' => $cday ) )->get_data();
+$bl = array_values( array_filter( $tl['blocks'], static fn( $b ) => 600 === $b['start_min'] ) );
+check( count( $bl ) >= 2 && 660 === $bl[0]['end_min'] && 'Privat Inhaber' === $bl[0]['label'], 'timeline shows the busy time for every staff row (business calendar)', $tl['blocks'] );
+
+$requests = array();
+$mock[ $google ]['code'] = 304;
+$again = \Bookora\Core\Plugin::instance()->container()->get( \Bookora\Calendar\IcsImporter::class )->sync( $con['connection']['id'] );
+check( '"v1"' === ( $requests[0]['headers']['If-None-Match'] ?? '' ) && true === $again['unchanged'], 'next sync asks with ETag and accepts 304', $requests );
+check( ! in_array( '10:00', array_column( $slots_of( $service['id'] ), 'time' ), true ), 'busy time is kept after 304' );
+
+$mock[ $google ] = array( 'code' => 401, 'body' => 'Unauthorized' );
+$fail = api( 'POST', '/calendars/connections/' . $con['connection']['id'] . '/sync' )->get_data();
+check( false === $fail['result']['ok'] && 'error' === $fail['connection']['status'] && str_contains( (string) $fail['connection']['last_error'], 'iCal' ), 'access denied is reported in plain words', $fail['connection'] );
+check( ! in_array( '10:00', array_column( $slots_of( $service['id'] ), 'time' ), true ), 'on errors the last known busy times keep blocking (safe side)' );
+$mock[ $google ] = array( 'body' => '<html>Sign in</html>' );
+$fail = api( 'POST', '/calendars/connections/' . $con['connection']['id'] . '/sync' )->get_data();
+check( false === $fail['result']['ok'] && str_contains( (string) $fail['connection']['last_error'], 'iCal' ), 'login page instead of calendar is detected' );
+$mock[ $google ] = new WP_Error( 'http_request_failed', 'cURL error 28: timeout' );
+$fail = api( 'POST', '/calendars/connections/' . $con['connection']['id'] . '/sync' )->get_data();
+check( false === $fail['result']['ok'] && str_contains( (string) $fail['connection']['last_error'], 'timeout' ), 'network errors are reported' );
+
+$icloud = 'https://p42-caldav.icloud.com/published/2/secret-icloud';
+$mock[ $icloud ] = array(
+	'body' => "BEGIN:VCALENDAR\nBEGIN:VEVENT\nUID:school@icloud\nDTSTART;TZID=Europe/Berlin:" . str_replace( '-', '', $cday ) . "T090000\nDTEND;TZID=Europe/Berlin:" . str_replace( '-', '', $cday ) . "T100000\nRRULE:FREQ=WEEKLY;BYDAY=MO\nEND:VEVENT\nBEGIN:VEVENT\nUID:holiday@icloud\nDTSTART;VALUE=DATE:" . str_replace( '-', '', $cday ) . "\nDTEND;VALUE=DATE:" . str_replace( '-', '', ( new DateTimeImmutable( $cday ) )->modify( '+1 day' )->format( 'Y-m-d' ) ) . "\nEND:VEVENT\nEND:VCALENDAR",
+);
+$res2 = api( 'POST', '/calendars/connections', array( 'url' => $icloud, 'resource_id' => $ids[0], 'label' => 'Staff 1 privat', 'block_all_day' => false ) )->get_data();
+check( true === $res2['result']['ok'] && $res2['result']['events'] >= 2, 'iCloud calendar with weekly series imported for one staff member (within the booking horizon)', $res2['result'] );
+$next_monday = ( new DateTimeImmutable( $cday ) )->modify( '+7 days' )->format( 'Y-m-d' );
+$days_next   = (array) api( 'GET', '/availability', array(), array( 'service' => $consult['id'], 'from' => $next_monday, 'to' => $next_monday ) )->get_data()['days'];
+$res_at_9    = array();
+foreach ( $days_next[ $next_monday ] ?? array() as $sl ) {
+	if ( '09:00' === $sl['time'] ) {
+		$res_at_9 = array_map( 'intval', (array) $sl['resources'] );
+	}
+}
+check( array( $ids[1] ) === $res_at_9, 'staff calendar (weekly series) blocks only that staff member, also the following week', $days_next[ $next_monday ] ?? null );
+check( in_array( '11:00', array_column( $slots_of( $consult['id'] ), 'time' ), true ), 'all-day event ignored when "block all-day" is off' );
+$upd = api( 'PUT', '/calendars/connections/' . $res2['connection']['id'], array( 'block_all_day' => true ) )->get_data();
+check( true === $upd['connection']['block_all_day'] && true === $upd['result']['ok'], 'switching "block all-day" on re-imports' );
+$tl0 = api( 'GET', '/timeline', array(), array( 'view' => 'day', 'date' => $cday ) )->get_data();
+$rows_blocked = array_unique( array_column( array_filter( $tl0['blocks'], static fn( $b ) => $b['all_day'] ), 'row' ) );
+check( array( $ids[0] ) === array_values( $rows_blocked ), 'all-day block only on the staff member\'s row', $rows_blocked );
+
+api( 'PUT', '/calendars/connections/' . $con['connection']['id'], array( 'status' => 'paused' ) );
+check( in_array( '10:00', array_column( $slots_of( $service['id'] ), 'time' ), true ), 'paused calendar no longer blocks' );
+$mock[ $google ] = array( 'body' => "BEGIN:VCALENDAR\nEND:VCALENDAR" );
+api( 'PUT', '/calendars/connections/' . $con['connection']['id'], array( 'status' => 'active' ) );
+
+$importer = \Bookora\Core\Plugin::instance()->container()->get( \Bookora\Calendar\IcsImporter::class );
+$wpdb->query( 'UPDATE ' . \Bookora\Install\Schema::table( $wpdb->prefix, 'calendar_connections' ) . " SET last_synced_at = '2000-01-01 00:00:00'" );
+$requests = array();
+check( 2 === $importer->run() && 2 === count( $requests ), 'background job syncs all due calendars', count( $requests ) );
+check( 0 === $importer->run(), 'calendars synced a moment ago are skipped' );
+check( false !== wp_next_scheduled( \Bookora\Calendar\IcsImporter::CRON ), 'background job is scheduled every 15 minutes' );
+
+$ssrf = \Bookora\Core\Plugin::instance()->container()->get( \Bookora\Calendar\ConnectionRepository::class )->create( array( 'url' => 'http://127.0.0.1:8089/wp-login.php', 'label' => 'ssrf' ) );
+$sr   = $importer->sync( $ssrf );
+check( false === $sr['ok'], 'requests to internal addresses are blocked at fetch time (SSRF)', $sr );
+api( 'DELETE', '/calendars/connections/' . $ssrf );
+
+wp_set_current_user( 0 );
+check( in_array( api( 'GET', '/calendars' )->get_status(), array( 401, 403 ), true ) && in_array( api( 'POST', '/calendars/connections', array( 'url' => $google ) )->get_status(), array( 401, 403 ), true ), 'calendar settings require admin rights' );
+wp_set_current_user( 1 );
+
+check( 200 === api( 'DELETE', '/calendars/connections/' . $res2['connection']['id'] )->get_status(), 'calendar removed' );
+$left = (int) $wpdb->get_var( 'SELECT COUNT(*) FROM ' . \Bookora\Install\Schema::table( $wpdb->prefix, 'external_events' ) . ' WHERE connection_id = ' . (int) $res2['connection']['id'] );
+check( 0 === $left, 'its busy times are deleted too' );
+check( 404 === api( 'DELETE', '/calendars/connections/' . $res2['connection']['id'] )->get_status(), 'deleting twice returns 404' );
+
 echo "Cleanup\n";
 check( 200 === api( 'DELETE', '/services/' . $service['id'] )->get_status(), 'service deleted' );
 check( 404 === api( 'GET', '/services/' . $service['id'] )->get_status(), 'deleted service is gone' );

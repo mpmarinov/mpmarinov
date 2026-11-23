@@ -59,6 +59,52 @@ final class Ics {
 	}
 
 	/**
+	 * Calendar with many events (subscription feed). Output is stable for unchanged data (ETag-friendly).
+	 *
+	 * @param list<array{booking:array<string,mixed>, summary:string, location?:string, description?:string, status?:string}> $events Events.
+	 * @param string                                                                                                          $name   Calendar name.
+	 * @param string                                                                                                          $tz     Time zone name (informational).
+	 */
+	public static function calendar( array $events, string $name, string $tz = 'UTC' ): string {
+		$host  = (string) wp_parse_url( home_url(), PHP_URL_HOST );
+		$host  = '' !== $host ? $host : 'localhost';
+		$utc   = static fn( string $iso ): string => gmdate( 'Ymd\THis\Z', (int) strtotime( $iso ) );
+		$lines = array(
+			'BEGIN:VCALENDAR',
+			'VERSION:2.0',
+			'PRODID:-//Marinov Solutions//Bookora//DE',
+			'CALSCALE:GREGORIAN',
+			'METHOD:PUBLISH',
+			'X-WR-CALNAME:' . self::escape( $name ),
+			'X-WR-TIMEZONE:' . self::escape( $tz ),
+			'REFRESH-INTERVAL;VALUE=DURATION:PT15M',
+			'X-PUBLISHED-TTL:PT15M',
+		);
+		foreach ( $events as $e ) {
+			$b       = $e['booking'];
+			$changed = gmdate( 'Ymd\THis\Z', (int) strtotime( (string) ( $b['updated_at'] ?? $b['created_at'] ?? 'now' ) . ' UTC' ) );
+			$lines[] = 'BEGIN:VEVENT';
+			$lines[] = 'UID:bookora-' . (int) $b['id'] . '@' . $host;
+			$lines[] = 'DTSTAMP:' . $changed;
+			$lines[] = 'LAST-MODIFIED:' . $changed;
+			$lines[] = 'DTSTART:' . $utc( (string) $b['start'] );
+			$lines[] = 'DTEND:' . $utc( (string) $b['end'] );
+			$lines[] = 'SUMMARY:' . self::escape( $e['summary'] );
+			$lines[] = 'STATUS:' . ( $e['status'] ?? 'CONFIRMED' );
+			if ( ! empty( $e['location'] ) ) {
+				$lines[] = 'LOCATION:' . self::escape( $e['location'] );
+			}
+			if ( ! empty( $e['description'] ) ) {
+				$lines[] = 'DESCRIPTION:' . self::escape( $e['description'] );
+			}
+			$lines[] = 'END:VEVENT';
+		}
+		$lines[] = 'END:VCALENDAR';
+
+		return implode( "\r\n", array_map( array( self::class, 'fold' ), $lines ) ) . "\r\n";
+	}
+
+	/**
 	 * "Add to Google Calendar" link.
 	 *
 	 * @param array<string, mixed> $booking  Booking.

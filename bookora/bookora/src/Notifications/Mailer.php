@@ -236,6 +236,36 @@ final class Mailer {
 	}
 
 	/**
+	 * Send a one-off message (no template) in the Bookora email design.
+	 *
+	 * @param string $to        Recipient.
+	 * @param string $subject   Subject.
+	 * @param string $body_html Body HTML (already escaped).
+	 * @param string $log_event Name in the send log.
+	 */
+	public function send_message( string $to, string $subject, string $body_html, string $log_event ): bool {
+		if ( ! is_email( $to ) ) {
+			return false;
+		}
+		$headers = array( 'Content-Type: text/html; charset=UTF-8' );
+		$from    = sanitize_email( (string) $this->settings->get( 'email_from_address', '' ) );
+		if ( $from ) {
+			$headers[] = sprintf( 'From: %s <%s>', $this->header_text( $this->business_name() ), $from );
+		}
+		$this->attachments = array();
+		$ok                = (bool) wp_mail( $to, $subject, $this->layout( $subject, $body_html ), $headers );
+		$this->log( array(), $log_event, $to, $ok );
+		return $ok;
+	}
+
+	/**
+	 * Owner address (settings or site admin).
+	 */
+	public function owner_address(): string {
+		return $this->owner_email();
+	}
+
+	/**
 	 * Render subject and full HTML for an event.
 	 *
 	 * @param string               $event Event.

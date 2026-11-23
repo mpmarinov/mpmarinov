@@ -149,6 +149,7 @@ final class EntryRepository {
 			'upcoming' => "b.status = 'confirmed' AND b.end_utc >= '" . esc_sql( $now ) . "'",
 			'past'     => "b.status IN ('confirmed','completed','no_show') AND b.end_utc < '" . esc_sql( $now ) . "'",
 			'closed'   => "b.status IN ('rejected','cancelled')",
+			'active'   => "b.status IN ('pending','confirmed')",
 			'all'      => '1=1',
 		);
 		$view   = isset( $views[ $args['view'] ?? '' ] ) ? $args['view'] : 'pending';
@@ -511,6 +512,7 @@ final class EntryRepository {
 			'email'         => (string) ( $b['email'] ?? '' ),
 			'phone'         => (string) ( $b['phone'] ?? '' ),
 			'created_at'    => $b['created_at'],
+			'updated_at'    => (string) ( $b['updated_at'] ?? $b['created_at'] ),
 			'transitions'   => self::TRANSITIONS[ $b['status'] ] ?? array(),
 		);
 	}

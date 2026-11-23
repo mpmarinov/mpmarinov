@@ -1016,6 +1016,11 @@
 				background: repeating-linear-gradient(135deg, #dcebe4 0 4px, #fff 4px 8px);
 			}
 
+			&.is-external {
+				border: 1px dashed rgba(100, 116, 139, 0.6);
+				background: repeating-linear-gradient(45deg, rgba(100, 116, 139, 0.2) 0 3px, transparent 3px 6px);
+			}
+
 			&.is-closed {
 				border: 0;
 				background: repeating-linear-gradient(135deg, #f3f4f6 0 4px, #e5e7eb 4px 8px);
@@ -1050,4 +1055,139 @@
 	.bookora-tl__inner {
 		min-width: calc(var(--tl-width) + 96px);
 	}
+}
+
+.bookora-grid--3 {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 782px) {
+
+	.bookora-grid--3 {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+/* Calendar sync */
+.bookora-calendars {
+	display: grid;
+	gap: 20px;
+
+	.components-card__header {
+		display: block;
+	}
+
+	.components-card__body > * + * {
+		margin-top: 16px;
+	}
+}
+
+.bookora-card-title {
+	margin: 0 0 4px;
+	font-size: 15px;
+}
+
+.bookora-feeds {
+	display: grid;
+	gap: 10px;
+}
+
+.bookora-feed {
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	padding: 12px 14px;
+
+	&__head {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		margin-bottom: 10px;
+	}
+
+	&__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+	}
+}
+
+.bookora-feed-options {
+	display: grid;
+	gap: 12px;
+	padding: 12px 14px;
+	background: #f6f7f7;
+	border-radius: 8px;
+}
+
+.bookora-connection {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	flex-wrap: wrap;
+	padding: 12px 14px;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+
+	.bookora-status {
+		margin-left: 8px;
+	}
+
+	&__error {
+		margin: 8px 0 0;
+		padding: 8px 10px;
+		background: #fde8e8;
+		color: #9b1c1c;
+		border-radius: 4px;
+		font-size: 13px;
+	}
+}
+
+.bookora-connection-form {
+	display: grid;
+	gap: 14px;
+	padding: 14px;
+	border: 1px dashed #c3c4c7;
+	border-radius: 8px;
+
+	.bookora-modal-actions {
+		margin-top: 0;
+	}
+}
+
+.bookora-help {
+
+	summary {
+		cursor: pointer;
+		color: var(--wp-admin-theme-color, #2271b1);
+	}
+
+	dt {
+		font-weight: 600;
+		margin-top: 10px;
+	}
+
+	dd {
+		margin: 2px 0 0;
+		color: #3c434a;
+	}
+}
+
+/* Timeline: busy times from external calendars */
+.bookora-tl__block {
+	position: absolute;
+	top: 3px;
+	bottom: 3px;
+	z-index: 1;
+	display: flex;
+	align-items: flex-end;
+	padding: 2px 6px;
+	border-radius: 4px;
+	background: repeating-linear-gradient(45deg, rgba(100, 116, 139, 0.18) 0 5px, rgba(100, 116, 139, 0.08) 5px 10px);
+	border: 1px dashed rgba(100, 116, 139, 0.5);
+	color: #475569;
+	font-size: 10px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	pointer-events: none;
 }

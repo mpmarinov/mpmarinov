@@ -23,27 +23,29 @@ final class Settings {
 	 */
 	public static function defaults(): array {
 		return array(
-			'business_name'       => '',
-			'business_address'    => '',
-			'email_from_address'  => '',
-			'admin_email'         => '',
-			'time_format'         => '24h',
-			'week_start'          => 1,
-			'slot_interval'       => 30,
-			'default_status'      => 'pending',
-			'min_notice_minutes'  => 60,
-			'max_advance_days'    => 90,
-			'max_per_day'         => 0,
-			'fill_gaps'           => true,
-			'cancel_limit_hours'  => 24,
-			'reminder_hours'      => array( 24 ),
-			'token_ttl_hours'     => 72,
-			'primary_color'       => '#2563eb',
-			'global_css'          => '',
-			'global_js'           => '',
-			'antispam_honeypot'   => true,
-			'captcha_provider'    => 'none',
-			'delete_on_uninstall' => false,
+			'business_name'         => '',
+			'business_address'      => '',
+			'email_from_address'    => '',
+			'admin_email'           => '',
+			'time_format'           => '24h',
+			'week_start'            => 1,
+			'slot_interval'         => 30,
+			'default_status'        => 'pending',
+			'min_notice_minutes'    => 60,
+			'max_advance_days'      => 90,
+			'max_per_day'           => 0,
+			'fill_gaps'             => true,
+			'cancel_limit_hours'    => 24,
+			'reminder_hours'        => array( 24 ),
+			'token_ttl_hours'       => 72,
+			'primary_color'         => '#2563eb',
+			'global_css'            => '',
+			'global_js'             => '',
+			'antispam_honeypot'     => true,
+			'captcha_provider'      => 'none',
+			'delete_on_uninstall'   => false,
+			'feed_include_pending'  => true,
+			'feed_customer_details' => true,
 		);
 	}
 
@@ -146,6 +148,9 @@ final class Settings {
 		$out['antispam_honeypot']   = ! empty( $input['antispam_honeypot'] );
 		$out['captcha_provider']    = in_array( $input['captcha_provider'] ?? '', array( 'none', 'turnstile', 'hcaptcha', 'recaptcha' ), true ) ? $input['captcha_provider'] : 'none';
 		$out['delete_on_uninstall'] = ! empty( $input['delete_on_uninstall'] );
+
+		$out['feed_include_pending']  = ! empty( $input['feed_include_pending'] );
+		$out['feed_customer_details'] = ! empty( $input['feed_customer_details'] );
 
 		/**
 		 * Filter sanitized settings (Pro add-on adds its own keys here).
