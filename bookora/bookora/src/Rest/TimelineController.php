@@ -239,8 +239,10 @@ final class TimelineController {
 				if ( $a >= $b ) {
 					continue;
 				}
-				$start_min = (int) round( ( $a - $day_start ) / 60 );
-				$end_min   = $b >= $day_end ? 1440 : (int) round( ( $b - $day_start ) / 60 );
+				// Wall-clock minutes like the bookings (correct on 23/25-hour DST days).
+				$local     = static fn( int $ts ): int => (int) ( new DateTimeImmutable( '@' . $ts ) )->setTimezone( $tz )->format( 'G' ) * 60 + (int) ( new DateTimeImmutable( '@' . $ts ) )->setTimezone( $tz )->format( 'i' );
+				$start_min = $a <= $day_start ? 0 : $local( $a );
+				$end_min   = $b >= $day_end ? 1440 : $local( $b );
 				$label     = $e['label'];
 				if ( 'week' === $view && null !== $e['resource_id'] && isset( $names[ $e['resource_id'] ] ) ) {
 					$label = $names[ $e['resource_id'] ] . ': ' . $label;

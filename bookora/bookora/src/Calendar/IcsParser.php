@@ -176,19 +176,62 @@ final class IcsParser {
 	);
 
 	/**
-	 * Default time zone for floating times and all-day events.
+	 * Properties whose value is a DATE/DATE-TIME (never contains ":" – the last colon separates the value).
+	 */
+	private const DATE_PROPS = array( 'DTSTART', 'DTEND', 'EXDATE', 'RDATE', 'RECURRENCE-ID' );
+
+	/**
+	 * Time zone for floating date-times (X-WR-TIMEZONE of the calendar or the owner's zone).
 	 *
 	 * @var DateTimeZone
 	 */
 	private DateTimeZone $tz;
 
 	/**
+	 * The owner's zone – all-day events are always local days of the owner.
+	 *
+	 * @var DateTimeZone
+	 */
+	private DateTimeZone $owner;
+
+	/**
+	 * Resolved TZIDs (incl. custom VTIMEZONE definitions).
+	 *
+	 * @var array<string, DateTimeZone|null>
+	 */
+	private array $zones = array();
+
+	/**
+	 * VTIMEZONE definitions of the current calendar.
+	 *
+	 * @var array<string, array{std:int|null, dst:int|null, std_month:int|null, dst_month:int|null}>
+	 */
+	private array $vtimezones = array();
+
+	/**
+	 * Wall-clock deadline for expanding recurrences (protects the cron run).
+	 *
+	 * @var float
+	 */
+	private float $deadline = 0.0;
+
+	/**
+	 * Seconds allowed for one calendar.
+	 *
+	 * @var float
+	 */
+	private float $budget;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param DateTimeZone $tz Time zone for floating times (the calendar owner's zone).
+	 * @param DateTimeZone $tz     The calendar owner's zone.
+	 * @param float        $budget Max. seconds for expanding recurring events.
 	 */
-	public function __construct( DateTimeZone $tz ) {
-		$this->tz = $tz;
+	public function __construct( DateTimeZone $tz, float $budget = 8.0 ) {
+		$this->tz     = $tz;
+		$this->owner  = $tz;
+		$this->budget = $budget;
 	}
 
 	/**
@@ -200,9 +243,12 @@ final class IcsParser {
 	 * @return list<array{uid:string, start:int, end:int, all_day:bool}>
 	 */
 	public function busy( string $ics, int $from, int $to ): array {
-		$cal_tz = $this->calendar_timezone( $ics );
+		$this->deadline   = microtime( true ) + $this->budget;
+		$this->vtimezones = self::vtimezones( $ics );
+		$this->zones      = array();
+		$cal_tz           = $this->calendar_timezone( $ics );
 		if ( $cal_tz ) {
-			$this->tz = $cal_tz;
+			$this->tz = $cal_tz; // Only for floating date-times; all-day stays in the owner's zone.
 		}
 
 		// One streaming pass: single events are kept only if they touch the window,
@@ -210,11 +256,16 @@ final class IcsParser {
 		$out        = array();
 		$masters    = array();
 		$overridden = array();
+		$ranges     = array();
 		foreach ( $this->events( $ics ) as $e ) {
+			$full = count( $out ) >= self::MAX_OCCURRENCES; // Keep reading (overrides may follow), stop adding.
 			if ( null !== $e['recurrence_id'] ) {
 				// Override of one instance; a cancelled override simply removes the original occurrence.
 				$overridden[ $e['uid'] ][ $e['recurrence_id'] ] = true;
-				if ( $e['blocking'] && $e['end'] > $from && $e['start'] < $to ) {
+				if ( 'THISANDFUTURE' === $e['range'] ) {
+					$ranges[ $e['uid'] ][] = array( $e['recurrence_id'], $e['start'] - $e['recurrence_id'], $e['end'] - $e['start'] );
+				}
+				if ( ! $full && $e['blocking'] && $e['end'] > $from && $e['start'] < $to ) {
 					$out[] = self::slot( $e['uid'], $e['start'], $e['end'], $e['all_day'] );
 				}
 				continue;
@@ -224,27 +275,41 @@ final class IcsParser {
 			}
 			if ( $e['rrule'] || $e['rdates'] ) {
 				$masters[] = $e;
-			} elseif ( $e['end'] > $from && $e['start'] < $to ) {
+			} elseif ( ! $full && $e['end'] > $from && $e['start'] < $to ) {
 				$out[] = self::slot( $e['uid'], $e['start'], $e['end'], $e['all_day'] );
-			}
-			if ( count( $out ) >= self::MAX_OCCURRENCES ) {
-				break;
 			}
 		}
 
 		foreach ( $masters as $e ) {
-			$skip = $overridden[ $e['uid'] ] ?? array();
-			foreach ( $this->occurrences( $e, $from, $to ) as $start ) {
+			$skip  = $overridden[ $e['uid'] ] ?? array();
+			$moves = $ranges[ $e['uid'] ] ?? array();
+			usort( $moves, static fn( $a, $b ) => $a[0] <=> $b[0] );
+			$shift = 0;
+			foreach ( $moves as $mv ) {
+				$shift = max( $shift, abs( $mv[1] ) );
+			}
+			foreach ( $this->occurrences( $e, $from - $shift, $to + $shift ) as $start ) {
 				if ( isset( $e['exdates'][ $start ] ) || isset( $skip[ $start ] ) ) {
 					continue;
 				}
 				$end = $e['all_day'] ? $this->add_days( $start, $e['days'] ) : $start + $e['duration'];
+				// RANGE=THISANDFUTURE: later instances follow the moved one (time and length).
+				foreach ( array_reverse( $moves ) as [ $rid, $delta, $length ] ) {
+					if ( $start > $rid ) {
+						$start += $delta;
+						$end    = $start + $length;
+						break;
+					}
+				}
 				if ( $end > $from && $start < $to ) {
 					$out[] = self::slot( $e['uid'], $start, $end, $e['all_day'] );
 				}
 				if ( count( $out ) >= self::MAX_OCCURRENCES ) {
 					break 2;
 				}
+			}
+			if ( microtime( true ) > $this->deadline ) {
+				break; // Time budget used up – better partial data than a stuck sync.
 			}
 		}
 
@@ -276,10 +341,102 @@ final class IcsParser {
 	 * @param string $ics Calendar.
 	 */
 	private function calendar_timezone( string $ics ): ?DateTimeZone {
-		if ( preg_match( '/^X-WR-TIMEZONE(?:;[^:]*)?:(.+)$/mi', $ics, $m ) ) {
-			return $this->zone( trim( $m[1] ) );
+		if ( preg_match( '/^X-WR-TIMEZONE(?:;[^:\r\n]*)?:((?:[^\r\n]|\r?\n[ \t])+)/mi', $ics, $m ) ) {
+			return $this->zone( trim( (string) preg_replace( '/\r?\n[ \t]/', '', $m[1] ) ) );
 		}
 		return null;
+	}
+
+	/**
+	 * VTIMEZONE blocks: offsets and transition months per TZID (for custom zones such as Outlook's
+	 * "Customized Time Zone").
+	 *
+	 * @param string $ics Calendar.
+	 * @return array<string, array{std:int|null, dst:int|null, std_month:int|null, dst_month:int|null}>
+	 */
+	private static function vtimezones( string $ics ): array {
+		$out = array();
+		if ( ! preg_match_all( '/BEGIN:VTIMEZONE(.*?)END:VTIMEZONE/s', $ics, $blocks ) ) {
+			return $out;
+		}
+		foreach ( $blocks[1] as $block ) {
+			$block = (string) preg_replace( '/\r?\n[ \t]/', '', $block );
+			if ( ! preg_match( '/^TZID(?:;[^:\r\n]*)?:(.+)$/m', $block, $id ) ) {
+				continue;
+			}
+			$def = array(
+				'std'       => null,
+				'dst'       => null,
+				'std_month' => null,
+				'dst_month' => null,
+			);
+			foreach ( array(
+				'STANDARD' => 'std',
+				'DAYLIGHT' => 'dst',
+			) as $part => $key ) {
+				if ( preg_match( '/BEGIN:' . $part . '(.*?)END:' . $part . '/s', $block, $sub ) ) {
+					if ( preg_match( '/^TZOFFSETTO:([+-])(\d{2})(\d{2})/m', $sub[1], $o ) ) {
+						$def[ $key ] = ( '-' === $o[1] ? -1 : 1 ) * ( (int) $o[2] * 3600 + (int) $o[3] * 60 );
+					}
+					if ( preg_match( '/BYMONTH=(\d{1,2})/', $sub[1], $mo ) ) {
+						$def[ $key . '_month' ] = (int) $mo[1];
+					} elseif ( preg_match( '/^DTSTART[^:]*:\d{4}(\d{2})/m', $sub[1], $mo ) ) {
+						$def[ $key . '_month' ] = (int) $mo[1];
+					}
+				}
+			}
+			$out[ trim( trim( $id[1] ), '"' ) ] = $def;
+		}
+		return $out;
+	}
+
+	/**
+	 * Find a real zone with the offsets and DST months of a custom VTIMEZONE.
+	 *
+	 * @param string                                                                    $tzid TZID (may contain a city name).
+	 * @param array{std:int|null, dst:int|null, std_month:int|null, dst_month:int|null} $def  Definition.
+	 */
+	private static function match_zone( string $tzid, array $def ): ?DateTimeZone {
+		if ( null === $def['std'] ) {
+			return null;
+		}
+		$fixed = static function ( int $offset ): DateTimeZone {
+			return new DateTimeZone( sprintf( '%s%02d:%02d', $offset < 0 ? '-' : '+', intdiv( abs( $offset ), 3600 ), intdiv( abs( $offset ) % 3600, 60 ) ) );
+		};
+		if ( null === $def['dst'] || $def['dst'] === $def['std'] ) {
+			return $fixed( $def['std'] );
+		}
+
+		$year  = (int) gmdate( 'Y' );
+		$from  = (int) gmmktime( 0, 0, 0, 1, 1, $year );
+		$to    = (int) gmmktime( 0, 0, 0, 12, 31, $year );
+		$found = array();
+		foreach ( DateTimeZone::listIdentifiers() as $name ) {
+			$trans = ( new DateTimeZone( $name ) )->getTransitions( $from, $to );
+			if ( ! is_array( $trans ) || count( $trans ) < 3 ) {
+				continue;
+			}
+			$dst_ok = false;
+			$std_ok = false;
+			foreach ( array_slice( $trans, 1 ) as $t ) {
+				$month = (int) gmdate( 'n', (int) $t['ts'] );
+				if ( $t['isdst'] && (int) $t['offset'] === $def['dst'] && ( null === $def['dst_month'] || $month === $def['dst_month'] ) ) {
+					$dst_ok = true;
+				}
+				if ( ! $t['isdst'] && (int) $t['offset'] === $def['std'] && ( null === $def['std_month'] || $month === $def['std_month'] ) ) {
+					$std_ok = true;
+				}
+			}
+			if ( $dst_ok && $std_ok ) {
+				$city = substr( (string) strrchr( '/' . $name, '/' ), 1 );
+				// Prefer a zone whose city appears in the TZID text (e.g. "(UTC+01:00) Amsterdam, Berlin").
+				if ( '' !== $city && false !== stripos( $tzid, str_replace( '_', ' ', $city ) ) ) {
+					return new DateTimeZone( $name );
+				}
+				$found[] = $name;
+			}
+		}
+		return $found ? new DateTimeZone( $found[0] ) : $fixed( $def['std'] );
 	}
 
 	/**
@@ -306,22 +463,56 @@ final class IcsParser {
 			if ( ! in_array( $name, self::WANTED, true ) ) {
 				continue;
 			}
-			// Split name;params:value respecting quoted parameter values.
-			if ( ! preg_match( '/^([A-Za-z0-9-]+)((?:;[A-Za-z0-9-]+=(?:"[^"]*"|[^";:,]*)(?:,(?:"[^"]*"|[^";:,]*))*)*):(.*)$/', $raw, $m ) ) {
+			$rest = substr( $raw, $cut );
+			if ( '' === $rest ) {
 				continue;
 			}
+			if ( ':' === $rest[0] ) {
+				$param_text = '';
+				$value      = substr( $rest, 1 );
+			} else {
+				// Date values never contain ":", so the last colon is safe even for TZID=(UTC+01:00) Amsterdam.
+				$sep = in_array( $name, self::DATE_PROPS, true ) ? strrpos( $rest, ':' ) : self::first_unquoted_colon( $rest );
+				if ( false === $sep ) {
+					continue;
+				}
+				$param_text = substr( $rest, 1, $sep - 1 );
+				$value      = substr( $rest, $sep + 1 );
+			}
 			$params = array();
-			if ( '' !== $m[2] && preg_match_all( '/;([A-Za-z0-9-]+)=((?:"[^"]*"|[^";:,]*)(?:,(?:"[^"]*"|[^";:,]*))*)/', $m[2], $pm, PREG_SET_ORDER ) ) {
-				foreach ( $pm as $p ) {
-					$params[ strtoupper( $p[1] ) ] = trim( $p[2], '"' );
+			if ( '' !== $param_text ) {
+				foreach ( preg_split( '/;(?=[A-Za-z0-9-]+=)/', $param_text ) as $pair ) {
+					$eq = strpos( $pair, '=' );
+					if ( false !== $eq ) {
+						$params[ strtoupper( substr( $pair, 0, $eq ) ) ] = trim( substr( $pair, $eq + 1 ), '"' );
+					}
 				}
 			}
 			yield array(
 				'name'   => $name,
 				'params' => $params,
-				'value'  => rtrim( $m[3] ),
+				'value'  => rtrim( $value ),
 			);
 		}
+	}
+
+	/**
+	 * Position of the first ":" outside double quotes.
+	 *
+	 * @param string $text Text.
+	 * @return int|false
+	 */
+	private static function first_unquoted_colon( string $text ) {
+		$quoted = false;
+		$len    = strlen( $text );
+		for ( $i = 0; $i < $len; $i++ ) {
+			if ( '"' === $text[ $i ] ) {
+				$quoted = ! $quoted;
+			} elseif ( ':' === $text[ $i ] && ! $quoted ) {
+				return $i;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -464,6 +655,7 @@ final class IcsParser {
 			'exdates'       => $exdates,
 			'rdates'        => $rdates,
 			'recurrence_id' => $recurrence,
+			'range'         => strtoupper( (string) ( $p['RECURRENCE-ID']['params']['RANGE'] ?? '' ) ),
 		);
 	}
 
@@ -477,9 +669,10 @@ final class IcsParser {
 		if ( ! $t['date'] || $start['date'] ) {
 			return $t['ts'];
 		}
-		$day = ( new DateTimeImmutable( '@' . $t['ts'] ) )->setTimezone( $start['tz'] );
+		// The date as written (owner's calendar day) combined with the start's time of day in the start's zone.
+		$ymd = ( new DateTimeImmutable( '@' . $t['ts'] ) )->setTimezone( $this->owner )->format( 'Y-m-d' );
 		$ref = ( new DateTimeImmutable( '@' . $start['ts'] ) )->setTimezone( $start['tz'] );
-		return $day->setTime( (int) $ref->format( 'H' ), (int) $ref->format( 'i' ), (int) $ref->format( 's' ) )->getTimestamp();
+		return ( new DateTimeImmutable( $ymd . ' ' . $ref->format( 'H:i:s' ), $start['tz'] ) )->getTimestamp();
 	}
 
 	/**
@@ -496,11 +689,11 @@ final class IcsParser {
 			if ( ! checkdate( (int) $m[2], (int) $m[3], (int) $m[1] ) ) {
 				return null;
 			}
-			$d = new DateTimeImmutable( "{$m[1]}-{$m[2]}-{$m[3]} 00:00:00", $this->tz );
+			$d = new DateTimeImmutable( "{$m[1]}-{$m[2]}-{$m[3]} 00:00:00", $this->owner );
 			return array(
 				'ts'   => $d->getTimestamp(),
 				'date' => true,
-				'tz'   => $this->tz,
+				'tz'   => $this->owner,
 			);
 		}
 
@@ -517,8 +710,8 @@ final class IcsParser {
 			return array(
 				'ts'   => $d->getTimestamp(),
 				'date' => false,
-				// Recurrences of UTC events are expanded in the owner's zone so DST shifts behave like in calendar apps.
-				'tz'   => 'Z' === $m[7] ? $this->tz : $tz,
+				// RFC 5545: a recurrence anchored in UTC stays fixed in UTC.
+				'tz'   => $zone,
 			);
 		}
 
@@ -532,6 +725,23 @@ final class IcsParser {
 	 */
 	private function zone( string $tzid ): ?DateTimeZone {
 		$tzid = trim( $tzid, " \"\t" );
+		if ( array_key_exists( $tzid, $this->zones ) ) {
+			return $this->zones[ $tzid ];
+		}
+		$zone = $this->named_zone( $tzid );
+		if ( ! $zone && isset( $this->vtimezones[ $tzid ] ) ) {
+			$zone = self::match_zone( $tzid, $this->vtimezones[ $tzid ] );
+		}
+		$this->zones[ $tzid ] = $zone;
+		return $zone;
+	}
+
+	/**
+	 * Zone from a name (IANA, Windows, Mozilla prefix).
+	 *
+	 * @param string $tzid TZID.
+	 */
+	private function named_zone( string $tzid ): ?DateTimeZone {
 		if ( isset( self::WINDOWS_ZONES[ $tzid ] ) ) {
 			$tzid = self::WINDOWS_ZONES[ $tzid ];
 		}
@@ -582,7 +792,7 @@ final class IcsParser {
 	 * @param int $days Days.
 	 */
 	private function add_days( int $ts, int $days ): int {
-		return ( new DateTimeImmutable( '@' . $ts ) )->setTimezone( $this->tz )->modify( "+{$days} days" )->getTimestamp();
+		return ( new DateTimeImmutable( '@' . $ts ) )->setTimezone( $this->owner )->modify( "+{$days} days" )->getTimestamp();
 	}
 
 	/**
@@ -600,7 +810,7 @@ final class IcsParser {
 		}
 		if ( $e['rrule'] ) {
 			$length = max( $e['all_day'] ? $e['days'] * 86400 + 7200 : $e['duration'], 0 );
-			$starts = array_merge( $starts, ( new Rrule( $e['rrule'], $e['start'], $e['tz'] ) )->between( $from - $length, $to ) );
+			$starts = array_merge( $starts, ( new Rrule( $e['rrule'], $e['start'], $e['tz'] ) )->between( $from - $length, $to, $this->deadline ) );
 		}
 		return array_values( array_unique( $starts ) );
 	}

@@ -250,6 +250,9 @@ final class CalendarsController {
 		}
 		if ( $r->has_param( 'status' ) ) {
 			$data['status'] = sanitize_key( (string) $r->get_param( 'status' ) );
+			if ( ! in_array( $data['status'], array( 'active', 'paused' ), true ) ) {
+				return new WP_Error( 'bookora_invalid_status', __( 'Invalid status.', 'bookora' ), array( 'status' => 400 ) );
+			}
 		}
 		return $data;
 	}
@@ -299,7 +302,9 @@ final class CalendarsController {
 		}
 		$this->connections->update( $id, $data );
 		$result = null;
-		if ( isset( $data['url'] ) || array_key_exists( 'block_all_day', $data ) || ( isset( $data['status'] ) && 'active' === $data['status'] ) ) {
+		$row    = $this->connections->find( $id );
+		$reload = null === ( $row['sync_token'] ?? null ); // e.g. after changing the staff member (other time zone).
+		if ( $row && 'paused' !== $row['status'] && ( $reload || isset( $data['url'] ) || ( isset( $data['status'] ) && 'active' === $data['status'] ) ) ) {
 			$result = $this->importer->sync( $id, true );
 		}
 		return new WP_REST_Response(

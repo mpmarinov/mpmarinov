@@ -161,21 +161,24 @@ final class Rrule {
 	/**
 	 * Instance starts within [from, to].
 	 *
-	 * @param int $from UTC timestamp.
-	 * @param int $to   UTC timestamp.
+	 * @param int   $from     UTC timestamp.
+	 * @param int   $to       UTC timestamp.
+	 * @param float $deadline microtime() after which expansion stops (0 = none).
 	 * @return list<int>
 	 */
-	public function between( int $from, int $to ): array {
+	public function between( int $from, int $to, float $deadline = 0.0 ): array {
 		if ( ! in_array( $this->freq, array( 'DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY' ), true ) ) {
 			return array();
 		}
 
-		$out     = array();
-		$emitted = 0;
-		$first   = $this->start->getTimestamp();
-		$k       = $this->skip_ahead( $from );
+		$out             = array();
+		$first           = $this->start->getTimestamp();
+		[ $k, $emitted ] = $this->skip_ahead( $from );
 
 		for ( $i = 0; $i < self::MAX_PERIODS; $i++, $k++ ) {
+			if ( $deadline > 0 && 0 === ( $i & 63 ) && microtime( true ) > $deadline ) {
+				break;
+			}
 			$dates = $this->period( $k );
 			if ( null === $dates ) {
 				break;
@@ -214,17 +217,17 @@ final class Rrule {
 	}
 
 	/**
-	 * Jump close to the window when COUNT does not require counting from the start.
+	 * Jump close to the window. With COUNT this is only possible for rules with a fixed number of
+	 * instances per period (DAILY without filters, WEEKLY without BYMONTH/BYSETPOS); the skipped
+	 * instances are counted arithmetically.
 	 *
 	 * @param int $from Window start.
+	 * @return array{0:int, 1:int} Period index and instances already emitted before it.
 	 */
-	private function skip_ahead( int $from ): int {
-		if ( null !== $this->count ) {
-			return 0;
-		}
+	private function skip_ahead( int $from ): array {
 		$diff = $from - $this->start->getTimestamp();
 		if ( $diff <= 0 ) {
-			return 0;
+			return array( 0, 0 );
 		}
 		$unit = array(
 			'DAILY'   => 86400,
@@ -232,7 +235,31 @@ final class Rrule {
 			'MONTHLY' => 2678400,
 			'YEARLY'  => 31622400,
 		)[ $this->freq ] * $this->interval;
-		return max( 0, (int) floor( $diff / $unit ) - 2 );
+		$k    = max( 0, (int) floor( $diff / $unit ) - 2 );
+
+		if ( null === $this->count || 0 === $k ) {
+			return array( $k, 0 );
+		}
+
+		$per_period = null;
+		if ( 'DAILY' === $this->freq && ! $this->byday && ! $this->bymonth && ! $this->bymonthday && ! $this->bysetpos ) {
+			$per_period = 1;
+		} elseif ( 'WEEKLY' === $this->freq && ! $this->bymonth && ! $this->bysetpos ) {
+			$per_period = $this->byday ? count( array_unique( array_map( static fn( $b ) => $b[1], $this->byday ) ) ) : 1;
+		}
+		if ( null === $per_period ) {
+			return array( 0, 0 );
+		}
+
+		// Period 0 may contain days before DTSTART, which do not count.
+		$first  = $this->start->getTimestamp();
+		$period = 0;
+		foreach ( (array) $this->period( 0 ) as $ymd ) {
+			if ( $this->at( $ymd ) >= $first ) {
+				++$period;
+			}
+		}
+		return array( $k, $period + ( $k - 1 ) * $per_period );
 	}
 
 	/**

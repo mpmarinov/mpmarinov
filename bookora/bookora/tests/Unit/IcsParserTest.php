@@ -172,4 +172,69 @@ final class IcsParserTest extends TestCase {
 		$this->assertSame( -900, IcsParser::duration( '-PT15M' ) );
 		$this->assertSame( 0, IcsParser::duration( 'garbage' ) );
 	}
+
+	/* ---- Regression tests from the code review ---- */
+
+	public function test_utc_anchored_series_stays_fixed_in_utc(): void {
+		$ics = $this->cal( "BEGIN:VEVENT\nUID:u\nDTSTART:20260320T090000Z\nDTEND:20260320T100000Z\nRRULE:FREQ=WEEKLY;COUNT=3\nEXDATE:20260327T090000Z\nEND:VEVENT" );
+		// 09:00Z = 10:00 CET before, 11:00 CEST after the switch on 29.03.
+		$this->assertSame( array( '2026-03-20 10:00 – 2026-03-20 11:00', '2026-04-03 11:00 – 2026-04-03 12:00' ), $this->busy( $ics ) );
+	}
+
+	public function test_custom_vtimezone_without_dst_uses_its_offset(): void {
+		$ics = $this->cal( "BEGIN:VTIMEZONE\nTZID:Customized Time Zone\nBEGIN:STANDARD\nDTSTART:16010101T000000\nTZOFFSETFROM:-0500\nTZOFFSETTO:-0500\nEND:STANDARD\nEND:VTIMEZONE\nBEGIN:VEVENT\nUID:c\nDTSTART;TZID=Customized Time Zone:20261124T090000\nDTEND;TZID=Customized Time Zone:20261124T100000\nEND:VEVENT" );
+		$this->assertSame( array( '2026-11-24 15:00 – 2026-11-24 16:00' ), $this->busy( $ics ) );
+	}
+
+	public function test_custom_vtimezone_with_dst_is_matched_to_a_real_zone(): void {
+		$vtz = "BEGIN:VTIMEZONE\nTZID:Customized Time Zone 2\nBEGIN:STANDARD\nDTSTART:16010101T020000\nTZOFFSETFROM:-0400\nTZOFFSETTO:-0500\nRRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=11\nEND:STANDARD\nBEGIN:DAYLIGHT\nDTSTART:16010101T020000\nTZOFFSETFROM:-0500\nTZOFFSETTO:-0400\nRRULE:FREQ=YEARLY;BYDAY=2SU;BYMONTH=3\nEND:DAYLIGHT\nEND:VTIMEZONE";
+		$ics = $this->cal( $vtz, "BEGIN:VEVENT\nUID:s\nDTSTART;TZID=Customized Time Zone 2:20260715T090000\nDTEND;TZID=Customized Time Zone 2:20260715T100000\nEND:VEVENT", "BEGIN:VEVENT\nUID:w\nDTSTART;TZID=Customized Time Zone 2:20261215T090000\nDTEND;TZID=Customized Time Zone 2:20261215T100000\nEND:VEVENT" );
+		// New York: 09:00 EDT = 13:00Z = 15:00 Berlin (summer); 09:00 EST = 14:00Z = 15:00 Berlin (winter).
+		$this->assertSame( array( '2026-07-15 15:00 – 2026-07-15 16:00', '2026-12-15 15:00 – 2026-12-15 16:00' ), $this->busy( $ics ) );
+	}
+
+	public function test_unquoted_outlook_tzid_with_colon_and_commas(): void {
+		$name = '(UTC+01:00) Amsterdam, Berlin, Bern, Rom, Stockholm, Wien';
+		$vtz  = "BEGIN:VTIMEZONE\nTZID:{$name}\nBEGIN:STANDARD\nDTSTART:16010101T030000\nTZOFFSETFROM:+0200\nTZOFFSETTO:+0100\nRRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=10\nEND:STANDARD\nBEGIN:DAYLIGHT\nDTSTART:16010101T020000\nTZOFFSETFROM:+0100\nTZOFFSETTO:+0200\nRRULE:FREQ=YEARLY;BYDAY=-1SU;BYMONTH=3\nEND:DAYLIGHT\nEND:VTIMEZONE";
+		$ics  = $this->cal( $vtz, "BEGIN:VEVENT\nUID:o\nDTSTART;TZID={$name}:20260715T090000\nDTEND;TZID={$name}:20260715T100000\nEND:VEVENT" );
+		$this->assertSame( array( '2026-07-15 09:00 – 2026-07-15 10:00' ), $this->busy( $ics ) );
+	}
+
+	public function test_this_and_future_moves_all_later_instances(): void {
+		$ics = $this->cal(
+			"BEGIN:VEVENT\nUID:t\nDTSTART;TZID=Europe/Berlin:20261102T080000\nDTEND;TZID=Europe/Berlin:20261102T090000\nRRULE:FREQ=DAILY;COUNT=4\nEND:VEVENT",
+			"BEGIN:VEVENT\nUID:t\nRECURRENCE-ID;RANGE=THISANDFUTURE;TZID=Europe/Berlin:20261103T080000\nDTSTART;TZID=Europe/Berlin:20261103T140000\nDTEND;TZID=Europe/Berlin:20261103T143000\nEND:VEVENT"
+		);
+		$this->assertSame(
+			array( '2026-11-02 08:00 – 2026-11-02 09:00', '2026-11-03 14:00 – 2026-11-03 14:30', '2026-11-04 14:00 – 2026-11-04 14:30', '2026-11-05 14:00 – 2026-11-05 14:30' ),
+			$this->busy( $ics )
+		);
+	}
+
+	public function test_calendar_timezone_does_not_shift_all_day_events_and_may_be_folded(): void {
+		$ics = "BEGIN:VCALENDAR\r\nX-WR-TIMEZONE:America/Los_\r\n Angeles\r\nBEGIN:VEVENT\r\nUID:a\r\nDTSTART;VALUE=DATE:20261124\r\nDTEND;VALUE=DATE:20261125\r\nEND:VEVENT\r\nBEGIN:VEVENT\r\nUID:f\r\nDTSTART:20261125T090000\r\nDTEND:20261125T100000\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n";
+		$this->assertSame( array( '2026-11-24 00:00 – 2026-11-25 00:00', '2026-11-25 18:00 – 2026-11-25 19:00' ), $this->busy( $ics ) );
+	}
+
+	public function test_old_series_with_huge_count_still_produces_current_instances(): void {
+		$ics = $this->cal( "BEGIN:VEVENT\nUID:h\nDTSTART;TZID=Europe/Berlin:19000101T070000\nDTEND;TZID=Europe/Berlin:19000101T073000\nRRULE:FREQ=DAILY;COUNT=99999999\nEND:VEVENT" );
+		$this->assertCount( 7, $this->busy( $ics, '2026-11-23', '2026-11-30' ) );
+	}
+
+	public function test_malicious_rule_is_stopped_by_the_time_budget(): void {
+		$evil  = '';
+		for ( $i = 0; $i < 20; $i++ ) {
+			$evil .= "BEGIN:VEVENT\nUID:e{$i}\nDTSTART:00010101T090000Z\nDTEND:00010101T100000Z\nRRULE:FREQ=YEARLY;BYDAY=MO,TU,WE,TH,FR,SA,SU;COUNT=99999999\nEND:VEVENT\n";
+		}
+		$ics   = $this->cal( rtrim( $evil ), "BEGIN:VEVENT\nUID:ok\nDTSTART:20261124T080000Z\nDTEND:20261124T090000Z\nEND:VEVENT" );
+		$start = microtime( true );
+		$busy  = ( new IcsParser( $this->berlin, 1.0 ) )->busy( $ics, $this->ts( '2026-11-01' ), $this->ts( '2026-12-01' ) );
+		$this->assertLessThan( 3.0, microtime( true ) - $start );
+		$this->assertContains( 'ok', array_column( $busy, 'uid' ), 'normal events are still imported' );
+	}
+
+	public function test_exdate_date_on_utc_series(): void {
+		$ics = $this->cal( "BEGIN:VEVENT\nUID:x\nDTSTART:20261102T070000Z\nDTEND:20261102T073000Z\nRRULE:FREQ=DAILY;COUNT=3\nEXDATE;VALUE=DATE:20261103\nEND:VEVENT" );
+		$this->assertSame( array( '2026-11-02 08:00 – 2026-11-02 08:30', '2026-11-04 08:00 – 2026-11-04 08:30' ), $this->busy( $ics ) );
+	}
 }

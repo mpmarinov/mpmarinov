@@ -22,7 +22,7 @@ final class IcsImporter {
 	public const CRON     = 'bookora_sync_calendars';
 	public const SCHEDULE = 'bookora_quarter_hour';
 	public const INTERVAL = 15 * MINUTE_IN_SECONDS;
-	public const MAX_SIZE = 5 * MB_IN_BYTES;
+	public const MAX_SIZE = 15 * MB_IN_BYTES;
 
 	/**
 	 * Constructor.
@@ -92,12 +92,13 @@ final class IcsImporter {
 		$parts = wp_parse_url( $url );
 		$host  = strtolower( (string) ( $parts['host'] ?? '' ) );
 		// Syntax check only; the request itself goes through wp_safe_remote_get() (blocks internal addresses).
-		$bad = ! preg_match( '#^https?://#i', $url ) || '' === $host || isset( $parts['user'] ) || isset( $parts['pass'] )
+		// Only https: the address contains a secret key that must not travel unencrypted.
+		$bad = ! preg_match( '#^https://#i', $url ) || '' === $host || isset( $parts['user'] ) || isset( $parts['pass'] )
 			|| 'localhost' === $host || str_ends_with( $host, '.local' ) || str_ends_with( $host, '.internal' )
 			|| ( filter_var( $host, FILTER_VALIDATE_IP ) && ! filter_var( $host, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) )
 			|| strlen( $url ) > 2000;
 		if ( $bad ) {
-			return new WP_Error( 'bookora_invalid_calendar_url', __( 'Please enter a valid calendar address (starting with https:// or webcal://).', 'bookora' ), array( 'status' => 400 ) );
+			return new WP_Error( 'bookora_invalid_calendar_url', __( 'Please enter a valid, encrypted calendar address (starting with https:// or webcal://).', 'bookora' ), array( 'status' => 400 ) );
 		}
 		$own = (string) wp_parse_url( home_url(), PHP_URL_HOST );
 		if ( str_contains( $url, 'bookora_feed=' ) && ConnectionRepository::host( $url ) === $own ) {
@@ -124,15 +125,45 @@ final class IcsImporter {
 			);
 		}
 
-		$url   = $this->connections->url( $row );
-		$state = json_decode( (string) $row['sync_token'], true );
-		$state = is_array( $state ) ? $state : array();
+		if ( ! $this->connections->lock( $id ) ) {
+			return array(
+				'ok'        => false,
+				'error'     => __( 'A synchronization of this calendar is already running. Please try again in a minute.', 'bookora' ),
+				'events'    => 0,
+				'unchanged' => false,
+			);
+		}
+		try {
+			return $this->run_sync( $row, $force );
+		} finally {
+			$this->connections->unlock( $id );
+		}
+	}
 
+	/**
+	 * Sync body (runs under the per-connection lock).
+	 *
+	 * @param array<string, mixed> $row   Connection row.
+	 * @param bool                 $force Ignore HTTP caching.
+	 * @return array{ok:bool, error:?string, events:int, unchanged:bool}
+	 */
+	private function run_sync( array $row, bool $force ): array {
+		$id            = (int) $row['id'];
+		$url           = $this->connections->url( $row );
+		$state         = json_decode( (string) $row['sync_token'], true );
+		$state         = is_array( $state ) ? $state : array();
+		[ $from, $to ] = $this->window();
+
+		// Record the attempt first: a run that dies (timeout) must not block the other calendars.
+		$this->connections->touch( $id );
+
+		// A 304 keeps the stored busy times – but only while they still cover the booking horizon.
+		$covered = isset( $state['to'] ) && (int) $state['to'] >= $to - DAY_IN_SECONDS;
 		$headers = array( 'Accept' => 'text/calendar, */*;q=0.5' );
-		if ( ! $force && ! empty( $state['etag'] ) ) {
+		if ( ! $force && $covered && ! empty( $state['etag'] ) ) {
 			$headers['If-None-Match'] = (string) $state['etag'];
 		}
-		if ( ! $force && ! empty( $state['last_modified'] ) ) {
+		if ( ! $force && $covered && ! empty( $state['last_modified'] ) ) {
 			$headers['If-Modified-Since'] = (string) $state['last_modified'];
 		}
 
@@ -170,6 +201,17 @@ final class IcsImporter {
 		}
 
 		$body = (string) wp_remote_retrieve_body( $response );
+		if ( strlen( $body ) >= self::MAX_SIZE || ( str_contains( strtoupper( substr( $body, 0, 2000 ) ), 'BEGIN:VCALENDAR' ) && ! str_contains( strtoupper( substr( $body, -2000 ) ), 'END:VCALENDAR' ) ) ) {
+			// Truncated download: keep the previous busy times instead of replacing them with a partial set.
+			$error = __( 'The calendar file was incomplete (too large or interrupted). The previous busy times are kept.', 'bookora' );
+			$this->connections->mark( $id, $error );
+			return array(
+				'ok'        => false,
+				'error'     => $error,
+				'events'    => 0,
+				'unchanged' => false,
+			);
+		}
 		if ( ! str_contains( strtoupper( substr( $body, 0, 2000 ) ), 'BEGIN:VCALENDAR' ) ) {
 			$error = __( 'The address does not return a calendar file. Please copy the private iCal/ICS address of your calendar.', 'bookora' );
 			$this->connections->mark( $id, $error );
@@ -186,9 +228,18 @@ final class IcsImporter {
 		unset( $response );
 
 		wp_raise_memory_limit( 'bookora_calendar' ); // Large calendars (years of history) need some headroom.
-		$events = $this->parse( $row, $body );
+		$events = $this->parse( $row, $body, $from, $to );
 		unset( $body );
-		$this->connections->replace_events( $id, $events );
+		if ( ! $this->connections->replace_events( $id, $events ) ) {
+			$error = __( 'The busy times could not be saved (database error). The previous busy times are kept.', 'bookora' );
+			$this->connections->mark( $id, $error );
+			return array(
+				'ok'        => false,
+				'error'     => $error,
+				'events'    => 0,
+				'unchanged' => false,
+			);
+		}
 		$this->connections->mark(
 			$id,
 			null,
@@ -196,6 +247,7 @@ final class IcsImporter {
 				'etag'          => $etag,
 				'last_modified' => $last_modified,
 				'count'         => count( $events ),
+				'to'            => $to,
 			)
 		);
 
@@ -220,12 +272,12 @@ final class IcsImporter {
 	 *
 	 * @param array<string, mixed> $row  Connection row.
 	 * @param string               $body Calendar text.
+	 * @param int                  $from Window start.
+	 * @param int                  $to   Window end.
 	 * @return list<array{uid:string, start:int, end:int, all_day:bool}>
 	 */
-	public function parse( array $row, string $body ): array {
+	public function parse( array $row, string $body, int $from, int $to ): array {
 		$resource = $row['resource_id'] ? (int) $row['resource_id'] : null;
-		$from     = time() - DAY_IN_SECONDS;
-		$to       = time() + ( $this->horizon_days() + 2 ) * DAY_IN_SECONDS;
 		$options  = ConnectionRepository::options( $row );
 		$own      = '@' . strtolower( (string) wp_parse_url( home_url(), PHP_URL_HOST ) );
 
@@ -242,6 +294,16 @@ final class IcsImporter {
 			$out[] = $event;
 		}
 		return $out;
+	}
+
+	/**
+	 * Import window: from yesterday until the end of the booking horizon.
+	 *
+	 * @return array{0:int, 1:int}
+	 */
+	private function window(): array {
+		$now = time();
+		return array( $now - DAY_IN_SECONDS, $now + ( $this->horizon_days() + 2 ) * DAY_IN_SECONDS );
 	}
 
 	/**

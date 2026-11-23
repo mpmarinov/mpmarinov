@@ -141,6 +141,11 @@ final class ConnectionRepository {
 		}
 		if ( array_key_exists( 'resource_id', $data ) ) {
 			$set['resource_id'] = empty( $data['resource_id'] ) ? null : (int) $data['resource_id'];
+			if ( (int) $set['resource_id'] !== (int) $row['resource_id'] ) {
+				// Floating and all-day times depend on the owner's time zone: reload completely.
+				$set['sync_token']     = null;
+				$set['last_synced_at'] = null;
+			}
 		}
 		if ( ! empty( $data['url'] ) ) {
 			$set['credentials']    = $this->crypto->encrypt( (string) $data['url'] );
@@ -173,28 +178,72 @@ final class ConnectionRepository {
 	}
 
 	/**
-	 * Replace all imported busy times of a connection.
+	 * Replace all imported busy times of a connection (all or nothing).
 	 *
 	 * @param int                                                       $id     Connection.
 	 * @param list<array{uid:string, start:int, end:int, all_day:bool}> $events Busy intervals.
+	 * @return bool Success.
 	 */
-	public function replace_events( int $id, array $events ): void {
+	public function replace_events( int $id, array $events ): bool {
 		global $wpdb;
 		$table = self::t( 'external_events' );
+		$ok    = true;
 
 		$wpdb->query( 'START TRANSACTION' );
-		$wpdb->delete( $table, array( 'connection_id' => $id ) );
+		$ok = false !== $wpdb->delete( $table, array( 'connection_id' => $id ) );
 		foreach ( array_chunk( $events, 200 ) as $chunk ) {
+			if ( ! $ok ) {
+				break;
+			}
 			$values = array();
 			$params = array();
 			foreach ( $chunk as $e ) {
 				$values[] = '(%d, %s, %s, %s, %d)';
-				array_push( $params, $id, substr( (string) $e['uid'], 0, 255 ), gmdate( 'Y-m-d H:i:s', $e['start'] ), gmdate( 'Y-m-d H:i:s', $e['end'] ), $e['all_day'] ? 1 : 0 );
+				// mb_strcut keeps multibyte characters intact (invalid UTF-8 would make wpdb reject the query).
+				array_push( $params, $id, mb_strcut( (string) $e['uid'], 0, 255, 'UTF-8' ), gmdate( 'Y-m-d H:i:s', $e['start'] ), gmdate( 'Y-m-d H:i:s', $e['end'] ), $e['all_day'] ? 1 : 0 );
 			}
 			// phpcs:ignore WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- placeholders are built above.
-			$wpdb->query( $wpdb->prepare( "INSERT INTO {$table} (connection_id, external_id, start_utc, end_utc, all_day) VALUES " . implode( ',', $values ), $params ) );
+			$ok = false !== $wpdb->query( $wpdb->prepare( "INSERT INTO {$table} (connection_id, external_id, start_utc, end_utc, all_day) VALUES " . implode( ',', $values ), $params ) );
 		}
-		$wpdb->query( 'COMMIT' );
+		$wpdb->query( $ok ? 'COMMIT' : 'ROLLBACK' );
+		return $ok;
+	}
+
+	/**
+	 * Per-connection lock (works on MySQL and SQLite: option names are unique).
+	 *
+	 * @param int $id Connection.
+	 */
+	public function lock( int $id ): bool {
+		$key = 'bookora_sync_lock_' . $id;
+		if ( add_option( $key, time(), '', false ) ) {
+			return true;
+		}
+		// Stale lock (crashed run) after 5 minutes.
+		if ( (int) get_option( $key, 0 ) < time() - 5 * MINUTE_IN_SECONDS ) {
+			delete_option( $key );
+			return (bool) add_option( $key, time(), '', false );
+		}
+		return false;
+	}
+
+	/**
+	 * Release the lock.
+	 *
+	 * @param int $id Connection.
+	 */
+	public function unlock( int $id ): void {
+		delete_option( 'bookora_sync_lock_' . $id );
+	}
+
+	/**
+	 * Note a sync attempt (keeps the cron queue fair even if the run dies).
+	 *
+	 * @param int $id Connection.
+	 */
+	public function touch( int $id ): void {
+		global $wpdb;
+		$wpdb->update( self::t( 'calendar_connections' ), array( 'last_synced_at' => current_time( 'mysql', true ) ), array( 'id' => $id ) );
 	}
 
 	/**

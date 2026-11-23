@@ -141,14 +141,23 @@ msgstr "Plätze"
 msgid "Notes"
 msgstr "Notizen"
 
-msgid "Please enter a valid calendar address (starting with https:// or webcal://)."
-msgstr "Bitte geben Sie eine gültige Kalenderadresse ein (beginnt mit https:// oder webcal://)."
+msgid "Please enter a valid, encrypted calendar address (starting with https:// or webcal://)."
+msgstr "Bitte geben Sie eine gültige, verschlüsselte Kalenderadresse ein (beginnt mit https:// oder webcal://)."
 
 msgid "This is a Bookora feed of this website. Importing it would block your own appointments twice."
 msgstr "Das ist ein Bookora-Kalender dieser Webseite. Ein Import würde Ihre eigenen Termine doppelt blockieren."
 
+msgid "A synchronization of this calendar is already running. Please try again in a minute."
+msgstr "Dieser Kalender wird gerade schon synchronisiert. Bitte versuchen Sie es in einer Minute erneut."
+
+msgid "The calendar file was incomplete (too large or interrupted). The previous busy times are kept."
+msgstr "Die Kalenderdatei war unvollständig (zu groß oder abgebrochen). Die bisherigen belegten Zeiten bleiben erhalten."
+
 msgid "The address does not return a calendar file. Please copy the private iCal/ICS address of your calendar."
 msgstr "Unter dieser Adresse liegt keine Kalenderdatei. Bitte kopieren Sie die private iCal-/ICS-Adresse Ihres Kalenders."
+
+msgid "The busy times could not be saved (database error). The previous busy times are kept."
+msgstr "Die belegten Zeiten konnten nicht gespeichert werden (Datenbankfehler). Die bisherigen belegten Zeiten bleiben erhalten."
 
 msgid "The calendar address could not be decrypted. Please enter it again."
 msgstr "Die Kalenderadresse konnte nicht entschlüsselt werden. Bitte geben Sie sie erneut ein."
@@ -629,6 +638,9 @@ msgstr "Unbekannte Mitarbeiterin bzw. unbekannter Mitarbeiter."
 
 msgid "Please enter the calendar address."
 msgstr "Bitte geben Sie die Kalenderadresse ein."
+
+msgid "Invalid status."
+msgstr "Ungültiger Status."
 
 msgid "Too many calendars connected."
 msgstr "Zu viele Kalender verbunden."

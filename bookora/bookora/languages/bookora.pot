@@ -139,13 +139,22 @@ msgstr ""
 msgid "Notes"
 msgstr ""
 
-msgid "Please enter a valid calendar address (starting with https:// or webcal://)."
+msgid "Please enter a valid, encrypted calendar address (starting with https:// or webcal://)."
 msgstr ""
 
 msgid "This is a Bookora feed of this website. Importing it would block your own appointments twice."
 msgstr ""
 
+msgid "A synchronization of this calendar is already running. Please try again in a minute."
+msgstr ""
+
+msgid "The calendar file was incomplete (too large or interrupted). The previous busy times are kept."
+msgstr ""
+
 msgid "The address does not return a calendar file. Please copy the private iCal/ICS address of your calendar."
+msgstr ""
+
+msgid "The busy times could not be saved (database error). The previous busy times are kept."
 msgstr ""
 
 msgid "The calendar address could not be decrypted. Please enter it again."
@@ -626,6 +635,9 @@ msgid "Unknown staff member."
 msgstr ""
 
 msgid "Please enter the calendar address."
+msgstr ""
+
+msgid "Invalid status."
 msgstr ""
 
 msgid "Too many calendars connected."

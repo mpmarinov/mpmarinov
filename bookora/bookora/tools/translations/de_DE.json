@@ -639,7 +639,6 @@
 "[Unconfirmed] %s": "[Unbestätigt] %s",
 "Places": "Plätze",
 "Notes": "Notizen",
-"Please enter a valid calendar address (starting with https:// or webcal://).": "Bitte geben Sie eine gültige Kalenderadresse ein (beginnt mit https:// oder webcal://).",
 "This is a Bookora feed of this website. Importing it would block your own appointments twice.": "Das ist ein Bookora-Kalender dieser Webseite. Ein Import würde Ihre eigenen Termine doppelt blockieren.",
 "The address does not return a calendar file. Please copy the private iCal/ICS address of your calendar.": "Unter dieser Adresse liegt keine Kalenderdatei. Bitte kopieren Sie die private iCal-/ICS-Adresse Ihres Kalenders.",
 "The calendar address could not be decrypted. Please enter it again.": "Die Kalenderadresse konnte nicht entschlüsselt werden. Bitte geben Sie sie erneut ein.",
@@ -713,5 +712,10 @@
 "%1$s %2$d busy time imported.\u0004%1$s %2$d busy times imported.": [
 "%1$s %2$d belegte Zeit übernommen.",
 "%1$s %2$d belegte Zeiten übernommen."
-]
+],
+"Please enter a valid, encrypted calendar address (starting with https:// or webcal://).": "Bitte geben Sie eine gültige, verschlüsselte Kalenderadresse ein (beginnt mit https:// oder webcal://).",
+"A synchronization of this calendar is already running. Please try again in a minute.": "Dieser Kalender wird gerade schon synchronisiert. Bitte versuchen Sie es in einer Minute erneut.",
+"The calendar file was incomplete (too large or interrupted). The previous busy times are kept.": "Die Kalenderdatei war unvollständig (zu groß oder abgebrochen). Die bisherigen belegten Zeiten bleiben erhalten.",
+"The busy times could not be saved (database error). The previous busy times are kept.": "Die belegten Zeiten konnten nicht gespeichert werden (Datenbankfehler). Die bisherigen belegten Zeiten bleiben erhalten.",
+"Invalid status.": "Ungültiger Status."
 }

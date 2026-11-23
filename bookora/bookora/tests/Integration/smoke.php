@@ -662,6 +662,64 @@ check( 2 === $importer->run() && 2 === count( $requests ), 'background job syncs
 check( 0 === $importer->run(), 'calendars synced a moment ago are skipped' );
 check( false !== wp_next_scheduled( \Bookora\Calendar\IcsImporter::CRON ), 'background job is scheduled every 15 minutes' );
 
+echo "Calendar sync: hardening (code review)\n";
+$crep  = \Bookora\Core\Plugin::instance()->container()->get( \Bookora\Calendar\ConnectionRepository::class );
+$ctab  = \Bookora\Install\Schema::table( $wpdb->prefix, 'calendar_connections' );
+$etab  = \Bookora\Install\Schema::table( $wpdb->prefix, 'external_events' );
+$hard  = 'https://calendar.example.org/hard.ics';
+$mock[ $hard ] = array( 'headers' => array( 'etag' => '"h1"' ), 'body' => "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nUID:h1\r\nDTSTART:" . $gmt( $ct( '15:00' ) ) . "\r\nDTEND:" . $gmt( $ct( '16:00' ) ) . "\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n" );
+check( 400 === api( 'POST', '/calendars/connections', array( 'url' => 'http://calendar.example.org/hard.ics' ) )->get_status(), 'unencrypted http:// address is rejected (secret key in URL)' );
+$hc = api( 'POST', '/calendars/connections', array( 'url' => $hard, 'resource_id' => $ids[1] ) )->get_data();
+$hid = (int) $hc['connection']['id'];
+check( true === $hc['result']['ok'] && 1 === $hc['result']['events'], 'test calendar imported' );
+$state = json_decode( (string) $wpdb->get_var( "SELECT sync_token FROM {$ctab} WHERE id = {$hid}" ), true );
+check( ! empty( $state['to'] ) && $state['to'] > time() + 30 * DAY_IN_SECONDS, 'covered booking horizon is remembered', $state );
+
+$requests = array();
+$wpdb->update( $ctab, array( 'sync_token' => wp_json_encode( array_merge( $state, array( 'to' => time() ) ) ) ), array( 'id' => $hid ) );
+$importer->sync( $hid );
+check( ! isset( $requests[0]['headers']['If-None-Match'] ), 'when the horizon moved on, the calendar is reloaded completely (no 304 shortcut)', $requests );
+$requests = array();
+$importer->sync( $hid );
+check( '"h1"' === ( $requests[0]['headers']['If-None-Match'] ?? '' ), 'otherwise the ETag shortcut is used' );
+
+$mock[ $hard ]['body'] = "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nUID:cut\r\nDTSTART:" . $gmt( $ct( '17:00' ) );
+$cut = $importer->sync( $hid, true );
+check( false === $cut['ok'] && 1 === (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$etab} WHERE connection_id = {$hid}" ), 'truncated download is rejected and the previous busy times are kept', $cut );
+
+$mock[ $hard ]['body'] = "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nUID:" . str_repeat( 'ü', 200 ) . "\r\nDTSTART:" . $gmt( $ct( '17:00' ) ) . "\r\nDTEND:" . $gmt( $ct( '18:00' ) ) . "\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n";
+$long = $importer->sync( $hid, true );
+check( true === $long['ok'] && 1 === (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$etab} WHERE connection_id = {$hid}" ), 'very long multibyte UID is cut safely', $long );
+
+$break = static fn( $q ) => str_starts_with( ltrim( $q ), "INSERT INTO {$etab}" ) ? 'INSERT INTO bookora_no_such_table VALUES (1)' : $q;
+add_filter( 'query', $break );
+$wpdb->suppress_errors( true );
+$mock[ $hard ]['body'] = "BEGIN:VCALENDAR\r\nBEGIN:VEVENT\r\nUID:new\r\nDTSTART:" . $gmt( $ct( '12:00' ) ) . "\r\nDTEND:" . $gmt( $ct( '13:00' ) ) . "\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n";
+$dbfail = $importer->sync( $hid, true );
+$wpdb->suppress_errors( false );
+remove_filter( 'query', $break );
+$kept = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$etab} WHERE connection_id = {$hid}" );
+check( false === $dbfail['ok'] && 1 === $kept, 'database error: rollback keeps the previous busy times', array( $dbfail, $kept ) );
+
+check( $crep->lock( $hid ), 'sync lock can be taken' );
+$requests = array();
+$locked   = $importer->sync( $hid, true );
+check( false === $locked['ok'] && '' !== (string) $locked['error'] && 0 === count( $requests ), 'second sync of the same calendar is refused while one runs (no request sent)', $locked );
+$crep->unlock( $hid );
+check( 400 === api( 'PUT', '/calendars/connections/' . $hid, array( 'status' => 'error' ) )->get_status(), 'invalid status value returns 400' );
+$requests = array();
+$moved    = api( 'PUT', '/calendars/connections/' . $hid, array( 'resource_id' => $ids[0] ) )->get_data();
+check( null !== $moved['result'] && 1 === count( $requests ) && ! isset( $requests[0]['headers']['If-None-Match'] ), 'changing the staff member reloads the calendar completely (time zone)', $requests );
+
+if ( 'Europe/Berlin' === wp_timezone_string() ) {
+	$dst = '2026-10-25'; // 25-hour day.
+	$crep->replace_events( $hid, array( array( 'uid' => 'dst', 'start' => ( new DateTimeImmutable( $dst . ' 10:00', wp_timezone() ) )->getTimestamp(), 'end' => ( new DateTimeImmutable( $dst . ' 11:00', wp_timezone() ) )->getTimestamp(), 'all_day' => false ) ) );
+	$dtl = api( 'GET', '/timeline', array(), array( 'view' => 'day', 'date' => $dst ) )->get_data();
+	$blk = array_values( array_filter( $dtl['blocks'], static fn( $b ) => $b['row'] === $ids[0] ) );
+	check( isset( $blk[0] ) && 600 === $blk[0]['start_min'] && 660 === $blk[0]['end_min'], 'timeline block is at the right time on the DST day (25 hours)', $blk );
+}
+api( 'DELETE', '/calendars/connections/' . $hid );
+
 $ssrf = \Bookora\Core\Plugin::instance()->container()->get( \Bookora\Calendar\ConnectionRepository::class )->create( array( 'url' => 'http://127.0.0.1:8089/wp-login.php', 'label' => 'ssrf' ) );
 $sr   = $importer->sync( $ssrf );
 check( false === $sr['ok'], 'requests to internal addresses are blocked at fetch time (SSRF)', $sr );

@@ -34,7 +34,7 @@ def rule():
     if freq in ('DAILY', 'MONTHLY') and random.random() < .2:
         parts.append('BYMONTH=' + ','.join(str(m) for m in sorted(random.sample(range(1, 13), random.randint(1, 4)))))
     end = random.random()
-    if end < .3: parts.append('COUNT=%d' % random.randint(1, 40))
+    if end < .3: parts.append('COUNT=%d' % random.choice([random.randint(1, 40), random.randint(100, 2500)]))
     elif end < .5: parts.append('UNTIL=%s' % (datetime(2026, 1, 1) + timedelta(days=random.randint(0, 900))).strftime('%Y%m%dT%H%M%SZ'))
     if freq == 'WEEKLY' and random.random() < .2: parts.append('WKST=SU')
     return ';'.join(parts)
@@ -43,7 +43,8 @@ cases, expected = [], []
 for _ in range(N):
     tz = random.choice(ZONES)
     hour = random.choice([0, 7, 9, 12, 13, 18, 23])
-    start = datetime(2025, 1, 1, hour, random.choice([0, 15, 30, 45])) + timedelta(days=random.randint(0, 700))
+    base = datetime(2025, 1, 1) if random.random() < .6 else datetime(2008, 1, 1)  # old series test skip-ahead with COUNT
+    start = base.replace(hour=hour, minute=random.choice([0, 15, 30, 45])) + timedelta(days=random.randint(0, 700))
     r = rule()
     frm = datetime(2026, 1, 1, tzinfo=ZoneInfo('UTC')) + timedelta(days=random.randint(0, 300))
     to = frm + timedelta(days=random.randint(1, 400))
