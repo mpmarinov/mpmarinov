@@ -5,7 +5,12 @@ export default function Placeholder() {
 	return (
 		<Card>
 			<CardBody>
-				<p>{ __( 'This section is being built and will be available in an upcoming version.', 'bookora' ) }</p>
+				<p>
+					{ __(
+						'This section is being built and will be available in an upcoming version.',
+						'bookora'
+					) }
+				</p>
 			</CardBody>
 		</Card>
 	);

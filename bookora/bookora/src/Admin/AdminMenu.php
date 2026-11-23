@@ -125,8 +125,8 @@ final class AdminMenu {
 		wp_enqueue_script( 'bookora-admin', BOOKORA_URL . 'build/admin/index.js', $asset['dependencies'], $asset['version'], true );
 		wp_set_script_translations( 'bookora-admin', 'bookora', BOOKORA_DIR . 'languages' );
 
-		if ( is_readable( BOOKORA_DIR . 'build/admin/index.css' ) ) {
-			wp_enqueue_style( 'bookora-admin', BOOKORA_URL . 'build/admin/index.css', array( 'wp-components' ), $asset['version'] );
+		if ( is_readable( BOOKORA_DIR . 'build/admin/style-index.css' ) ) {
+			wp_enqueue_style( 'bookora-admin', BOOKORA_URL . 'build/admin/style-index.css', array( 'wp-components' ), $asset['version'] );
 		}
 
 		wp_localize_script(

@@ -30,7 +30,9 @@ function App( { screen } ) {
 		<div className="bookora-app">
 			<header className="bookora-app__header">
 				<span className="bookora-app__logo">Bookora</span>
-				<h1 className="bookora-app__title">{ TITLES[ screen ] || '' }</h1>
+				<h1 className="bookora-app__title">
+					{ TITLES[ screen ] || '' }
+				</h1>
 			</header>
 			<main className="bookora-app__main">
 				<Screen screen={ screen } />
@@ -42,5 +44,7 @@ function App( { screen } ) {
 const root = document.getElementById( 'bookora-admin-root' );
 
 if ( root ) {
-	createRoot( root ).render( <App screen={ root.dataset.screen || 'dashboard' } /> );
+	createRoot( root ).render(
+		<App screen={ root.dataset.screen || 'dashboard' } />
+	);
 }
