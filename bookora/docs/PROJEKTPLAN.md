@@ -201,4 +201,4 @@ Vor der finalen Wahl prüfen: freier Slug auf wordpress.org, Marken (DPMA, EUIPO
 |---|---|
 | 0 – Konzept & Datenmodell | ✅ erledigt (`docs/DATENMODELL.md`) |
 | 1 – Grundgerüst | ✅ erledigt: Plugin-Bootstrap, Autoloader, DI-Container, 15 DB-Tabellen mit Migrationen, Rollen & Rechte, Einstellungen + REST-API, React-Admin mit Einstellungsseite, Verschlüsselung (libsodium), DSGVO-Export/-Löschung, Deinstallation, Unit-Tests, PHPCS, CI |
-| 2 – Leistungen, Öffnungszeiten, Slot-Engine | 🔄 in Arbeit |
+| 2 – Leistungen, Öffnungszeiten, Slot-Engine | 🔄 Backend fertig: Slot-Engine (Puffer, Gruppen, Ausnahmen, Zeitumstellung), Doppelbuchungsschutz per DB-Lock, REST-API für Leistungen/Ressourcen/Öffnungszeiten/Ausnahmen/Verfügbarkeit, MySQL + SQLite (WordPress Playground). 23 Unit-Tests + 62 Integrationsprüfungen grün. **Offen:** Admin-Oberfläche für diese Bereiche |

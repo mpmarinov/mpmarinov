@@ -8,8 +8,18 @@
 namespace Bookora\Core;
 
 use Bookora\Admin\AdminMenu;
+use Bookora\Availability\AvailabilityService;
+use Bookora\Booking\BookingService;
 use Bookora\Install\Installer;
 use Bookora\Privacy\Privacy;
+use Bookora\Repository\BookingRepository;
+use Bookora\Repository\ResourceRepository;
+use Bookora\Repository\ScheduleRepository;
+use Bookora\Repository\ServiceRepository;
+use Bookora\Rest\AvailabilityController;
+use Bookora\Rest\ResourcesController;
+use Bookora\Rest\SchedulesController;
+use Bookora\Rest\ServicesController;
 use Bookora\Rest\SettingsController;
 use Bookora\Settings\Settings;
 
@@ -80,6 +90,34 @@ final class Plugin {
 		$c->set( SettingsController::class, static fn( Container $c ) => new SettingsController( $c->get( Settings::class ) ) );
 		$c->set( Privacy::class, static fn() => new Privacy() );
 
+		$c->set( ServiceRepository::class, static fn() => new ServiceRepository() );
+		$c->set( ResourceRepository::class, static fn() => new ResourceRepository() );
+		$c->set( ScheduleRepository::class, static fn() => new ScheduleRepository() );
+		$c->set( BookingRepository::class, static fn() => new BookingRepository() );
+		$c->set(
+			AvailabilityService::class,
+			static fn( Container $c ) => new AvailabilityService(
+				$c->get( ServiceRepository::class ),
+				$c->get( ResourceRepository::class ),
+				$c->get( ScheduleRepository::class ),
+				$c->get( BookingRepository::class ),
+				$c->get( Settings::class )
+			)
+		);
+		$c->set(
+			BookingService::class,
+			static fn( Container $c ) => new BookingService(
+				$c->get( AvailabilityService::class ),
+				$c->get( ServiceRepository::class ),
+				$c->get( Settings::class )
+			)
+		);
+
+		$c->set( ServicesController::class, static fn( Container $c ) => new ServicesController( $c->get( ServiceRepository::class ) ) );
+		$c->set( ResourcesController::class, static fn( Container $c ) => new ResourcesController( $c->get( ResourceRepository::class ) ) );
+		$c->set( SchedulesController::class, static fn( Container $c ) => new SchedulesController( $c->get( ScheduleRepository::class ), $c->get( ResourceRepository::class ) ) );
+		$c->set( AvailabilityController::class, static fn( Container $c ) => new AvailabilityController( $c->get( AvailabilityService::class ), $c->get( ServiceRepository::class ) ) );
+
 		Installer::maybe_upgrade();
 
 		add_action( 'init', array( $this, 'load_textdomain' ) );
@@ -87,7 +125,14 @@ final class Plugin {
 		$c->get( Settings::class )->register();
 		$c->get( Privacy::class )->register();
 
-		add_action( 'rest_api_init', array( $c->get( SettingsController::class ), 'register_routes' ) );
+		add_action(
+			'rest_api_init',
+			static function () use ( $c ) {
+				foreach ( array( SettingsController::class, ServicesController::class, ResourcesController::class, SchedulesController::class, AvailabilityController::class ) as $controller ) {
+					$c->get( $controller )->register_routes();
+				}
+			}
+		);
 
 		if ( is_admin() ) {
 			$c->get( AdminMenu::class )->register();

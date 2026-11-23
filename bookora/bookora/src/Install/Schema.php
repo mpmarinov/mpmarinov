@@ -101,7 +101,7 @@ final class Schema {
   name varchar(191) NOT NULL DEFAULT '',
   email varchar(191) NOT NULL DEFAULT '',
   user_id bigint(20) unsigned NULL,
-  timezone varchar(64) NOT NULL DEFAULT 'UTC',
+  timezone varchar(64) NOT NULL DEFAULT '',
   color varchar(9) NOT NULL DEFAULT '#2563eb',
   status varchar(20) NOT NULL DEFAULT 'active',
   settings longtext NULL,
