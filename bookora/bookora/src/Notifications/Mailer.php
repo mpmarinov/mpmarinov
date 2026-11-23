@@ -392,8 +392,22 @@ final class Mailer {
 			$mailer->addStringAttachment( $a['content'], $a['name'], 'base64', $a['type'] );
 		}
 		if ( 'text/html' === $mailer->ContentType && '' === $mailer->AltBody ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
-			$mailer->AltBody = wp_strip_all_tags( str_replace( array( '<br>', '<br />', '</p>', '</tr>' ), "\n", (string) $mailer->Body ) ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			$mailer->AltBody = self::plain_text( (string) $mailer->Body ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		}
+	}
+
+	/**
+	 * Plain-text version of an HTML email (without head, decoded entities, tidy blank lines).
+	 *
+	 * @param string $html HTML.
+	 */
+	public static function plain_text( string $html ): string {
+		$html = (string) preg_replace( '#<head\b.*?</head>#is', '', $html );
+		$html = (string) preg_replace( '#<a\s[^>]*href="([^"]+)"[^>]*>(.*?)</a>#is', '$2 ($1)', $html );
+		$text = wp_strip_all_tags( str_replace( array( '<br>', '<br />', '</p>', '</tr>', '</td>' ), array( "\n", "\n", "\n\n", "\n", ' ' ), $html ) );
+		$text = html_entity_decode( $text, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
+		$text = (string) preg_replace( "/[ \t]+\n/", "\n", $text );
+		return trim( (string) preg_replace( "/\n{3,}/", "\n\n", $text ) );
 	}
 
 	/**
