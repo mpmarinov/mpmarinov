@@ -625,6 +625,37 @@ export default function Inspector( { field, fields, services, onChange } ) {
 						/>
 					) }
 					{ field.type === 'date' && (
+						<>
+							<ToggleControl
+								__nextHasNoMarginBottom
+								label={ __(
+									'Only working days can be selected',
+									'bookora'
+								) }
+								help={ __(
+									'Uses the general opening hours, holidays and vacation.',
+									'bookora'
+								) }
+								checked={ !! field.workingDaysOnly }
+								onChange={ set( 'workingDaysOnly' ) }
+							/>
+							<ToggleControl
+								__nextHasNoMarginBottom
+								label={ __(
+									'Also choose a time (within opening hours)',
+									'bookora'
+								) }
+								help={ __(
+									'For requests without fixed booking. For real bookings with blocked times, use a booking form.',
+									'bookora'
+								) }
+								checked={ !! field.withTime }
+								disabled={ ! field.workingDaysOnly }
+								onChange={ set( 'withTime' ) }
+							/>
+						</>
+					) }
+					{ field.type === 'date' && (
 						<div className="bookora-grid">
 							<TextControl
 								__nextHasNoMarginBottom

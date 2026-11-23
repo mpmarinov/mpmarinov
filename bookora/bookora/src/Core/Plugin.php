@@ -10,6 +10,8 @@ namespace Bookora\Core;
 use Bookora\Admin\AdminMenu;
 use Bookora\Availability\AvailabilityService;
 use Bookora\Booking\BookingService;
+use Bookora\Forms\Submission;
+use Bookora\Frontend\Renderer;
 use Bookora\Install\Installer;
 use Bookora\Privacy\Privacy;
 use Bookora\Repository\BookingRepository;
@@ -19,6 +21,7 @@ use Bookora\Repository\ScheduleRepository;
 use Bookora\Repository\ServiceRepository;
 use Bookora\Rest\AvailabilityController;
 use Bookora\Rest\FormsController;
+use Bookora\Rest\PublicFormController;
 use Bookora\Rest\ResourcesController;
 use Bookora\Rest\SchedulesController;
 use Bookora\Rest\ServicesController;
@@ -119,6 +122,24 @@ final class Plugin {
 		$c->set( ServicesController::class, static fn( Container $c ) => new ServicesController( $c->get( ServiceRepository::class ) ) );
 		$c->set( ResourcesController::class, static fn( Container $c ) => new ResourcesController( $c->get( ResourceRepository::class ) ) );
 		$c->set( SchedulesController::class, static fn( Container $c ) => new SchedulesController( $c->get( ScheduleRepository::class ), $c->get( ResourceRepository::class ) ) );
+		$c->set(
+			Submission::class,
+			static fn( Container $c ) => new Submission(
+				$c->get( BookingService::class ),
+				$c->get( AvailabilityService::class ),
+				$c->get( ServiceRepository::class )
+			)
+		);
+		$c->set( PublicFormController::class, static fn( Container $c ) => new PublicFormController( $c->get( FormRepository::class ), $c->get( Submission::class ) ) );
+		$c->set(
+			Renderer::class,
+			static fn( Container $c ) => new Renderer(
+				$c->get( FormRepository::class ),
+				$c->get( ServiceRepository::class ),
+				$c->get( ResourceRepository::class ),
+				$c->get( Settings::class )
+			)
+		);
 		$c->set( FormsController::class, static fn( Container $c ) => new FormsController( $c->get( FormRepository::class ) ) );
 		$c->set( AvailabilityController::class, static fn( Container $c ) => new AvailabilityController( $c->get( AvailabilityService::class ), $c->get( ServiceRepository::class ) ) );
 
@@ -128,11 +149,12 @@ final class Plugin {
 
 		$c->get( Settings::class )->register();
 		$c->get( Privacy::class )->register();
+		$c->get( Renderer::class )->register();
 
 		add_action(
 			'rest_api_init',
 			static function () use ( $c ) {
-				foreach ( array( SettingsController::class, ServicesController::class, ResourcesController::class, SchedulesController::class, AvailabilityController::class, FormsController::class ) as $controller ) {
+				foreach ( array( SettingsController::class, ServicesController::class, ResourcesController::class, SchedulesController::class, AvailabilityController::class, FormsController::class, PublicFormController::class ) as $controller ) {
 					$c->get( $controller )->register_routes();
 				}
 			}

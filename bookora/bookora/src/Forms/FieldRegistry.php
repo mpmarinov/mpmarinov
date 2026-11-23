@@ -278,8 +278,10 @@ final class FieldRegistry {
 				return array( 'country' => ! empty( $raw['country'] ) );
 			case 'date':
 				return array(
-					'minDate' => self::relative_date( $raw['minDate'] ?? '' ),
-					'maxDate' => self::relative_date( $raw['maxDate'] ?? '' ),
+					'minDate'         => self::relative_date( $raw['minDate'] ?? '' ),
+					'maxDate'         => self::relative_date( $raw['maxDate'] ?? '' ),
+					'workingDaysOnly' => ! empty( $raw['workingDaysOnly'] ),
+					'withTime'        => ! empty( $raw['withTime'] ),
 				);
 			case 'file':
 				$allowed = array( 'jpg', 'jpeg', 'png', 'gif', 'webp', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'csv', 'zip' );

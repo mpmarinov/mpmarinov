@@ -85,6 +85,28 @@ final class AvailabilityController {
 
 		register_rest_route(
 			SettingsController::NAMESPACE,
+			'/public/opening',
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'opening' ),
+				'permission_callback' => '__return_true',
+				'args'                => array(
+					'from' => array(
+						'type'     => 'string',
+						'required' => true,
+						'pattern'  => '^\\d{4}-\\d{2}-\\d{2}$',
+					),
+					'to'   => array(
+						'type'     => 'string',
+						'required' => true,
+						'pattern'  => '^\\d{4}-\\d{2}-\\d{2}$',
+					),
+				),
+			)
+		);
+
+		register_rest_route(
+			SettingsController::NAMESPACE,
 			'/public/services',
 			array(
 				'methods'             => WP_REST_Server::READABLE,
@@ -133,6 +155,17 @@ final class AvailabilityController {
 		$response->header( 'Cache-Control', 'no-store' );
 
 		return $response;
+	}
+
+	/**
+	 * Opening days and times of the business.
+	 *
+	 * @param WP_REST_Request $request Request.
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function opening( WP_REST_Request $request ) {
+		$days = $this->availability->opening_days( (string) $request['from'], (string) $request['to'] );
+		return is_wp_error( $days ) ? $days : new WP_REST_Response( array( 'days' => (object) $days ) );
 	}
 
 	/**

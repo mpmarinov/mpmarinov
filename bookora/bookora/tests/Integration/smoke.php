@@ -254,6 +254,37 @@ wp_set_current_user( 0 );
 check( 401 === api( 'GET', '/forms' )->get_status(), 'anonymous user cannot list forms' );
 wp_set_current_user( 1 );
 
+echo "Public submission\n";
+$old_token = static function ( int $age ): string {
+	$t = (string) ( time() - $age );
+	return $t . '.' . substr( wp_hash( 'bookora_render|' . $t, 'nonce' ), 0, 16 );
+};
+$pub = api(
+	'POST',
+	'/forms',
+	array(
+		'title'  => 'Public',
+		'status' => 'published',
+		'fields' => array(
+			array( 'type' => 'email', 'key' => 'email', 'label' => 'E-Mail', 'required' => true ),
+			array( 'type' => 'radio', 'key' => 'kunde', 'label' => 'Kunde', 'options' => array( 'Ja', 'Nein' ) ),
+			array( 'type' => 'text', 'key' => 'grund', 'label' => 'Grund', 'required' => true, 'logic' => array( 'action' => 'show', 'match' => 'all', 'rules' => array( array( 'field' => 'kunde', 'operator' => 'is', 'value' => 'Nein' ) ) ) ),
+		),
+	)
+)->get_data();
+wp_set_current_user( 0 );
+$submit = static fn( array $body ) => api( 'POST', '/public/forms/' . $pub['id'] . '/submit', $body );
+check( 400 === $submit( array( 'fields' => array( 'email' => 'a@example.com' ) ) )->get_status(), 'submission without token is rejected' );
+check( 429 === $submit( array( '_bk_t' => $old_token( 0 ), 'fields' => array( 'email' => 'a@example.com' ) ) )->get_status(), 'too fast submission is rejected' );
+check( 400 === $submit( array( '_bk_t' => $old_token( 10 ), 'website_url_hp' => 'spam', 'fields' => array( 'email' => 'a@example.com' ) ) )->get_status(), 'honeypot catches bots' );
+$res = $submit( array( '_bk_t' => $old_token( 10 ), 'fields' => array( 'email' => 'not-mail', 'kunde' => 'Nein' ) ) );
+check( 422 === $res->get_status() && isset( $res->get_data()['data']['fields']['email'], $res->get_data()['data']['fields']['grund'] ), 'field errors returned (invalid email, required visible field)', $res->get_data() );
+check( 201 === $submit( array( '_bk_t' => $old_token( 10 ), 'fields' => array( 'email' => 'b@example.com', 'kunde' => 'Ja', 'grund' => 'should be ignored' ) ) )->get_status(), 'field hidden by logic is not required' );
+$stored = $wpdb->get_col( 'SELECT field_key FROM ' . \Bookora\Install\Schema::table( $wpdb->prefix, 'entry_values' ) . ' v INNER JOIN ' . \Bookora\Install\Schema::table( $wpdb->prefix, 'entries' ) . ' e ON e.id = v.entry_id WHERE e.form_id = ' . (int) $pub['id'] );
+check( ! in_array( 'grund', $stored, true ) && in_array( 'email', $stored, true ), 'values of hidden fields are not stored', $stored );
+check( 201 === $submit( array( '_bk_t' => $old_token( 10 ), 'fields' => array( 'email' => 'c@example.com', 'kunde' => 'evil' ) ) )->get_status() ? false : true, 'invalid option is rejected' );
+wp_set_current_user( 1 );
+
 echo "Cleanup\n";
 check( 200 === api( 'DELETE', '/services/' . $service['id'] )->get_status(), 'service deleted' );
 check( 404 === api( 'GET', '/services/' . $service['id'] )->get_status(), 'deleted service is gone' );

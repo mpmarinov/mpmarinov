@@ -1,0 +1,738 @@
+/*
+ * Bookora frontend styles.
+ * Everything is themable via CSS custom properties on .bookora, e.g.:
+ * .bookora { --bookora-primary: #1f6f50; --bookora-radius: 16px; }
+ */
+.bookora {
+	--bookora-primary: #2563eb;
+	--bookora-primary-contrast: #fff;
+	--bookora-text: inherit;
+	--bookora-muted: #6b7280;
+	--bookora-border: #d1d5db;
+	--bookora-bg: #fff;
+	--bookora-soft: color-mix(in srgb, var(--bookora-primary) 10%, #fff);
+	--bookora-error: #c81e1e;
+	--bookora-radius: 10px;
+	--bookora-gap: 18px;
+	--bookora-input-height: 46px;
+
+	color: var(--bookora-text);
+	font-size: 1rem;
+	line-height: 1.5;
+	max-width: 760px;
+
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+	}
+
+	[hidden] {
+		display: none !important;
+	}
+}
+
+.bookora__draft {
+	background: #fef3c7;
+	color: #92400e;
+	border-radius: var(--bookora-radius);
+	padding: 8px 12px;
+	font-size: 0.875rem;
+}
+
+.bookora__fields {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--bookora-gap) 4%;
+}
+
+.bookora__field {
+	width: 100%;
+	min-width: 0;
+
+	&.bookora__w--half {
+		width: 48%;
+	}
+
+	&.bookora__w--third {
+		width: 30.66%;
+	}
+
+	&.is-hidden-by-logic {
+		display: none;
+	}
+}
+
+.bookora__group {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	min-width: 0;
+}
+
+.bookora__label {
+	display: block;
+	font-weight: 600;
+	margin: 0 0 6px;
+	padding: 0;
+}
+
+.bookora__req {
+	color: var(--bookora-error);
+	margin-left: 3px;
+}
+
+.bookora__help {
+	color: var(--bookora-muted);
+	font-size: 0.875rem;
+	margin: 6px 0 0;
+}
+
+.bookora__error {
+	color: var(--bookora-error);
+	font-size: 0.875rem;
+	margin: 6px 0 0;
+}
+
+.bookora__muted,
+.bookora__hint {
+	color: var(--bookora-muted);
+	font-size: 0.9375rem;
+	margin: 0;
+}
+
+.bookora__hint {
+	background: var(--bookora-soft);
+	border-radius: var(--bookora-radius);
+	padding: 10px 14px;
+	margin-bottom: 12px;
+}
+
+.bookora__static {
+	margin: 0;
+	padding: 10px 0;
+	font-weight: 600;
+}
+
+.bookora__row {
+	display: flex;
+	gap: 12px;
+
+	> * {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.bookora__zip {
+		flex: 0 0 32%;
+	}
+
+	+ input {
+		margin-top: 12px;
+	}
+}
+
+.bookora input + .bookora__row {
+	margin-top: 12px;
+}
+
+/* Inputs */
+.bookora input[type="text"],
+.bookora input[type="email"],
+.bookora input[type="tel"],
+.bookora input[type="number"],
+.bookora input[type="url"],
+.bookora input[type="date"],
+.bookora input[type="time"],
+.bookora select,
+.bookora textarea,
+.bookora-date__display {
+	display: block;
+	width: 100%;
+	min-height: var(--bookora-input-height);
+	padding: 10px 14px;
+	border: 1px solid var(--bookora-border);
+	border-radius: var(--bookora-radius);
+	background: var(--bookora-bg);
+	color: inherit;
+	font: inherit;
+	line-height: 1.4;
+	transition: border-color 0.15s, box-shadow 0.15s;
+	margin: 0;
+
+	&:focus,
+	&:focus-visible {
+		outline: none;
+		border-color: var(--bookora-primary);
+		box-shadow: 0 0 0 3px color-mix(in srgb, var(--bookora-primary) 25%, transparent);
+	}
+
+	&:disabled {
+		opacity: 0.6;
+	}
+}
+
+.bookora textarea {
+	resize: vertical;
+}
+
+.bookora__field.has-error {
+
+	input:not([type="radio"]):not([type="checkbox"]),
+	select,
+	textarea,
+	.bookora-date__display {
+		border-color: var(--bookora-error);
+	}
+}
+
+/* Choices */
+.bookora__choices {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+
+	&--inline {
+		flex-direction: row;
+		flex-wrap: wrap;
+		gap: 10px 24px;
+	}
+}
+
+.bookora__choice {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+	cursor: pointer;
+
+	input {
+		width: 20px;
+		height: 20px;
+		margin: 2px 0 0;
+		flex: none;
+		accent-color: var(--bookora-primary);
+	}
+}
+
+.bookora__consent {
+	font-size: 0.9375rem;
+}
+
+/* Rating */
+.bookora__rating {
+	display: inline-flex;
+	flex-direction: row-reverse;
+	gap: 4px;
+
+	input {
+		position: absolute;
+		opacity: 0;
+		width: 1px;
+		height: 1px;
+	}
+
+	label {
+		width: 32px;
+		height: 32px;
+		cursor: pointer;
+		background: currentcolor;
+		color: #d1d5db;
+		clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+		transition: color 0.1s;
+	}
+
+	input:checked ~ label,
+	label:hover,
+	label:hover ~ label {
+		color: #f59e0b;
+	}
+
+	input:focus-visible + label {
+		outline: 2px solid var(--bookora-primary);
+		outline-offset: 2px;
+	}
+
+	.screen-reader-text {
+		position: absolute;
+		clip: rect(1px, 1px, 1px, 1px);
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+	}
+}
+
+/* Range */
+.bookora__range {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+
+	input {
+		flex: 1;
+		accent-color: var(--bookora-primary);
+	}
+
+	output {
+		min-width: 3ch;
+		font-weight: 600;
+		text-align: right;
+	}
+}
+
+/* Layout fields */
+.bookora__heading {
+	margin: 8px 0 0;
+}
+
+.bookora__paragraph p {
+	margin: 0 0 0.5em;
+}
+
+.bookora__divider {
+	border: 0;
+	border-top: 1px solid var(--bookora-border);
+	margin: 4px 0;
+}
+
+/* Honeypot */
+.bookora__hp {
+	position: absolute !important;
+	left: -9999px !important;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+/* Buttons */
+.bookora__nav {
+	display: flex;
+	gap: 12px;
+	margin-top: calc(var(--bookora-gap) * 1.5);
+	flex-wrap: wrap;
+}
+
+.bookora__button {
+	appearance: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	min-height: 48px;
+	padding: 12px 28px;
+	border: 2px solid var(--bookora-primary);
+	border-radius: var(--bookora-radius);
+	background: var(--bookora-primary);
+	color: var(--bookora-primary-contrast);
+	font: inherit;
+	font-weight: 600;
+	cursor: pointer;
+	transition: filter 0.15s, transform 0.05s;
+
+	&:hover {
+		filter: brightness(1.08);
+	}
+
+	&:active {
+		transform: translateY(1px);
+	}
+
+	&:focus-visible {
+		outline: 3px solid color-mix(in srgb, var(--bookora-primary) 40%, transparent);
+		outline-offset: 2px;
+	}
+
+	&:disabled {
+		opacity: 0.6;
+		cursor: wait;
+	}
+
+	&--secondary {
+		background: transparent;
+		color: var(--bookora-primary);
+	}
+
+	&.is-busy::after {
+		content: "";
+		width: 16px;
+		height: 16px;
+		border: 2px solid currentcolor;
+		border-right-color: transparent;
+		border-radius: 50%;
+		animation: bookora-spin 0.7s linear infinite;
+	}
+}
+
+@keyframes bookora-spin {
+
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.bookora__message {
+	margin-top: var(--bookora-gap);
+	padding: 12px 16px;
+	border-radius: var(--bookora-radius);
+
+	&--error {
+		background: #fde8e8;
+		color: #9b1c1c;
+	}
+}
+
+.bookora__success {
+	padding: 24px;
+	border-radius: var(--bookora-radius);
+	background: var(--bookora-soft);
+	border-left: 4px solid var(--bookora-primary);
+
+	p:last-child {
+		margin-bottom: 0;
+	}
+
+	&:focus {
+		outline: none;
+	}
+}
+
+/* Progress */
+.bookora__progress {
+	margin-bottom: calc(var(--bookora-gap) * 1.5);
+
+	ol {
+		display: flex;
+		gap: 8px;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		counter-reset: bookora-step;
+	}
+
+	li {
+		flex: 1;
+		font-size: 0.875rem;
+		color: var(--bookora-muted);
+		border-top: 3px solid var(--bookora-border);
+		padding-top: 8px;
+		counter-increment: bookora-step;
+
+		&::before {
+			content: counter(bookora-step) ". ";
+		}
+
+		&.is-active,
+		&.is-done {
+			border-color: var(--bookora-primary);
+			color: inherit;
+		}
+
+		&.is-active {
+			font-weight: 600;
+		}
+	}
+}
+
+.bookora__progress-bar {
+	display: block;
+	height: 6px;
+	border-radius: 3px;
+	background: var(--bookora-border);
+	overflow: hidden;
+
+	span {
+		display: block;
+		height: 100%;
+		width: 0;
+		background: var(--bookora-primary);
+		transition: width 0.3s;
+	}
+}
+
+/* Calendar */
+.bookora-cal {
+	background: var(--bookora-bg);
+	border: 1px solid var(--bookora-border);
+	border-radius: var(--bookora-radius);
+	padding: 14px;
+	user-select: none;
+
+	&__head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+		margin-bottom: 10px;
+	}
+
+	&__title {
+		display: flex;
+		gap: 6px;
+		flex: 1;
+		min-width: 0;
+		justify-content: center;
+
+		select {
+			width: auto !important;
+			min-width: 0;
+			flex: 0 1 auto;
+			min-height: 38px !important;
+			padding: 4px 28px 4px 10px !important;
+			font-weight: 600;
+			font-size: 1rem;
+		}
+	}
+
+	&__nav {
+		flex: none;
+		width: 38px;
+		height: 38px;
+		border-radius: 50%;
+		border: 0;
+		background: transparent;
+		color: var(--bookora-primary);
+		font-size: 1.6rem;
+		line-height: 1;
+		cursor: pointer;
+
+		&:hover:not(:disabled) {
+			background: var(--bookora-soft);
+		}
+
+		&:disabled {
+			color: var(--bookora-border);
+			cursor: default;
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--bookora-primary);
+		}
+	}
+
+	&__grid {
+		display: grid;
+		grid-template-columns: repeat(7, minmax(0, 1fr));
+		gap: 4px;
+		text-align: center;
+
+		&[aria-busy="true"] {
+			opacity: 0.6;
+		}
+	}
+
+	&__weekday {
+		font-size: 0.8125rem;
+		color: var(--bookora-muted);
+		padding: 4px 0 8px;
+	}
+
+	&__day {
+		aspect-ratio: 1;
+		width: 100%;
+		max-width: 46px;
+		justify-self: center;
+		border: 2px solid transparent;
+		border-radius: 50%;
+		background: transparent;
+		color: #c4c7cc;
+		font: inherit;
+		font-size: 0.9375rem;
+		padding: 0;
+		cursor: default;
+
+		&.is-available {
+			color: inherit;
+			font-weight: 600;
+			background: var(--bookora-soft);
+			cursor: pointer;
+
+			&:hover {
+				border-color: var(--bookora-primary);
+			}
+		}
+
+		&[aria-current="date"] {
+			border-color: color-mix(in srgb, var(--bookora-primary) 50%, transparent);
+		}
+
+		&[aria-pressed="true"] {
+			background: var(--bookora-primary);
+			color: var(--bookora-primary-contrast);
+			border-color: var(--bookora-primary);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--bookora-primary);
+			outline-offset: 2px;
+		}
+	}
+
+	&__status {
+		margin: 10px 0 0;
+		font-size: 0.875rem;
+		color: var(--bookora-muted);
+		text-align: center;
+	}
+}
+
+/* Appointment picker */
+.bookora-appt {
+	display: grid;
+	grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+	gap: 16px;
+	align-items: start;
+
+	&__day {
+		font-weight: 600;
+		margin: 4px 0 10px;
+	}
+
+	&__times {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+		gap: 8px;
+	}
+
+	&__time {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		min-height: 44px;
+		justify-content: center;
+		border: 1px solid var(--bookora-primary);
+		border-radius: var(--bookora-radius);
+		background: var(--bookora-bg);
+		color: var(--bookora-primary);
+		font: inherit;
+		font-weight: 600;
+		cursor: pointer;
+		padding: 6px;
+
+		small {
+			font-size: 0.75rem;
+			font-weight: 400;
+			opacity: 0.8;
+		}
+
+		&:hover {
+			background: var(--bookora-soft);
+		}
+
+		&[aria-selected="true"] {
+			background: var(--bookora-primary);
+			color: var(--bookora-primary-contrast);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--bookora-primary);
+			outline-offset: 2px;
+		}
+	}
+
+	&__summary {
+		margin: 12px 0 0;
+		padding: 10px 14px;
+		border-radius: var(--bookora-radius);
+		background: var(--bookora-soft);
+		font-weight: 600;
+	}
+}
+
+/* Date field */
+.bookora-date {
+	position: relative;
+
+	&__display {
+		text-align: left;
+		cursor: pointer;
+		color: var(--bookora-muted) !important;
+		background-image: linear-gradient(transparent, transparent);
+
+		&.has-value {
+			color: inherit !important;
+		}
+	}
+
+	&__panel {
+		margin-top: 8px;
+		max-width: 420px;
+
+		.bookora-cal {
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+		}
+	}
+
+	&__times {
+		margin-top: 12px;
+
+		.bookora-appt__day {
+			grid-column: 1 / -1;
+			margin: 0;
+		}
+	}
+}
+
+/* Labels left */
+.bookora--labels-left .bookora__field:not(.bookora__field--heading):not(.bookora__field--paragraph):not(.bookora__field--divider) {
+	display: grid;
+	grid-template-columns: 30% 1fr;
+	gap: 0 16px;
+	align-items: start;
+
+	> .bookora__help,
+	> .bookora__error {
+		grid-column: 2;
+	}
+}
+
+.bookora--labels-hidden .bookora__label {
+	position: absolute;
+	clip: rect(1px, 1px, 1px, 1px);
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+@media (max-width: 640px) {
+
+	.bookora__field.bookora__w--half,
+	.bookora__field.bookora__w--third {
+		width: 100%;
+	}
+
+	.bookora-appt {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.bookora-cal {
+		padding: 10px 8px;
+	}
+
+	.bookora-cal__head {
+		gap: 2px;
+	}
+
+	.bookora-cal__title select {
+		padding: 4px 22px 4px 8px !important;
+		font-size: 0.9375rem;
+	}
+
+	.bookora-cal__weekday {
+		font-size: 0.75rem;
+	}
+
+	.bookora--labels-left .bookora__field {
+		display: block !important;
+	}
+
+	.bookora__nav .bookora__button {
+		flex: 1;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.bookora * {
+		transition: none !important;
+		animation: none !important;
+	}
+}

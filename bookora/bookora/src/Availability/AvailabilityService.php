@@ -96,6 +96,36 @@ final class AvailabilityService {
 	}
 
 	/**
+	 * Opening days and possible start times of the business (no bookings considered).
+	 * Used by plain date fields with "working days only" in standard forms.
+	 *
+	 * @param string $from Y-m-d.
+	 * @param string $to   Y-m-d.
+	 * @return array<string, string[]>|WP_Error Local date => list of H:i.
+	 */
+	public function opening_days( string $from, string $to ) {
+		$range = $this->validate_range( $from, $to );
+		if ( is_wp_error( $range ) ) {
+			return $range;
+		}
+
+		$settings = $this->settings->all();
+		$interval = max( 5, (int) $settings['slot_interval'] );
+		$rules    = new SlotRules( $interval, $interval, 0, 0, 1, (int) $settings['min_notice_minutes'], (int) $settings['max_advance_days'] );
+		$tz       = wp_timezone();
+		$calc     = new SlotCalculator( $tz, $this->schedules->weekly( null ), $this->schedules->exceptions( null, $from, $to ) );
+		$days     = array();
+
+		foreach ( $calc->slots( $from, $to, $rules, time() ) as $slot ) {
+			$local = ( new DateTimeImmutable( '@' . $slot['start'] ) )->setTimezone( $tz );
+
+			$days[ $local->format( 'Y-m-d' ) ][] = $local->format( 'H:i' );
+		}
+
+		return $days;
+	}
+
+	/**
 	 * Build a calculator for one resource (null = business-wide).
 	 *
 	 * @param int      $service_id  Service id.
