@@ -32,6 +32,7 @@ final class Settings {
 			'min_notice_minutes'  => 60,
 			'max_advance_days'    => 90,
 			'max_per_day'         => 0,
+			'fill_gaps'           => false,
 			'cancel_limit_hours'  => 24,
 			'reminder_hours'      => array( 24 ),
 			'token_ttl_hours'     => 72,
@@ -119,6 +120,7 @@ final class Settings {
 		$out['min_notice_minutes'] = self::int_range( $input['min_notice_minutes'] ?? 0, 0, 525600 );
 		$out['max_advance_days']   = self::int_range( $input['max_advance_days'] ?? 90, 1, 1095 );
 		$out['max_per_day']        = self::int_range( $input['max_per_day'] ?? 0, 0, 1000 );
+		$out['fill_gaps']          = ! empty( $input['fill_gaps'] );
 		$out['cancel_limit_hours'] = self::int_range( $input['cancel_limit_hours'] ?? 24, 0, 8760 );
 		$out['token_ttl_hours']    = self::int_range( $input['token_ttl_hours'] ?? 72, 1, 720 );
 

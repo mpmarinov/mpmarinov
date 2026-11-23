@@ -123,7 +123,7 @@ final class SlotCalculator {
 				continue;
 			}
 			foreach ( $this->windows_for( $day ) as [ $win_start, $win_end ] ) {
-				for ( $start = $win_start; $start + $rules->duration * 60 <= $win_end; $start += $rules->interval * 60 ) {
+				foreach ( $this->candidates( $win_start, $win_end, $rules ) as $start ) {
 					if ( $start < $earliest ) {
 						continue;
 					}
@@ -165,6 +165,37 @@ final class SlotCalculator {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Possible start times inside one opening window: the regular grid, plus (with fill_gaps)
+	 * a start directly after each existing appointment incl. its break.
+	 *
+	 * @param int       $win_start Window start.
+	 * @param int       $win_end   Window end.
+	 * @param SlotRules $rules     Rules.
+	 * @return int[]
+	 */
+	private function candidates( int $win_start, int $win_end, SlotRules $rules ): array {
+		$last  = $win_end - $rules->duration * 60;
+		$times = array();
+
+		for ( $t = $win_start; $t <= $last; $t += $rules->interval * 60 ) {
+			$times[] = $t;
+		}
+
+		if ( $rules->fill_gaps ) {
+			foreach ( $this->busy as $busy ) {
+				$t = $busy['end'] + $rules->buffer_before * 60;
+				if ( $t > $win_start && $t <= $last ) {
+					$times[] = $t;
+				}
+			}
+			$times = array_values( array_unique( $times ) );
+			sort( $times );
+		}
+
+		return $times;
 	}
 
 	/**

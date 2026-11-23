@@ -172,6 +172,19 @@ export default function SettingsScreen() {
 							set( 'max_advance_days' )( Number( v ) )
 						}
 					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __(
+							'Fill gaps between appointments',
+							'bookora'
+						) }
+						help={ __(
+							'Also offers a start time directly after an existing appointment (incl. break). Less idle time, but start times are less regular.',
+							'bookora'
+						) }
+						checked={ !! settings.fill_gaps }
+						onChange={ set( 'fill_gaps' ) }
+					/>
 					<TextControl
 						__nextHasNoMarginBottom
 						type="number"
