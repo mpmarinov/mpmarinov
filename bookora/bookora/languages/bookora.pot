@@ -214,6 +214,246 @@ msgstr ""
 msgid "%d min"
 msgstr ""
 
+msgid "Link no longer valid"
+msgstr ""
+
+msgid "This link has already been used, has expired or the booking was changed in the meantime. Please open the booking in WordPress."
+msgstr ""
+
+msgid "Booking not found"
+msgstr ""
+
+msgid "Please try again"
+msgstr ""
+
+msgid "The page has expired. Please open the link from the email again."
+msgstr ""
+
+msgid "Not possible"
+msgstr ""
+
+msgid "Booking confirmed"
+msgstr ""
+
+msgid "Booking rejected"
+msgstr ""
+
+msgid "The customer has been informed by email."
+msgstr ""
+
+msgid "The customer has been informed by email. The time is free again."
+msgstr ""
+
+msgid "Already processed"
+msgstr ""
+
+msgid "This booking has already been processed."
+msgstr ""
+
+msgid "Confirm booking"
+msgstr ""
+
+msgid "Reject booking"
+msgstr ""
+
+msgid "Confirm booking?"
+msgstr ""
+
+msgid "Reject booking?"
+msgstr ""
+
+msgid "The customer will be informed automatically by email."
+msgstr ""
+
+msgid "Customer"
+msgstr ""
+
+msgid "Service"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "Staff member"
+msgstr ""
+
+msgid "Phone"
+msgstr ""
+
+msgid "Open bookings in WordPress"
+msgstr ""
+
+msgid "customer"
+msgstr ""
+
+msgid "Sample service"
+msgstr ""
+
+msgid "Message"
+msgstr ""
+
+msgid "This is a sample message."
+msgstr ""
+
+msgid "Contact"
+msgstr ""
+
+msgid "Confirm"
+msgstr ""
+
+msgid "Reject"
+msgstr ""
+
+msgid "You will see the booking details once more before anything is changed."
+msgstr ""
+
+msgid "Open in WordPress"
+msgstr ""
+
+msgid "wp_mail() returned false. Please check the mail configuration (e.g. an SMTP plugin)."
+msgstr ""
+
+msgid "Booking received"
+msgstr ""
+
+msgid "To the customer right after booking, while the request is still pending."
+msgstr ""
+
+msgid "To the customer when you confirm the booking. Includes a calendar file."
+msgstr ""
+
+msgid "To the customer when you reject the request."
+msgstr ""
+
+msgid "Booking cancelled"
+msgstr ""
+
+msgid "To the customer when the appointment is cancelled."
+msgstr ""
+
+msgid "Appointment reminder"
+msgstr ""
+
+msgid "To the customer before the appointment (time set in the settings)."
+msgstr ""
+
+msgid "New booking (to you)"
+msgstr ""
+
+msgid "To you with buttons to confirm or reject with one click."
+msgstr ""
+
+msgid "Message received (auto-reply)"
+msgstr ""
+
+msgid "To the sender of a contact or request form."
+msgstr ""
+
+msgid "New message (to you)"
+msgstr ""
+
+msgid "To you when someone submits a contact or request form."
+msgstr ""
+
+msgid "We have received your booking request"
+msgstr ""
+
+msgid "Hello {customer_name},\n\nthank you for your request. We have received the following booking:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n\nWe will check the appointment and confirm it shortly by email.\n\nKind regards\n{business_name}"
+msgstr ""
+
+msgid "Your appointment on {date} is confirmed"
+msgstr ""
+
+msgid "Hello {customer_name},\n\nyour appointment is confirmed:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n{staff}\n\nYou can add the appointment to your calendar with the attached file or this link: {google_calendar_link}\n\nIf you cannot make it, please let us know in good time.\n\nWe look forward to seeing you!\n{business_name}"
+msgstr ""
+
+msgid "Your booking request for {date}"
+msgstr ""
+
+msgid "Hello {customer_name},\n\nunfortunately we cannot offer you the requested appointment ({service}, {date} at {time}).\n\nPlease choose another time on our website: {site_url}\n\nKind regards\n{business_name}"
+msgstr ""
+
+msgid "Your appointment on {date} has been cancelled"
+msgstr ""
+
+msgid "Hello {customer_name},\n\nyour appointment has been cancelled:\n\n{service}\n{date}, {time}\n\nYou are welcome to book a new appointment at any time: {site_url}\n\nKind regards\n{business_name}"
+msgstr ""
+
+msgid "Reminder: your appointment on {date} at {time}"
+msgstr ""
+
+msgid "Hello {customer_name},\n\nwe would like to remind you of your appointment:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n\nIf you cannot make it, please let us know as soon as possible.\n\nSee you soon!\n{business_name}"
+msgstr ""
+
+msgid "New booking: {service} on {date} at {time}"
+msgstr ""
+
+msgid "New booking from <strong>{customer_name}</strong>\n\n{service}\n{date}, {time} – {end_time}\n{staff}\n\nEmail: {customer_email}\nPhone: {customer_phone}\n\n{all_fields}\n\n{action_buttons}"
+msgstr ""
+
+msgid "Thank you for your message"
+msgstr ""
+
+msgid "Hello {customer_name},\n\nthank you for your message. We will get back to you as soon as possible.\n\nKind regards\n{business_name}"
+msgstr ""
+
+msgid "New message via {form_title}"
+msgstr ""
+
+msgid "New message from <strong>{customer_name}</strong> ({customer_email})\n\n{all_fields}\n\n{admin_link}"
+msgstr ""
+
+msgid "Customer name"
+msgstr ""
+
+msgid "Customer email"
+msgstr ""
+
+msgid "Customer phone"
+msgstr ""
+
+msgid "Start time"
+msgstr ""
+
+msgid "End time"
+msgstr ""
+
+msgid "Duration"
+msgstr ""
+
+msgid "Price"
+msgstr ""
+
+msgid "Business name"
+msgstr ""
+
+msgid "Business address"
+msgstr ""
+
+msgid "Website address"
+msgstr ""
+
+msgid "Form title"
+msgstr ""
+
+msgid "All form answers as a table"
+msgstr ""
+
+msgid "A single answer, e.g. {field:message}"
+msgstr ""
+
+msgid "Link \"Add to Google Calendar\""
+msgstr ""
+
+msgid "Buttons confirm / reject (only in emails to you)"
+msgstr ""
+
+msgid "Link to the entry in WordPress"
+msgstr ""
+
 msgid "Bookora entries and bookings"
 msgstr ""
 
@@ -221,9 +461,6 @@ msgid "Submitted (UTC)"
 msgstr ""
 
 msgid "Name"
-msgstr ""
-
-msgid "Phone"
 msgstr ""
 
 msgid "Appointment (UTC)"
@@ -272,6 +509,12 @@ msgid "Could not save."
 msgstr ""
 
 msgid "Please enter a name."
+msgstr ""
+
+msgid "Subject and text must not be empty."
+msgstr ""
+
+msgid "The test email could not be sent. Please check the mail configuration of your website (e.g. with an SMTP plugin)."
 msgstr ""
 
 msgid "Invalid action."
@@ -389,9 +632,6 @@ msgid "Sign here"
 msgstr ""
 
 msgid "General"
-msgstr ""
-
-msgid "Form title"
 msgstr ""
 
 msgid "Only visible to you."
@@ -733,12 +973,6 @@ msgstr ""
 msgid "Option 3"
 msgstr ""
 
-msgid "Service"
-msgstr ""
-
-msgid "Staff member"
-msgstr ""
-
 msgid "Date & time"
 msgstr ""
 
@@ -752,9 +986,6 @@ msgid "Email"
 msgstr ""
 
 msgid "Paragraph text"
-msgstr ""
-
-msgid "Message"
 msgstr ""
 
 msgid "Number"
@@ -794,12 +1025,6 @@ msgid "Rating"
 msgstr ""
 
 msgid "Slider"
-msgstr ""
-
-msgid "Date"
-msgstr ""
-
-msgid "Time"
 msgstr ""
 
 msgid "Address"
@@ -894,12 +1119,6 @@ msgstr ""
 msgid "No-show"
 msgstr ""
 
-msgid "Confirm"
-msgstr ""
-
-msgid "Reject"
-msgstr ""
-
 msgid "Cancel appointment"
 msgstr ""
 
@@ -979,6 +1198,96 @@ msgid "Show details for %s"
 msgstr ""
 
 msgid "Load more"
+msgstr ""
+
+msgid "To your customers"
+msgstr ""
+
+msgid "To you"
+msgstr ""
+
+msgid "Contact & request forms"
+msgstr ""
+
+msgid "Settings saved."
+msgstr ""
+
+msgid "Sender & notifications"
+msgstr ""
+
+msgid "Business name (sender name)"
+msgstr ""
+
+msgid "Notifications go to"
+msgstr ""
+
+msgid "Empty = admin email of the website."
+msgstr ""
+
+msgid "Sender address (optional)"
+msgstr ""
+
+msgid "Should belong to your domain, otherwise emails may land in spam."
+msgstr ""
+
+msgid "Address (for calendar entries)"
+msgstr ""
+
+msgid "Reminders (hours before)"
+msgstr ""
+
+msgid "e.g. \"24\" or \"48, 2\" for two reminders."
+msgstr ""
+
+msgid "One-click links valid for (hours)"
+msgstr ""
+
+msgid "Test email sent to %s."
+msgstr ""
+
+msgid "Default text restored."
+msgstr ""
+
+msgid "Send this email"
+msgstr ""
+
+msgid "Subject"
+msgstr ""
+
+msgid "Line breaks are kept. Allowed: <strong>, <em>, <a>."
+msgstr ""
+
+msgid "Insert placeholder:"
+msgstr ""
+
+msgid "Restore default"
+msgstr ""
+
+msgid "Send test email to me"
+msgstr ""
+
+msgid "Preview with sample data"
+msgstr ""
+
+msgid "Email preview"
+msgstr ""
+
+msgid "Recently sent"
+msgstr ""
+
+msgid "No emails sent yet."
+msgstr ""
+
+msgid "Sent"
+msgstr ""
+
+msgid "Failed"
+msgstr ""
+
+msgid "customized"
+msgstr ""
+
+msgid "Edit"
 msgstr ""
 
 msgid "Unread"
@@ -1099,9 +1408,6 @@ msgstr ""
 msgid "Copy shortcode"
 msgstr ""
 
-msgid "Edit"
-msgstr ""
-
 msgid "Delete the form \"%s\"? Entries are kept."
 msgstr ""
 
@@ -1170,12 +1476,6 @@ msgid "To (optional)"
 msgstr ""
 
 msgid "All day"
-msgstr ""
-
-msgid "Start time"
-msgstr ""
-
-msgid "End time"
 msgstr ""
 
 msgid "Note (internal)"
@@ -1341,12 +1641,6 @@ msgid "Create your first service"
 msgstr ""
 
 msgid "Delete the service \"%s\"? Existing bookings are kept."
-msgstr ""
-
-msgid "Settings saved."
-msgstr ""
-
-msgid "Business name"
 msgstr ""
 
 msgid "Notification email"

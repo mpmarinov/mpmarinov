@@ -205,4 +205,5 @@ Vor der finalen Wahl prüfen: freier Slug auf wordpress.org, Marken (DPMA, EUIPO
 | 2 – Leistungen, Öffnungszeiten, Slot-Engine | ✅ erledigt: Slot-Engine (Puffer, Gruppen, Ausnahmen, Zeitumstellung), Doppelbuchungsschutz, REST-API, MySQL + SQLite (Playground), Admin-Bildschirme für Leistungen, Mitarbeiter/Ressourcen, Öffnungszeiten, Feiertage & Sonderöffnungen. 23 Unit-Tests, 62 Integrationsprüfungen, Browser-Test Desktop + Mobil grün |
 | 3 – Formular-Builder & Eintragsverwaltung | ✅ Builder, Formulare auf der Webseite, Kalender, Buchungsverwaltung (Bestätigen/Ablehnen/Stornieren/Erschienen, Notizen, Wiedereröffnen mit Konfliktprüfung), Eintragsverwaltung (Lesen, Markieren, Spam, Papierkorb, Sammelaktionen, CSV-Export), Menü-Zähler. **Offen:** Datei-Upload & Unterschrift |
 | 4–5 – Kalender & Status-Workflow | ✅ in Phase 2/3 enthalten; Ein-Klick-Bestätigung per E-Mail-Link folgt mit Phase 6 |
-| 6 – E-Mail-System | ⏳ als Nächstes |
+| 6 – E-Mail-System | ✅ 8 E-Mail-Vorlagen (Kunde/Betreiber/Formulare), Editor mit Platzhaltern und Live-Vorschau, Test-E-Mail, Ein-Klick-Bestätigen/Ablehnen (Scanner-sicher, einmalig, ablaufend), .ics-Anhang + Google-Kalender-Link, Erinnerungen per Cron, Versandprotokoll |
+| 7 – Admin-Zeitstrahl | ⏳ als Nächstes |

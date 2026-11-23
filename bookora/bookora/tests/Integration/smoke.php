@@ -349,6 +349,68 @@ check( 403 === api( 'POST', '/services', array( 'name' => 'x' ) )->get_status(),
 wp_set_current_user( 1 );
 wp_delete_user( $mgr );
 
+echo "Emails\n";
+$mails = array();
+add_filter(
+	'pre_wp_mail',
+	static function ( $null, $atts ) use ( &$mails ) {
+		$mails[] = $atts;
+		return true;
+	},
+	10,
+	2
+);
+$c      = \Bookora\Core\Plugin::instance()->container();
+$mailer = $c->get( \Bookora\Notifications\Mailer::class );
+$links  = $c->get( \Bookora\Notifications\ActionLinks::class );
+api( 'POST', '/settings', array( 'admin_email' => 'owner@example.com', 'business_name' => 'Praxis Test', 'default_status' => 'pending' ) );
+$mday = ( new DateTimeImmutable( next_weekday( 1 ) ) )->modify( '+28 days' )->format( 'Y-m-d' );
+$msvc = api( 'POST', '/services', array( 'name' => 'Mail-Test', 'duration' => 30 ) )->get_data();
+$mb   = $bookings->create( array( 'service_id' => $msvc['id'], 'start' => ( new DateTimeImmutable( $mday . ' 09:00', wp_timezone() ) )->getTimestamp(), 'customer' => array( 'email' => 'kunde@example.com', 'name' => 'Max <script>alert(1)</script>' ), 'values' => array( 'nachricht' => '<img src=x onerror=alert(1)>' ) ) );
+$to   = array_column( $mails, 'to' );
+check( 2 === count( $mails ) && in_array( 'kunde@example.com', $to, true ) && in_array( 'owner@example.com', $to, true ), 'new booking sends receipt to customer and notification to owner', $to );
+$admin_mail = $mails[ array_search( 'owner@example.com', $to, true ) ];
+$cust_mail  = $mails[ array_search( 'kunde@example.com', $to, true ) ];
+check( str_contains( $admin_mail['subject'], 'Mail-Test' ) && str_contains( $admin_mail['message'], 'bookora_action=' ), 'owner email contains service and one-click links' );
+check( ! str_contains( $admin_mail['message'] . $cust_mail['message'], '<script' ) && ! str_contains( $admin_mail['message'], '<img src=x' ), 'customer input is escaped in emails' );
+check( in_array( 'Reply-To: kunde@example.com', (array) $admin_mail['headers'], true ), 'owner can reply directly to the customer' );
+check( str_contains( $cust_mail['message'], 'Praxis Test' ) && ! str_contains( $cust_mail['message'], '{' ), 'placeholders are replaced' );
+
+preg_match_all( '/bookora_action=([A-Za-z0-9_%-]+)/', $admin_mail['message'], $m );
+$tokens = array_map( 'rawurldecode', array_unique( $m[1] ) );
+check( 2 === count( $tokens ) && $links->find( $tokens[0] ) && 'confirmed' === $links->find( $tokens[0] )['action'], 'confirm and reject links are valid' );
+check( null === $links->find( 'x' . substr( $tokens[0], 1 ) ) && null === $links->find( '../../etc' ), 'tampered tokens are rejected' );
+
+$mails = array();
+api( 'POST', '/bookings/' . $mb['booking_id'] . '/status', array( 'status' => 'confirmed' ) );
+check( 1 === count( $mails ) && 'kunde@example.com' === $mails[0]['to'] && str_contains( $mails[0]['message'], 'calendar.google.com' ), 'confirming sends the confirmation (with calendar link) to the customer', array_column( $mails, 'subject' ) );
+check( null === $links->find( $tokens[0] ) && null === $links->find( $tokens[1] ), 'one-click links are invalid after the booking was processed' );
+
+$ics = \Bookora\Notifications\Ics::event( $adm->booking( $mb['booking_id'] ), 'Mail-Test; Praxis, Test' );
+check( str_contains( $ics, 'BEGIN:VEVENT' ) && str_contains( $ics, 'SUMMARY:Mail-Test\; Praxis\, Test' ) && preg_match( '/DTSTART:\d{8}T\d{6}Z/', $ics ), 'calendar file is valid and escaped' );
+
+$mails = array();
+global $wpdb;
+$wpdb->update( \Bookora\Install\Schema::table( $wpdb->prefix, 'bookings' ), array( 'start_utc' => gmdate( 'Y-m-d H:i:s', time() + 20 * HOUR_IN_SECONDS ), 'end_utc' => gmdate( 'Y-m-d H:i:s', time() + 20 * HOUR_IN_SECONDS + 1800 ), 'created_at' => gmdate( 'Y-m-d H:i:s', time() - 3 * DAY_IN_SECONDS ) ), array( 'id' => $mb['booking_id'] ) );
+$sent_now = $mailer->send_reminders();
+check( 1 === $sent_now && 1 === count( $mails ) && 'kunde@example.com' === $mails[0]['to'], 'reminder sent within 24 h before the appointment', array_column( $mails, 'subject' ) );
+check( 0 === $mailer->send_reminders(), 'reminder is sent only once' );
+
+check( 200 === api( 'PUT', '/emails/booking_confirmed', array( 'enabled' => false, 'subject' => 'Hallo {customer_name}', 'body' => 'Text' ) )->get_status(), 'template saved' );
+$mails = array();
+api( 'POST', '/bookings/' . $mb['booking_id'] . '/status', array( 'status' => 'cancelled' ) );
+api( 'POST', '/bookings/' . $mb['booking_id'] . '/status', array( 'status' => 'pending' ) );
+api( 'POST', '/bookings/' . $mb['booking_id'] . '/status', array( 'status' => 'confirmed' ) );
+check( ! in_array( 'Hallo Max', array_column( $mails, 'subject' ), true ), 'disabled template is not sent' );
+$prev = api( 'POST', '/emails/booking_confirmed/preview', array( 'subject' => 'Termin {date}', 'body' => 'Hallo {customer_name}, {all_fields}' ) )->get_data();
+check( str_contains( $prev['html'], 'Anna Muster' ) && str_contains( $prev['html'], '<table' ) && ! str_contains( $prev['subject'], '{date}' ), 'preview renders sample data' );
+check( 400 === api( 'PUT', '/emails/booking_confirmed', array( 'enabled' => true, 'subject' => '', 'body' => '' ) )->get_status(), 'empty template rejected' );
+api( 'POST', '/emails/booking_confirmed/reset' );
+check( true === api( 'GET', '/emails' )->get_data()['templates'][1]['enabled'], 'template reset to default' );
+check( 404 === api( 'PUT', '/emails/evil', array( 'subject' => 'x', 'body' => 'y' ) )->get_status(), 'unknown email event rejected' );
+$logged = (int) $wpdb->get_var( 'SELECT COUNT(*) FROM ' . \Bookora\Install\Schema::table( $wpdb->prefix, 'notification_log' ) . " WHERE status = 'sent'" );
+check( $logged >= 4, 'every send is logged', $logged );
+
 echo "Cleanup\n";
 check( 200 === api( 'DELETE', '/services/' . $service['id'] )->get_status(), 'service deleted' );
 check( 404 === api( 'GET', '/services/' . $service['id'] )->get_status(), 'deleted service is gone' );

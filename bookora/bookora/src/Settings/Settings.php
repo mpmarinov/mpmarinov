@@ -24,6 +24,8 @@ final class Settings {
 	public static function defaults(): array {
 		return array(
 			'business_name'       => '',
+			'business_address'    => '',
+			'email_from_address'  => '',
 			'admin_email'         => '',
 			'time_format'         => '24h',
 			'week_start'          => 1,
@@ -113,6 +115,8 @@ final class Settings {
 
 		$out['business_name']      = sanitize_text_field( (string) ( $input['business_name'] ?? '' ) );
 		$out['admin_email']        = sanitize_email( (string) ( $input['admin_email'] ?? '' ) );
+		$out['business_address']   = mb_substr( sanitize_text_field( (string) ( $input['business_address'] ?? '' ) ), 0, 255 );
+		$out['email_from_address'] = sanitize_email( (string) ( $input['email_from_address'] ?? '' ) );
 		$out['time_format']        = in_array( $input['time_format'] ?? '', array( '12h', '24h' ), true ) ? $input['time_format'] : $defaults['time_format'];
 		$out['week_start']         = self::int_range( $input['week_start'] ?? 1, 0, 6 );
 		$out['slot_interval']      = in_array( (int) ( $input['slot_interval'] ?? 0 ), array( 5, 10, 15, 20, 30, 45, 60, 90, 120 ), true ) ? (int) $input['slot_interval'] : $defaults['slot_interval'];

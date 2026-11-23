@@ -216,6 +216,246 @@ msgstr "Dieser Feldtyp ist in einer kommenden Version verfügbar."
 msgid "%d min"
 msgstr "%d Min."
 
+msgid "Link no longer valid"
+msgstr "Link nicht mehr gültig"
+
+msgid "This link has already been used, has expired or the booking was changed in the meantime. Please open the booking in WordPress."
+msgstr "Dieser Link wurde bereits verwendet, ist abgelaufen oder die Buchung wurde inzwischen geändert. Bitte öffnen Sie die Buchung in WordPress."
+
+msgid "Booking not found"
+msgstr "Buchung nicht gefunden"
+
+msgid "Please try again"
+msgstr "Bitte erneut versuchen"
+
+msgid "The page has expired. Please open the link from the email again."
+msgstr "Die Seite ist abgelaufen. Bitte öffnen Sie den Link aus der E-Mail erneut."
+
+msgid "Not possible"
+msgstr "Nicht möglich"
+
+msgid "Booking confirmed"
+msgstr "Buchung bestätigt"
+
+msgid "Booking rejected"
+msgstr "Buchung abgelehnt"
+
+msgid "The customer has been informed by email."
+msgstr "Der Kunde wurde per E-Mail informiert."
+
+msgid "The customer has been informed by email. The time is free again."
+msgstr "Der Kunde wurde per E-Mail informiert. Die Zeit ist wieder frei."
+
+msgid "Already processed"
+msgstr "Bereits bearbeitet"
+
+msgid "This booking has already been processed."
+msgstr "Diese Buchung wurde bereits bearbeitet."
+
+msgid "Confirm booking"
+msgstr "Buchung bestätigen"
+
+msgid "Reject booking"
+msgstr "Buchung ablehnen"
+
+msgid "Confirm booking?"
+msgstr "Buchung bestätigen?"
+
+msgid "Reject booking?"
+msgstr "Buchung ablehnen?"
+
+msgid "The customer will be informed automatically by email."
+msgstr "Der Kunde wird automatisch per E-Mail informiert."
+
+msgid "Customer"
+msgstr "Kunde"
+
+msgid "Service"
+msgstr "Leistung"
+
+msgid "Date"
+msgstr "Datum"
+
+msgid "Time"
+msgstr "Uhrzeit"
+
+msgid "Staff member"
+msgstr "Mitarbeiter"
+
+msgid "Phone"
+msgstr "Telefon"
+
+msgid "Open bookings in WordPress"
+msgstr "Buchungen in WordPress öffnen"
+
+msgid "customer"
+msgstr "Kunde"
+
+msgid "Sample service"
+msgstr "Beispiel-Leistung"
+
+msgid "Message"
+msgstr "Nachricht"
+
+msgid "This is a sample message."
+msgstr "Das ist eine Beispielnachricht."
+
+msgid "Contact"
+msgstr "Kontakt"
+
+msgid "Confirm"
+msgstr "Bestätigen"
+
+msgid "Reject"
+msgstr "Ablehnen"
+
+msgid "You will see the booking details once more before anything is changed."
+msgstr "Sie sehen die Buchungsdetails noch einmal, bevor etwas geändert wird."
+
+msgid "Open in WordPress"
+msgstr "In WordPress öffnen"
+
+msgid "wp_mail() returned false. Please check the mail configuration (e.g. an SMTP plugin)."
+msgstr "wp_mail() meldet einen Fehler. Bitte prüfen Sie den E-Mail-Versand (z. B. mit einem SMTP-Plugin)."
+
+msgid "Booking received"
+msgstr "Buchung eingegangen"
+
+msgid "To the customer right after booking, while the request is still pending."
+msgstr "An den Kunden direkt nach der Buchung, solange die Anfrage noch offen ist."
+
+msgid "To the customer when you confirm the booking. Includes a calendar file."
+msgstr "An den Kunden, wenn Sie die Buchung bestätigen. Mit Kalenderdatei."
+
+msgid "To the customer when you reject the request."
+msgstr "An den Kunden, wenn Sie die Anfrage ablehnen."
+
+msgid "Booking cancelled"
+msgstr "Buchung storniert"
+
+msgid "To the customer when the appointment is cancelled."
+msgstr "An den Kunden, wenn der Termin storniert wird."
+
+msgid "Appointment reminder"
+msgstr "Terminerinnerung"
+
+msgid "To the customer before the appointment (time set in the settings)."
+msgstr "An den Kunden vor dem Termin (Zeitpunkt in den Einstellungen)."
+
+msgid "New booking (to you)"
+msgstr "Neue Buchung (an Sie)"
+
+msgid "To you with buttons to confirm or reject with one click."
+msgstr "An Sie, mit Buttons zum Bestätigen oder Ablehnen per Klick."
+
+msgid "Message received (auto-reply)"
+msgstr "Nachricht erhalten (automatische Antwort)"
+
+msgid "To the sender of a contact or request form."
+msgstr "An den Absender eines Kontakt- oder Anfrageformulars."
+
+msgid "New message (to you)"
+msgstr "Neue Nachricht (an Sie)"
+
+msgid "To you when someone submits a contact or request form."
+msgstr "An Sie, wenn jemand ein Kontakt- oder Anfrageformular absendet."
+
+msgid "We have received your booking request"
+msgstr "Wir haben Ihre Buchungsanfrage erhalten"
+
+msgid "Hello {customer_name},\n\nthank you for your request. We have received the following booking:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n\nWe will check the appointment and confirm it shortly by email.\n\nKind regards\n{business_name}"
+msgstr "Hallo {customer_name},\n\nvielen Dank für Ihre Anfrage. Wir haben folgende Buchung erhalten:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} Uhr\n\nWir prüfen den Termin und bestätigen ihn in Kürze per E-Mail.\n\nViele Grüße\n{business_name}"
+
+msgid "Your appointment on {date} is confirmed"
+msgstr "Ihr Termin am {date} ist bestätigt"
+
+msgid "Hello {customer_name},\n\nyour appointment is confirmed:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n{staff}\n\nYou can add the appointment to your calendar with the attached file or this link: {google_calendar_link}\n\nIf you cannot make it, please let us know in good time.\n\nWe look forward to seeing you!\n{business_name}"
+msgstr "Hallo {customer_name},\n\nIhr Termin ist bestätigt:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} Uhr\n{staff}\n\nMit der angehängten Datei oder diesem Link können Sie den Termin in Ihren Kalender übernehmen: {google_calendar_link}\n\nFalls Sie verhindert sind, sagen Sie bitte rechtzeitig Bescheid.\n\nWir freuen uns auf Sie!\n{business_name}"
+
+msgid "Your booking request for {date}"
+msgstr "Ihre Buchungsanfrage für {date}"
+
+msgid "Hello {customer_name},\n\nunfortunately we cannot offer you the requested appointment ({service}, {date} at {time}).\n\nPlease choose another time on our website: {site_url}\n\nKind regards\n{business_name}"
+msgstr "Hallo {customer_name},\n\nleider können wir Ihnen den gewünschten Termin ({service}, {date} um {time} Uhr) nicht anbieten.\n\nBitte wählen Sie auf unserer Webseite eine andere Zeit: {site_url}\n\nViele Grüße\n{business_name}"
+
+msgid "Your appointment on {date} has been cancelled"
+msgstr "Ihr Termin am {date} wurde storniert"
+
+msgid "Hello {customer_name},\n\nyour appointment has been cancelled:\n\n{service}\n{date}, {time}\n\nYou are welcome to book a new appointment at any time: {site_url}\n\nKind regards\n{business_name}"
+msgstr "Hallo {customer_name},\n\nIhr Termin wurde storniert:\n\n{service}\n{date}, {time} Uhr\n\nSie können jederzeit gerne einen neuen Termin buchen: {site_url}\n\nViele Grüße\n{business_name}"
+
+msgid "Reminder: your appointment on {date} at {time}"
+msgstr "Erinnerung: Ihr Termin am {date} um {time} Uhr"
+
+msgid "Hello {customer_name},\n\nwe would like to remind you of your appointment:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n\nIf you cannot make it, please let us know as soon as possible.\n\nSee you soon!\n{business_name}"
+msgstr "Hallo {customer_name},\n\nwir möchten Sie an Ihren Termin erinnern:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} Uhr\n\nFalls Sie verhindert sind, sagen Sie bitte so früh wie möglich Bescheid.\n\nBis bald!\n{business_name}"
+
+msgid "New booking: {service} on {date} at {time}"
+msgstr "Neue Buchung: {service} am {date} um {time} Uhr"
+
+msgid "New booking from <strong>{customer_name}</strong>\n\n{service}\n{date}, {time} – {end_time}\n{staff}\n\nEmail: {customer_email}\nPhone: {customer_phone}\n\n{all_fields}\n\n{action_buttons}"
+msgstr "Neue Buchung von <strong>{customer_name}</strong>\n\n{service}\n{date}, {time} – {end_time} Uhr\n{staff}\n\nE-Mail: {customer_email}\nTelefon: {customer_phone}\n\n{all_fields}\n\n{action_buttons}"
+
+msgid "Thank you for your message"
+msgstr "Vielen Dank für Ihre Nachricht"
+
+msgid "Hello {customer_name},\n\nthank you for your message. We will get back to you as soon as possible.\n\nKind regards\n{business_name}"
+msgstr "Hallo {customer_name},\n\nvielen Dank für Ihre Nachricht. Wir melden uns so schnell wie möglich bei Ihnen.\n\nViele Grüße\n{business_name}"
+
+msgid "New message via {form_title}"
+msgstr "Neue Nachricht über {form_title}"
+
+msgid "New message from <strong>{customer_name}</strong> ({customer_email})\n\n{all_fields}\n\n{admin_link}"
+msgstr "Neue Nachricht von <strong>{customer_name}</strong> ({customer_email})\n\n{all_fields}\n\n{admin_link}"
+
+msgid "Customer name"
+msgstr "Name des Kunden"
+
+msgid "Customer email"
+msgstr "E-Mail des Kunden"
+
+msgid "Customer phone"
+msgstr "Telefon des Kunden"
+
+msgid "Start time"
+msgstr "Startzeit"
+
+msgid "End time"
+msgstr "Endzeit"
+
+msgid "Duration"
+msgstr "Dauer"
+
+msgid "Price"
+msgstr "Preis"
+
+msgid "Business name"
+msgstr "Name des Betriebs"
+
+msgid "Business address"
+msgstr "Adresse des Betriebs"
+
+msgid "Website address"
+msgstr "Webadresse"
+
+msgid "Form title"
+msgstr "Formulartitel"
+
+msgid "All form answers as a table"
+msgstr "Alle Formularangaben als Tabelle"
+
+msgid "A single answer, e.g. {field:message}"
+msgstr "Eine einzelne Angabe, z. B. {field:nachricht}"
+
+msgid "Link \"Add to Google Calendar\""
+msgstr "Link „In Google Kalender eintragen“"
+
+msgid "Buttons confirm / reject (only in emails to you)"
+msgstr "Buttons Bestätigen / Ablehnen (nur in E-Mails an Sie)"
+
+msgid "Link to the entry in WordPress"
+msgstr "Link zum Eintrag in WordPress"
+
 msgid "Bookora entries and bookings"
 msgstr "Bookora: Einträge und Buchungen"
 
@@ -224,9 +464,6 @@ msgstr "Gesendet (UTC)"
 
 msgid "Name"
 msgstr "Name"
-
-msgid "Phone"
-msgstr "Telefon"
 
 msgid "Appointment (UTC)"
 msgstr "Termin (UTC)"
@@ -275,6 +512,12 @@ msgstr "Speichern fehlgeschlagen."
 
 msgid "Please enter a name."
 msgstr "Bitte geben Sie einen Namen ein."
+
+msgid "Subject and text must not be empty."
+msgstr "Betreff und Text dürfen nicht leer sein."
+
+msgid "The test email could not be sent. Please check the mail configuration of your website (e.g. with an SMTP plugin)."
+msgstr "Die Test-E-Mail konnte nicht gesendet werden. Bitte prüfen Sie den E-Mail-Versand Ihrer Webseite (z. B. mit einem SMTP-Plugin)."
 
 msgid "Invalid action."
 msgstr "Ungültige Aktion."
@@ -392,9 +635,6 @@ msgstr "Hier unterschreiben"
 
 msgid "General"
 msgstr "Allgemein"
-
-msgid "Form title"
-msgstr "Formulartitel"
 
 msgid "Only visible to you."
 msgstr "Nur für Sie sichtbar."
@@ -735,12 +975,6 @@ msgstr "Option 2"
 msgid "Option 3"
 msgstr "Option 3"
 
-msgid "Service"
-msgstr "Leistung"
-
-msgid "Staff member"
-msgstr "Mitarbeiter"
-
 msgid "Date & time"
 msgstr "Datum & Uhrzeit"
 
@@ -755,9 +989,6 @@ msgstr "E-Mail"
 
 msgid "Paragraph text"
 msgstr "Mehrzeiliger Text"
-
-msgid "Message"
-msgstr "Nachricht"
 
 msgid "Number"
 msgstr "Zahl"
@@ -797,12 +1028,6 @@ msgstr "Bewertung"
 
 msgid "Slider"
 msgstr "Schieberegler"
-
-msgid "Date"
-msgstr "Datum"
-
-msgid "Time"
-msgstr "Uhrzeit"
 
 msgid "Address"
 msgstr "Adresse"
@@ -896,12 +1121,6 @@ msgstr "Erschienen"
 msgid "No-show"
 msgstr "Nicht erschienen"
 
-msgid "Confirm"
-msgstr "Bestätigen"
-
-msgid "Reject"
-msgstr "Ablehnen"
-
 msgid "Cancel appointment"
 msgstr "Termin stornieren"
 
@@ -982,6 +1201,96 @@ msgstr "Details zu %s anzeigen"
 
 msgid "Load more"
 msgstr "Mehr laden"
+
+msgid "To your customers"
+msgstr "An Ihre Kunden"
+
+msgid "To you"
+msgstr "An Sie"
+
+msgid "Contact & request forms"
+msgstr "Kontakt- & Anfrageformulare"
+
+msgid "Settings saved."
+msgstr "Einstellungen gespeichert."
+
+msgid "Sender & notifications"
+msgstr "Absender & Benachrichtigungen"
+
+msgid "Business name (sender name)"
+msgstr "Name des Betriebs (Absendername)"
+
+msgid "Notifications go to"
+msgstr "Benachrichtigungen an"
+
+msgid "Empty = admin email of the website."
+msgstr "Leer = Admin-E-Mail der Webseite."
+
+msgid "Sender address (optional)"
+msgstr "Absenderadresse (optional)"
+
+msgid "Should belong to your domain, otherwise emails may land in spam."
+msgstr "Sollte zu Ihrer Domain gehören, sonst landen E-Mails eventuell im Spam."
+
+msgid "Address (for calendar entries)"
+msgstr "Adresse (für Kalendereinträge)"
+
+msgid "Reminders (hours before)"
+msgstr "Erinnerungen (Stunden vorher)"
+
+msgid "e.g. \"24\" or \"48, 2\" for two reminders."
+msgstr "z. B. „24“ oder „48, 2“ für zwei Erinnerungen."
+
+msgid "One-click links valid for (hours)"
+msgstr "Ein-Klick-Links gültig für (Stunden)"
+
+msgid "Test email sent to %s."
+msgstr "Test-E-Mail an %s gesendet."
+
+msgid "Default text restored."
+msgstr "Standardtext wiederhergestellt."
+
+msgid "Send this email"
+msgstr "Diese E-Mail senden"
+
+msgid "Subject"
+msgstr "Betreff"
+
+msgid "Line breaks are kept. Allowed: <strong>, <em>, <a>."
+msgstr "Zeilenumbrüche bleiben erhalten. Erlaubt: <strong>, <em>, <a>."
+
+msgid "Insert placeholder:"
+msgstr "Platzhalter einfügen:"
+
+msgid "Restore default"
+msgstr "Standard wiederherstellen"
+
+msgid "Send test email to me"
+msgstr "Test-E-Mail an mich senden"
+
+msgid "Preview with sample data"
+msgstr "Vorschau mit Beispieldaten"
+
+msgid "Email preview"
+msgstr "E-Mail-Vorschau"
+
+msgid "Recently sent"
+msgstr "Zuletzt gesendet"
+
+msgid "No emails sent yet."
+msgstr "Noch keine E-Mails gesendet."
+
+msgid "Sent"
+msgstr "Gesendet"
+
+msgid "Failed"
+msgstr "Fehlgeschlagen"
+
+msgid "customized"
+msgstr "angepasst"
+
+msgid "Edit"
+msgstr "Bearbeiten"
 
 msgid "Unread"
 msgstr "Ungelesen"
@@ -1101,9 +1410,6 @@ msgstr "Erstes Formular erstellen"
 msgid "Copy shortcode"
 msgstr "Shortcode kopieren"
 
-msgid "Edit"
-msgstr "Bearbeiten"
-
 msgid "Delete the form \"%s\"? Entries are kept."
 msgstr "Formular „%s“ löschen? Einträge bleiben erhalten."
 
@@ -1173,12 +1479,6 @@ msgstr "Bis (optional)"
 
 msgid "All day"
 msgstr "Ganztägig"
-
-msgid "Start time"
-msgstr "Startzeit"
-
-msgid "End time"
-msgstr "Endzeit"
 
 msgid "Note (internal)"
 msgstr "Notiz (intern)"
@@ -1344,12 +1644,6 @@ msgstr "Erste Leistung anlegen"
 
 msgid "Delete the service \"%s\"? Existing bookings are kept."
 msgstr "Leistung „%s“ löschen? Bestehende Buchungen bleiben erhalten."
-
-msgid "Settings saved."
-msgstr "Einstellungen gespeichert."
-
-msgid "Business name"
-msgstr "Name des Betriebs"
 
 msgid "Notification email"
 msgstr "E-Mail für Benachrichtigungen"

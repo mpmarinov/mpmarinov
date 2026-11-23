@@ -11,6 +11,7 @@ import HoursScreen from './screens/HoursScreen';
 import FormsScreen from './screens/FormsScreen';
 import BookingsScreen from './screens/BookingsScreen';
 import EntriesScreen from './screens/EntriesScreen';
+import EmailsScreen from './screens/EmailsScreen';
 import './builder/builder.scss';
 import Placeholder from './screens/Placeholder';
 import './style.scss';
@@ -23,6 +24,7 @@ const SCREENS = {
 	forms: FormsScreen,
 	bookings: BookingsScreen,
 	entries: EntriesScreen,
+	emails: EmailsScreen,
 };
 
 const TITLES = {

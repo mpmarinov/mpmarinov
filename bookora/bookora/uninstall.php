@@ -29,6 +29,7 @@ function bookora_uninstall_site(): void {
 	delete_option( 'bookora_db_version' );
 	\Bookora\Security\Capabilities::uninstall();
 	wp_clear_scheduled_hook( 'bookora_daily_maintenance' );
+	wp_clear_scheduled_hook( 'bookora_send_reminders' );
 }
 
 if ( is_multisite() ) {
