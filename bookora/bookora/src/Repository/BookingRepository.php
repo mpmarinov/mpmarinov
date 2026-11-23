@@ -98,6 +98,43 @@ final class BookingRepository {
 	}
 
 	/**
+	 * Booked appointments per local day for a resource (null = business-wide).
+	 * A group session with several participants counts once.
+	 *
+	 * @param int|null      $resource_id Resource id.
+	 * @param int           $service_id  Service to count separately.
+	 * @param int           $from        UTC timestamp.
+	 * @param int           $to          UTC timestamp.
+	 * @param \DateTimeZone $tz          Local timezone.
+	 * @return array{service: array<string, int>, all: array<string, int>}
+	 */
+	public function day_counts( ?int $resource_id, int $service_id, int $from, int $to, \DateTimeZone $tz ): array {
+		global $wpdb;
+
+		$bookings = Schema::table( $wpdb->prefix, 'bookings' );
+		$statuses = "'" . implode( "','", self::BLOCKING_STATUSES ) . "'";
+		$res_sql  = null === $resource_id ? 'IS NULL' : '= ' . (int) $resource_id;
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- internal table name, integer/constant values only.
+		$rows = (array) $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT service_id, start_utc FROM {$bookings} WHERE resource_id {$res_sql} AND status IN ({$statuses}) AND start_utc >= %s AND start_utc < %s", gmdate( 'Y-m-d H:i:s', $from - DAY_IN_SECONDS ), gmdate( 'Y-m-d H:i:s', $to + DAY_IN_SECONDS ) ), ARRAY_A );
+
+		$counts = array(
+			'service' => array(),
+			'all'     => array(),
+		);
+		foreach ( $rows as $row ) {
+			$date = ( new \DateTimeImmutable( '@' . self::ts( $row['start_utc'] ) ) )->setTimezone( $tz )->format( 'Y-m-d' );
+
+			$counts['all'][ $date ] = ( $counts['all'][ $date ] ?? 0 ) + 1;
+			if ( (int) $row['service_id'] === $service_id ) {
+				$counts['service'][ $date ] = ( $counts['service'][ $date ] ?? 0 ) + 1;
+			}
+		}
+
+		return $counts;
+	}
+
+	/**
 	 * Find a booking.
 	 *
 	 * @param int $id Booking id.

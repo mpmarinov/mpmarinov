@@ -172,6 +172,33 @@ final class SlotCalculatorTest extends TestCase {
 		$this->assertSame( array( '09:00', '09:45', '10:30', '11:15', '13:30', '14:15', '15:00', '15:45', '16:30', '17:15' ), $this->starts( $slots ) );
 	}
 
+	public function test_one_hour_treatment_with_one_hour_break_gives_six_per_day(): void {
+		$calc  = new SlotCalculator( $this->tz, array( 1 => array( array( '08:00', '19:00' ) ) ) );
+		$rules = SlotRules::from_service( array( 'duration' => 60, 'buffer_after' => 60 ), array() );
+		$slots = $calc->slots( '2026-12-07', '2026-12-07', $rules, $this->past );
+
+		$this->assertSame( array( '08:00', '10:00', '12:00', '14:00', '16:00', '18:00' ), $this->starts( $slots ) );
+	}
+
+	public function test_daily_limit_per_service(): void {
+		$rules = SlotRules::from_service( array( 'duration' => 60, 'buffer_after' => 60, 'max_per_day' => 4 ), array() );
+		$calc  = new SlotCalculator( $this->tz, array( 1 => array( array( '08:00', '19:00' ) ) ), array(), array(), array( 'service' => array( '2026-12-07' => 4 ) ) );
+
+		$this->assertSame( array(), $calc->slots( '2026-12-07', '2026-12-07', $rules, $this->past ), 'day is full after 4 bookings' );
+		$this->assertCount( 6, $calc->slots( '2026-12-14', '2026-12-14', $rules, $this->past ), 'other days are not affected' );
+
+		$open = new SlotCalculator( $this->tz, array( 1 => array( array( '08:00', '19:00' ) ) ), array(), array(), array( 'service' => array( '2026-12-07' => 3 ) ) );
+		$this->assertCount( 6, $open->slots( '2026-12-07', '2026-12-07', $rules, $this->past ), 'below the limit all free slots stay bookable' );
+	}
+
+	public function test_daily_limit_for_all_services(): void {
+		$rules = SlotRules::from_service( array( 'duration' => 60 ), array( 'max_per_day' => 5 ) );
+		$calc  = new SlotCalculator( $this->tz, $this->weekly, array(), array(), array( 'all' => array( '2026-12-07' => 5 ) ) );
+
+		$this->assertSame( array(), $calc->slots( '2026-12-07', '2026-12-07', $rules, $this->past ) );
+		$this->assertFalse( $calc->is_available( $this->ts( '2026-12-07 09:00' ), $rules, $this->past ) );
+	}
+
 	public function test_invalid_range_returns_nothing(): void {
 		$calc = new SlotCalculator( $this->tz, $this->weekly );
 		$this->assertSame( array(), $calc->slots( '2026-12-10', '2026-12-01', new SlotRules(), 0 ) );

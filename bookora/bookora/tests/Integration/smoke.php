@@ -285,6 +285,19 @@ check( ! in_array( 'grund', $stored, true ) && in_array( 'email', $stored, true 
 check( 201 === $submit( array( '_bk_t' => $old_token( 10 ), 'fields' => array( 'email' => 'c@example.com', 'kunde' => 'evil' ) ) )->get_status() ? false : true, 'invalid option is rejected' );
 wp_set_current_user( 1 );
 
+echo "Daily schedule & limit\n";
+api( 'PUT', '/schedules/weekly', array( 'weekly' => array( 1 => array( array( '08:00', '19:00' ) ) ) ) );
+$treat = api( 'POST', '/services', array( 'name' => 'Behandlung', 'duration' => 60, 'buffer_after' => 60, 'max_per_day' => 2 ) )->get_data();
+$day   = ( new DateTimeImmutable( next_weekday( 1 ) ) )->modify( '+14 days' )->format( 'Y-m-d' );
+$times = array_column( ( (array) api( 'GET', '/availability', array(), array( 'service' => $treat['id'], 'from' => $day, 'to' => $day ) )->get_data()['days'] )[ $day ] ?? array(), 'time' );
+check( array( '08:00', '10:00', '12:00', '14:00', '16:00', '18:00' ) === $times, '1 h treatment + 1 h break = 6 start times per day', $times );
+$t0 = static fn( string $hm ) => ( new DateTimeImmutable( $day . ' ' . $hm, wp_timezone() ) )->getTimestamp();
+$mk = static fn( string $hm, string $mail ) => $bookings->create( array( 'service_id' => $treat['id'], 'start' => $t0( $hm ), 'customer' => array( 'email' => $mail ) ) );
+check( ! is_wp_error( $mk( '08:00', 'd1@example.com' ) ) && ! is_wp_error( $mk( '12:00', 'd2@example.com' ) ), 'two bookings within the daily limit' );
+$days = (array) api( 'GET', '/availability', array(), array( 'service' => $treat['id'], 'from' => $day, 'to' => $day ) )->get_data()['days'];
+check( ! isset( $days[ $day ] ), 'day is full after reaching the limit of 2' );
+check( is_wp_error( $mk( '16:00', 'd3@example.com' ) ), 'third booking on that day is rejected' );
+
 echo "Cleanup\n";
 check( 200 === api( 'DELETE', '/services/' . $service['id'] )->get_status(), 'service deleted' );
 check( 404 === api( 'GET', '/services/' . $service['id'] )->get_status(), 'deleted service is gone' );

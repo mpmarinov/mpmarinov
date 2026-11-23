@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Schema {
 
-	public const VERSION = '1.2.0';
+	public const VERSION = '1.3.0';
 
 	/**
 	 * Unprefixed table names.
@@ -83,6 +83,7 @@ final class Schema {
   buffer_before smallint(5) unsigned NOT NULL DEFAULT 0,
   buffer_after smallint(5) unsigned NOT NULL DEFAULT 0,
   slot_interval smallint(5) unsigned NOT NULL DEFAULT 0,
+  max_per_day smallint(5) unsigned NOT NULL DEFAULT 0,
   capacity smallint(5) unsigned NOT NULL DEFAULT 1,
   price decimal(12,2) NOT NULL DEFAULT 0.00,
   color varchar(9) NOT NULL DEFAULT '#2563eb',

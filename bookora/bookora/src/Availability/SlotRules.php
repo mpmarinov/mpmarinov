@@ -25,6 +25,8 @@ final class SlotRules {
 	 * @param int $min_notice    Minimum notice.
 	 * @param int $max_advance   Maximum days in advance (0 = unlimited).
 	 * @param int $seats         Seats requested by this booking.
+	 * @param int $max_per_day   Max appointments of this service per day (0 = unlimited).
+	 * @param int $max_day_total Max appointments of all services per day (0 = unlimited).
 	 */
 	public function __construct(
 		public readonly int $duration = 60,
@@ -35,13 +37,15 @@ final class SlotRules {
 		public readonly int $min_notice = 0,
 		public readonly int $max_advance = 0,
 		public readonly int $seats = 1,
+		public readonly int $max_per_day = 0,
+		public readonly int $max_day_total = 0,
 	) {}
 
 	/**
 	 * Build from a service row and global settings, clamping invalid values.
 	 *
 	 * @param array<string, mixed> $service  Service row.
-	 * @param array<string, mixed> $settings Global settings (minimum notice, booking horizon).
+	 * @param array<string, mixed> $settings Global settings (minimum notice, booking horizon, daily limit).
 	 * @param int                  $seats    Requested seats.
 	 */
 	public static function from_service( array $service, array $settings, int $seats = 1 ): self {
@@ -63,7 +67,9 @@ final class SlotRules {
 			max( 1, (int) ( $service['capacity'] ?? 1 ) ),
 			$min_notice > 0 ? $min_notice : max( 0, (int) ( $settings['min_notice_minutes'] ?? 0 ) ),
 			$max_advance > 0 ? $max_advance : max( 0, (int) ( $settings['max_advance_days'] ?? 0 ) ),
-			max( 1, $seats )
+			max( 1, $seats ),
+			max( 0, (int) ( $service['max_per_day'] ?? 0 ) ),
+			max( 0, (int) ( $settings['max_per_day'] ?? 0 ) )
 		);
 	}
 }

@@ -134,11 +134,14 @@ final class AvailabilityService {
 	 * @param int      $to          UTC timestamp for busy lookup.
 	 */
 	public function calculator( int $service_id, ?int $resource_id, int $from, int $to ): SlotCalculator {
+		$tz = $this->timezone( $resource_id );
+
 		return new SlotCalculator(
-			$this->timezone( $resource_id ),
+			$tz,
 			$this->schedules->weekly( $resource_id ),
 			$this->schedules->exceptions( $resource_id ),
-			$this->bookings->busy( $resource_id, $service_id, $from, $to )
+			$this->bookings->busy( $resource_id, $service_id, $from, $to ),
+			$this->bookings->day_counts( $resource_id, $service_id, $from, $to, $tz )
 		);
 	}
 

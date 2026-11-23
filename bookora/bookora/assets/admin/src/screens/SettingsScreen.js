@@ -173,6 +173,23 @@ export default function SettingsScreen() {
 						}
 					/>
 					<TextControl
+						__nextHasNoMarginBottom
+						type="number"
+						min={ 0 }
+						label={ __(
+							'Max. appointments per day (all services)',
+							'bookora'
+						) }
+						help={ __(
+							'0 = no limit. Limits per service can be set in the service.',
+							'bookora'
+						) }
+						value={ settings.max_per_day }
+						onChange={ ( v ) =>
+							set( 'max_per_day' )( Number( v ) )
+						}
+					/>
+					<TextControl
 						type="number"
 						__nextHasNoMarginBottom
 						label={ __(

@@ -58,6 +58,11 @@ final class ServiceRepository extends TableRepository {
 				'default' => 0,
 				'max'     => 720,
 			),
+			'max_per_day'   => array(
+				'type'    => 'uint',
+				'default' => 0,
+				'max'     => 1000,
+			),
 			'capacity'      => array(
 				'type'    => 'uint',
 				'default' => 1,

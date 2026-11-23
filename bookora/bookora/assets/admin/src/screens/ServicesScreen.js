@@ -16,12 +16,14 @@ import {
 import { config, errorMessage, get } from '../api';
 import ConfirmButton from '../components/ConfirmButton';
 import useCollection from '../components/useCollection';
+import DayGrid from '../components/DayGrid';
 
 const EMPTY = {
 	name: '',
 	description: '',
 	duration: 60,
 	slot_interval: 0,
+	max_per_day: 0,
 	buffer_before: 0,
 	buffer_after: 0,
 	capacity: 1,
@@ -47,7 +49,7 @@ function formatPrice( price ) {
 	}
 }
 
-function ServiceForm( { service, resources, onSave, onClose } ) {
+function ServiceForm( { service, resources, weekly, onSave, onClose } ) {
 	const [ data, setData ] = useState( { ...EMPTY, ...service } );
 	const [ error, setError ] = useState( null );
 	const [ busy, setBusy ] = useState( false );
@@ -132,7 +134,10 @@ function ServiceForm( { service, resources, onSave, onClose } ) {
 						type="number"
 						min={ 0 }
 						step={ 5 }
-						label={ __( 'Buffer before (minutes)', 'bookora' ) }
+						label={ __(
+							'Preparation before (minutes)',
+							'bookora'
+						) }
 						value={ data.buffer_before }
 						onChange={ num( 'buffer_before' ) }
 					/>
@@ -141,9 +146,28 @@ function ServiceForm( { service, resources, onSave, onClose } ) {
 						type="number"
 						min={ 0 }
 						step={ 5 }
-						label={ __( 'Buffer after (minutes)', 'bookora' ) }
+						label={ __(
+							'Break after the appointment (minutes)',
+							'bookora'
+						) }
+						help={ __(
+							'e.g. cleaning, preparing the room',
+							'bookora'
+						) }
 						value={ data.buffer_after }
 						onChange={ num( 'buffer_after' ) }
+					/>
+					<TextControl
+						__nextHasNoMarginBottom
+						type="number"
+						min={ 0 }
+						label={ __( 'Max. appointments per day', 'bookora' ) }
+						help={ __(
+							'0 = as many as fit into the working hours.',
+							'bookora'
+						) }
+						value={ data.max_per_day }
+						onChange={ num( 'max_per_day' ) }
 					/>
 					<TextControl
 						__nextHasNoMarginBottom
@@ -197,7 +221,7 @@ function ServiceForm( { service, resources, onSave, onClose } ) {
 							label: sprintf(
 								/* translators: %d: minutes. */
 								__(
-									'One after another – every %d min (duration + buffers)',
+									'One after another – every %d min (duration + preparation + break)',
 									'bookora'
 								),
 								( Number( data.duration ) || 0 ) +
@@ -216,6 +240,12 @@ function ServiceForm( { service, resources, onSave, onClose } ) {
 						} ) ),
 					] }
 					onChange={ ( v ) => set( 'slot_interval' )( Number( v ) ) }
+				/>
+
+				<DayGrid
+					weekly={ weekly }
+					data={ data }
+					weekStart={ Number( config.weekStart ?? 1 ) }
 				/>
 
 				<SelectControl
@@ -281,11 +311,15 @@ export default function ServicesScreen() {
 	const { items, notice, setNotice, save, remove } =
 		useCollection( '/services' );
 	const [ resources, setResources ] = useState( [] );
+	const [ weekly, setWeekly ] = useState( {} );
 	const [ editing, setEditing ] = useState( null );
 
 	useEffect( () => {
 		get( '/resources' )
 			.then( setResources )
+			.catch( () => {} );
+		get( '/schedules/weekly' )
+			.then( ( res ) => setWeekly( res.weekly || {} ) )
 			.catch( () => {} );
 	}, [] );
 
@@ -408,6 +442,7 @@ export default function ServicesScreen() {
 				<ServiceForm
 					service={ editing }
 					resources={ resources }
+					weekly={ weekly }
 					onSave={ save }
 					onClose={ () => setEditing( null ) }
 				/>

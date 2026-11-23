@@ -270,3 +270,35 @@
 		min-width: 0;
 	}
 }
+
+.bookora-daygrid {
+	background: #f0f6f3;
+	border-radius: 8px;
+	padding: 12px 14px;
+
+	&__title {
+		margin: 0 0 8px;
+		font-weight: 600;
+	}
+
+	&__slots {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+	}
+
+	&__slot {
+		background: #fff;
+		border: 1px solid #c8ddd3;
+		border-radius: 999px;
+		padding: 2px 10px;
+		font-size: 12px;
+		font-variant-numeric: tabular-nums;
+	}
+
+	&__total {
+		margin: 8px 0 0;
+		font-weight: 600;
+		color: #1f6f50;
+	}
+}

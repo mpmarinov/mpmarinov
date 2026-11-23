@@ -62,14 +62,26 @@ final class SlotCalculator {
 	private array $busy;
 
 	/**
+	 * Appointments already booked per local date: ['service' => [Y-m-d => n], 'all' => [Y-m-d => n]].
+	 *
+	 * @var array{service: array<string, int>, all: array<string, int>}
+	 */
+	private array $day_counts;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param DateTimeZone                                                                                           $tz         Local timezone.
 	 * @param array<int, array<int, array{0:string,1:string}>>                                                       $weekly     Weekly hours.
 	 * @param array<int, array{date_start:string,date_end:string,type:string,start_time?:?string,end_time?:?string}> $exceptions Exceptions.
 	 * @param array<int, array{start:int,end:int,seats?:int}>                                                        $busy       Busy intervals.
+	 * @param array<string, array<string, int>>                                                                      $day_counts Booked appointments per local day ('service' and 'all').
 	 */
-	public function __construct( DateTimeZone $tz, array $weekly, array $exceptions = array(), array $busy = array() ) {
+	public function __construct( DateTimeZone $tz, array $weekly, array $exceptions = array(), array $busy = array(), array $day_counts = array() ) {
+		$this->day_counts = array(
+			'service' => (array) ( $day_counts['service'] ?? array() ),
+			'all'     => (array) ( $day_counts['all'] ?? array() ),
+		);
 		$this->tz         = $tz;
 		$this->weekly     = $weekly;
 		$this->exceptions = $exceptions;
@@ -107,6 +119,9 @@ final class SlotCalculator {
 		$slots    = array();
 
 		foreach ( new DatePeriod( $from, new DateInterval( 'P1D' ), $to->modify( '+1 day' ) ) as $day ) {
+			if ( $this->day_is_full( $day->format( 'Y-m-d' ), $rules ) ) {
+				continue;
+			}
 			foreach ( $this->windows_for( $day ) as [ $win_start, $win_end ] ) {
 				for ( $start = $win_start; $start + $rules->duration * 60 <= $win_end; $start += $rules->interval * 60 ) {
 					if ( $start < $earliest ) {
@@ -150,6 +165,19 @@ final class SlotCalculator {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Whether a daily limit is reached on a local date.
+	 *
+	 * @param string    $date  Y-m-d.
+	 * @param SlotRules $rules Rules.
+	 */
+	private function day_is_full( string $date, SlotRules $rules ): bool {
+		if ( $rules->max_per_day > 0 && ( $this->day_counts['service'][ $date ] ?? 0 ) >= $rules->max_per_day ) {
+			return true;
+		}
+		return $rules->max_day_total > 0 && ( $this->day_counts['all'][ $date ] ?? 0 ) >= $rules->max_day_total;
 	}
 
 	/**
