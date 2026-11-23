@@ -8,6 +8,7 @@
 namespace Bookora\Core;
 
 use Bookora\Admin\AdminMenu;
+use Bookora\Admin\Export;
 use Bookora\Availability\AvailabilityService;
 use Bookora\Booking\BookingService;
 use Bookora\Forms\Submission;
@@ -15,11 +16,13 @@ use Bookora\Frontend\Renderer;
 use Bookora\Install\Installer;
 use Bookora\Privacy\Privacy;
 use Bookora\Repository\BookingRepository;
+use Bookora\Repository\EntryRepository;
 use Bookora\Repository\FormRepository;
 use Bookora\Repository\ResourceRepository;
 use Bookora\Repository\ScheduleRepository;
 use Bookora\Repository\ServiceRepository;
 use Bookora\Rest\AvailabilityController;
+use Bookora\Rest\EntriesController;
 use Bookora\Rest\FormsController;
 use Bookora\Rest\PublicFormController;
 use Bookora\Rest\ResourcesController;
@@ -91,7 +94,7 @@ final class Plugin {
 		$c = $this->container;
 
 		$c->set( Settings::class, static fn() => new Settings() );
-		$c->set( AdminMenu::class, static fn( Container $c ) => new AdminMenu( $c->get( Settings::class ) ) );
+		$c->set( AdminMenu::class, static fn( Container $c ) => new AdminMenu( $c->get( Settings::class ), $c->get( EntryRepository::class ) ) );
 		$c->set( SettingsController::class, static fn( Container $c ) => new SettingsController( $c->get( Settings::class ) ) );
 		$c->set( Privacy::class, static fn() => new Privacy() );
 
@@ -100,6 +103,7 @@ final class Plugin {
 		$c->set( ScheduleRepository::class, static fn() => new ScheduleRepository() );
 		$c->set( BookingRepository::class, static fn() => new BookingRepository() );
 		$c->set( FormRepository::class, static fn() => new FormRepository() );
+		$c->set( EntryRepository::class, static fn() => new EntryRepository() );
 		$c->set(
 			AvailabilityService::class,
 			static fn( Container $c ) => new AvailabilityService(
@@ -140,6 +144,8 @@ final class Plugin {
 				$c->get( Settings::class )
 			)
 		);
+		$c->set( Export::class, static fn( Container $c ) => new Export( $c->get( EntryRepository::class ), $c->get( FormRepository::class ) ) );
+		$c->set( EntriesController::class, static fn( Container $c ) => new EntriesController( $c->get( EntryRepository::class ), $c->get( BookingRepository::class ), $c->get( ServiceRepository::class ) ) );
 		$c->set( FormsController::class, static fn( Container $c ) => new FormsController( $c->get( FormRepository::class ) ) );
 		$c->set( AvailabilityController::class, static fn( Container $c ) => new AvailabilityController( $c->get( AvailabilityService::class ), $c->get( ServiceRepository::class ) ) );
 
@@ -154,7 +160,7 @@ final class Plugin {
 		add_action(
 			'rest_api_init',
 			static function () use ( $c ) {
-				foreach ( array( SettingsController::class, ServicesController::class, ResourcesController::class, SchedulesController::class, AvailabilityController::class, FormsController::class, PublicFormController::class ) as $controller ) {
+				foreach ( array( SettingsController::class, ServicesController::class, ResourcesController::class, SchedulesController::class, AvailabilityController::class, FormsController::class, PublicFormController::class, EntriesController::class ) as $controller ) {
 					$c->get( $controller )->register_routes();
 				}
 			}
@@ -162,6 +168,7 @@ final class Plugin {
 
 		if ( is_admin() ) {
 			$c->get( AdminMenu::class )->register();
+			$c->get( Export::class )->register();
 		}
 
 		/**

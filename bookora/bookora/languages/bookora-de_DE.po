@@ -18,6 +18,9 @@ msgstr "Zeitstrahl"
 msgid "Bookings"
 msgstr "Buchungen"
 
+msgid "Entries"
+msgstr "Einträge"
+
 msgid "Forms"
 msgstr "Formulare"
 
@@ -44,6 +47,12 @@ msgstr "Bookora"
 
 msgid "Loading…"
 msgstr "Wird geladen …"
+
+msgid "You are not allowed to export entries."
+msgstr "Sie dürfen keine Einträge exportieren."
+
+msgid "Not found."
+msgstr "Nicht gefunden."
 
 msgid "This service is not available."
 msgstr "Diese Leistung ist nicht verfügbar."
@@ -228,6 +237,27 @@ msgstr "Formulareinträge und Buchungen"
 msgid "When you submit a form or book an appointment, we store the data you enter in the form (such as name, email address, phone number and your message) together with the date and time of a booked appointment. We use this data to process your request, manage your appointment and send you confirmations and reminders."
 msgstr "Wenn Sie ein Formular absenden oder einen Termin buchen, speichern wir die eingegebenen Daten (z. B. Name, E-Mail-Adresse, Telefonnummer und Ihre Nachricht) zusammen mit Datum und Uhrzeit eines gebuchten Termins. Wir verwenden diese Daten, um Ihre Anfrage zu bearbeiten, Ihren Termin zu verwalten und Ihnen Bestätigungen und Erinnerungen zu senden."
 
+msgid "This status change is not possible."
+msgstr "Diese Statusänderung ist nicht möglich."
+
+msgid "ID"
+msgstr "ID"
+
+msgid "Submitted"
+msgstr "Gesendet"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Appointment"
+msgstr "Termin"
+
+msgid "Booking status"
+msgstr "Buchungsstatus"
+
+msgid "Yes"
+msgstr "Ja"
+
 msgid "%s (copy)"
 msgstr "%s (Kopie)"
 
@@ -246,8 +276,11 @@ msgstr "Speichern fehlgeschlagen."
 msgid "Please enter a name."
 msgstr "Bitte geben Sie einen Namen ein."
 
-msgid "Not found."
-msgstr "Nicht gefunden."
+msgid "Invalid action."
+msgstr "Ungültige Aktion."
+
+msgid "This time is no longer free. The booking cannot be reopened."
+msgstr "Diese Zeit ist nicht mehr frei. Die Buchung kann nicht wieder geöffnet werden."
 
 msgid "Please enter a form title."
 msgstr "Bitte geben Sie einen Formulartitel ein."
@@ -377,9 +410,6 @@ msgstr "Buchungsformular (mit Kalender)"
 
 msgid "Booking fields are only available in booking forms."
 msgstr "Buchungsfelder gibt es nur in Buchungsformularen."
-
-msgid "Status"
-msgstr "Status"
 
 msgid "Draft (not visible on the website)"
 msgstr "Entwurf (auf der Webseite nicht sichtbar)"
@@ -848,11 +878,186 @@ msgid_plural "= max. %d appointments per day"
 msgstr[0] "= max. %d Termin pro Tag"
 msgstr[1] "= max. %d Termine pro Tag"
 
+msgid "Pending"
+msgstr "Offen"
+
+msgid "Confirmed"
+msgstr "Bestätigt"
+
+msgid "Rejected"
+msgstr "Abgelehnt"
+
+msgid "Cancelled"
+msgstr "Storniert"
+
+msgid "Attended"
+msgstr "Erschienen"
+
+msgid "No-show"
+msgstr "Nicht erschienen"
+
+msgid "Confirm"
+msgstr "Bestätigen"
+
+msgid "Reject"
+msgstr "Ablehnen"
+
+msgid "Cancel appointment"
+msgstr "Termin stornieren"
+
+msgid "Reopen"
+msgstr "Wieder öffnen"
+
 msgid "Saved."
 msgstr "Gespeichert."
 
 msgid "Deleted."
 msgstr "Gelöscht."
+
+msgid "Upcoming"
+msgstr "Anstehend"
+
+msgid "Past"
+msgstr "Vergangen"
+
+msgid "Rejected & cancelled"
+msgstr "Abgelehnt & storniert"
+
+msgid "All"
+msgstr "Alle"
+
+msgid "confirmed"
+msgstr "bestätigt"
+
+msgid "rejected"
+msgstr "abgelehnt"
+
+msgid "cancelled"
+msgstr "storniert"
+
+msgid "marked as attended"
+msgstr "als erschienen markiert"
+
+msgid "marked as no-show"
+msgstr "als nicht erschienen markiert"
+
+msgid "reopened"
+msgstr "wieder geöffnet"
+
+msgid "%d places"
+msgstr "%d Plätze"
+
+msgid "Booked on"
+msgstr "Gebucht am"
+
+msgid "Form details"
+msgstr "Angaben im Formular"
+
+msgid "No further details."
+msgstr "Keine weiteren Angaben."
+
+msgid "Internal notes"
+msgstr "Interne Notizen"
+
+msgid "Only visible to you and your team."
+msgstr "Nur für Sie und Ihr Team sichtbar."
+
+msgid "Save notes"
+msgstr "Notizen speichern"
+
+msgid "Search name, email or phone"
+msgstr "Name, E-Mail oder Telefon suchen"
+
+msgid "All services"
+msgstr "Alle Leistungen"
+
+msgid "No open requests – everything is done."
+msgstr "Keine offenen Anfragen – alles erledigt."
+
+msgid "No bookings found."
+msgstr "Keine Buchungen gefunden."
+
+msgid "Show details for %s"
+msgstr "Details zu %s anzeigen"
+
+msgid "Load more"
+msgstr "Mehr laden"
+
+msgid "Unread"
+msgstr "Ungelesen"
+
+msgid "Starred"
+msgstr "Markiert"
+
+msgid "Spam"
+msgstr "Spam"
+
+msgid "Trash"
+msgstr "Papierkorb"
+
+msgid "Entry"
+msgstr "Eintrag"
+
+msgid "Sent from:"
+msgstr "Gesendet von:"
+
+msgid "Reply"
+msgstr "Antworten"
+
+msgid "Unstar"
+msgstr "Markierung entfernen"
+
+msgid "Star"
+msgstr "Markieren"
+
+msgid "Move to trash"
+msgstr "In den Papierkorb"
+
+msgid "Restore"
+msgstr "Wiederherstellen"
+
+msgid "Delete permanently"
+msgstr "Endgültig löschen"
+
+msgid "Not spam"
+msgstr "Kein Spam"
+
+msgid "Mark as read"
+msgstr "Als gelesen markieren"
+
+msgid "Mark as unread"
+msgstr "Als ungelesen markieren"
+
+msgid "Messages from your contact and request forms. Bookings with an appointment are under \"Bookings\"."
+msgstr "Nachrichten aus Ihren Kontakt- und Anfrageformularen. Buchungen mit Termin finden Sie unter „Buchungen“."
+
+msgid "Search entries"
+msgstr "Einträge durchsuchen"
+
+msgid "Export CSV"
+msgstr "CSV exportieren"
+
+msgid "No entries found."
+msgstr "Keine Einträge gefunden."
+
+msgid "Select all"
+msgstr "Alle auswählen"
+
+msgid "Select %s"
+msgstr "%s auswählen"
+
+msgid "(no name)"
+msgstr "(ohne Namen)"
+
+msgid "%d entry updated."
+msgid_plural "%d entries updated."
+msgstr[0] "%d Eintrag aktualisiert."
+msgstr[1] "%d Einträge aktualisiert."
+
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "%d ausgewählt"
+msgstr[1] "%d ausgewählt"
 
 msgid "Booking form"
 msgstr "Buchungsformular"
@@ -1136,9 +1341,6 @@ msgstr "Noch keine Leistungen."
 
 msgid "Create your first service"
 msgstr "Erste Leistung anlegen"
-
-msgid "%d places"
-msgstr "%d Plätze"
 
 msgid "Delete the service \"%s\"? Existing bookings are kept."
 msgstr "Leistung „%s“ löschen? Bestehende Buchungen bleiben erhalten."

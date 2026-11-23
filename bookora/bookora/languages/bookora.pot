@@ -16,6 +16,9 @@ msgstr ""
 msgid "Bookings"
 msgstr ""
 
+msgid "Entries"
+msgstr ""
+
 msgid "Forms"
 msgstr ""
 
@@ -41,6 +44,12 @@ msgid "Bookora"
 msgstr ""
 
 msgid "Loading…"
+msgstr ""
+
+msgid "You are not allowed to export entries."
+msgstr ""
+
+msgid "Not found."
 msgstr ""
 
 msgid "This service is not available."
@@ -226,6 +235,27 @@ msgstr ""
 msgid "When you submit a form or book an appointment, we store the data you enter in the form (such as name, email address, phone number and your message) together with the date and time of a booked appointment. We use this data to process your request, manage your appointment and send you confirmations and reminders."
 msgstr ""
 
+msgid "This status change is not possible."
+msgstr ""
+
+msgid "ID"
+msgstr ""
+
+msgid "Submitted"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Appointment"
+msgstr ""
+
+msgid "Booking status"
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
 msgid "%s (copy)"
 msgstr ""
 
@@ -244,7 +274,10 @@ msgstr ""
 msgid "Please enter a name."
 msgstr ""
 
-msgid "Not found."
+msgid "Invalid action."
+msgstr ""
+
+msgid "This time is no longer free. The booking cannot be reopened."
 msgstr ""
 
 msgid "Please enter a form title."
@@ -374,9 +407,6 @@ msgid "Booking form (with calendar)"
 msgstr ""
 
 msgid "Booking fields are only available in booking forms."
-msgstr ""
-
-msgid "Status"
 msgstr ""
 
 msgid "Draft (not visible on the website)"
@@ -846,11 +876,186 @@ msgid_plural "= max. %d appointments per day"
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "Pending"
+msgstr ""
+
+msgid "Confirmed"
+msgstr ""
+
+msgid "Rejected"
+msgstr ""
+
+msgid "Cancelled"
+msgstr ""
+
+msgid "Attended"
+msgstr ""
+
+msgid "No-show"
+msgstr ""
+
+msgid "Confirm"
+msgstr ""
+
+msgid "Reject"
+msgstr ""
+
+msgid "Cancel appointment"
+msgstr ""
+
+msgid "Reopen"
+msgstr ""
+
 msgid "Saved."
 msgstr ""
 
 msgid "Deleted."
 msgstr ""
+
+msgid "Upcoming"
+msgstr ""
+
+msgid "Past"
+msgstr ""
+
+msgid "Rejected & cancelled"
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "confirmed"
+msgstr ""
+
+msgid "rejected"
+msgstr ""
+
+msgid "cancelled"
+msgstr ""
+
+msgid "marked as attended"
+msgstr ""
+
+msgid "marked as no-show"
+msgstr ""
+
+msgid "reopened"
+msgstr ""
+
+msgid "%d places"
+msgstr ""
+
+msgid "Booked on"
+msgstr ""
+
+msgid "Form details"
+msgstr ""
+
+msgid "No further details."
+msgstr ""
+
+msgid "Internal notes"
+msgstr ""
+
+msgid "Only visible to you and your team."
+msgstr ""
+
+msgid "Save notes"
+msgstr ""
+
+msgid "Search name, email or phone"
+msgstr ""
+
+msgid "All services"
+msgstr ""
+
+msgid "No open requests – everything is done."
+msgstr ""
+
+msgid "No bookings found."
+msgstr ""
+
+msgid "Show details for %s"
+msgstr ""
+
+msgid "Load more"
+msgstr ""
+
+msgid "Unread"
+msgstr ""
+
+msgid "Starred"
+msgstr ""
+
+msgid "Spam"
+msgstr ""
+
+msgid "Trash"
+msgstr ""
+
+msgid "Entry"
+msgstr ""
+
+msgid "Sent from:"
+msgstr ""
+
+msgid "Reply"
+msgstr ""
+
+msgid "Unstar"
+msgstr ""
+
+msgid "Star"
+msgstr ""
+
+msgid "Move to trash"
+msgstr ""
+
+msgid "Restore"
+msgstr ""
+
+msgid "Delete permanently"
+msgstr ""
+
+msgid "Not spam"
+msgstr ""
+
+msgid "Mark as read"
+msgstr ""
+
+msgid "Mark as unread"
+msgstr ""
+
+msgid "Messages from your contact and request forms. Bookings with an appointment are under \"Bookings\"."
+msgstr ""
+
+msgid "Search entries"
+msgstr ""
+
+msgid "Export CSV"
+msgstr ""
+
+msgid "No entries found."
+msgstr ""
+
+msgid "Select all"
+msgstr ""
+
+msgid "Select %s"
+msgstr ""
+
+msgid "(no name)"
+msgstr ""
+
+msgid "%d entry updated."
+msgid_plural "%d entries updated."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Booking form"
 msgstr ""
@@ -1133,9 +1338,6 @@ msgid "No services yet."
 msgstr ""
 
 msgid "Create your first service"
-msgstr ""
-
-msgid "%d places"
 msgstr ""
 
 msgid "Delete the service \"%s\"? Existing bookings are kept."

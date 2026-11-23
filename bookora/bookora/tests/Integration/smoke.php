@@ -298,6 +298,57 @@ $days = (array) api( 'GET', '/availability', array(), array( 'service' => $treat
 check( ! isset( $days[ $day ] ), 'day is full after reaching the limit of 2' );
 check( is_wp_error( $mk( '16:00', 'd3@example.com' ) ), 'third booking on that day is rejected' );
 
+echo "Bookings & entries admin\n";
+$adm   = \Bookora\Core\Plugin::instance()->container()->get( \Bookora\Repository\EntryRepository::class );
+$bday  = ( new DateTimeImmutable( next_weekday( 1 ) ) )->modify( '+21 days' )->format( 'Y-m-d' );
+$svc   = api( 'POST', '/services', array( 'name' => 'Admin-Test', 'duration' => 60 ) )->get_data();
+$at    = static fn( string $hm ) => ( new DateTimeImmutable( $bday . ' ' . $hm, wp_timezone() ) )->getTimestamp();
+$b1    = $bookings->create( array( 'service_id' => $svc['id'], 'start' => $at( '08:00' ), 'customer' => array( 'email' => 'e1@example.com', 'name' => 'Eva Eins' ), 'values' => array( 'nachricht' => 'Hallo' ) ) );
+$list  = api( 'GET', '/bookings', array(), array( 'view' => 'pending', 'per_page' => 100 ) )->get_data();
+check( in_array( $b1['booking_id'], array_column( $list['items'], 'id' ), true ) && $list['counts']['pending'] >= 1, 'pending booking listed with count' );
+check( 409 === api( 'POST', '/bookings/' . $b1['booking_id'] . '/status', array( 'status' => 'completed' ) )->get_status(), 'invalid transition pending → attended is refused' );
+$res = api( 'POST', '/bookings/' . $b1['booking_id'] . '/status', array( 'status' => 'rejected' ) );
+check( 200 === $res->get_status() && 'rejected' === $res->get_data()['status'], 'booking rejected with one call' );
+$b2 = $bookings->create( array( 'service_id' => $svc['id'], 'start' => $at( '08:00' ), 'customer' => array( 'email' => 'e2@example.com' ) ) );
+check( ! is_wp_error( $b2 ), 'rejected time is free for the next customer' );
+$res = api( 'POST', '/bookings/' . $b1['booking_id'] . '/status', array( 'status' => 'pending' ) );
+check( 409 === $res->get_status() && 'bookora_slot_taken' === $res->get_data()['code'], 'reopening is refused when the time is taken meanwhile' );
+check( 200 === api( 'POST', '/bookings/' . $b2['booking_id'] . '/status', array( 'status' => 'confirmed' ) )->get_status(), 'second booking confirmed' );
+check( 200 === api( 'POST', '/bookings/' . $b2['booking_id'] . '/notes', array( 'notes' => 'Allergie <b>Latex</b>' ) )->get_status() && 'Allergie Latex' === $adm->booking( $b2['booking_id'] )['notes'], 'internal notes saved and sanitized' );
+$detail = api( 'GET', '/entries/' . $b1['entry_id'] )->get_data();
+check( 'Hallo' === ( $detail['values'][0]['value'] ?? '' ) && 'rejected' === $detail['booking']['status'], 'entry detail shows values and booking' );
+$badges = api( 'GET', '/badges' )->get_data();
+check( isset( $badges['pending'], $badges['new_entries'] ), 'badge counts available' );
+
+$std   = api( 'POST', '/forms', array( 'title' => 'Admin-Kontakt', 'status' => 'published', 'fields' => array( array( 'type' => 'email', 'key' => 'email', 'label' => 'E-Mail' ), array( 'type' => 'text', 'key' => 'betreff', 'label' => 'Betreff' ) ) ) )->get_data();
+wp_set_current_user( 0 );
+foreach ( array( 'x1@example.com' => '=HYPERLINK("http://evil")', 'x2@example.com' => 'Normale Frage' ) as $mail => $subject ) {
+	api( 'POST', '/public/forms/' . $std['id'] . '/submit', array( '_bk_t' => $old_token( 10 ), 'fields' => array( 'email' => $mail, 'betreff' => $subject ) ) );
+}
+check( 401 === api( 'GET', '/entries' )->get_status(), 'anonymous user cannot read entries' );
+wp_set_current_user( 1 );
+$ent = api( 'GET', '/entries', array(), array( 'form_id' => $std['id'] ) )->get_data();
+check( 2 === $ent['total'] && 2 === $ent['counts']['new'], 'standard entries listed as new' );
+$e1  = $ent['items'][0]['id'];
+api( 'GET', '/entries/' . $e1 );
+check( 'read' === api( 'GET', '/entries', array(), array( 'form_id' => $std['id'] ) )->get_data()['items'][0]['status'], 'opening an entry marks it as read' );
+check( 0 === api( 'POST', '/entries/bulk', array( 'ids' => array( $e1 ), 'action' => 'delete' ) )->get_data()['affected'], 'entries outside the trash cannot be deleted permanently' );
+api( 'POST', '/entries/bulk', array( 'ids' => array( $e1 ), 'action' => 'trash' ) );
+check( 1 === api( 'GET', '/entries', array(), array( 'form_id' => $std['id'] ) )->get_data()['total'], 'trashed entry hidden from the default list' );
+check( 1 === api( 'POST', '/entries/bulk', array( 'ids' => array( $e1 ), 'action' => 'delete' ) )->get_data()['affected'], 'trashed entry deleted permanently' );
+check( 400 === api( 'POST', '/entries/bulk', array( 'ids' => array( 1 ), 'action' => 'drop' ) )->get_status(), 'unknown bulk action rejected' );
+[ $head, $rows ] = $adm->export( $std['id'] );
+$cells           = array_merge( ...$rows );
+check( in_array( 'Betreff', $head, true ) && 1 === count( $rows ), 'CSV export contains the remaining entry', $rows );
+check( "'=1+1" === \Bookora\Repository\EntryRepository::csv_safe( '=1+1' ) && "'@SUM(A1)" === \Bookora\Repository\EntryRepository::csv_safe( '@SUM(A1)' ) && 'Hallo' === \Bookora\Repository\EntryRepository::csv_safe( 'Hallo' ), 'CSV export neutralizes spreadsheet formulas' );
+
+$mgr = wp_insert_user( array( 'user_login' => 'manager' . wp_rand(), 'user_pass' => wp_generate_password(), 'role' => 'bookora_manager' ) );
+wp_set_current_user( $mgr );
+check( 200 === api( 'GET', '/bookings' )->get_status(), 'booking manager can see bookings' );
+check( 403 === api( 'POST', '/services', array( 'name' => 'x' ) )->get_status(), 'booking manager cannot change services' );
+wp_set_current_user( 1 );
+wp_delete_user( $mgr );
+
 echo "Cleanup\n";
 check( 200 === api( 'DELETE', '/services/' . $service['id'] )->get_status(), 'service deleted' );
 check( 404 === api( 'GET', '/services/' . $service['id'] )->get_status(), 'deleted service is gone' );

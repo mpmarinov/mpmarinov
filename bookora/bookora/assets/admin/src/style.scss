@@ -302,3 +302,332 @@
 		color: #1f6f50;
 	}
 }
+
+/* Tabs */
+.bookora-tabs {
+	display: flex;
+	gap: 4px;
+	flex-wrap: wrap;
+	border-bottom: 1px solid #dcdcde;
+
+	&__tab {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		border: 0;
+		border-bottom: 2px solid transparent;
+		background: none;
+		padding: 10px 12px;
+		margin-bottom: -1px;
+		font: inherit;
+		color: #50575e;
+		cursor: pointer;
+
+		&:hover {
+			color: #1e1e1e;
+		}
+
+		&.is-active {
+			color: #1e1e1e;
+			font-weight: 600;
+			border-bottom-color: var(--wp-admin-theme-color, #2271b1);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--wp-admin-theme-color, #2271b1);
+		}
+	}
+
+	&__count {
+		background: #d63638;
+		color: #fff;
+		border-radius: 999px;
+		font-size: 11px;
+		line-height: 1;
+		padding: 3px 7px;
+
+		&.is-muted {
+			background: #dcdcde;
+			color: #3c434a;
+		}
+	}
+}
+
+.bookora-toolbar--filters {
+	justify-content: flex-start;
+
+	.components-search-control {
+		flex: 1 1 260px;
+		max-width: 420px;
+	}
+
+	.components-select-control {
+		min-width: 180px;
+	}
+}
+
+/* Status */
+.bookora-status {
+	display: inline-block;
+	font-size: 11px;
+	line-height: 1;
+	padding: 4px 8px;
+	border-radius: 999px;
+	vertical-align: middle;
+
+	&--warning {
+		background: #fef3c7;
+		color: #92400e;
+	}
+
+	&--success {
+		background: #def7ec;
+		color: #03543f;
+	}
+
+	&--error {
+		background: #fde8e8;
+		color: #9b1c1c;
+	}
+
+	&--neutral {
+		background: #f0f0f0;
+		color: #3c434a;
+	}
+}
+
+/* Bookings */
+.bookora-day {
+
+	&__title {
+		font-size: 14px;
+		margin: 20px 0 8px;
+		color: #3c434a;
+	}
+}
+
+.bookora-booking {
+
+	.components-card__body {
+		position: relative;
+	}
+
+	&__open {
+		position: absolute;
+		inset: 0;
+		border: 0;
+		background: transparent;
+		cursor: pointer;
+		z-index: 0;
+
+		&:hover {
+			background: rgba(0, 0, 0, 0.02);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--wp-admin-theme-color, #2271b1);
+		}
+	}
+
+	&__time {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		min-width: 48px;
+		font-variant-numeric: tabular-nums;
+
+		span {
+			color: #757575;
+			font-size: 12px;
+		}
+	}
+
+	&__bar {
+		width: 4px;
+		align-self: stretch;
+		border-radius: 2px;
+	}
+
+	.bookora-actions-inline {
+		position: relative;
+		z-index: 1;
+	}
+}
+
+.bookora-actions-inline {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	justify-content: flex-end;
+}
+
+/* Detail modal */
+.bookora-detail {
+
+	> * + * {
+		margin-top: 16px;
+	}
+
+	h3 {
+		font-size: 13px;
+		text-transform: uppercase;
+		letter-spacing: 0.03em;
+		color: #757575;
+	}
+
+	&__when {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 6px 14px;
+		border-left: 4px solid;
+		padding: 10px 14px;
+		background: #f6f7f7;
+		border-radius: 0 6px 6px 0;
+	}
+
+	&__contact {
+		display: grid;
+		grid-template-columns: max-content 1fr;
+		gap: 6px 16px;
+		margin: 0;
+
+		dt {
+			color: #757575;
+		}
+
+		dd {
+			margin: 0;
+		}
+	}
+
+	&__values {
+		margin: 0;
+
+		> div {
+			padding: 8px 0;
+			border-bottom: 1px solid #f0f0f0;
+		}
+
+		dt {
+			font-size: 12px;
+			color: #757575;
+		}
+
+		dd {
+			margin: 2px 0 0;
+			white-space: pre-wrap;
+		}
+	}
+}
+
+/* Entries */
+.bookora-bulkbar {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 8px;
+	padding: 8px 12px;
+	background: #f0f6fc;
+	border: 1px solid #c5d9ed;
+	border-radius: 6px;
+}
+
+.bookora-entries {
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 8px;
+	overflow: hidden;
+
+	&__head {
+		padding: 8px 14px;
+		border-bottom: 1px solid #f0f0f0;
+		background: #f6f7f7;
+	}
+}
+
+.bookora-entry {
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	padding: 10px 14px;
+	border-bottom: 1px solid #f0f0f0;
+
+	&:last-child {
+		border-bottom: 0;
+	}
+
+	&__check .components-checkbox-control__label {
+		position: absolute;
+		clip: rect(1px, 1px, 1px, 1px);
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+	}
+
+	&__star {
+		border: 0;
+		background: none;
+		padding: 0;
+		cursor: pointer;
+		color: #f59e0b;
+
+		&:disabled {
+			cursor: default;
+		}
+	}
+
+	&__main {
+		flex: 1;
+		min-width: 0;
+		display: grid;
+		gap: 2px;
+		text-align: left;
+		border: 0;
+		background: none;
+		padding: 0;
+		cursor: pointer;
+		font: inherit;
+		color: inherit;
+
+		&:focus-visible {
+			outline: 2px solid var(--wp-admin-theme-color, #2271b1);
+		}
+	}
+
+	&__who {
+		font-weight: 500;
+	}
+
+	&__preview {
+		color: #50575e;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	&__meta {
+		font-size: 12px;
+		color: #757575;
+	}
+
+	&.is-new {
+		background: #f6fbff;
+
+		.bookora-entry__who {
+			font-weight: 700;
+		}
+	}
+}
+
+@media (max-width: 782px) {
+
+	.bookora-booking .components-card__body {
+		flex-wrap: wrap;
+	}
+
+	.bookora-booking .bookora-actions-inline {
+		width: 100%;
+		justify-content: flex-start;
+	}
+}

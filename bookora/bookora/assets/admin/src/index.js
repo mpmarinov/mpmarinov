@@ -9,6 +9,8 @@ import ServicesScreen from './screens/ServicesScreen';
 import ResourcesScreen from './screens/ResourcesScreen';
 import HoursScreen from './screens/HoursScreen';
 import FormsScreen from './screens/FormsScreen';
+import BookingsScreen from './screens/BookingsScreen';
+import EntriesScreen from './screens/EntriesScreen';
 import './builder/builder.scss';
 import Placeholder from './screens/Placeholder';
 import './style.scss';
@@ -19,12 +21,15 @@ const SCREENS = {
 	resources: ResourcesScreen,
 	hours: HoursScreen,
 	forms: FormsScreen,
+	bookings: BookingsScreen,
+	entries: EntriesScreen,
 };
 
 const TITLES = {
 	dashboard: __( 'Dashboard', 'bookora' ),
 	timeline: __( 'Timeline', 'bookora' ),
 	bookings: __( 'Bookings', 'bookora' ),
+	entries: __( 'Entries', 'bookora' ),
 	forms: __( 'Forms', 'bookora' ),
 	services: __( 'Services', 'bookora' ),
 	resources: __( 'Staff & Resources', 'bookora' ),

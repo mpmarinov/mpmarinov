@@ -7,6 +7,7 @@
 
 namespace Bookora\Admin;
 
+use Bookora\Repository\EntryRepository;
 use Bookora\Security\Capabilities;
 use Bookora\Settings\Settings;
 
@@ -36,9 +37,10 @@ final class AdminMenu {
 	/**
 	 * Constructor.
 	 *
-	 * @param Settings $settings Settings service.
+	 * @param Settings        $settings Settings service.
+	 * @param EntryRepository $entries  Entries (for menu counters).
 	 */
-	public function __construct( Settings $settings ) {
+	public function __construct( Settings $settings, private EntryRepository $entries ) {
 		$this->settings = $settings;
 	}
 
@@ -61,6 +63,7 @@ final class AdminMenu {
 			'dashboard' => array( __( 'Dashboard', 'bookora' ), Capabilities::VIEW_BOOKINGS ),
 			'timeline'  => array( __( 'Timeline', 'bookora' ), Capabilities::VIEW_BOOKINGS ),
 			'bookings'  => array( __( 'Bookings', 'bookora' ), Capabilities::VIEW_BOOKINGS ),
+			'entries'   => array( __( 'Entries', 'bookora' ), Capabilities::VIEW_BOOKINGS ),
 			'forms'     => array( __( 'Forms', 'bookora' ), Capabilities::MANAGE_FORMS ),
 			'services'  => array( __( 'Services', 'bookora' ), Capabilities::MANAGE_SETTINGS ),
 			'resources' => array( __( 'Staff & Resources', 'bookora' ), Capabilities::MANAGE_SETTINGS ),
@@ -75,9 +78,15 @@ final class AdminMenu {
 	 * Add the top-level menu and sub pages.
 	 */
 	public function add_menu(): void {
+		$counts = current_user_can( Capabilities::VIEW_BOOKINGS ) ? $this->entries->badge_counts() : array(
+			'pending'     => 0,
+			'new_entries' => 0,
+		);
+		$total  = $counts['pending'] + $counts['new_entries'];
+
 		$this->hooks[] = (string) add_menu_page(
 			__( 'Bookora', 'bookora' ),
-			__( 'Bookora', 'bookora' ),
+			__( 'Bookora', 'bookora' ) . self::bubble( $total ),
 			Capabilities::VIEW_BOOKINGS,
 			self::SLUG,
 			array( $this, 'render' ),
@@ -86,9 +95,24 @@ final class AdminMenu {
 		);
 
 		foreach ( $this->screens() as $key => [ $title, $cap ] ) {
-			$slug          = 'dashboard' === $key ? self::SLUG : self::SLUG . '-' . $key;
-			$this->hooks[] = (string) add_submenu_page( self::SLUG, $title, $title, $cap, $slug, array( $this, 'render' ) );
+			$slug       = 'dashboard' === $key ? self::SLUG : self::SLUG . '-' . $key;
+			$menu_title = $title;
+			if ( 'bookings' === $key ) {
+				$menu_title .= self::bubble( $counts['pending'] );
+			} elseif ( 'entries' === $key ) {
+				$menu_title .= self::bubble( $counts['new_entries'] );
+			}
+			$this->hooks[] = (string) add_submenu_page( self::SLUG, $title, $menu_title, $cap, $slug, array( $this, 'render' ) );
 		}
+	}
+
+	/**
+	 * WordPress-style count bubble for menu items.
+	 *
+	 * @param int $count Count.
+	 */
+	private static function bubble( int $count ): string {
+		return $count > 0 ? sprintf( ' <span class="awaiting-mod count-%1$d"><span class="pending-count">%1$d</span></span>', $count ) : '';
 	}
 
 	/**
@@ -153,6 +177,7 @@ final class AdminMenu {
 				'resourceLimit' => (int) apply_filters( 'bookora_resource_limit', \Bookora\Repository\ResourceRepository::FREE_LIMIT ),
 				'adminUrl'      => admin_url( 'admin.php' ),
 				'locale'        => str_replace( '_', '-', get_user_locale() ),
+				'exportUrl'     => wp_nonce_url( admin_url( 'admin-post.php?action=' . Export::ACTION ), Export::ACTION ),
 			)
 		);
 	}
