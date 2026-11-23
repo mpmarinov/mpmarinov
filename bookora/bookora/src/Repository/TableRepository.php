@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Field definitions drive sanitizing, so every write goes through the same whitelist.
  *
- * Field types: string, text, email, color, int, uint, decimal, bool, json, enum, timezone.
+ * Field types: string, text, email, color, int, uint, decimal, bool, json, enum, timezone, code.
  */
 abstract class TableRepository {
 
@@ -241,6 +241,9 @@ abstract class TableRepository {
 				return wp_json_encode( is_array( $value ) ? $value : array() );
 			case 'enum':
 				return in_array( $value, $def['options'], true ) ? $value : $def['default'];
+			case 'code':
+				// Already checked by the concrete repository (capability + stripping).
+				return (string) $value;
 			case 'timezone':
 				return '' === $value || in_array( $value, timezone_identifiers_list(), true ) ? (string) $value : $def['default'];
 			case 'string':

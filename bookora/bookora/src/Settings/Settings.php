@@ -132,7 +132,7 @@ final class Settings {
 		$can_code          = current_user_can( 'unfiltered_html' );
 		$current           = get_option( self::OPTION, array() );
 		$current           = is_array( $current ) ? $current : array();
-		$out['global_css'] = $can_code ? wp_strip_all_tags( (string) ( $input['global_css'] ?? '' ) ) : (string) ( $current['global_css'] ?? '' );
+		$out['global_css'] = $can_code ? \Bookora\Repository\FormRepository::clean_css( (string) ( $input['global_css'] ?? '' ) ) : (string) ( $current['global_css'] ?? '' );
 		$out['global_js']  = $can_code ? (string) ( $input['global_js'] ?? '' ) : (string) ( $current['global_js'] ?? '' );
 
 		$out['antispam_honeypot']   = ! empty( $input['antispam_honeypot'] );

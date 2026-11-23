@@ -13,10 +13,12 @@ use Bookora\Booking\BookingService;
 use Bookora\Install\Installer;
 use Bookora\Privacy\Privacy;
 use Bookora\Repository\BookingRepository;
+use Bookora\Repository\FormRepository;
 use Bookora\Repository\ResourceRepository;
 use Bookora\Repository\ScheduleRepository;
 use Bookora\Repository\ServiceRepository;
 use Bookora\Rest\AvailabilityController;
+use Bookora\Rest\FormsController;
 use Bookora\Rest\ResourcesController;
 use Bookora\Rest\SchedulesController;
 use Bookora\Rest\ServicesController;
@@ -94,6 +96,7 @@ final class Plugin {
 		$c->set( ResourceRepository::class, static fn() => new ResourceRepository() );
 		$c->set( ScheduleRepository::class, static fn() => new ScheduleRepository() );
 		$c->set( BookingRepository::class, static fn() => new BookingRepository() );
+		$c->set( FormRepository::class, static fn() => new FormRepository() );
 		$c->set(
 			AvailabilityService::class,
 			static fn( Container $c ) => new AvailabilityService(
@@ -116,6 +119,7 @@ final class Plugin {
 		$c->set( ServicesController::class, static fn( Container $c ) => new ServicesController( $c->get( ServiceRepository::class ) ) );
 		$c->set( ResourcesController::class, static fn( Container $c ) => new ResourcesController( $c->get( ResourceRepository::class ) ) );
 		$c->set( SchedulesController::class, static fn( Container $c ) => new SchedulesController( $c->get( ScheduleRepository::class ), $c->get( ResourceRepository::class ) ) );
+		$c->set( FormsController::class, static fn( Container $c ) => new FormsController( $c->get( FormRepository::class ) ) );
 		$c->set( AvailabilityController::class, static fn( Container $c ) => new AvailabilityController( $c->get( AvailabilityService::class ), $c->get( ServiceRepository::class ) ) );
 
 		Installer::maybe_upgrade();
@@ -128,7 +132,7 @@ final class Plugin {
 		add_action(
 			'rest_api_init',
 			static function () use ( $c ) {
-				foreach ( array( SettingsController::class, ServicesController::class, ResourcesController::class, SchedulesController::class, AvailabilityController::class ) as $controller ) {
+				foreach ( array( SettingsController::class, ServicesController::class, ResourcesController::class, SchedulesController::class, AvailabilityController::class, FormsController::class ) as $controller ) {
 					$c->get( $controller )->register_routes();
 				}
 			}

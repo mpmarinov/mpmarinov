@@ -207,6 +207,53 @@ $left = (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM ' . \Bookora
 check( 0 === $left, 'customer is anonymized after erase request' );
 check( 0 === count( ( new \Bookora\Privacy\Privacy() )->export( 'anna@example.com' )['data'] ), 'nothing left to export after erase' );
 
+echo "Forms\n";
+check( 400 === api( 'POST', '/forms', array( 'title' => '' ) )->get_status(), 'form without title is rejected' );
+$res  = api(
+	'POST',
+	'/forms',
+	array(
+		'title'  => 'Kontakt',
+		'type'   => 'standard',
+		'fields' => array(
+			array( 'type' => 'name', 'label' => 'Ihr Name', 'required' => true ),
+			array( 'type' => 'email', 'label' => 'E-Mail', 'key' => 'email' ),
+			array( 'type' => 'email', 'label' => 'E-Mail', 'key' => 'email' ),
+			array( 'type' => 'select', 'label' => 'Thema', 'options' => array( 'Beratung', array( 'label' => 'Support', 'value' => 'support' ), '' ) ),
+			array( 'type' => 'textarea', 'label' => 'Nachricht <script>x</script>', 'rows' => 99, 'logic' => array( 'action' => 'show', 'match' => 'all', 'rules' => array( array( 'field' => 'thema', 'operator' => 'is', 'value' => 'support' ), array( 'field' => 'ghost', 'operator' => 'is', 'value' => 'x' ) ) ) ),
+			array( 'type' => 'appointment', 'label' => 'Termin' ),
+			array( 'type' => 'evil', 'label' => 'x' ),
+			array( 'type' => 'paragraph', 'content' => '<p>Hallo <a href="https://example.com" onclick="x()">Link</a></p><script>alert(1)</script>' ),
+		),
+	)
+);
+$form   = $res->get_data();
+$fields = $form['fields'] ?? array();
+check( 201 === $res->get_status(), 'form created' );
+check( 6 === count( $fields ), 'unknown and booking-only fields are dropped from a standard form', array_column( $fields, 'type' ) );
+check( 'ihr_name' === $fields[0]['key'], 'field key derived from label', $fields[0]['key'] ?? null );
+check( 'email_2' === $fields[2]['key'], 'duplicate keys are made unique', $fields[2]['key'] ?? null );
+check( 2 === count( $fields[3]['options'] ) && 'support' === $fields[3]['options'][1]['value'], 'options sanitized, empty ones removed' );
+check( 20 === $fields[4]['rows'] && ! str_contains( $fields[4]['label'], '<script' ), 'limits and label sanitizing applied' );
+check( 1 === count( $fields[4]['logic']['rules'] ?? array() ), 'logic rules referencing missing fields are removed' );
+check( ! str_contains( $fields[5]['content'], '<script' ) && ! str_contains( $fields[5]['content'], 'onclick' ) && str_contains( $fields[5]['content'], 'href' ), 'paragraph HTML is filtered' );
+check( '[bookora id="' . $form['id'] . '"]' === $form['shortcode'], 'shortcode returned' );
+
+$res = api( 'PUT', '/forms/' . $form['id'], array( 'type' => 'booking', 'fields' => array_merge( $fields, array( array( 'type' => 'appointment' ), array( 'type' => 'appointment' ) ) ), 'custom_css' => '<style>.x{}</style>', 'settings' => array( 'redirectUrl' => 'javascript:alert(1)', 'labelPlacement' => 'nope' ) ) );
+$upd = $res->get_data();
+check( 1 === count( array_filter( $upd['fields'], static fn( $f ) => 'appointment' === $f['type'] ) ), 'booking field allowed once in booking form' );
+check( '.x{}' === $upd['custom_css'], 'custom CSS is stripped of tags' );
+check( '' === $upd['settings']['redirectUrl'] && 'top' === $upd['settings']['labelPlacement'], 'unsafe settings are rejected' );
+
+$dup = api( 'POST', '/forms/' . $form['id'] . '/duplicate' )->get_data();
+check( 'draft' === $dup['status'] && str_contains( $dup['title'], 'Kontakt' ) && count( $dup['fields'] ) === count( $upd['fields'] ), 'form duplicated as draft' );
+$list = api( 'GET', '/forms' )->get_data();
+check( 2 === count( $list ) && ! isset( $list[0]['fields'] ), 'form list is slim' );
+
+wp_set_current_user( 0 );
+check( 401 === api( 'GET', '/forms' )->get_status(), 'anonymous user cannot list forms' );
+wp_set_current_user( 1 );
+
 echo "Cleanup\n";
 check( 200 === api( 'DELETE', '/services/' . $service['id'] )->get_status(), 'service deleted' );
 check( 404 === api( 'GET', '/services/' . $service['id'] )->get_status(), 'deleted service is gone' );
