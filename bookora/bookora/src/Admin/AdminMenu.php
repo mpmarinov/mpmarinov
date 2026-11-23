@@ -64,6 +64,7 @@ final class AdminMenu {
 			'forms'     => array( __( 'Forms', 'bookora' ), Capabilities::MANAGE_FORMS ),
 			'services'  => array( __( 'Services', 'bookora' ), Capabilities::MANAGE_SETTINGS ),
 			'resources' => array( __( 'Staff & Resources', 'bookora' ), Capabilities::MANAGE_SETTINGS ),
+			'hours'     => array( __( 'Opening Hours', 'bookora' ), Capabilities::MANAGE_SETTINGS ),
 			'emails'    => array( __( 'Emails', 'bookora' ), Capabilities::MANAGE_SETTINGS ),
 			'calendars' => array( __( 'Calendar Sync', 'bookora' ), Capabilities::MANAGE_SETTINGS ),
 			'settings'  => array( __( 'Settings', 'bookora' ), Capabilities::MANAGE_SETTINGS ),
@@ -133,15 +134,22 @@ final class AdminMenu {
 			'bookora-admin',
 			'bookoraAdmin',
 			array(
-				'version'  => BOOKORA_VERSION,
-				'restPath' => '/bookora/v1',
-				'caps'     => array(
+				'version'       => BOOKORA_VERSION,
+				'restPath'      => '/bookora/v1',
+				'caps'          => array(
 					'manageSettings' => current_user_can( Capabilities::MANAGE_SETTINGS ),
 					'manageForms'    => current_user_can( Capabilities::MANAGE_FORMS ),
 					'manageBookings' => current_user_can( Capabilities::MANAGE_BOOKINGS ),
 					'unfilteredHtml' => current_user_can( 'unfiltered_html' ),
 				),
-				'isPro'    => (bool) apply_filters( 'bookora_is_pro', false ),
+				'isPro'         => (bool) apply_filters( 'bookora_is_pro', false ),
+				'weekStart'     => (int) $this->settings->get( 'week_start', 1 ),
+				'timeFormat'    => (string) $this->settings->get( 'time_format', '24h' ),
+				'siteTimezone'  => wp_timezone_string(),
+				'currency'      => (string) apply_filters( 'bookora_currency', 'EUR' ),
+				'resourceLimit' => (int) apply_filters( 'bookora_resource_limit', \Bookora\Repository\ResourceRepository::FREE_LIMIT ),
+				'adminUrl'      => admin_url( 'admin.php' ),
+				'locale'        => str_replace( '_', '-', get_user_locale() ),
 			)
 		);
 	}

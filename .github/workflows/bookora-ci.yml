@@ -35,4 +35,5 @@ jobs:
           node-version: 22
       - run: npm install --no-audit --no-fund
       - run: npm run lint:js
+      - run: npm run lint:css
       - run: npm run build

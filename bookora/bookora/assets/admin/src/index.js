@@ -5,11 +5,17 @@ import { createRoot } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
 import SettingsScreen from './screens/SettingsScreen';
+import ServicesScreen from './screens/ServicesScreen';
+import ResourcesScreen from './screens/ResourcesScreen';
+import HoursScreen from './screens/HoursScreen';
 import Placeholder from './screens/Placeholder';
 import './style.scss';
 
 const SCREENS = {
 	settings: SettingsScreen,
+	services: ServicesScreen,
+	resources: ResourcesScreen,
+	hours: HoursScreen,
 };
 
 const TITLES = {
@@ -19,6 +25,7 @@ const TITLES = {
 	forms: __( 'Forms', 'bookora' ),
 	services: __( 'Services', 'bookora' ),
 	resources: __( 'Staff & Resources', 'bookora' ),
+	hours: __( 'Opening Hours', 'bookora' ),
 	emails: __( 'Emails', 'bookora' ),
 	calendars: __( 'Calendar Sync', 'bookora' ),
 	settings: __( 'Settings', 'bookora' ),
