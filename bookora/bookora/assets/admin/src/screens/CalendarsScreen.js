@@ -2,7 +2,7 @@
  * Calendar sync: subscribe to Bookora on phones (feeds) and import private busy times.
  */
 import { useCallback, useEffect, useState } from '@wordpress/element';
-import { __, sprintf } from '@wordpress/i18n';
+import { __, _n, sprintf } from '@wordpress/i18n';
 import {
 	Button,
 	Card,
@@ -359,7 +359,12 @@ export default function CalendarsScreen() {
 				status: 'success',
 				text: sprintf(
 					/* translators: 1: what happened, 2: number of busy times. */
-					__( '%1$s %2$d busy times imported.', 'bookora' ),
+					_n(
+						'%1$s %2$d busy time imported.',
+						'%1$s %2$d busy times imported.',
+						res.result.events,
+						'bookora'
+					),
 					okText,
 					res.result.events
 				),
@@ -600,8 +605,10 @@ export default function CalendarsScreen() {
 											<span>
 												{ sprintf(
 													/* translators: %d: number of busy times. */
-													__(
+													_n(
+														'%d busy time',
 														'%d busy times',
+														c.events,
 														'bookora'
 													),
 													c.events

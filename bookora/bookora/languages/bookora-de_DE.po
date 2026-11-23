@@ -82,13 +82,88 @@ msgid "This staff member does not offer the service."
 msgstr "Diese Mitarbeiterin bzw. dieser Mitarbeiter bietet die Leistung nicht an."
 
 msgid "Please try again in a moment."
-msgstr "Bitte versuche es gleich noch einmal."
+msgstr "Bitte versuchen Sie es gleich noch einmal."
 
 msgid "This time overlaps with another appointment (including breaks)."
 msgstr "Diese Zeit überschneidet sich mit einem anderen Termin (inkl. Pausen)."
 
 msgid "The booking could not be saved. Please try again."
 msgstr "Die Buchung konnte nicht gespeichert werden. Bitte versuchen Sie es erneut."
+
+msgid "Hello,"
+msgstr "Hallo,"
+
+msgid "with this link you can subscribe to the calendar \"%s\" on your phone or computer. New, moved and cancelled appointments then appear automatically."
+msgstr "mit diesem Link abonnieren Sie den Kalender „%s“ auf Ihrem Handy oder Computer. Neue, verschobene und abgesagte Termine erscheinen dann automatisch."
+
+msgid "Subscribe to calendar"
+msgstr "Kalender abonnieren"
+
+msgid "Open this email on the device where the calendar should appear. Keep the link private – anyone who has it can see the appointments."
+msgstr "Öffnen Sie diese E-Mail auf dem Gerät, auf dem der Kalender erscheinen soll. Geben Sie den Link nicht weiter – wer ihn hat, sieht die Termine."
+
+msgid "Your calendar subscription: %s"
+msgstr "Ihr Kalender-Abo: %s"
+
+msgid "Choose your calendar app. New appointments will then appear automatically."
+msgstr "Wählen Sie Ihre Kalender-App. Neue Termine erscheinen dann automatisch."
+
+msgid "iPhone, iPad, Mac (Apple Calendar)"
+msgstr "iPhone, iPad, Mac (Apple Kalender)"
+
+msgid "Android / Google Calendar"
+msgstr "Android / Google Kalender"
+
+msgid "Outlook"
+msgstr "Outlook"
+
+msgid "Other calendar apps: subscribe to this address"
+msgstr "Andere Kalender-Apps: diese Adresse abonnieren"
+
+msgid "Google updates subscribed calendars every few hours, Apple and Outlook usually more often."
+msgstr "Google aktualisiert abonnierte Kalender alle paar Stunden, Apple und Outlook meist häufiger."
+
+msgid "[Unconfirmed] %s"
+msgstr "[Unbestätigt] %s"
+
+msgid "Customer"
+msgstr "Kunde"
+
+msgid "Phone"
+msgstr "Telefon"
+
+msgid "Email"
+msgstr "E-Mail"
+
+msgid "Places"
+msgstr "Plätze"
+
+msgid "Notes"
+msgstr "Notizen"
+
+msgid "Please enter a valid calendar address (starting with https:// or webcal://)."
+msgstr "Bitte geben Sie eine gültige Kalenderadresse ein (beginnt mit https:// oder webcal://)."
+
+msgid "This is a Bookora feed of this website. Importing it would block your own appointments twice."
+msgstr "Das ist ein Bookora-Kalender dieser Webseite. Ein Import würde Ihre eigenen Termine doppelt blockieren."
+
+msgid "The address does not return a calendar file. Please copy the private iCal/ICS address of your calendar."
+msgstr "Unter dieser Adresse liegt keine Kalenderdatei. Bitte kopieren Sie die private iCal-/ICS-Adresse Ihres Kalenders."
+
+msgid "The calendar address could not be decrypted. Please enter it again."
+msgstr "Die Kalenderadresse konnte nicht entschlüsselt werden. Bitte geben Sie sie erneut ein."
+
+msgid "The calendar could not be loaded: %s"
+msgstr "Der Kalender konnte nicht geladen werden: %s"
+
+msgid "Access denied. Please use the private (secret) iCal address of the calendar."
+msgstr "Zugriff verweigert. Bitte verwenden Sie die private (geheime) iCal-Adresse des Kalenders."
+
+msgid "The calendar no longer exists at this address. Was the address reset?"
+msgstr "Unter dieser Adresse gibt es den Kalender nicht mehr. Wurde die Adresse zurückgesetzt?"
+
+msgid "The calendar server answered with error %d. Bookora will try again automatically."
+msgstr "Der Kalender-Server hat mit Fehler %d geantwortet. Bookora versucht es automatisch erneut."
 
 msgid "Please check the highlighted fields."
 msgstr "Bitte prüfen Sie die markierten Felder."
@@ -279,9 +354,6 @@ msgstr "Buchung ablehnen?"
 msgid "The customer will be informed automatically by email."
 msgstr "Der Kunde wird automatisch per E-Mail informiert."
 
-msgid "Customer"
-msgstr "Kunde"
-
 msgid "Service"
 msgstr "Leistung"
 
@@ -293,9 +365,6 @@ msgstr "Uhrzeit"
 
 msgid "Staff member"
 msgstr "Mitarbeiter"
-
-msgid "Phone"
-msgstr "Telefon"
 
 msgid "Open bookings in WordPress"
 msgstr "Buchungen in WordPress öffnen"
@@ -367,7 +436,7 @@ msgid "Appointment moved"
 msgstr "Termin verschoben"
 
 msgid "To the customer when you move the appointment in the timeline. Includes the new calendar file."
-msgstr "An den Kunden, wenn du den Termin im Zeitstrahl verschiebst. Enthält die neue Kalenderdatei."
+msgstr "An den Kunden, wenn Sie den Termin im Zeitstrahl verschieben. Enthält die neue Kalenderdatei."
 
 msgid "New booking (to you)"
 msgstr "Neue Buchung (an Sie)"
@@ -418,10 +487,10 @@ msgid "Hello {customer_name},\n\nwe would like to remind you of your appointment
 msgstr "Hallo {customer_name},\n\nwir möchten Sie an Ihren Termin erinnern:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} Uhr\n\n{calendar_button}\n\nFalls Sie verhindert sind, sagen Sie bitte so früh wie möglich Bescheid.\n\nBis bald!\n{business_name}"
 
 msgid "Your appointment has been moved to {date} at {time}"
-msgstr "Dein Termin wurde auf {date} um {time} verschoben"
+msgstr "Ihr Termin wurde auf {date} um {time} Uhr verschoben"
 
 msgid "Hello {customer_name},\n\nyour appointment has been moved:\n\n<strong>{service}</strong>\nNew: {date}, {time} – {end_time}\n<s>Previously: {previous_date}, {previous_time}</s>\n\n{calendar_button}\n\nIf the new time does not suit you, please let us know.\n\nKind regards\n{business_name}"
-msgstr "Hallo {customer_name},\n\ndein Termin wurde verschoben:\n\n<strong>{service}</strong>\nNeu: {date}, {time} – {end_time}\n<s>Bisher: {previous_date}, {previous_time}</s>\n\n{calendar_button}\n\nFalls dir die neue Zeit nicht passt, melde dich bitte bei uns.\n\nViele Grüße\n{business_name}"
+msgstr "Hallo {customer_name},\n\nIhr Termin wurde verschoben:\n\n<strong>{service}</strong>\nNeu: {date}, {time} – {end_time} Uhr\n<s>Bisher: {previous_date}, {previous_time} Uhr</s>\n\n{calendar_button}\n\nFalls Ihnen die neue Zeit nicht passt, melden Sie sich bitte bei uns.\n\nViele Grüße\n{business_name}"
 
 msgid "New booking: {service} on {date} at {time}"
 msgstr "Neue Buchung: {service} am {date} um {time} Uhr"
@@ -548,6 +617,21 @@ msgstr "Bitte geben Sie einen gültigen Zeitbereich ein."
 
 msgid "Special opening hours need a start and end time."
 msgstr "Sonderöffnungszeiten benötigen eine Start- und Endzeit."
+
+msgid "The email could not be sent. Please check the mail configuration (e.g. an SMTP plugin)."
+msgstr "Die E-Mail konnte nicht gesendet werden. Bitte prüfen Sie den E-Mail-Versand (z. B. ein SMTP-Plugin)."
+
+msgid "All appointments"
+msgstr "Alle Termine"
+
+msgid "Unknown staff member."
+msgstr "Unbekannte Mitarbeiterin bzw. unbekannter Mitarbeiter."
+
+msgid "Please enter the calendar address."
+msgstr "Bitte geben Sie die Kalenderadresse ein."
+
+msgid "Too many calendars connected."
+msgstr "Zu viele Kalender verbunden."
 
 msgid "Could not save."
 msgstr "Speichern fehlgeschlagen."
@@ -1029,9 +1113,6 @@ msgstr "Datum und Uhrzeit wählen"
 msgid "Single line text"
 msgstr "Einzeiliger Text"
 
-msgid "Email"
-msgstr "E-Mail"
-
 msgid "Paragraph text"
 msgstr "Mehrzeiliger Text"
 
@@ -1247,6 +1328,181 @@ msgstr "Details zu %s anzeigen"
 msgid "Load more"
 msgstr "Mehr laden"
 
+msgid "Active"
+msgstr "Aktiv"
+
+msgid "Error"
+msgstr "Fehler"
+
+msgid "Paused"
+msgstr "Pausiert"
+
+msgid "never"
+msgstr "noch nie"
+
+msgid "just now"
+msgstr "gerade eben"
+
+msgid "%d min. ago"
+msgstr "vor %d Min."
+
+msgid "Link sent to %s."
+msgstr "Link an %s gesendet."
+
+msgid "Send link to phone"
+msgstr "Link aufs Handy senden"
+
+msgid "Apple Calendar"
+msgstr "Apple Kalender"
+
+msgid "Copied"
+msgstr "Kopiert"
+
+msgid "Copy address"
+msgstr "Adresse kopieren"
+
+msgid "Reset address"
+msgstr "Adresse zurücksetzen"
+
+msgid "The current address stops working immediately. Everyone who subscribed must subscribe again with the new link."
+msgstr "Die aktuelle Adresse funktioniert sofort nicht mehr. Alle, die den Kalender abonniert haben, müssen ihn mit dem neuen Link neu abonnieren."
+
+msgid "Open the email on the phone and tap the button – the calendar app starts the subscription."
+msgstr "Öffnen Sie die E-Mail auf dem Handy und tippen Sie auf den Button – die Kalender-App startet das Abo."
+
+msgid "Email address"
+msgstr "E-Mail-Adresse"
+
+msgid "Whole business (blocks everyone)"
+msgstr "Ganzer Betrieb (blockiert alle)"
+
+msgid "Private calendar address (iCal / ICS)"
+msgstr "Private Kalenderadresse (iCal / ICS)"
+
+msgid "Leave empty to keep the current address."
+msgstr "Leer lassen, um die bisherige Adresse zu behalten."
+
+msgid "Starts with https:// or webcal://. It is stored encrypted."
+msgstr "Beginnt mit https:// oder webcal://. Sie wird verschlüsselt gespeichert."
+
+msgid "e.g. Private calendar Laura"
+msgstr "z. B. Privatkalender Laura"
+
+msgid "Blocks the times of"
+msgstr "Blockiert die Zeiten von"
+
+msgid "All-day entries (e.g. vacation) block the whole day"
+msgstr "Ganztägige Einträge (z. B. Urlaub) blockieren den ganzen Tag"
+
+msgid "Connect calendar"
+msgstr "Kalender verbinden"
+
+msgid "Where do I find the private calendar address?"
+msgstr "Wo finde ich die private Kalenderadresse?"
+
+msgid "Google Calendar (Android)"
+msgstr "Google Kalender (Android)"
+
+msgid "calendar.google.com on the computer → ⚙ Settings → choose your calendar under \"Settings for my calendars\" → \"Integrate calendar\" → copy \"Secret address in iCal format\"."
+msgstr "calendar.google.com am Computer → ⚙ Einstellungen → links unter „Einstellungen für meine Kalender“ den Kalender wählen → „Kalender integrieren“ → „Privatadresse im iCal-Format“ kopieren."
+
+msgid "iCloud (iPhone)"
+msgstr "iCloud (iPhone)"
+
+msgid "Calendar app on the Mac or icloud.com → share the calendar → switch on \"Public calendar\" → copy the link (webcal://…)."
+msgstr "Kalender-App am Mac oder icloud.com → Kalender teilen → „Öffentlicher Kalender“ einschalten → Link kopieren (webcal://…)."
+
+msgid "Outlook / Microsoft 365"
+msgstr "Outlook / Microsoft 365"
+
+msgid "Outlook on the web → ⚙ Settings → Calendar → Shared calendars → \"Publish a calendar\" → choose \"Can view when I'm busy\" → copy the ICS link."
+msgstr "Outlook im Web → ⚙ Einstellungen → Kalender → Freigegebene Kalender → „Kalender veröffentlichen“ → „Kann sehen, wann ich beschäftigt bin“ wählen → ICS-Link kopieren."
+
+msgid "Only start and end times are stored – titles and details of your private appointments stay in your calendar."
+msgstr "Gespeichert werden nur Beginn und Ende – Titel und Details Ihrer privaten Termine bleiben in Ihrem Kalender."
+
+msgid "Calendar connected."
+msgstr "Kalender verbunden."
+
+msgid "Synchronized."
+msgstr "Synchronisiert."
+
+msgid "Calendar removed."
+msgstr "Kalender entfernt."
+
+msgid "New address created. The old one no longer works."
+msgstr "Neue Adresse erstellt. Die alte funktioniert nicht mehr."
+
+msgid "Whole business"
+msgstr "Ganzer Betrieb"
+
+msgid "WP-Cron is disabled on this site. Please make sure a server cron job calls wp-cron.php regularly, otherwise calendars are only updated when you click \"Sync now\"."
+msgstr "WP-Cron ist auf dieser Seite abgeschaltet. Bitte sorgen Sie dafür, dass ein Server-Cronjob wp-cron.php regelmäßig aufruft – sonst werden Kalender nur beim Klick auf „Jetzt synchronisieren“ aktualisiert."
+
+msgid "1. Bookora appointments in your calendar app"
+msgstr "1. Bookora-Termine in Ihrer Kalender-App"
+
+msgid "Subscribe once – new, moved and cancelled appointments then appear automatically on the phone (iPhone, Android, Outlook)."
+msgstr "Einmal abonnieren – neue, verschobene und abgesagte Termine erscheinen dann automatisch auf dem Handy (iPhone, Android, Outlook)."
+
+msgid "Show customer name, phone and email in the calendar"
+msgstr "Name, Telefon und E-Mail der Kunden im Kalender anzeigen"
+
+msgid "Switch off if other people can see your phone calendar."
+msgstr "Ausschalten, wenn andere Personen Ihren Handykalender sehen können."
+
+msgid "Also show unconfirmed requests (marked as \"Unconfirmed\")"
+msgstr "Auch unbestätigte Anfragen anzeigen (markiert als „Unbestätigt“)"
+
+msgid "Note: Google updates subscribed calendars only every few hours. Apple and Outlook are usually faster."
+msgstr "Hinweis: Google aktualisiert abonnierte Kalender nur alle paar Stunden. Apple und Outlook sind meist schneller."
+
+msgid "2. Block private appointments automatically"
+msgstr "2. Private Termine automatisch blockieren"
+
+msgid "Connect your private calendars. Times in which you already have something planned are no longer offered to customers. Updated every 15 minutes."
+msgstr "Verbinden Sie Ihre privaten Kalender. Zeiten, in denen Sie schon etwas vorhaben, werden Kunden nicht mehr angeboten. Aktualisierung alle 15 Minuten."
+
+msgid "No calendar connected yet."
+msgstr "Noch kein Kalender verbunden."
+
+msgid "Last sync: %s"
+msgstr "Letzter Abgleich: %s"
+
+msgid "Sync now"
+msgstr "Jetzt synchronisieren"
+
+msgid "Calendar resumed."
+msgstr "Kalender wieder aktiv."
+
+msgid "Calendar paused – it no longer blocks times."
+msgstr "Kalender pausiert – er blockiert keine Zeiten mehr."
+
+msgid "Resume"
+msgstr "Fortsetzen"
+
+msgid "Pause"
+msgstr "Pausieren"
+
+msgid "Edit"
+msgstr "Bearbeiten"
+
+msgid "Remove"
+msgstr "Entfernen"
+
+msgid "The calendar is disconnected and its busy times are released."
+msgstr "Der Kalender wird getrennt und seine belegten Zeiten werden freigegeben."
+
+msgid "%1$s %2$d busy time imported."
+msgid_plural "%1$s %2$d busy times imported."
+msgstr[0] "%1$s %2$d belegte Zeit übernommen."
+msgstr[1] "%1$s %2$d belegte Zeiten übernommen."
+
+msgid "%d busy time"
+msgid_plural "%d busy times"
+msgstr[0] "%d belegte Zeit"
+msgstr[1] "%d belegte Zeiten"
+
 msgid "To your customers"
 msgstr "An Ihre Kunden"
 
@@ -1333,9 +1589,6 @@ msgstr "Fehlgeschlagen"
 
 msgid "customized"
 msgstr "angepasst"
-
-msgid "Edit"
-msgstr "Bearbeiten"
 
 msgid "Unread"
 msgstr "Ungelesen"
@@ -1579,9 +1832,6 @@ msgstr "Zeitzone"
 msgid "Color"
 msgstr "Farbe"
 
-msgid "Active"
-msgstr "Aktiv"
-
 msgid "Inactive (not bookable)"
 msgstr "Inaktiv (nicht buchbar)"
 
@@ -1785,6 +2035,9 @@ msgstr "Keine Mitarbeitenden."
 
 msgid "%d appt."
 msgstr "%d Term."
+
+msgid "Busy (own calendar)"
+msgstr "Belegt (eigener Kalender)"
 
 msgid "Drag appointments to move them (15-minute steps)."
 msgstr "Termine ziehen, um sie zu verschieben (15-Minuten-Schritte)."

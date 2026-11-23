@@ -22,7 +22,7 @@ Veröffentlichung im offiziellen WordPress-Plugin-Verzeichnis (wordpress.org).
 | 2 | Alle Feldvarianten | Text, E-Mail, Telefon (mit Ländervorwahl), Zahl, Textbereich, Auswahl, Mehrfachauswahl, Radio, Checkbox, Datum, Uhrzeit, Datum+Zeit, Datei-Upload, Adresse, URL, Bewertung/Sterne, Schieberegler, versteckte Felder, Einwilligung (DSGVO), Unterschrift, Trenner/Überschrift/HTML-Block, berechnete Felder, mehrstufige Formulare (Steps), bedingte Logik (Feld X nur sichtbar wenn …), Validierungsregeln, Platzhalter, Pflichtfelder |
 | 3 | Mit Zeiten | Leistungen mit Dauer, Pufferzeiten vor/nach, Öffnungszeiten pro Wochentag, Pausen, Ausnahmen (Feiertage, Urlaub), Mindestvorlauf, max. Buchungshorizont |
 | 4 | Mit Kalender | Frontend-Kalender (Monat/Woche/Tag) mit freien Slots, mobile Ansicht als Liste |
-| 5 | Sync mit Android/iOS | **Android:** Google Calendar API (OAuth, Zwei-Wege). **iOS:** iCloud über CalDAV (Zwei-Wege) bzw. abonnierbarer ICS-Feed (Ein-Weg). Zusätzlich: Microsoft Outlook über Microsoft Graph. Jede Bestätigungs-E-Mail enthält eine `.ics`-Datei „Zum Kalender hinzufügen“ |
+| 5 | Sync mit Android/iOS | **Free (umgesetzt):** abonnierbarer Kalender (ICS-Feed) für iPhone, Android/Google und Outlook – für den Betrieb und je Mitarbeiter – plus Import privater Kalender (Google, iCloud, Outlook) als belegte Zeiten. Damit ist die Verfügbarkeit in beide Richtungen abgeglichen, ohne Konto-Verknüpfung. **Pro (später):** direkte Verbindung per Google Calendar API (OAuth), iCloud CalDAV und Microsoft Graph – Termine werden sofort eingetragen. Jede Bestätigungs-E-Mail enthält eine `.ics`-Datei „Zum Kalender hinzufügen“ |
 | 6 | One-Klick-Bestätigung | Signierter Link (HMAC-Token, Ablaufzeit, einmalig verwendbar) in der Admin-E-Mail → bestätigen/ablehnen ohne Login. Zusätzlich Schnellaktionen im Dashboard |
 | 7 | Bestätigungstexte selbst definieren | Vorlagen-Editor mit Platzhaltern (`{kunde_name}`, `{datum}`, `{uhrzeit}`, `{leistung}`, `{storno_link}` …), pro Formular überschreibbar, mehrsprachig |
 | 8 | Absagetexte selbst definieren | wie 7, inkl. optionalem Absagegrund |
@@ -86,7 +86,7 @@ Zeitangaben = konzentrierte Entwicklungstage in gemeinsamen Sessions (ich progra
 ## 6. Was ich von dir brauche (kann ich nicht selbst erledigen)
 
 1. **WordPress.org-Konto** von Marinov Solutions – die Einreichung und der SVN-Zugang laufen über dein Konto.
-2. **Google Cloud Projekt** für die OAuth-App (Android-Sync); Google verlangt eine App-Verifizierung im Namen des Herausgebers.
+2. **Google Cloud Projekt** für die OAuth-App – erst für die direkte Google-Verbindung in Pro nötig (Free kommt ohne aus); Google verlangt eine App-Verifizierung im Namen des Herausgebers.
 3. **Apple:** keine App nötig – Nutzer verbinden iCloud mit einem app-spezifischen Passwort.
 4. **Testumgebung:** eine Staging-WordPress-Seite (nicht die Live-Seite) für Abnahmetests – ich teste lokal in Docker, keine Zugriffe auf deinen Server.
 5. **Branding:** Logo/Farben von Marinov Solutions für Icon, Banner und Admin-Design.
@@ -137,14 +137,14 @@ das sich über Hooks in den Free-Kern einklinkt.
 - Frontend-Kalender, Live-Verfügbarkeit, Doppelbuchungsschutz
 - Admin-Zeitstrahl mit Drag & Drop
 - Ein-Klick-Bestätigung/Absage, alle E-Mail-Vorlagen frei editierbar, Erinnerungen
-- Kalender-Sync: ICS-Feed, Google Calendar (Zwei-Wege), iCloud CalDAV (Zwei-Wege)
+- Kalender-Sync: Kalender-Abo für iPhone/Android/Outlook (Betrieb + je Mitarbeiter), private Google-/iCloud-/Outlook-Kalender blockieren belegte Zeiten
 - Bis zu 3 Mitarbeiter/Ressourcen
 - Kunden-Selbstservice (Umbuchen/Stornieren), Zeitzonen, Gruppenbuchungen
 - Eigenes CSS/JS, Entwickler-Hooks, DSGVO-Werkzeuge, CSV-Export
 
 **Pro (Abo)**
 - Unbegrenzte Mitarbeiter/Ressourcen mit eigenem Login und eigenem Kalender-Sync
-- Outlook/Microsoft 365-Sync
+- Direkte Kalender-Verbindung (Google OAuth, iCloud CalDAV, Outlook/Microsoft 365): Termine werden sofort eingetragen, Aktualisierung in Sekunden statt Stunden
 - Online-Zahlung und Anzahlung (Stripe, PayPal), Gutscheine, Rabattcodes
 - SMS- und WhatsApp-Erinnerungen
 - Automatische Videolinks (Google Meet, Zoom, Jitsi)
@@ -201,10 +201,22 @@ Vor der finalen Wahl prüfen: freier Slug auf wordpress.org, Marken (DPMA, EUIPO
 |---|---|
 | 0 – Konzept & Datenmodell | ✅ erledigt (`docs/DATENMODELL.md`) |
 | 1 – Grundgerüst | ✅ erledigt: Plugin-Bootstrap, Autoloader, DI-Container, 15 DB-Tabellen mit Migrationen, Rollen & Rechte, Einstellungen + REST-API, React-Admin mit Einstellungsseite, Verschlüsselung (libsodium), DSGVO-Export/-Löschung, Deinstallation, Unit-Tests, PHPCS, CI |
-| i18n | 🔄 Deutsch komplett (610 Texte, PHP + JS), Werkzeug `npm run i18n`; Bulgarisch folgt |
+| i18n | 🔄 Deutsch komplett (693 Texte, PHP + JS), Werkzeug `npm run i18n`; Bulgarisch folgt |
 | 2 – Leistungen, Öffnungszeiten, Slot-Engine | ✅ erledigt: Slot-Engine (Puffer, Gruppen, Ausnahmen, Zeitumstellung), Doppelbuchungsschutz, REST-API, MySQL + SQLite (Playground), Admin-Bildschirme für Leistungen, Mitarbeiter/Ressourcen, Öffnungszeiten, Feiertage & Sonderöffnungen. 23 Unit-Tests, 62 Integrationsprüfungen, Browser-Test Desktop + Mobil grün |
 | 3 – Formular-Builder & Eintragsverwaltung | ✅ Builder, Formulare auf der Webseite, Kalender, Buchungsverwaltung (Bestätigen/Ablehnen/Stornieren/Erschienen, Notizen, Wiedereröffnen mit Konfliktprüfung), Eintragsverwaltung (Lesen, Markieren, Spam, Papierkorb, Sammelaktionen, CSV-Export), Menü-Zähler. **Offen:** Datei-Upload & Unterschrift |
 | 4–5 – Kalender & Status-Workflow | ✅ in Phase 2/3 enthalten; Ein-Klick-Bestätigung per E-Mail-Link folgt mit Phase 6 |
 | 6 – E-Mail-System | ✅ 9 E-Mail-Vorlagen (Kunde/Betreiber/Formulare), Editor mit Platzhaltern und Live-Vorschau, Test-E-Mail, Ein-Klick-Bestätigen/Ablehnen (Scanner-sicher, einmalig, ablaufend), .ics-Anhang + Google-Kalender-Link, Erinnerungen per Cron, Versandprotokoll |
 | 7 – Admin-Zeitstrahl | ✅ Tages- (Zeile je Mitarbeiter) und Wochenansicht, Öffnungs-/Schließzeiten, Jetzt-Linie, Verschieben per Drag & Drop (15-Min.-Raster, auch auf andere Mitarbeiter) oder per Formular, Konfliktprüfung inkl. Pausen, Hinweis außerhalb der Öffnungszeiten, E-Mail „Termin verschoben“ mit neuer Kalenderdatei (abwählbar), mobil scrollbar. 155 Integrationsprüfungen |
-| 8 – Kalender-Sync | ⏳ als Nächstes |
+| 8 – Kalender-Sync | ✅ Kalender-Abo (ICS-Feed) für Betrieb + je Mitarbeiter mit geheimer, zurücksetzbarer Adresse, ETag/304, Datenschutz-Schalter, Abo-Seite mit Geräteerkennung, „Link aufs Handy senden“. Import privater Kalender alle 15 Min.: eigener RFC-5545-Parser (RRULE, EXDATE, Ausnahmen, Zeitzonen inkl. Outlook-Namen), nur Start/Ende gespeichert, Adresse verschlüsselt, SSRF-Schutz, klare Fehlermeldungen, belegte Zeiten im Zeitstrahl. Tests: 16 Parser-Tests, Differenztest gegen python-dateutil (26.000 Regeln, 0 Abweichungen), RFC-Formatprüfung des Feeds, Lasttest 4,7 MB/15.000 Termine (1,9 s, 9 MB), 218 Integrationsprüfungen |
+| 9 – Eigenes CSS/JS, Hooks, Theming | ⏳ als Nächstes |
+
+### Entscheidungen Phase 8 (selbstständig getroffen)
+
+1. **Free ohne Konto-Verknüpfung:** Abo-Feed + Import über private iCal-Adressen statt OAuth. Funktioniert sofort, ohne Google-Verifizierung, und deckt iPhone, Android und Outlook ab. Direkte OAuth/CalDAV-Verbindung (sofortige Eintragung) wird Pro.
+2. **Datenschutz:** Von privaten Kalendern werden nur Beginn und Ende gespeichert – keine Titel. Die Kalenderadresse liegt verschlüsselt in der Datenbank und wird nie an den Browser zurückgegeben.
+3. **Sicherheit vor Bequemlichkeit:** Ist ein Kalender kurz nicht erreichbar, blockieren die zuletzt bekannten Zeiten weiter (lieber ein Slot zu wenig als eine Doppelbuchung). Nur „Pausieren“ gibt sie frei.
+4. **Kalender des ganzen Betriebs** (z. B. Privatkalender der Inhaberin) blockiert alle Mitarbeiter; ein Mitarbeiter-Kalender nur diese Person.
+5. **Eigene Termine nicht doppelt:** Kommen Bookora-Termine über ein Abo zurück, werden sie beim Import erkannt und übersprungen; der eigene Feed kann nicht importiert werden.
+6. **„Link aufs Handy senden“ statt QR-Code:** Die QR-Bibliothek wurde ohne deine Freigabe nicht installiert. Per E-Mail kommt jeder Mitarbeiter direkt an seinen eigenen Link. QR kann später ergänzt werden.
+7. **Ehrliche Beschreibung:** readme.txt verspricht kein „Zwei-Wege-Sync mit Google“ mehr, sondern beschreibt genau, was Free tut; neuer Abschnitt „External services“ (Pflicht bei wordpress.org).
+8. **Ansprache:** Die E-Mail „Termin verschoben“ nutzte versehentlich „du“ – jetzt wie alle Kundentexte „Sie“.

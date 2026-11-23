@@ -24,8 +24,13 @@ final class IcsParser {
 	/**
 	 * Hard limits against huge or malicious calendars.
 	 */
-	public const MAX_EVENTS      = 20000;
+	public const MAX_EVENTS      = 200000;
 	public const MAX_OCCURRENCES = 20000;
+
+	/**
+	 * Properties needed for busy times – everything else (titles, descriptions, attendees) is skipped unparsed.
+	 */
+	private const WANTED = array( 'BEGIN', 'END', 'UID', 'DTSTART', 'DTEND', 'DURATION', 'RRULE', 'EXDATE', 'RDATE', 'RECURRENCE-ID', 'STATUS', 'TRANSP', 'X-MICROSOFT-CDO-BUSYSTATUS', 'X-WR-TIMEZONE' );
 
 	/**
 	 * Common Windows / Outlook time zone names.
@@ -199,33 +204,35 @@ final class IcsParser {
 		if ( $cal_tz ) {
 			$this->tz = $cal_tz;
 		}
-		$events = $this->events( $ics );
 
-		// Overrides of single instances (RECURRENCE-ID) replace the original instance.
+		// One streaming pass: single events are kept only if they touch the window,
+		// recurring masters are collected and expanded afterwards (overrides may come later in the file).
+		$out        = array();
+		$masters    = array();
 		$overridden = array();
-		foreach ( $events as $e ) {
+		foreach ( $this->events( $ics ) as $e ) {
 			if ( null !== $e['recurrence_id'] ) {
+				// Override of one instance; a cancelled override simply removes the original occurrence.
 				$overridden[ $e['uid'] ][ $e['recurrence_id'] ] = true;
-			}
-		}
-
-		$out = array();
-		foreach ( $events as $e ) {
-			if ( null !== $e['recurrence_id'] ) {
-				// Override: a cancelled instance simply removes the original occurrence.
 				if ( $e['blocking'] && $e['end'] > $from && $e['start'] < $to ) {
-					$out[] = array(
-						'uid'     => $e['uid'],
-						'start'   => $e['start'],
-						'end'     => $e['end'],
-						'all_day' => $e['all_day'],
-					);
+					$out[] = self::slot( $e['uid'], $e['start'], $e['end'], $e['all_day'] );
 				}
 				continue;
 			}
 			if ( ! $e['blocking'] ) {
 				continue;
 			}
+			if ( $e['rrule'] || $e['rdates'] ) {
+				$masters[] = $e;
+			} elseif ( $e['end'] > $from && $e['start'] < $to ) {
+				$out[] = self::slot( $e['uid'], $e['start'], $e['end'], $e['all_day'] );
+			}
+			if ( count( $out ) >= self::MAX_OCCURRENCES ) {
+				break;
+			}
+		}
+
+		foreach ( $masters as $e ) {
 			$skip = $overridden[ $e['uid'] ] ?? array();
 			foreach ( $this->occurrences( $e, $from, $to ) as $start ) {
 				if ( isset( $e['exdates'][ $start ] ) || isset( $skip[ $start ] ) ) {
@@ -233,12 +240,7 @@ final class IcsParser {
 				}
 				$end = $e['all_day'] ? $this->add_days( $start, $e['days'] ) : $start + $e['duration'];
 				if ( $end > $from && $start < $to ) {
-					$out[] = array(
-						'uid'     => $e['uid'],
-						'start'   => $start,
-						'end'     => $end,
-						'all_day' => $e['all_day'],
-					);
+					$out[] = self::slot( $e['uid'], $start, $end, $e['all_day'] );
 				}
 				if ( count( $out ) >= self::MAX_OCCURRENCES ) {
 					break 2;
@@ -248,6 +250,24 @@ final class IcsParser {
 
 		usort( $out, static fn( $a, $b ) => $a['start'] <=> $b['start'] );
 		return $out;
+	}
+
+	/**
+	 * Output record.
+	 *
+	 * @param string $uid     UID.
+	 * @param int    $start   Start.
+	 * @param int    $end     End.
+	 * @param bool   $all_day All-day.
+	 * @return array{uid:string, start:int, end:int, all_day:bool}
+	 */
+	private static function slot( string $uid, int $start, int $end, bool $all_day ): array {
+		return array(
+			'uid'     => $uid,
+			'start'   => $start,
+			'end'     => $end,
+			'all_day' => $all_day,
+		);
 	}
 
 	/**
@@ -268,13 +288,22 @@ final class IcsParser {
 	 * @param string $ics Calendar.
 	 * @return list<array{name:string, params:array<string,string>, value:string}>
 	 */
-	public static function lines( string $ics ): array {
-		$ics   = str_replace( array( "\r\n", "\r" ), "\n", $ics );
-		$ics   = preg_replace( "/\n[ \t]/", '', $ics ) ?? '';
-		$lines = array();
+	public static function lines( string $ics ): \Generator {
+		$ics = str_replace( array( "\r\n", "\r" ), "\n", $ics );
+		$ics = preg_replace( "/\n[ \t]/", '', $ics ) ?? '';
+		$len = strlen( $ics );
+		$pos = 0;
 
-		foreach ( explode( "\n", $ics ) as $raw ) {
-			if ( '' === trim( $raw ) ) {
+		while ( $pos < $len ) {
+			$nl  = strpos( $ics, "\n", $pos );
+			$nl  = false === $nl ? $len : $nl;
+			$raw = substr( $ics, $pos, $nl - $pos );
+			$pos = $nl + 1;
+
+			// Cheap pre-filter: property name up to the first ";" or ":".
+			$cut  = strcspn( $raw, ';:' );
+			$name = strtoupper( substr( $raw, 0, $cut ) );
+			if ( ! in_array( $name, self::WANTED, true ) ) {
 				continue;
 			}
 			// Split name;params:value respecting quoted parameter values.
@@ -287,26 +316,24 @@ final class IcsParser {
 					$params[ strtoupper( $p[1] ) ] = trim( $p[2], '"' );
 				}
 			}
-			$lines[] = array(
-				'name'   => strtoupper( $m[1] ),
+			yield array(
+				'name'   => $name,
 				'params' => $params,
-				'value'  => $m[3],
+				'value'  => rtrim( $m[3] ),
 			);
 		}
-
-		return $lines;
 	}
 
 	/**
 	 * VEVENTs with resolved times.
 	 *
 	 * @param string $ics Calendar.
-	 * @return list<array<string, mixed>>
+	 * @return \Generator<int, array<string, mixed>>
 	 */
-	public function events( string $ics ): array {
-		$events = array();
-		$cur    = null;
-		$depth  = 0;
+	public function events( string $ics ): \Generator {
+		$count = 0;
+		$cur   = null;
+		$depth = 0;
 
 		foreach ( self::lines( $ics ) as $line ) {
 			$name = $line['name'];
@@ -324,13 +351,13 @@ final class IcsParser {
 					--$depth;
 				} elseif ( null !== $cur && 'VEVENT' === strtoupper( $line['value'] ) ) {
 					$event = $this->build( $cur );
+					$cur   = null;
 					if ( $event ) {
-						$events[] = $event;
-						if ( count( $events ) >= self::MAX_EVENTS ) {
-							break;
+						yield $event;
+						if ( ++$count >= self::MAX_EVENTS ) {
+							return;
 						}
 					}
-					$cur = null;
 				}
 				continue;
 			}
@@ -343,8 +370,6 @@ final class IcsParser {
 				$cur[ $name ] = $line;
 			}
 		}
-
-		return $events;
 	}
 
 	/**

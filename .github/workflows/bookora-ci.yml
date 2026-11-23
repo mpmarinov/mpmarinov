@@ -26,6 +26,22 @@ jobs:
       - run: composer lint
       - run: composer test
 
+  rrule:
+    name: Recurrence rules vs. python-dateutil
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: composer install --no-progress
+      - run: pip install python-dateutil==2.9.0.post0
+      - run: python3 tests/Fuzz/rrule-fuzz.py 5000 ${{ github.run_number }}
+
   js:
     runs-on: ubuntu-latest
     steps:

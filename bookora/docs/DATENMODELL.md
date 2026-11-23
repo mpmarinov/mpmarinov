@@ -34,8 +34,8 @@ email_templates (pro Ereignis, optional pro Formular und Sprache)
 | `action_tokens` | Ein-Klick-Links | `booking_id`, `action`, `token_hash` (SHA-256), `expires_at`, `used_at` |
 | `email_templates` | Eigene Texte | `event`, `form_id`, `locale`, `subject`, `body` |
 | `notification_log` | Versandprotokoll | `booking_id`, `channel`, `event`, `recipient`, `status`, `error` |
-| `calendar_connections` | Google / iCloud / Outlook | `resource_id`, `provider`, `credentials` (verschlüsselt), `calendar_id`, `sync_token` |
-| `external_events` | Belegte Zeiten aus externen Kalendern | `connection_id`, `external_id`, `start_utc`, `end_utc` |
+| `calendar_connections` | Importierte Kalender (Google / iCloud / Outlook) | `resource_id` (NULL = ganzer Betrieb), `provider` (`ics`), `label`, `account` (nur Host), `credentials` (Adresse, verschlüsselt), `options` (JSON, z. B. ganztägig blockieren), `status` (active/error/paused), `last_error`, `sync_token` (ETag, Last-Modified, Anzahl), `last_synced_at` |
+| `external_events` | Belegte Zeiten aus externen Kalendern (ohne Titel) | `connection_id`, `external_id`, `start_utc`, `end_utc`, `all_day` |
 | `booking_sync` | Zuordnung Buchung ↔ externer Termin | `booking_id`, `connection_id`, `external_id`, `etag` |
 
 ## Status einer Buchung
@@ -47,18 +47,24 @@ email_templates (pro Ereignis, optional pro Formular und Sprache)
 
 ## Schutz vor Doppelbuchungen
 
-1. Eine Transaktion wird gestartet und die Zeile der Ressource mit `SELECT … FOR UPDATE` gesperrt.
+1. Pro Ressource (bzw. für den ganzen Betrieb) wird eine benannte MySQL-Sperre `GET_LOCK()` geholt.
+   Unter SQLite (WordPress Playground) entfällt sie – dort gibt es ohnehin nur einen Schreibzugriff gleichzeitig.
 2. Danach wird geprüft, ob sich der Zeitraum (inkl. Puffer) mit `pending`/`confirmed`-Buchungen
-   oder externen Terminen überschneidet und ob die Kapazität reicht.
-3. Erst dann wird eingefügt und die Transaktion abgeschlossen.
+   oder belegten Zeiten aus externen Kalendern überschneidet und ob die Kapazität reicht.
+3. Erst dann wird in einer Transaktion eingefügt und die Sperre freigegeben.
+   Dasselbe gilt beim Verschieben im Zeitstrahl.
 
 Gleichzeitige Anfragen auf dieselbe Ressource werden so nacheinander abgearbeitet.
 
 ## Sicherheit der Daten
 
 - Ein-Klick-Tokens werden nur als SHA-256-Hash gespeichert, der Klartext steht ausschließlich in der E-Mail.
-- OAuth-Zugangsdaten und CalDAV-Passwörter werden mit libsodium (`sodium_crypto_secretbox`) verschlüsselt.
+- Kalenderadressen (enthalten einen geheimen Schlüssel) sowie später OAuth-Zugangsdaten und CalDAV-Passwörter
+  werden mit libsodium (`sodium_crypto_secretbox`) verschlüsselt.
   Der Schlüssel wird aus den WordPress-Salts abgeleitet und liegt nicht in der Datenbank.
+- Kalender-Abo-Adressen: zufälliger 160-Bit-Schlüssel je Abo (Option `bookora_feed_tokens`), jederzeit zurücksetzbar;
+  falsche Schlüssel erhalten 404.
+- Aus privaten Kalendern werden nur Beginn und Ende gespeichert, keine Titel oder Beschreibungen.
 - Personenbezogene Daten sind an die Datenschutz-Werkzeuge von WordPress (Export/Löschung) angebunden.
 
 ## Migrationen

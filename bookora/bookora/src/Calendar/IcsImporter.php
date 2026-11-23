@@ -181,14 +181,20 @@ final class IcsImporter {
 			);
 		}
 
+		$etag          = (string) wp_remote_retrieve_header( $response, 'etag' );
+		$last_modified = (string) wp_remote_retrieve_header( $response, 'last-modified' );
+		unset( $response );
+
+		wp_raise_memory_limit( 'bookora_calendar' ); // Large calendars (years of history) need some headroom.
 		$events = $this->parse( $row, $body );
+		unset( $body );
 		$this->connections->replace_events( $id, $events );
 		$this->connections->mark(
 			$id,
 			null,
 			array(
-				'etag'          => (string) wp_remote_retrieve_header( $response, 'etag' ),
-				'last_modified' => (string) wp_remote_retrieve_header( $response, 'last-modified' ),
+				'etag'          => $etag,
+				'last_modified' => $last_modified,
 				'count'         => count( $events ),
 			)
 		);

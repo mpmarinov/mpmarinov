@@ -88,6 +88,81 @@ msgstr ""
 msgid "The booking could not be saved. Please try again."
 msgstr ""
 
+msgid "Hello,"
+msgstr ""
+
+msgid "with this link you can subscribe to the calendar \"%s\" on your phone or computer. New, moved and cancelled appointments then appear automatically."
+msgstr ""
+
+msgid "Subscribe to calendar"
+msgstr ""
+
+msgid "Open this email on the device where the calendar should appear. Keep the link private – anyone who has it can see the appointments."
+msgstr ""
+
+msgid "Your calendar subscription: %s"
+msgstr ""
+
+msgid "Choose your calendar app. New appointments will then appear automatically."
+msgstr ""
+
+msgid "iPhone, iPad, Mac (Apple Calendar)"
+msgstr ""
+
+msgid "Android / Google Calendar"
+msgstr ""
+
+msgid "Outlook"
+msgstr ""
+
+msgid "Other calendar apps: subscribe to this address"
+msgstr ""
+
+msgid "Google updates subscribed calendars every few hours, Apple and Outlook usually more often."
+msgstr ""
+
+msgid "[Unconfirmed] %s"
+msgstr ""
+
+msgid "Customer"
+msgstr ""
+
+msgid "Phone"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Places"
+msgstr ""
+
+msgid "Notes"
+msgstr ""
+
+msgid "Please enter a valid calendar address (starting with https:// or webcal://)."
+msgstr ""
+
+msgid "This is a Bookora feed of this website. Importing it would block your own appointments twice."
+msgstr ""
+
+msgid "The address does not return a calendar file. Please copy the private iCal/ICS address of your calendar."
+msgstr ""
+
+msgid "The calendar address could not be decrypted. Please enter it again."
+msgstr ""
+
+msgid "The calendar could not be loaded: %s"
+msgstr ""
+
+msgid "Access denied. Please use the private (secret) iCal address of the calendar."
+msgstr ""
+
+msgid "The calendar no longer exists at this address. Was the address reset?"
+msgstr ""
+
+msgid "The calendar server answered with error %d. Bookora will try again automatically."
+msgstr ""
+
 msgid "Please check the highlighted fields."
 msgstr ""
 
@@ -277,9 +352,6 @@ msgstr ""
 msgid "The customer will be informed automatically by email."
 msgstr ""
 
-msgid "Customer"
-msgstr ""
-
 msgid "Service"
 msgstr ""
 
@@ -290,9 +362,6 @@ msgid "Time"
 msgstr ""
 
 msgid "Staff member"
-msgstr ""
-
-msgid "Phone"
 msgstr ""
 
 msgid "Open bookings in WordPress"
@@ -545,6 +614,21 @@ msgid "Please enter a valid time range."
 msgstr ""
 
 msgid "Special opening hours need a start and end time."
+msgstr ""
+
+msgid "The email could not be sent. Please check the mail configuration (e.g. an SMTP plugin)."
+msgstr ""
+
+msgid "All appointments"
+msgstr ""
+
+msgid "Unknown staff member."
+msgstr ""
+
+msgid "Please enter the calendar address."
+msgstr ""
+
+msgid "Too many calendars connected."
 msgstr ""
 
 msgid "Could not save."
@@ -1027,9 +1111,6 @@ msgstr ""
 msgid "Single line text"
 msgstr ""
 
-msgid "Email"
-msgstr ""
-
 msgid "Paragraph text"
 msgstr ""
 
@@ -1245,6 +1326,181 @@ msgstr ""
 msgid "Load more"
 msgstr ""
 
+msgid "Active"
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "Paused"
+msgstr ""
+
+msgid "never"
+msgstr ""
+
+msgid "just now"
+msgstr ""
+
+msgid "%d min. ago"
+msgstr ""
+
+msgid "Link sent to %s."
+msgstr ""
+
+msgid "Send link to phone"
+msgstr ""
+
+msgid "Apple Calendar"
+msgstr ""
+
+msgid "Copied"
+msgstr ""
+
+msgid "Copy address"
+msgstr ""
+
+msgid "Reset address"
+msgstr ""
+
+msgid "The current address stops working immediately. Everyone who subscribed must subscribe again with the new link."
+msgstr ""
+
+msgid "Open the email on the phone and tap the button – the calendar app starts the subscription."
+msgstr ""
+
+msgid "Email address"
+msgstr ""
+
+msgid "Whole business (blocks everyone)"
+msgstr ""
+
+msgid "Private calendar address (iCal / ICS)"
+msgstr ""
+
+msgid "Leave empty to keep the current address."
+msgstr ""
+
+msgid "Starts with https:// or webcal://. It is stored encrypted."
+msgstr ""
+
+msgid "e.g. Private calendar Laura"
+msgstr ""
+
+msgid "Blocks the times of"
+msgstr ""
+
+msgid "All-day entries (e.g. vacation) block the whole day"
+msgstr ""
+
+msgid "Connect calendar"
+msgstr ""
+
+msgid "Where do I find the private calendar address?"
+msgstr ""
+
+msgid "Google Calendar (Android)"
+msgstr ""
+
+msgid "calendar.google.com on the computer → ⚙ Settings → choose your calendar under \"Settings for my calendars\" → \"Integrate calendar\" → copy \"Secret address in iCal format\"."
+msgstr ""
+
+msgid "iCloud (iPhone)"
+msgstr ""
+
+msgid "Calendar app on the Mac or icloud.com → share the calendar → switch on \"Public calendar\" → copy the link (webcal://…)."
+msgstr ""
+
+msgid "Outlook / Microsoft 365"
+msgstr ""
+
+msgid "Outlook on the web → ⚙ Settings → Calendar → Shared calendars → \"Publish a calendar\" → choose \"Can view when I'm busy\" → copy the ICS link."
+msgstr ""
+
+msgid "Only start and end times are stored – titles and details of your private appointments stay in your calendar."
+msgstr ""
+
+msgid "Calendar connected."
+msgstr ""
+
+msgid "Synchronized."
+msgstr ""
+
+msgid "Calendar removed."
+msgstr ""
+
+msgid "New address created. The old one no longer works."
+msgstr ""
+
+msgid "Whole business"
+msgstr ""
+
+msgid "WP-Cron is disabled on this site. Please make sure a server cron job calls wp-cron.php regularly, otherwise calendars are only updated when you click \"Sync now\"."
+msgstr ""
+
+msgid "1. Bookora appointments in your calendar app"
+msgstr ""
+
+msgid "Subscribe once – new, moved and cancelled appointments then appear automatically on the phone (iPhone, Android, Outlook)."
+msgstr ""
+
+msgid "Show customer name, phone and email in the calendar"
+msgstr ""
+
+msgid "Switch off if other people can see your phone calendar."
+msgstr ""
+
+msgid "Also show unconfirmed requests (marked as \"Unconfirmed\")"
+msgstr ""
+
+msgid "Note: Google updates subscribed calendars only every few hours. Apple and Outlook are usually faster."
+msgstr ""
+
+msgid "2. Block private appointments automatically"
+msgstr ""
+
+msgid "Connect your private calendars. Times in which you already have something planned are no longer offered to customers. Updated every 15 minutes."
+msgstr ""
+
+msgid "No calendar connected yet."
+msgstr ""
+
+msgid "Last sync: %s"
+msgstr ""
+
+msgid "Sync now"
+msgstr ""
+
+msgid "Calendar resumed."
+msgstr ""
+
+msgid "Calendar paused – it no longer blocks times."
+msgstr ""
+
+msgid "Resume"
+msgstr ""
+
+msgid "Pause"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Remove"
+msgstr ""
+
+msgid "The calendar is disconnected and its busy times are released."
+msgstr ""
+
+msgid "%1$s %2$d busy time imported."
+msgid_plural "%1$s %2$d busy times imported."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "%d busy time"
+msgid_plural "%d busy times"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "To your customers"
 msgstr ""
 
@@ -1330,9 +1586,6 @@ msgid "Failed"
 msgstr ""
 
 msgid "customized"
-msgstr ""
-
-msgid "Edit"
 msgstr ""
 
 msgid "Unread"
@@ -1577,9 +1830,6 @@ msgstr ""
 msgid "Color"
 msgstr ""
 
-msgid "Active"
-msgstr ""
-
 msgid "Inactive (not bookable)"
 msgstr ""
 
@@ -1782,6 +2032,9 @@ msgid "No staff members."
 msgstr ""
 
 msgid "%d appt."
+msgstr ""
+
+msgid "Busy (own calendar)"
 msgstr ""
 
 msgid "Drag appointments to move them (15-minute steps)."
