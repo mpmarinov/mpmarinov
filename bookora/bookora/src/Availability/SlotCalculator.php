@@ -64,10 +64,10 @@ final class SlotCalculator {
 	/**
 	 * Constructor.
 	 *
-	 * @param DateTimeZone                                                                                          $tz         Local timezone.
-	 * @param array<int, array<int, array{0:string,1:string}>>                                                      $weekly     Weekly hours.
+	 * @param DateTimeZone                                                                                           $tz         Local timezone.
+	 * @param array<int, array<int, array{0:string,1:string}>>                                                       $weekly     Weekly hours.
 	 * @param array<int, array{date_start:string,date_end:string,type:string,start_time?:?string,end_time?:?string}> $exceptions Exceptions.
-	 * @param array<int, array{start:int,end:int,seats?:int}>                                                       $busy       Busy intervals.
+	 * @param array<int, array{start:int,end:int,seats?:int}>                                                        $busy       Busy intervals.
 	 */
 	public function __construct( DateTimeZone $tz, array $weekly, array $exceptions = array(), array $busy = array() ) {
 		$this->tz         = $tz;
