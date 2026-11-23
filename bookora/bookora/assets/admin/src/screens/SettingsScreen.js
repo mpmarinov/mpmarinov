@@ -402,27 +402,12 @@ export default function SettingsScreen() {
 					<h2>{ __( 'Security & privacy', 'bookora' ) }</h2>
 				</CardHeader>
 				<CardBody>
-					<ToggleControl
-						label={ __( 'Spam protection (honeypot)', 'bookora' ) }
-						checked={ settings.antispam_honeypot }
-						onChange={ set( 'antispam_honeypot' ) }
-						__nextHasNoMarginBottom
-					/>
-					<SelectControl
-						label={ __( 'CAPTCHA', 'bookora' ) }
-						value={ settings.captcha_provider }
-						options={ [
-							{ label: __( 'None', 'bookora' ), value: 'none' },
-							{
-								label: 'Cloudflare Turnstile',
-								value: 'turnstile',
-							},
-							{ label: 'hCaptcha', value: 'hcaptcha' },
-							{ label: 'reCAPTCHA v3', value: 'recaptcha' },
-						] }
-						onChange={ set( 'captcha_provider' ) }
-						__nextHasNoMarginBottom
-					/>
+					<p className="bookora-muted">
+						{ __(
+							'Spam protection is always active and invisible for your customers: hidden trap field, minimum fill-in time, limits per sender and per IP address, and at most 3 open requests per email address.',
+							'bookora'
+						) }
+					</p>
 					<ToggleControl
 						label={ __(
 							'Delete all Bookora data when the plugin is uninstalled',

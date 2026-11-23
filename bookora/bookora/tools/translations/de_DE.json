@@ -745,5 +745,12 @@
 "CSS for all forms": "CSS für alle Formulare",
 "Example: .bookora { --bookora-gap: 24px; } – all CSS variables are listed in the developer documentation.": "Beispiel: .bookora { --bookora-gap: 24px; } – alle CSS-Variablen stehen in der Entwickler-Dokumentation.",
 "JavaScript for all forms": "JavaScript für alle Formulare",
-"Runs once on every page with a Bookora form. Example: bookora.on( \"success\", ( data, form ) => { … } );": "Läuft einmal auf jeder Seite mit einem Bookora-Formular. Beispiel: bookora.on( \"success\", ( data, form ) => { … } );"
+"Runs once on every page with a Bookora form. Example: bookora.on( \"success\", ( data, form ) => { … } );": "Läuft einmal auf jeder Seite mit einem Bookora-Formular. Beispiel: bookora.on( \"success\", ( data, form ) => { … } );",
+"Please enter a value in steps of %s.": "Bitte geben Sie einen Wert in Schritten von %s ein.",
+"This date cannot be chosen.": "Dieses Datum kann nicht gewählt werden.",
+"You already have several open requests. Please wait for our confirmation or contact us directly.": "Sie haben bereits mehrere offene Anfragen. Bitte warten Sie auf unsere Bestätigung oder melden Sie sich direkt bei uns.",
+"Add to Google Calendar": "Zu Google Kalender hinzufügen",
+"Emails sent by Bookora": "Von Bookora gesendete E-Mails",
+"Sent (UTC)": "Gesendet (UTC)",
+"Spam protection is always active and invisible for your customers: hidden trap field, minimum fill-in time, limits per sender and per IP address, and at most 3 open requests per email address.": "Der Spam-Schutz ist immer aktiv und für Ihre Kunden unsichtbar: verstecktes Fallen-Feld, Mindest-Ausfüllzeit, Begrenzung pro Absender und IP-Adresse sowie höchstens 3 offene Anfragen pro E-Mail-Adresse."
 }

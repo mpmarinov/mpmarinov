@@ -228,8 +228,14 @@ msgstr "Bitte geben Sie eine Zahl ein."
 msgid "Please enter a value between %1$s and %2$s."
 msgstr "Bitte geben Sie einen Wert zwischen %1$s und %2$s ein."
 
+msgid "Please enter a value in steps of %s."
+msgstr "Bitte geben Sie einen Wert in Schritten von %s ein."
+
 msgid "Please choose a valid date."
 msgstr "Bitte wählen Sie ein gültiges Datum."
+
+msgid "This date cannot be chosen."
+msgstr "Dieses Datum kann nicht gewählt werden."
 
 msgid "Please enter a valid time."
 msgstr "Bitte geben Sie eine gültige Uhrzeit ein."
@@ -248,6 +254,9 @@ msgstr "Das ging etwas zu schnell. Bitte warten Sie einen Moment und senden Sie 
 
 msgid "Too many submissions. Please try again in a few minutes."
 msgstr "Zu viele Anfragen. Bitte versuchen Sie es in einigen Minuten erneut."
+
+msgid "You already have several open requests. Please wait for our confirmation or contact us directly."
+msgstr "Sie haben bereits mehrere offene Anfragen. Bitte warten Sie auf unsere Bestätigung oder melden Sie sich direkt bei uns."
 
 msgid "Bookora: this form does not exist or is not published."
 msgstr "Bookora: Dieses Formular existiert nicht oder ist nicht veröffentlicht."
@@ -377,6 +386,9 @@ msgstr "Mitarbeiter"
 
 msgid "Open bookings in WordPress"
 msgstr "Buchungen in WordPress öffnen"
+
+msgid "Add to Google Calendar"
+msgstr "Zu Google Kalender hinzufügen"
 
 msgid "customer"
 msgstr "Kunde"
@@ -590,6 +602,15 @@ msgstr "Termin (UTC)"
 
 msgid "Form entries and bookings"
 msgstr "Formulareinträge und Buchungen"
+
+msgid "Emails sent by Bookora"
+msgstr "Von Bookora gesendete E-Mails"
+
+msgid "Sent (UTC)"
+msgstr "Gesendet (UTC)"
+
+msgid "Type"
+msgstr "Art"
 
 msgid "When you submit a form or book an appointment, we store the data you enter in the form (such as name, email address, phone number and your message) together with the date and time of a booked appointment. We use this data to process your request, manage your appointment and send you confirmations and reminders."
 msgstr "Wenn Sie ein Formular absenden oder einen Termin buchen, speichern wir die eingegebenen Daten (z. B. Name, E-Mail-Adresse, Telefonnummer und Ihre Nachricht) zusammen mit Datum und Uhrzeit eines gebuchten Termins. Wir verwenden diese Daten, um Ihre Anfrage zu bearbeiten, Ihren Termin zu verwalten und Ihnen Bestätigungen und Erinnerungen zu senden."
@@ -1775,9 +1796,6 @@ msgstr "Allgemeine Öffnungszeiten verwenden"
 msgid "Holidays, vacation & special opening hours"
 msgstr "Feiertage, Urlaub & Sonderöffnungszeiten"
 
-msgid "Type"
-msgstr "Art"
-
 msgid "Closed (holiday, vacation, break)"
 msgstr "Geschlossen (Feiertag, Urlaub, Pause)"
 
@@ -2081,11 +2099,8 @@ msgstr "Läuft einmal auf jeder Seite mit einem Bookora-Formular. Beispiel: book
 msgid "Security & privacy"
 msgstr "Sicherheit & Datenschutz"
 
-msgid "Spam protection (honeypot)"
-msgstr "Spamschutz (Honeypot)"
-
-msgid "CAPTCHA"
-msgstr "CAPTCHA"
+msgid "Spam protection is always active and invisible for your customers: hidden trap field, minimum fill-in time, limits per sender and per IP address, and at most 3 open requests per email address."
+msgstr "Der Spam-Schutz ist immer aktiv und für Ihre Kunden unsichtbar: verstecktes Fallen-Feld, Mindest-Ausfüllzeit, Begrenzung pro Absender und IP-Adresse sowie höchstens 3 offene Anfragen pro E-Mail-Adresse."
 
 msgid "Delete all Bookora data when the plugin is uninstalled"
 msgstr "Alle Bookora-Daten beim Deinstallieren löschen"

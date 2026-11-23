@@ -205,7 +205,7 @@ final class Renderer {
 				<div class="bookora__hp" aria-hidden="true">
 					<label><?php esc_html_e( 'Leave this field empty', 'bookora' ); ?><input type="text" name="website_url_hp" tabindex="-1" autocomplete="off"></label>
 				</div>
-				<input type="hidden" name="_bk_t" value="<?php echo esc_attr( Submission::render_token() ); ?>">
+				<input type="hidden" name="_bk_t" value="<?php echo esc_attr( Submission::render_token( (int) $form['id'] ) ); ?>">
 
 				<div class="bookora__message" role="alert" aria-live="assertive" hidden></div>
 

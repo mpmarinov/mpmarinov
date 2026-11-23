@@ -340,10 +340,14 @@ final class BookingService {
 		$id = (int) $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$table} WHERE email = %s", $email ) );
 
 		if ( $id ) {
+			// Anonymous submissions may only fill in missing details – never overwrite what is stored
+			// (otherwise anyone could change another customer's name/phone by using their email).
+			$row    = (array) $wpdb->get_row( $wpdb->prepare( "SELECT name, phone, user_id FROM {$table} WHERE id = %d", $id ), ARRAY_A );
+			$owner  = ! empty( $row['user_id'] ) && get_current_user_id() === (int) $row['user_id'];
 			$update = array_filter(
 				array(
-					'name'  => $name,
-					'phone' => $phone,
+					'name'  => $owner || '' === (string) ( $row['name'] ?? '' ) ? $name : '',
+					'phone' => $owner || '' === (string) ( $row['phone'] ?? '' ) ? $phone : '',
 				)
 			);
 			if ( $update ) {
@@ -352,7 +356,8 @@ final class BookingService {
 			return $id;
 		}
 
-		$user = get_user_by( 'email', $email );
+		// Link to a WordPress account only if that user is the one submitting.
+		$user = is_user_logged_in() && strtolower( wp_get_current_user()->user_email ) === strtolower( $email ) ? wp_get_current_user() : null;
 		$ok   = $wpdb->insert(
 			$table,
 			array(

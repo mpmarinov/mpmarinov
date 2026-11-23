@@ -301,10 +301,22 @@ final class Mailer {
 		foreach ( array_keys( $blocks ) as $i => $token ) {
 			$body = str_replace( $token, '%%BOOKORA_BLOCK_' . $i . '%%', $body );
 		}
+		// Links are only created from the template itself and from trusted URLs – never from customer input
+		// (otherwise "name: verify at evil.example" would become a clickable phishing link).
+		$body = make_clickable( $body );
+		foreach ( array( 'site_url', 'google_calendar_link' ) as $url_key ) {
+			$url = esc_url( (string) ( $vars[ $url_key ] ?? '' ) );
+			if ( '' === $url ) {
+				continue;
+			}
+			$body = str_replace( '"{' . $url_key . '}"', '"' . $url . '"', $body );
+			$text = 'google_calendar_link' === $url_key ? __( 'Add to Google Calendar', 'bookora' ) : (string) $vars[ $url_key ];
+			$body = str_replace( '{' . $url_key . '}', '<a href="' . $url . '">' . esc_html( $text ) . '</a>', $body );
+		}
 		$body = $replace( $body, true );
 		// Remove lines that only contained an empty placeholder (e.g. no staff member).
 		$body = (string) preg_replace( "/\n[ \t]*\n[ \t]*\n+/", "\n\n", $body );
-		$body = make_clickable( wpautop( $body ) );
+		$body = wpautop( $body );
 		foreach ( array_values( $blocks ) as $i => $block ) {
 			$body = str_replace( array( '<p>%%BOOKORA_BLOCK_' . $i . '%%</p>', '%%BOOKORA_BLOCK_' . $i . '%%' ), $block, $body );
 		}

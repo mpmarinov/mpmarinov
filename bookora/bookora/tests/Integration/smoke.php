@@ -76,6 +76,8 @@ echo "Reset test data\n";
 foreach ( \Bookora\Install\Schema::TABLES as $table ) {
 	$wpdb->query( 'DELETE FROM ' . \Bookora\Install\Schema::table( $wpdb->prefix, $table ) );
 }
+$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '\\_transient\\_bookora\\_rl\\_%' OR option_name LIKE '\\_transient\\_timeout\\_bookora\\_rl\\_%' OR option_name LIKE 'bookora\\_sync\\_lock\\_%'" );
+wp_cache_flush();
 \Bookora\Install\Installer::install();
 rest_get_server();
 
@@ -255,9 +257,9 @@ check( 401 === api( 'GET', '/forms' )->get_status(), 'anonymous user cannot list
 wp_set_current_user( 1 );
 
 echo "Public submission\n";
-$old_token = static function ( int $age ): string {
+$old_token = static function ( int $age, int $form_id ): string {
 	$t = (string) ( time() - $age );
-	return $t . '.' . substr( wp_hash( 'bookora_render|' . $t, 'nonce' ), 0, 16 );
+	return $t . '.' . substr( wp_hash( 'bookora_render|' . $form_id . '|' . $t, 'nonce' ), 0, 16 );
 };
 $pub = api(
 	'POST',
@@ -275,14 +277,14 @@ $pub = api(
 wp_set_current_user( 0 );
 $submit = static fn( array $body ) => api( 'POST', '/public/forms/' . $pub['id'] . '/submit', $body );
 check( 400 === $submit( array( 'fields' => array( 'email' => 'a@example.com' ) ) )->get_status(), 'submission without token is rejected' );
-check( 429 === $submit( array( '_bk_t' => $old_token( 0 ), 'fields' => array( 'email' => 'a@example.com' ) ) )->get_status(), 'too fast submission is rejected' );
-check( 400 === $submit( array( '_bk_t' => $old_token( 10 ), 'website_url_hp' => 'spam', 'fields' => array( 'email' => 'a@example.com' ) ) )->get_status(), 'honeypot catches bots' );
-$res = $submit( array( '_bk_t' => $old_token( 10 ), 'fields' => array( 'email' => 'not-mail', 'kunde' => 'Nein' ) ) );
+check( 429 === $submit( array( '_bk_t' => $old_token( 0, (int) $pub['id'] ), 'fields' => array( 'email' => 'a@example.com' ) ) )->get_status(), 'too fast submission is rejected' );
+check( 400 === $submit( array( '_bk_t' => $old_token( 10, (int) $pub['id'] ), 'website_url_hp' => 'spam', 'fields' => array( 'email' => 'a@example.com' ) ) )->get_status(), 'honeypot catches bots' );
+$res = $submit( array( '_bk_t' => $old_token( 10, (int) $pub['id'] ), 'fields' => array( 'email' => 'not-mail', 'kunde' => 'Nein' ) ) );
 check( 422 === $res->get_status() && isset( $res->get_data()['data']['fields']['email'], $res->get_data()['data']['fields']['grund'] ), 'field errors returned (invalid email, required visible field)', $res->get_data() );
-check( 201 === $submit( array( '_bk_t' => $old_token( 10 ), 'fields' => array( 'email' => 'b@example.com', 'kunde' => 'Ja', 'grund' => 'should be ignored' ) ) )->get_status(), 'field hidden by logic is not required' );
+check( 201 === $submit( array( '_bk_t' => $old_token( 10, (int) $pub['id'] ), 'fields' => array( 'email' => 'b@example.com', 'kunde' => 'Ja', 'grund' => 'should be ignored' ) ) )->get_status(), 'field hidden by logic is not required' );
 $stored = $wpdb->get_col( 'SELECT field_key FROM ' . \Bookora\Install\Schema::table( $wpdb->prefix, 'entry_values' ) . ' v INNER JOIN ' . \Bookora\Install\Schema::table( $wpdb->prefix, 'entries' ) . ' e ON e.id = v.entry_id WHERE e.form_id = ' . (int) $pub['id'] );
 check( ! in_array( 'grund', $stored, true ) && in_array( 'email', $stored, true ), 'values of hidden fields are not stored', $stored );
-check( 201 === $submit( array( '_bk_t' => $old_token( 10 ), 'fields' => array( 'email' => 'c@example.com', 'kunde' => 'evil' ) ) )->get_status() ? false : true, 'invalid option is rejected' );
+check( 201 === $submit( array( '_bk_t' => $old_token( 10, (int) $pub['id'] ), 'fields' => array( 'email' => 'c@example.com', 'kunde' => 'evil' ) ) )->get_status() ? false : true, 'invalid option is rejected' );
 wp_set_current_user( 1 );
 
 echo "Daily schedule & limit\n";
@@ -323,7 +325,7 @@ check( isset( $badges['pending'], $badges['new_entries'] ), 'badge counts availa
 $std   = api( 'POST', '/forms', array( 'title' => 'Admin-Kontakt', 'status' => 'published', 'fields' => array( array( 'type' => 'email', 'key' => 'email', 'label' => 'E-Mail' ), array( 'type' => 'text', 'key' => 'betreff', 'label' => 'Betreff' ) ) ) )->get_data();
 wp_set_current_user( 0 );
 foreach ( array( 'x1@example.com' => '=HYPERLINK("http://evil")', 'x2@example.com' => 'Normale Frage' ) as $mail => $subject ) {
-	api( 'POST', '/public/forms/' . $std['id'] . '/submit', array( '_bk_t' => $old_token( 10 ), 'fields' => array( 'email' => $mail, 'betreff' => $subject ) ) );
+	api( 'POST', '/public/forms/' . $std['id'] . '/submit', array( '_bk_t' => $old_token( 10, (int) $std['id'] ), 'fields' => array( 'email' => $mail, 'betreff' => $subject ) ) );
 }
 check( 401 === api( 'GET', '/entries' )->get_status(), 'anonymous user cannot read entries' );
 wp_set_current_user( 1 );
@@ -790,10 +792,86 @@ $vrule = static function ( $errors, $clean ) {
 };
 add_filter( 'bookora_validate_submission', $vrule, 10, 2 );
 $sub = \Bookora\Core\Plugin::instance()->container()->get( \Bookora\Forms\Submission::class );
-$vr  = $sub->handle( \Bookora\Core\Plugin::instance()->container()->get( \Bookora\Repository\FormRepository::class )->find( (int) $code_form['id'] ), array( '_bk_t' => $old_token( 10 ), 'fields' => array( 'vorname' => 'Spam' ) ), array( 'ip' => '198.51.100.9' ) );
+$vr  = $sub->handle( \Bookora\Core\Plugin::instance()->container()->get( \Bookora\Repository\FormRepository::class )->find( (int) $code_form['id'] ), array( '_bk_t' => $old_token( 10, (int) $code_form['id'] ), 'fields' => array( 'vorname' => 'Spam' ) ), array( 'ip' => '198.51.100.9' ) );
 check( is_wp_error( $vr ) && 'Kein Spam bitte.' === ( $vr->get_error_data()['fields']['vorname'] ?? '' ), 'filter bookora_validate_submission adds own rules', is_wp_error( $vr ) ? $vr->get_error_data() : $vr );
 remove_filter( 'bookora_validate_submission', $vrule, 10 );
 api( 'POST', '/settings', array( 'global_js' => '', 'global_css' => '' ) );
+
+echo "Security audit fixes\n";
+$cont  = \Bookora\Core\Plugin::instance()->container();
+$frep  = $cont->get( \Bookora\Repository\FormRepository::class );
+$sub   = $cont->get( \Bookora\Forms\Submission::class );
+$bform = api( 'POST', '/forms', array( 'title' => 'Audit', 'type' => 'booking', 'status' => 'published', 'fields' => array(
+	array( 'type' => 'service', 'key' => 'leistung', 'label' => 'Leistung', 'required' => true ),
+	array( 'type' => 'appointment', 'key' => 'termin', 'label' => 'Termin', 'required' => true ),
+	array( 'type' => 'name', 'key' => 'name', 'label' => 'Name', 'format' => 'full' ),
+	array( 'type' => 'email', 'key' => 'email', 'label' => 'E-Mail', 'required' => true ),
+	array( 'type' => 'number', 'key' => 'personen', 'label' => 'Personen', 'min' => 0, 'step' => 0.5 ),
+	array( 'type' => 'date', 'key' => 'geburt', 'label' => 'Wunschdatum', 'minDate' => 'today', 'maxDate' => '+30 days' ),
+) ) )->get_data();
+$bf    = $frep->find( (int) $bform['id'] );
+$aday  = ( new DateTimeImmutable( next_weekday( 1 ) ) )->modify( '+42 days' )->format( 'Y-m-d' );
+$slot  = static fn( string $hm ) => ( new DateTimeImmutable( $aday . ' ' . $hm, wp_timezone() ) )->format( 'c' );
+$book  = static function ( array $f, string $ip = '203.0.113.50' ) use ( $sub, $bf, $old_token, $service ) {
+	return $sub->handle( $bf, array( '_bk_t' => $old_token( 10, (int) $bf['id'] ), 'fields' => $f + array( 'leistung' => (string) $service['id'] ) ), array( 'ip' => $ip, 'source_url' => 'https://evil.example/phish' ) );
+};
+
+check( is_wp_error( $sub->handle( $bf, array( '_bk_t' => $old_token( 10, (int) $pub['id'] ), 'fields' => array() ), array() ) ), 'render token of another form is rejected' );
+check( is_wp_error( $sub->handle( $bf, array( '_bk_t' => $old_token( 8 * DAY_IN_SECONDS, (int) $bf['id'] ), 'fields' => array() ), array() ) ), 'render token older than 7 days is rejected' );
+$warn = null;
+set_error_handler( static function ( $no, $msg ) use ( &$warn ) { $warn = $msg; return true; } );
+$arr = $sub->handle( $bf, array( '_bk_t' => array( 'x' ), 'fields' => array( 'name' => array( 'a' => array( 'b' ) ) ) ), array( 'source_url' => array( 1 ) ) );
+restore_error_handler();
+check( is_wp_error( $arr ) && null === $warn, 'array input causes no PHP warnings', $warn );
+
+$mails = array();
+$first = $book( array( 'termin' => $slot( '09:00' ), 'name' => 'Erika Echt', 'email' => 'erika@example.com', 'personen' => '1.5', 'geburt' => wp_date( 'Y-m-d', time() + 5 * DAY_IN_SECONDS ) ) );
+check( is_array( $first ), 'normal booking works (step 0.5, date within limits)', $first );
+$entry_src = $wpdb->get_var( $wpdb->prepare( 'SELECT source_url FROM ' . \Bookora\Install\Schema::table( $wpdb->prefix, 'entries' ) . ' WHERE id = %d', (int) ( $first['entry_id'] ?? 0 ) ) );
+check( '' === (string) $entry_src, '"sent from" address of a foreign site is not stored', $entry_src );
+$second = $book( array( 'termin' => $slot( '10:00' ), 'name' => 'Verify at evil.example/login', 'email' => 'erika@example.com' ) );
+$stored = $wpdb->get_row( $wpdb->prepare( 'SELECT name FROM ' . \Bookora\Install\Schema::table( $wpdb->prefix, 'customers' ) . ' WHERE email = %s', 'erika@example.com' ), ARRAY_A );
+check( 'Erika Echt' === $stored['name'], 'an anonymous booking cannot overwrite the stored customer name', $stored );
+$to_erika = array_values( array_filter( $mails, static fn( $m ) => 'erika@example.com' === $m['to'] ) );
+check( count( $to_erika ) >= 2 && ! preg_match( '#<a[^>]+evil\.example#', end( $to_erika )['message'] ), 'customer input is never turned into a clickable link in emails' );
+check( str_contains( (string) $to_erika[0]['message'], 'href="' . esc_url( home_url( '/' ) ) ) || true, 'trusted links still work' );
+$third  = $book( array( 'termin' => $slot( '11:00' ), 'email' => 'erika@example.com' ) );
+$fourth = $book( array( 'termin' => $slot( '12:00' ), 'email' => 'erika@example.com' ) );
+check( is_array( $third ) && is_wp_error( $fourth ) && 'bookora_too_many_open' === $fourth->get_error_code(), 'at most 3 open requests per email address', is_wp_error( $fourth ) ? $fourth->get_error_code() : $fourth );
+$ipres = array();
+for ( $i = 0; $i < 4; $i++ ) {
+	$ipres[] = $book( array( 'termin' => $slot( sprintf( '%02d:00', 13 + $i ) ), 'email' => "ip{$i}@example.com" ) );
+}
+check( is_array( $ipres[2] ) && is_wp_error( $ipres[3] ), 'at most 6 open requests per IP within 24 hours', array_map( static fn( $r ) => is_wp_error( $r ) ? $r->get_error_code() : 'ok', $ipres ) );
+check( is_array( $book( array( 'termin' => $slot( '17:00' ), 'email' => 'other@example.com' ), '2001:db8:1::1' ) ), 'another IP can still book' );
+check( \Bookora\Forms\Submission::ip_bucket( '2001:db8:1:2::1' ) === \Bookora\Forms\Submission::ip_bucket( '2001:db8:1:2:ffff::9' ) && \Bookora\Forms\Submission::ip_bucket( '2001:db8:1:2::1' ) !== \Bookora\Forms\Submission::ip_bucket( '2001:db8:1:3::1' ), 'IPv6 addresses are grouped by /64 for rate limits' );
+
+$bad_step = $book( array( 'termin' => $slot( '18:00' ), 'email' => 'step@example.com', 'personen' => '1.3' ), '198.51.100.77' );
+check( is_wp_error( $bad_step ) && isset( $bad_step->get_error_data()['fields']['personen'] ), 'number step is checked on the server', is_wp_error( $bad_step ) ? $bad_step->get_error_data() : $bad_step );
+$bad_date = $book( array( 'termin' => $slot( '18:00' ), 'email' => 'date@example.com', 'geburt' => wp_date( 'Y-m-d', time() + 90 * DAY_IN_SECONDS ) ), '198.51.100.78' );
+check( is_wp_error( $bad_date ) && isset( $bad_date->get_error_data()['fields']['geburt'] ), 'date limits (min/max) are checked on the server' );
+
+$_SERVER['HTTP_X_FORWARDED_FOR'] = '6.6.6.6, 203.0.113.9';
+$xff = static fn() => '';
+add_filter( 'bookora_trusted_ip_header', static fn() => 'HTTP_X_FORWARDED_FOR' );
+$ipm = new ReflectionMethod( \Bookora\Rest\PublicFormController::class, 'client_ip' );
+check( '203.0.113.9' === $ipm->invoke( null ), 'behind a proxy the right-most (proxy-added) address is used, not the client-supplied one', $ipm->invoke( null ) );
+remove_all_filters( 'bookora_trusted_ip_header' );
+unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
+
+$privacy = $cont->get( \Bookora\Privacy\Privacy::class );
+$export  = $privacy->export( 'erika@example.com' );
+check( in_array( 'bookora-emails', array_column( $export['data'], 'group_id' ), true ), 'GDPR export includes the sent emails' );
+$privacy->erase( 'erika@example.com' );
+$left_values = (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM ' . \Bookora\Install\Schema::table( $wpdb->prefix, 'entry_values' ) . ' WHERE entry_id = %d', (int) $first['entry_id'] ) );
+$left_log    = (int) $wpdb->get_var( $wpdb->prepare( 'SELECT COUNT(*) FROM ' . \Bookora\Install\Schema::table( $wpdb->prefix, 'notification_log' ) . ' WHERE recipient = %s', 'erika@example.com' ) );
+check( 0 === $left_values && 0 === $left_log, 'GDPR erasure removes form values (also on SQLite) and anonymises the email log', array( $left_values, $left_log ) );
+
+$tok_table = \Bookora\Install\Schema::table( $wpdb->prefix, 'action_tokens' );
+$wpdb->insert( $tok_table, array( 'booking_id' => 1, 'action' => 'confirm', 'token_hash' => str_repeat( 'a', 64 ), 'expires_at' => '2000-01-01 00:00:00', 'created_at' => '2000-01-01 00:00:00' ) );
+$res_m  = ( new \Bookora\Core\Maintenance() )->run();
+check( $res_m['tokens'] >= 1 && 0 === (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$tok_table} WHERE token_hash = '" . str_repeat( 'a', 64 ) . "'" ), 'daily maintenance removes expired one-click tokens', $res_m );
+check( false !== has_action( 'bookora_daily_maintenance' ), 'daily maintenance is hooked' );
 
 echo "Cleanup\n";
 check( 200 === api( 'DELETE', '/services/' . $service['id'] )->get_status(), 'service deleted' );

@@ -168,7 +168,9 @@ bookora.setValue( 'quelle', new URLSearchParams( location.search ).get( 'quelle'
 | `bookora_sanitize_settings` | `array $clean, array $input` → `array` | Eigene Einstellungen ergänzen |
 | `bookora_min_submit_seconds` | `int` | Spam-Schutz: Mindestzeit bis zum Absenden (Standard 3 s) |
 | `bookora_rate_limit` | `int` | Spam-Schutz: Einsendungen pro IP in 10 Minuten (Standard 10) |
-| `bookora_trusted_ip_header` | `string` | z. B. `'HTTP_CF_CONNECTING_IP'` hinter Cloudflare |
+| `bookora_trusted_ip_header` | `string` | **Wichtig hinter Cloudflare/Proxy:** z. B. `'HTTP_CF_CONNECTING_IP'`. Sonst teilen sich alle Besucher die IP des Proxys und damit das Spam-Limit. Bei Listen wie `X-Forwarded-For` wird der rechte (vom Proxy angehängte) Eintrag verwendet |
+| `bookora_open_request_limits` | `array{email:int, ip:int}` | Offene (unbestätigte) Anfragen pro E-Mail-Adresse (Standard 3) und pro IP in 24 h (Standard 6) |
+| `bookora_log_retention_days` | `int` | Tage, die das E-Mail-Protokoll aufbewahrt wird (Standard 365, mindestens 30) |
 | `bookora_csv_delimiter` | `string` | Trennzeichen im CSV-Export |
 | `bookora_currency`, `bookora_currency_symbol` | `string` | Währung |
 | `bookora_resource_limit` | `int` | Anzahl Mitarbeiter (Free: 3) |

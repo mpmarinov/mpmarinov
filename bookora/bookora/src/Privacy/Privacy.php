@@ -71,7 +71,7 @@ final class Privacy {
 		$bookings  = Schema::table( $wpdb->prefix, 'bookings' );
 		$offset    = ( max( 1, $page ) - 1 ) * self::PER_PAGE;
 
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- internal table names.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared -- internal table names.
 		$rows = (array) $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT e.id, e.uid, e.created_at, c.name, c.phone, b.start_utc, b.end_utc, b.status AS booking_status
@@ -125,6 +125,27 @@ final class Privacy {
 				'data'        => $items,
 			);
 		}
+		// Sent emails (first page only).
+		if ( 1 === $page ) {
+			$log = (array) $wpdb->get_results( $wpdb->prepare( 'SELECT id, event, status, created_at FROM ' . Schema::table( $wpdb->prefix, 'notification_log' ) . ' WHERE recipient = %s ORDER BY id LIMIT 500', $email ), ARRAY_A );
+			foreach ( $log as $mail ) {
+				$data[] = array(
+					'group_id'    => 'bookora-emails',
+					'group_label' => __( 'Emails sent by Bookora', 'bookora' ),
+					'item_id'     => 'bookora-mail-' . $mail['id'],
+					'data'        => array(
+						array(
+							'name'  => __( 'Sent (UTC)', 'bookora' ),
+							'value' => $mail['created_at'],
+						),
+						array(
+							'name'  => __( 'Type', 'bookora' ),
+							'value' => $mail['event'] . ' (' . $mail['status'] . ')',
+						),
+					),
+				);
+			}
+		}
 		// phpcs:enable
 
 		return array(
@@ -147,7 +168,7 @@ final class Privacy {
 		$values    = Schema::table( $wpdb->prefix, 'entry_values' );
 		$bookings  = Schema::table( $wpdb->prefix, 'bookings' );
 
-		// phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- internal table names.
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared -- internal table names.
 		$customer_id = (int) $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$customers} WHERE email = %s", $email ) );
 
 		if ( ! $customer_id ) {
@@ -159,7 +180,9 @@ final class Privacy {
 			);
 		}
 
-		$wpdb->query( $wpdb->prepare( "DELETE v FROM {$values} v INNER JOIN {$entries} e ON e.id = v.entry_id WHERE e.customer_id = %d", $customer_id ) );
+		// Portable SQL (MySQL and SQLite): no multi-table DELETE.
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$values} WHERE entry_id IN ( SELECT id FROM {$entries} WHERE customer_id = %d )", $customer_id ) );
+		$wpdb->query( $wpdb->prepare( 'UPDATE ' . Schema::table( $wpdb->prefix, 'notification_log' ) . ' SET recipient = %s WHERE recipient = %s', 'deleted-' . $customer_id . '@invalid.invalid', $email ) );
 		$wpdb->query( $wpdb->prepare( "UPDATE {$entries} SET ip_hash = '', user_agent = '', source_url = '' WHERE customer_id = %d", $customer_id ) );
 		$wpdb->query( $wpdb->prepare( "UPDATE {$bookings} SET notes = NULL WHERE customer_id = %d", $customer_id ) );
 		$wpdb->update(

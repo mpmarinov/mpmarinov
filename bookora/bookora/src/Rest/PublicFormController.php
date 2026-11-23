@@ -75,9 +75,9 @@ final class PublicFormController {
 			array(
 				'ip'         => self::client_ip(),
 				'user_agent' => (string) $request->get_header( 'user_agent' ),
-				'source_url' => (string) ( $body['_source'] ?? '' ),
+				'source_url' => is_string( $body['_source'] ?? null ) ? $body['_source'] : '',
 				'locale'     => determine_locale(),
-				'timezone'   => (string) ( $body['_timezone'] ?? '' ),
+				'timezone'   => is_string( $body['_timezone'] ?? null ) ? $body['_timezone'] : '',
 			)
 		);
 
@@ -111,8 +111,10 @@ final class PublicFormController {
 		 */
 		$header = (string) apply_filters( 'bookora_trusted_ip_header', '' );
 		if ( '' !== $header && ! empty( $_SERVER[ $header ] ) ) {
+			// X-Forwarded-For style lists: the right-most entry was added by the trusted proxy,
+			// entries further left come from the client and can be faked.
 			$forwarded = explode( ',', sanitize_text_field( wp_unslash( $_SERVER[ $header ] ) ) );
-			$ip        = trim( $forwarded[0] );
+			$ip        = trim( (string) end( $forwarded ) );
 		}
 
 		return filter_var( $ip, FILTER_VALIDATE_IP ) ? $ip : '';

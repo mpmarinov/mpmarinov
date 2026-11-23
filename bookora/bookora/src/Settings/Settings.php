@@ -45,8 +45,6 @@ final class Settings {
 			'form_font'             => 'inherit',
 			'global_css'            => '',
 			'global_js'             => '',
-			'antispam_honeypot'     => true,
-			'captcha_provider'      => 'none',
 			'delete_on_uninstall'   => false,
 			'feed_include_pending'  => true,
 			'feed_customer_details' => true,
@@ -153,8 +151,6 @@ final class Settings {
 		$out['global_css'] = $can_code ? \Bookora\Repository\FormRepository::clean_css( (string) ( $input['global_css'] ?? '' ) ) : (string) ( $current['global_css'] ?? '' );
 		$out['global_js']  = $can_code ? (string) ( $input['global_js'] ?? '' ) : (string) ( $current['global_js'] ?? '' );
 
-		$out['antispam_honeypot']   = ! empty( $input['antispam_honeypot'] );
-		$out['captcha_provider']    = in_array( $input['captcha_provider'] ?? '', array( 'none', 'turnstile', 'hcaptcha', 'recaptcha' ), true ) ? $input['captcha_provider'] : 'none';
 		$out['delete_on_uninstall'] = ! empty( $input['delete_on_uninstall'] );
 
 		$out['feed_include_pending']  = ! empty( $input['feed_include_pending'] );

@@ -226,7 +226,13 @@ msgstr ""
 msgid "Please enter a value between %1$s and %2$s."
 msgstr ""
 
+msgid "Please enter a value in steps of %s."
+msgstr ""
+
 msgid "Please choose a valid date."
+msgstr ""
+
+msgid "This date cannot be chosen."
 msgstr ""
 
 msgid "Please enter a valid time."
@@ -245,6 +251,9 @@ msgid "That was a bit too fast. Please wait a moment and submit again."
 msgstr ""
 
 msgid "Too many submissions. Please try again in a few minutes."
+msgstr ""
+
+msgid "You already have several open requests. Please wait for our confirmation or contact us directly."
 msgstr ""
 
 msgid "Bookora: this form does not exist or is not published."
@@ -374,6 +383,9 @@ msgid "Staff member"
 msgstr ""
 
 msgid "Open bookings in WordPress"
+msgstr ""
+
+msgid "Add to Google Calendar"
 msgstr ""
 
 msgid "customer"
@@ -587,6 +599,15 @@ msgid "Appointment (UTC)"
 msgstr ""
 
 msgid "Form entries and bookings"
+msgstr ""
+
+msgid "Emails sent by Bookora"
+msgstr ""
+
+msgid "Sent (UTC)"
+msgstr ""
+
+msgid "Type"
 msgstr ""
 
 msgid "When you submit a form or book an appointment, we store the data you enter in the form (such as name, email address, phone number and your message) together with the date and time of a booked appointment. We use this data to process your request, manage your appointment and send you confirmations and reminders."
@@ -1773,9 +1794,6 @@ msgstr ""
 msgid "Holidays, vacation & special opening hours"
 msgstr ""
 
-msgid "Type"
-msgstr ""
-
 msgid "Closed (holiday, vacation, break)"
 msgstr ""
 
@@ -2079,10 +2097,7 @@ msgstr ""
 msgid "Security & privacy"
 msgstr ""
 
-msgid "Spam protection (honeypot)"
-msgstr ""
-
-msgid "CAPTCHA"
+msgid "Spam protection is always active and invisible for your customers: hidden trap field, minimum fill-in time, limits per sender and per IP address, and at most 3 open requests per email address."
 msgstr ""
 
 msgid "Delete all Bookora data when the plugin is uninstalled"

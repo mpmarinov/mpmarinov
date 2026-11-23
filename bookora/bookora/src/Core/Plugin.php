@@ -211,6 +211,7 @@ final class Plugin {
 		$c->get( Renderer::class )->register();
 		$c->get( ActionLinks::class )->register();
 		$c->get( CalendarLink::class )->register();
+		( new Maintenance() )->register();
 		$c->get( Feed::class )->register();
 		$c->get( IcsImporter::class )->register();
 		$c->get( Mailer::class )->register();

@@ -22,10 +22,13 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Submission {
 
-	public const RATE_LIMIT   = 10;
-	public const RATE_WINDOW  = 600;
-	public const MIN_SECONDS  = 3;
-	private const TOKEN_FIELD = '_bk_t';
+	public const RATE_LIMIT     = 10;
+	public const RATE_WINDOW    = 600;
+	public const MIN_SECONDS    = 3;
+	public const MAX_AGE        = 7 * DAY_IN_SECONDS; // Longer than typical page-cache lifetimes.
+	public const MAX_PENDING    = 3;                  // Open requests per email address.
+	public const MAX_PENDING_IP = 6;                // Open requests per IP (or IPv6 /64) within 24 hours.
+	private const TOKEN_FIELD   = '_bk_t';
 
 	/**
 	 * Constructor.
@@ -42,10 +45,37 @@ final class Submission {
 
 	/**
 	 * Signed render timestamp (anti-bot timing check that also works with page caching).
+	 *
+	 * @param int $form_id Form the token is valid for.
 	 */
-	public static function render_token(): string {
+	public static function render_token( int $form_id = 0 ): string {
 		$time = (string) time();
-		return $time . '.' . substr( wp_hash( 'bookora_render|' . $time, 'nonce' ), 0, 16 );
+		return $time . '.' . self::sign_token( $form_id, $time );
+	}
+
+	/**
+	 * Signature of a render token, bound to the form.
+	 *
+	 * @param int    $form_id Form id.
+	 * @param string $time    Timestamp.
+	 */
+	private static function sign_token( int $form_id, string $time ): string {
+		return substr( wp_hash( 'bookora_render|' . $form_id . '|' . $time, 'nonce' ), 0, 16 );
+	}
+
+	/**
+	 * Group IPv6 addresses by /64 (one connection usually owns a whole /64).
+	 *
+	 * @param string $ip IP address.
+	 */
+	public static function ip_bucket( string $ip ): string {
+		if ( str_contains( $ip, ':' ) ) {
+			$bin = @inet_pton( $ip ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- invalid input returns false.
+			if ( false !== $bin && 16 === strlen( $bin ) ) {
+				return bin2hex( substr( $bin, 0, 8 ) ) . '::/64';
+			}
+		}
+		return $ip;
 	}
 
 	/**
@@ -57,7 +87,7 @@ final class Submission {
 	 * @return array{entry_id:int, booking?:array<string, mixed>, message:string, redirect:string}|WP_Error
 	 */
 	public function handle( array $form, array $input, array $meta ) {
-		$spam = $this->spam_check( $input, $meta );
+		$spam = $this->spam_check( $input, $meta, (int) $form['id'] );
 		if ( is_wp_error( $spam ) ) {
 			return $spam;
 		}
@@ -128,6 +158,11 @@ final class Submission {
 				return new WP_Error( 'bookora_validation', __( 'An email address is required to book an appointment.', 'bookora' ), array( 'status' => 422 ) );
 			}
 
+			$flood = $this->too_many_open( (string) $email, (string) ( $meta['ip'] ?? '' ) );
+			if ( is_wp_error( $flood ) ) {
+				return $flood;
+			}
+
 			$result = $this->bookings->create(
 				$booking_input + array(
 					'form_id'    => (int) $form['id'],
@@ -139,7 +174,7 @@ final class Submission {
 					'values'     => self::flatten( $clean ),
 					'timezone'   => $meta['timezone'] ?? '',
 					'locale'     => $meta['locale'] ?? '',
-					'source_url' => $meta['source_url'] ?? '',
+					'source_url' => self::own_url( $meta['source_url'] ?? '' ),
 					'ip'         => $meta['ip'] ?? '',
 					'user_agent' => $meta['user_agent'] ?? '',
 				)
@@ -297,7 +332,7 @@ final class Submission {
 						'last'  => $last,
 					);
 				}
-				$value = mb_substr( sanitize_text_field( (string) $value ), 0, 200 );
+				$value = mb_substr( sanitize_text_field( is_scalar( $value ) ? (string) $value : '' ), 0, 200 );
 				return ( $required && '' === $value ) ? $missing : $value;
 
 			case 'address':
@@ -368,6 +403,14 @@ final class Submission {
 					/* translators: 1: minimum, 2: maximum. */
 					return new WP_Error( 'invalid', sprintf( __( 'Please enter a value between %1$s and %2$s.', 'bookora' ), $min ?? '–', $max ?? '–' ) );
 				}
+				$step = (float) ( $field['step'] ?? 0 );
+				if ( 'number' === $field['type'] && $step > 0 ) {
+					$steps = ( $num - (float) ( $min ?? 0 ) ) / $step;
+					if ( abs( $steps - round( $steps ) ) > 1e-6 ) {
+						/* translators: %s: step, e.g. 0.5 */
+						return new WP_Error( 'invalid', sprintf( __( 'Please enter a value in steps of %s.', 'bookora' ), (string) $step ) );
+					}
+				}
 				return (string) ( 0.0 === fmod( $num, 1.0 ) ? (int) $num : $num );
 
 			case 'date':
@@ -375,6 +418,17 @@ final class Submission {
 				$date   = DateTimeImmutable::createFromFormat( '!' . $format, $value );
 				if ( ! $date || $date->format( $format ) !== $value ) {
 					return new WP_Error( 'invalid', __( 'Please choose a valid date.', 'bookora' ) );
+				}
+				// Same limits as the date picker; one day tolerance for visitors in other time zones.
+				$day = substr( $value, 0, 10 );
+				foreach ( array(
+					'minDate' => -1,
+					'maxDate' => 1,
+				) as $limit => $tolerance ) {
+					$bound = self::bound_date( (string) ( $field[ $limit ] ?? '' ), $tolerance );
+					if ( null !== $bound && ( 'minDate' === $limit ? $day < $bound : $day > $bound ) ) {
+						return new WP_Error( 'invalid', __( 'This date cannot be chosen.', 'bookora' ) );
+					}
 				}
 				return $value;
 
@@ -436,9 +490,10 @@ final class Submission {
 	 * @param string $expected Expected value.
 	 */
 	public static function rule_matches( string $operator, $value, string $expected ): bool {
-		$list  = is_array( $value ) ? array_map( 'strval', array_values( $value ) ) : array( (string) $value );
-		$text  = implode( ' ', $list );
-		$empty = '' === trim( $text );
+		$scalar = static fn( $v ): string => is_scalar( $v ) ? (string) $v : '';
+		$list   = is_array( $value ) ? array_map( $scalar, array_values( $value ) ) : array( $scalar( $value ) );
+		$text   = implode( ' ', $list );
+		$empty  = '' === trim( $text );
 
 		switch ( $operator ) {
 			case 'is':
@@ -464,18 +519,19 @@ final class Submission {
 	/**
 	 * Honeypot, timing token and rate limit.
 	 *
-	 * @param array<string, mixed>  $input Raw input.
-	 * @param array<string, string> $meta  Meta.
+	 * @param array<string, mixed>  $input   Raw input.
+	 * @param array<string, string> $meta    Meta.
+	 * @param int                   $form_id Form the token must belong to.
 	 * @return true|WP_Error
 	 */
-	private function spam_check( array $input, array $meta ) {
+	private function spam_check( array $input, array $meta, int $form_id ) {
 		if ( ! empty( $input['website_url_hp'] ) ) {
 			return new WP_Error( 'bookora_spam', __( 'Your submission could not be processed.', 'bookora' ), array( 'status' => 400 ) );
 		}
 
-		$token = (string) ( $input[ self::TOKEN_FIELD ] ?? '' );
+		$token = is_string( $input[ self::TOKEN_FIELD ] ?? null ) ? $input[ self::TOKEN_FIELD ] : '';
 		$parts = explode( '.', $token );
-		if ( 2 !== count( $parts ) || ! hash_equals( substr( wp_hash( 'bookora_render|' . $parts[0], 'nonce' ), 0, 16 ), $parts[1] ) ) {
+		if ( 2 !== count( $parts ) || ! ctype_digit( $parts[0] ) || time() - (int) $parts[0] > self::MAX_AGE || ! hash_equals( self::sign_token( $form_id, $parts[0] ), $parts[1] ) ) {
 			return new WP_Error( 'bookora_spam', __( 'The form has expired. Please reload the page and try again.', 'bookora' ), array( 'status' => 400 ) );
 		}
 
@@ -489,7 +545,7 @@ final class Submission {
 			return new WP_Error( 'bookora_spam', __( 'That was a bit too fast. Please wait a moment and submit again.', 'bookora' ), array( 'status' => 429 ) );
 		}
 
-		$ip = (string) ( $meta['ip'] ?? '' );
+		$ip = self::ip_bucket( (string) ( $meta['ip'] ?? '' ) );
 		if ( '' !== $ip ) {
 			$key   = 'bookora_rl_' . substr( hash( 'sha256', $ip . wp_salt( 'nonce' ) ), 0, 32 );
 			$count = (int) get_transient( $key );
@@ -550,7 +606,7 @@ final class Submission {
 				'status'      => 'new',
 				'ip_hash'     => empty( $meta['ip'] ) ? '' : hash( 'sha256', $meta['ip'] . wp_salt( 'nonce' ) ),
 				'user_agent'  => mb_substr( sanitize_text_field( (string) ( $meta['user_agent'] ?? '' ) ), 0, 255 ),
-				'source_url'  => mb_substr( esc_url_raw( (string) ( $meta['source_url'] ?? '' ) ), 0, 2048 ),
+				'source_url'  => mb_substr( self::own_url( $meta['source_url'] ?? '' ), 0, 2048 ),
 				'locale'      => mb_substr( (string) ( $meta['locale'] ?? '' ), 0, 20 ),
 				'created_at'  => $now,
 				'updated_at'  => $now,
@@ -605,5 +661,74 @@ final class Submission {
 			}
 		}
 		return '';
+	}
+
+	/**
+	 * Limit open (unconfirmed) requests so nobody can fill the calendar or misuse the
+	 * confirmation emails to contact strangers.
+	 *
+	 * @param string $email Customer email.
+	 * @param string $ip    Client IP.
+	 * @return true|WP_Error
+	 */
+	private function too_many_open( string $email, string $ip ) {
+		global $wpdb;
+		$bookings  = Schema::table( $wpdb->prefix, 'bookings' );
+		$customers = Schema::table( $wpdb->prefix, 'customers' );
+		$entries   = Schema::table( $wpdb->prefix, 'entries' );
+		$now       = current_time( 'mysql', true );
+
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- internal table names.
+		$by_mail = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$bookings} b INNER JOIN {$customers} c ON c.id = b.customer_id WHERE c.email = %s AND b.status = 'pending' AND b.end_utc > %s", $email, $now ) );
+		$by_ip   = 0;
+		if ( '' !== $ip ) {
+			$by_ip = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$bookings} b INNER JOIN {$entries} e ON e.id = b.entry_id WHERE e.ip_hash = %s AND b.status = 'pending' AND b.created_at > %s", hash( 'sha256', $ip . wp_salt( 'nonce' ) ), gmdate( 'Y-m-d H:i:s', time() - DAY_IN_SECONDS ) ) );
+		}
+		// phpcs:enable
+
+		/**
+		 * Maximum open requests per email address / per IP within 24 hours.
+		 *
+		 * @param array{email:int, ip:int} $limits Limits.
+		 */
+		$limits = (array) apply_filters(
+			'bookora_open_request_limits',
+			array(
+				'email' => self::MAX_PENDING,
+				'ip'    => self::MAX_PENDING_IP,
+			)
+		);
+		if ( $by_mail >= (int) $limits['email'] || $by_ip >= (int) $limits['ip'] ) {
+			return new WP_Error( 'bookora_too_many_open', __( 'You already have several open requests. Please wait for our confirmation or contact us directly.', 'bookora' ), array( 'status' => 429 ) );
+		}
+		return true;
+	}
+
+	/**
+	 * Only keep "sent from" addresses of this website (the value comes from the browser).
+	 *
+	 * @param mixed $url URL.
+	 */
+	private static function own_url( $url ): string {
+		if ( ! is_string( $url ) || '' === $url ) {
+			return '';
+		}
+		$url = esc_url_raw( $url, array( 'http', 'https' ) );
+		return strtolower( (string) wp_parse_url( $url, PHP_URL_HOST ) ) === strtolower( (string) wp_parse_url( home_url(), PHP_URL_HOST ) ) ? $url : '';
+	}
+
+	/**
+	 * Resolve a relative date limit ("today", "+2 weeks", "2026-12-31") to Y-m-d.
+	 *
+	 * @param string $expr      Expression.
+	 * @param int    $tolerance Days added (time-zone tolerance).
+	 */
+	private static function bound_date( string $expr, int $tolerance ): ?string {
+		if ( '' === $expr ) {
+			return null;
+		}
+		$today = new DateTimeImmutable( 'today', wp_timezone() );
+		$date  = preg_match( '/^\d{4}-\d{2}-\d{2}$/', $expr ) ? DateTimeImmutable::createFromFormat( '!Y-m-d', $expr, wp_timezone() ) : ( 'today' === $expr ? $today : $today->modify( $expr ) );
+		return $date ? $date->modify( sprintf( '%+d days', $tolerance ) )->format( 'Y-m-d' ) : null;
 	}
 }
