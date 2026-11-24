@@ -121,7 +121,7 @@ Zeitangaben = konzentrierte Entwicklungstage in gemeinsamen Sessions (ich progra
 | Umfang 1.0 | alle Anforderungen + „Empfohlen für 1.0“ aus Abschnitt 7 |
 | Formulare ohne Termin | **Ja** – Bookora ist Formular-Builder **und** Buchungssystem in einem Plugin |
 | Produktseite | Unterordner `mpmarinov.com/bookora` (kein eigenes Hosting); Domain bookora.com/.de als Weiterleitung reservieren |
-| Verkauf & Lizenzen | über einen Merchant of Record (Freemius/Paddle/Lemon Squeezy), kein eigener Shop |
+| Verkauf & Lizenzen | **neu offen (24.11.2026):** Verkauf des Pro-Abos über den eigenen Online-Shop auf mpmarinov.com statt Merchant of Record – siehe Abschnitt 10b.3 |
 
 ## 9. Free- und Pro-Strategie
 
@@ -165,7 +165,7 @@ Zum Vergleich: Vergleichbare Pro-Versionen kosten am Markt meist 80–250 € pr
 
 **Lizenz- und Zahlungsabwicklung:** Empfehlung ist ein „Merchant of Record“ (z. B. Freemius, Paddle
 oder Lemon Squeezy). Der Anbieter übernimmt EU-Umsatzsteuer, Rechnungen und Lizenzschlüssel,
-das spart dir Buchhaltungsaufwand. Die Entscheidung fällt vor Phase 11.
+das spart dir Buchhaltungsaufwand. **Alternative (24.11.2026): eigener Shop auf mpmarinov.com, siehe 10b.3.** Die Entscheidung fällt vor Phase 13.
 
 **Architekturfolgen**
 - Free-Kern mit klaren Erweiterungspunkten (Feldtypen, Zahlungs-Gateways, Benachrichtigungskanäle, Sync-Anbieter als Module)
@@ -194,6 +194,51 @@ Vorschläge (Anzeige auf wordpress.org z. B. „Bookora – Termine & Buchungen 
 | **MarSol Booking** | direkter Bezug zu **Mar**inov **Sol**utions, ohne Microsoft-Assoziation |
 
 Vor der finalen Wahl prüfen: freier Slug auf wordpress.org, Marken (DPMA, EUIPO), Domain (.com/.de).
+
+## 10b. Neue Anforderungen (24.11.2026)
+
+### 10b.1 Erinnerungen 7 Tage und 24 Stunden vorher
+**Stand:** Technisch schon möglich. Unter *E-Mails → Erinnerungen* „168, 24“ eintragen (Stunden, bis zu 5 Erinnerungen, max. 30 Tage).
+**Umsetzung (vor Phase 11):**
+- Eingabe in Tagen/Stunden statt nur Stunden („7 Tage“, „24 Stunden“), Standard für neue Installationen: 7 Tage + 24 Stunden
+- Platzhalter `{zeit_bis_termin}` („in 7 Tagen“ / „morgen“), damit ein Text für beide Erinnerungen passt; optional eigener Text je Erinnerung
+- Regel: Wird ein Termin erst kurz vorher bestätigt, entfällt die längere Erinnerung (keine „in 7 Tagen“-Mail 2 Tage vorher); nach Cron-Ausfall wird nur die nächstliegende Erinnerung gesendet
+- Erinnerung kann je Leistung abgeschaltet werden
+
+### 10b.2 Stornofrist und Ausfallgebühr (optional, per Schalter)
+Viele Praxen arbeiten mit „Absage bis 24 h vorher, sonst x % Ausfallgebühr“. In Bookora als **Option, standardmäßig aus**:
+- Schalter „Stornoregel verwenden“ global, je Leistung überschreibbar
+- Frist in Stunden (z. B. 24), Gebühr in % vom Leistungspreis **oder** fester Betrag; gilt wahlweise auch für Nichterscheinen („No-Show“)
+- Regeltext wird automatisch im Formular angezeigt + **Pflicht-Checkbox** zur Zustimmung; Zeitpunkt und Text der Zustimmung werden zur Buchung gespeichert (Nachweis)
+- Selbstservice-Storno nach Fristablauf: deutlicher Hinweis mit Betrag vor dem Absenden („Es fällt eine Gebühr von 24,00 € an“), alternativ Online-Storno nach Frist sperren („Bitte rufen Sie uns an“)
+- Buchung wird als „Spät storniert – Gebühr 24,00 €“ markiert, Betreiber bekommt E-Mail, Liste/CSV-Export der offenen Gebühren
+- Platzhalter für E-Mails: `{storno_frist}`, `{storno_gebuehr}`, `{storno_bis}` (Datum/Uhrzeit, bis wann kostenlos)
+- **Free:** Gebühr wird erfasst und angezeigt, Rechnung stellt die Praxis selbst. **Pro:** automatische Abbuchung über Stripe (hinterlegte Karte/Vorautorisierung)
+- Rechtlicher Hinweis in der Hilfe: Ausfallhonorare sind in DE nur mit vorheriger Vereinbarung durchsetzbar, bei Ärzten umstritten – die Checkbox schafft den Nachweis, ersetzt aber keine Rechtsberatung
+
+### 10b.3 Pro-Abo über den eigenen Online-Shop
+Statt Merchant of Record (Freemius/Paddle/Lemon Squeezy) Verkauf im bestehenden Shop auf mpmarinov.com.
+**Vorteile:** keine 5–10 % Provision, alles in einem Shop, eigene Kundendaten.
+**Nachteile:** EU-Umsatzsteuer für digitale Produkte (Steuersatz des Kundenlandes, Meldung über OSS), Rechnungen, Mahnungen, Erstattungen selbst.
+**Bausteine (bei WooCommerce):**
+- Wiederkehrende Zahlung: WooCommerce Subscriptions (kostenpflichtig) oder kostenlose Alternative, Zahlungsanbieter mit Abo-Fähigkeit (Stripe, PayPal)
+- Lizenzschlüssel: wird nach Kauf automatisch erzeugt und per E-Mail verschickt, gilt für 1/5/unbegrenzt Websites
+- Lizenz- und Update-Server auf mpmarinov.com (baue ich): Pro-Add-on prüft Lizenz, holt Updates, Aktivierung/Deaktivierung je Website, Ablauf bei Kündigung
+**Offen:** Shop-System bestätigen (WooCommerce?), Entscheidung vor Phase 13
+
+### 10b.4 Weitere Punkte (Abgleich Plan ↔ Code, 24.11.2026)
+| Punkt | Stand | Einplanung |
+|---|---|---|
+| Kunden-Selbstservice (Umbuchen/Stornieren per Link, `{storno_link}`) | fehlt | **vor Phase 11**, zusammen mit 10b.2 |
+| QR-Code auf der Kalender-Abo-Seite (Bibliothek qrcode-generator, MIT, kostenlos) | wartet auf Freigabe | Phase 10 |
+| Datei-Upload & Unterschrift (Speicherung) | Feldtypen da, Speicherung fehlt | vor Phase 11 |
+| Kunden-Zeitzone (Slots in eigener Zeit anzeigen) | wird nur gespeichert | vor Phase 11 |
+| Berechnete Felder (z. B. Gesamtpreis) | fehlt | Phase 11 |
+| E-Mail-Warteschlange (Action Scheduler statt Direktversand) | Direktversand | Phase 10 |
+| Warteliste | fehlt | Pro (laut Abschnitt 9) |
+| Bulgarische Übersetzung | fehlt | vor Phase 14 |
+| Abnahmetest auf Staging (Marin, per ZIP) | – | nach 10b.1/10b.2 |
+| MySQL-Performancetest (lokal im Container, kein Zugriff auf Server) | – | Phase 10 |
 
 ## 11. Fortschritt
 
