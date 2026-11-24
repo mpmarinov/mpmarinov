@@ -4,6 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import { AppointmentPicker, DatePicker } from './pickers';
 import apiUrl from './api';
+import { FileUpload, SignaturePad } from './uploads';
 import './style.scss';
 
 /**
@@ -391,6 +392,31 @@ class BookoraForm {
 					onChange: () => this.update(),
 				} );
 			} );
+
+		this.uploads = [
+			...this.form.querySelectorAll( '.bookora-upload' ),
+		].map(
+			( root ) =>
+				new FileUpload( {
+					root,
+					config: this.config,
+					form: this.form,
+					onChange: () => this.update(),
+				} )
+		);
+		this.form.querySelectorAll( '.bookora-sign' ).forEach( ( root ) => {
+			// eslint-disable-next-line no-new
+			new SignaturePad( {
+				root,
+				onChange: () => {
+					this.update();
+					const field = root.closest( '.bookora__field' );
+					if ( field.classList.contains( 'has-error' ) ) {
+						this.validateField( field );
+					}
+				},
+			} );
+		} );
 	}
 
 	onChange( e ) {
@@ -486,10 +512,14 @@ class BookoraForm {
 		) {
 			msg = __( 'Please enter your first and last name.', 'bookora' );
 		} else if ( def.required && isEmpty( value ) ) {
+			const messages = {
+				consent: __( 'Please confirm to continue.', 'bookora' ),
+				file: __( 'Please upload a file.', 'bookora' ),
+				signature: __( 'Please sign.', 'bookora' ),
+			};
 			msg =
-				def.type === 'consent'
-					? __( 'Please confirm to continue.', 'bookora' )
-					: __( 'This field is required.', 'bookora' );
+				messages[ def.type ] ||
+				__( 'This field is required.', 'bookora' );
 		} else if ( ! isEmpty( value ) ) {
 			const input = field.querySelector(
 				'input:not([type=hidden]), textarea, select'
@@ -627,6 +657,15 @@ class BookoraForm {
 
 	submit( e ) {
 		e.preventDefault();
+		if ( this.uploads?.some( ( u ) => u.busy ) ) {
+			this.showMessage(
+				__(
+					'Please wait until all files have been uploaded.',
+					'bookora'
+				)
+			);
+			return;
+		}
 		for ( let i = 0; i < this.steps.length; i++ ) {
 			if ( ! this.validateStep( i ) ) {
 				this.go( i, false );

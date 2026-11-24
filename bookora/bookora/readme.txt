@@ -15,6 +15,7 @@ Booking forms, live availability, a drag & drop timeline and calendar sync for i
 Bookora by Marinov Solutions turns your WordPress site into a complete booking system.
 
 * Unlimited booking forms with all field types, conditional logic and multi-step forms
+* Secure file uploads (e.g. referrals, photos, PDFs) and signatures – stored privately, only visible to you
 * Services with duration, buffers, capacity and opening hours
 * Live availability – already booked times are blocked automatically
 * One-click confirmation and rejection directly from the email
@@ -64,6 +65,10 @@ Yes. Paste the private iCal address of your Google, iCloud or Outlook calendar. 
 = Can customers cancel or move appointments themselves? =
 
 Yes. Every booking email contains a personal link. Customers can cancel or move to another free time up to the deadline you set (default: 24 hours before). You are informed by email. Optionally you can use a cancellation fee: customers accept it when booking, and a late cancellation or a no-show records the fee in the booking. The free version does not collect payments – you invoice the fee yourself.
+
+= Where are uploaded files stored? Are they safe? =
+
+On your own server, in a private folder (wp-content/uploads/bookora-private) under random names without file extension, so they cannot be opened or executed from the web. Only logged-in users with access to bookings can download them. Only harmless file types are accepted (images, PDF, Office documents, text, ZIP), and the real content is checked. Files that were uploaded but never submitted are deleted after 24 hours.
 
 = Does Bookora contact external services? =
 

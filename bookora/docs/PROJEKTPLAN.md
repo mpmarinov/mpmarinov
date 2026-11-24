@@ -231,7 +231,7 @@ Statt Merchant of Record (Freemius/Paddle/Lemon Squeezy) Verkauf im bestehenden 
 |---|---|---|
 | Kunden-Selbstservice (Umbuchen/Stornieren per Link) | ✅ umgesetzt: Platzhalter `{manage_button}` / `{manage_link}` | – |
 | QR-Code auf der Kalender-Abo-Seite (Bibliothek qrcode-generator, MIT, kostenlos) | wartet auf Freigabe | Phase 10 |
-| Datei-Upload & Unterschrift (Speicherung) | Feldtypen da, Speicherung fehlt | vor Phase 11 |
+| Datei-Upload & Unterschrift | ✅ umgesetzt (siehe 10b.6) | – |
 | Kunden-Zeitzone (Slots in eigener Zeit anzeigen) | wird nur gespeichert | vor Phase 11 |
 | Berechnete Felder (z. B. Gesamtpreis) | fehlt | Phase 11 |
 | E-Mail-Warteschlange (Action Scheduler statt Direktversand) | Direktversand | Phase 10 |
@@ -248,6 +248,15 @@ Statt Merchant of Record (Freemius/Paddle/Lemon Squeezy) Verkauf im bestehenden 
 - **Erinnerungen:** Standard 7 Tage + 24 Stunden; pro Buchung nur die nächstliegende fällige Erinnerung; eine Erinnerung entfällt, wenn sie später als zur Hälfte der Vorlaufzeit käme (7-Tage-Erinnerung spätestens 3,5 Tage vorher); je Leistung abschaltbar; Platzhalter `{time_until}`.
 - Tests: 316 Integrationsprüfungen (+49), 65 Unit-Tests (+7), Browser-Test Formular/Handy/Admin ohne Fehler.
 
+### 10b.6 Datei-Upload & Unterschrift (24.11.2026)
+- **Upload:** Datei wählen oder hineinziehen, Fortschrittsbalken, mehrere Dateien, Entfernen; Prüfung von Typ und Größe schon im Browser und nochmals auf dem Server. Angezeigt wird immer die echte Grenze (Formular-Einstellung, höchstens das Server-Limit; Hinweis im Builder).
+- **Sicherheit:** Ablage in `uploads/bookora-private/JJJJ/MM/` unter zufälligem Namen **ohne Dateiendung** (nicht ausführbar, auch auf nginx), Ordner zusätzlich per `.htaccess`/`web.config` gesperrt. Nur harmlose Typen (Bilder, PDF, Office, Text, ZIP – kein SVG/HTML/PHP); der echte Inhalt wird geprüft, nicht nur die Endung. Besucher erhalten nur ein Einmal-Token (an Formular und Feld gebunden). Download nur angemeldet mit Recht „Buchungen ansehen“, mit Nonce, als Anhang, `nosniff` und Sandbox-CSP. Max. 30 Uploads pro IP und Stunde.
+- **Aufräumen:** nicht abgesendete Uploads nach 24 h gelöscht; Dateien werden mit dem Eintrag, bei DSGVO-Löschung und beim Deinstallieren (wenn gewählt) entfernt.
+- **Unterschrift:** Zeichnen mit Maus, Finger oder Stift (immer auf weißem Grund, auch im dunklen Design); Alternative für Tastatur/Screenreader: Namen eintippen. Gezeichnete Unterschrift wird als PNG geprüft (Format, Größe) und privat gespeichert.
+- **Admin:** Dateien als Download-Links, Unterschrift als Bild im Eintrag und in der Buchung; CSV/E-Mail zeigen die Dateinamen.
+- **Gefunden durch den Browser-Test:** Eine WordPress-Hilfsfunktion fehlte auf der öffentlichen Seite (nur im Admin geladen) → Absturz beim Absenden mit Unterschrift; Download-Links waren doppelt kodiert. Beides behoben, neuer HTTP-Test deckt den ersten Fall ab (Gegenprobe gemacht).
+- Tests: 348 Integrationsprüfungen (+32), Browser-Test Desktop/Handy/Admin.
+
 ## 11. Fortschritt
 
 | Phase | Status |
@@ -256,7 +265,7 @@ Statt Merchant of Record (Freemius/Paddle/Lemon Squeezy) Verkauf im bestehenden 
 | 1 – Grundgerüst | ✅ erledigt: Plugin-Bootstrap, Autoloader, DI-Container, 15 DB-Tabellen mit Migrationen, Rollen & Rechte, Einstellungen + REST-API, React-Admin mit Einstellungsseite, Verschlüsselung (libsodium), DSGVO-Export/-Löschung, Deinstallation, Unit-Tests, PHPCS, CI |
 | i18n | 🔄 Deutsch komplett (725 Texte, PHP + JS), Werkzeug `npm run i18n`; Bulgarisch folgt |
 | 2 – Leistungen, Öffnungszeiten, Slot-Engine | ✅ erledigt: Slot-Engine (Puffer, Gruppen, Ausnahmen, Zeitumstellung), Doppelbuchungsschutz, REST-API, MySQL + SQLite (Playground), Admin-Bildschirme für Leistungen, Mitarbeiter/Ressourcen, Öffnungszeiten, Feiertage & Sonderöffnungen. 23 Unit-Tests, 62 Integrationsprüfungen, Browser-Test Desktop + Mobil grün |
-| 3 – Formular-Builder & Eintragsverwaltung | ✅ Builder, Formulare auf der Webseite, Kalender, Buchungsverwaltung (Bestätigen/Ablehnen/Stornieren/Erschienen, Notizen, Wiedereröffnen mit Konfliktprüfung), Eintragsverwaltung (Lesen, Markieren, Spam, Papierkorb, Sammelaktionen, CSV-Export), Menü-Zähler. **Offen:** Datei-Upload & Unterschrift |
+| 3 – Formular-Builder & Eintragsverwaltung | ✅ Builder, Formulare auf der Webseite, Kalender, Buchungsverwaltung (Bestätigen/Ablehnen/Stornieren/Erschienen, Notizen, Wiedereröffnen mit Konfliktprüfung), Eintragsverwaltung (Lesen, Markieren, Spam, Papierkorb, Sammelaktionen, CSV-Export), Menü-Zähler. Datei-Upload & Unterschrift ✅ (24.11.2026) |
 | 4–5 – Kalender & Status-Workflow | ✅ in Phase 2/3 enthalten; Ein-Klick-Bestätigung per E-Mail-Link folgt mit Phase 6 |
 | 6 – E-Mail-System | ✅ 9 E-Mail-Vorlagen (Kunde/Betreiber/Formulare), Editor mit Platzhaltern und Live-Vorschau, Test-E-Mail, Ein-Klick-Bestätigen/Ablehnen (Scanner-sicher, einmalig, ablaufend), .ics-Anhang + Google-Kalender-Link, Erinnerungen per Cron, Versandprotokoll |
 | 7 – Admin-Zeitstrahl | ✅ Tages- (Zeile je Mitarbeiter) und Wochenansicht, Öffnungs-/Schließzeiten, Jetzt-Linie, Verschieben per Drag & Drop (15-Min.-Raster, auch auf andere Mitarbeiter) oder per Formular, Konfliktprüfung inkl. Pausen, Hinweis außerhalb der Öffnungszeiten, E-Mail „Termin verschoben“ mit neuer Kalenderdatei (abwählbar), mobil scrollbar. 155 Integrationsprüfungen |

@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Schema {
 
-	public const VERSION = '1.5.0';
+	public const VERSION = '1.6.0';
 
 	/**
 	 * Unprefixed table names.
@@ -36,6 +36,7 @@ final class Schema {
 		'notification_log',
 		'calendar_connections',
 		'external_events',
+		'files',
 		'booking_sync',
 	);
 
@@ -289,6 +290,25 @@ final class Schema {
   PRIMARY KEY  (id),
   KEY connection_ext (connection_id,external_id(150)),
   KEY time_range (start_utc,end_utc)
+) $collate;",
+
+			'files'                => "CREATE TABLE {$t('files')} (
+  id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  token char(32) NOT NULL,
+  form_id bigint(20) unsigned NOT NULL DEFAULT 0,
+  entry_id bigint(20) unsigned NULL,
+  field_key varchar(64) NOT NULL DEFAULT '',
+  kind varchar(20) NOT NULL DEFAULT 'upload',
+  name varchar(191) NOT NULL DEFAULT '',
+  mime varchar(100) NOT NULL DEFAULT '',
+  size int(10) unsigned NOT NULL DEFAULT 0,
+  path varchar(255) NOT NULL DEFAULT '',
+  ip_hash char(64) NOT NULL DEFAULT '',
+  created_at datetime NOT NULL,
+  PRIMARY KEY  (id),
+  UNIQUE KEY token (token),
+  KEY entry_id (entry_id),
+  KEY orphan (entry_id,created_at)
 ) $collate;",
 
 			'booking_sync'         => "CREATE TABLE {$t('booking_sync')} (

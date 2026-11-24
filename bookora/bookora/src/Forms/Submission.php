@@ -39,13 +39,26 @@ final class Submission {
 	 * @param AvailabilityService $availability Availability.
 	 * @param ServiceRepository   $services     Services.
 	 * @param Settings|null       $settings     Settings.
+	 * @param FileStore|null      $files        File storage.
 	 */
 	public function __construct(
 		private BookingService $bookings,
 		private AvailabilityService $availability,
 		private ServiceRepository $services,
 		private ?Settings $settings = null,
+		private ?FileStore $files = null,
 	) {}
+
+	/**
+	 * Whether a render token is valid for a form (signature, age).
+	 *
+	 * @param mixed $token   Token.
+	 * @param int   $form_id Form id.
+	 */
+	public static function valid_render_token( $token, int $form_id ): bool {
+		$parts = explode( '.', is_string( $token ) ? $token : '' );
+		return 2 === count( $parts ) && ctype_digit( $parts[0] ) && time() - (int) $parts[0] <= self::MAX_AGE && hash_equals( self::sign_token( $form_id, $parts[0] ), $parts[1] );
+	}
 
 	/**
 	 * Signed render timestamp (anti-bot timing check that also works with page caching).
@@ -100,12 +113,23 @@ final class Submission {
 		$fields = (array) $form['fields'];
 		$clean  = array();
 		$errors = array();
+		$attach = array();
 
 		foreach ( $fields as $field ) {
 			if ( empty( $field['key'] ) || ! self::is_visible( $field, $values, $fields ) ) {
 				continue;
 			}
 			if ( in_array( $field['type'], array( 'service', 'resource', 'appointment' ), true ) ) {
+				continue;
+			}
+			if ( in_array( $field['type'], array( 'file', 'signature' ), true ) ) {
+				$result = $this->file_value( $form, $field, $values[ $field['key'] ] ?? null, (string) ( $meta['ip'] ?? '' ) );
+				if ( is_wp_error( $result ) ) {
+					$errors[ $field['key'] ] = $result->get_error_message();
+				} elseif ( null !== $result ) {
+					$clean[ $field['key'] ] = $result['value'];
+					$attach                 = array_merge( $attach, $result['ids'] );
+				}
 				continue;
 			}
 
@@ -187,6 +211,7 @@ final class Submission {
 			if ( is_wp_error( $result ) ) {
 				return $result;
 			}
+			$this->store()->attach( $attach, (int) $result['entry_id'] );
 
 			return array(
 				'entry_id' => $result['entry_id'],
@@ -207,6 +232,8 @@ final class Submission {
 			}
 		}
 
+		$this->store()->attach( $attach, $entry_id );
+
 		/**
 		 * Fires after a standard form was submitted successfully.
 		 *
@@ -220,6 +247,65 @@ final class Submission {
 			'entry_id' => $entry_id,
 			'message'  => $message,
 			'redirect' => (string) ( $settings['redirectUrl'] ?? '' ),
+		);
+	}
+
+	/**
+	 * File storage.
+	 */
+	private function store(): FileStore {
+		$this->files ??= new FileStore();
+		return $this->files;
+	}
+
+	/**
+	 * Validate a file or signature field.
+	 *
+	 * @param array<string, mixed> $form  Form.
+	 * @param array<string, mixed> $field Field.
+	 * @param mixed                $raw   Raw value (tokens, data URL or "typed:Name").
+	 * @param string               $ip    Client IP.
+	 * @return array{value:mixed, ids:int[]}|WP_Error|null Null = empty.
+	 */
+	private function file_value( array $form, array $field, $raw, string $ip ) {
+		$required = ! empty( $field['required'] );
+
+		if ( 'file' === $field['type'] ) {
+			$rows = $this->store()->claimable( $raw, (int) $form['id'], (string) $field['key'], max( 1, min( 10, (int) ( $field['maxFiles'] ?? 1 ) ) ) );
+			if ( is_wp_error( $rows ) ) {
+				return $rows;
+			}
+			if ( ! $rows ) {
+				return $required ? new WP_Error( 'required', __( 'Please upload a file.', 'bookora' ) ) : null;
+			}
+			return array(
+				'value' => array_column( $rows, 'name' ),
+				'ids'   => array_map( 'intval', array_column( $rows, 'id' ) ),
+			);
+		}
+
+		$raw = is_string( $raw ) ? trim( $raw ) : '';
+		if ( '' === $raw ) {
+			return $required ? new WP_Error( 'required', __( 'Please sign.', 'bookora' ) ) : null;
+		}
+		if ( str_starts_with( $raw, 'typed:' ) ) {
+			$name = trim( sanitize_text_field( substr( $raw, 6 ) ) );
+			if ( mb_strlen( $name ) < 2 || mb_strlen( $name ) > 100 ) {
+				return new WP_Error( 'invalid', __( 'Please type your full name.', 'bookora' ) );
+			}
+			return array(
+				/* translators: %s: typed name. */
+				'value' => sprintf( __( '%s (typed signature)', 'bookora' ), $name ),
+				'ids'   => array(),
+			);
+		}
+		$stored = $this->store()->store_signature( (int) $form['id'], (string) $field['key'], $raw, $ip );
+		if ( is_wp_error( $stored ) ) {
+			return $stored;
+		}
+		return array(
+			'value' => __( 'Signed (image)', 'bookora' ),
+			'ids'   => array( (int) $stored['id'] ),
 		);
 	}
 
@@ -547,7 +633,7 @@ final class Submission {
 
 		$token = is_string( $input[ self::TOKEN_FIELD ] ?? null ) ? $input[ self::TOKEN_FIELD ] : '';
 		$parts = explode( '.', $token );
-		if ( 2 !== count( $parts ) || ! ctype_digit( $parts[0] ) || time() - (int) $parts[0] > self::MAX_AGE || ! hash_equals( self::sign_token( $form_id, $parts[0] ), $parts[1] ) ) {
+		if ( ! self::valid_render_token( $token, $form_id ) ) {
 			return new WP_Error( 'bookora_spam', __( 'The form has expired. Please reload the page and try again.', 'bookora' ), array( 'status' => 400 ) );
 		}
 

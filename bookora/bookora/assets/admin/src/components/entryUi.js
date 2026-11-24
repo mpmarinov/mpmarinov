@@ -92,3 +92,45 @@ export function refreshBadges() {
 		} )
 		.catch( () => {} );
 }
+
+/**
+ * Uploaded files and signatures of a form value (download links, signature as image).
+ *
+ * @param {Object} props       Props.
+ * @param {Object} props.value Entry value with optional files.
+ */
+export function FieldValue( { value } ) {
+	const files = value.files || [];
+	if ( ! files.length ) {
+		return value.value;
+	}
+	return (
+		<ul className="bookora-files">
+			{ files.map( ( f ) =>
+				f.kind === 'signature' ? (
+					<li key={ f.id }>
+						<img
+							className="bookora-files__signature"
+							src={ f.url }
+							alt={ __( 'Signature', 'bookora' ) }
+						/>
+					</li>
+				) : (
+					<li key={ f.id }>
+						<a href={ f.url } target="_blank" rel="noreferrer">
+							{ f.name }
+						</a>{ ' ' }
+						<span className="bookora-muted">
+							{ f.size >= 1048576
+								? `${ ( f.size / 1048576 ).toFixed( 1 ) } MB`
+								: `${ Math.max(
+										1,
+										Math.round( f.size / 1024 )
+								  ) } KB` }
+						</span>
+					</li>
+				)
+			) }
+		</ul>
+	);
+}

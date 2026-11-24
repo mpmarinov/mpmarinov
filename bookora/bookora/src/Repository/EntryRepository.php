@@ -254,7 +254,8 @@ final class EntryRepository {
 			}
 		}
 
-		$out = array();
+		$files = \Bookora\Forms\FileStore::for_entry( $entry_id );
+		$out   = array();
 		foreach ( $values as $v ) {
 			$meta  = $labels[ $v['field_key'] ] ?? array(
 				'label'   => $v['field_key'],
@@ -266,6 +267,7 @@ final class EntryRepository {
 				'label' => $meta['label'],
 				'type'  => $meta['type'],
 				'value' => self::display_value( (string) $v['value'], $meta ),
+				'files' => $files[ $v['field_key'] ] ?? array(),
 			);
 		}
 
@@ -319,6 +321,7 @@ final class EntryRepository {
 			return 0;
 		}
 		$in = implode( ',', $trashed );
+		\Bookora\Forms\FileStore::delete_for_entries( $trashed );
 		$wpdb->query( 'DELETE FROM ' . self::t( 'entry_values' ) . " WHERE entry_id IN ({$in})" );
 		$deleted = (int) $wpdb->query( 'DELETE FROM ' . self::t( 'entries' ) . " WHERE id IN ({$in})" );
 		return $deleted;

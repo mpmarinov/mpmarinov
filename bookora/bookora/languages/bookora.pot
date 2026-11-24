@@ -357,6 +357,38 @@ msgstr ""
 msgid "The calendar server answered with error %d. Bookora will try again automatically."
 msgstr ""
 
+msgid "The file could not be uploaded. Please try again."
+msgstr ""
+
+msgid "The file is empty."
+msgstr ""
+
+msgid "Please sign again."
+msgstr ""
+
+msgid "The file could not be saved. Please try again."
+msgstr ""
+
+msgid "An uploaded file has expired. Please upload it again."
+msgstr ""
+
+msgid "You are not allowed to open this file."
+msgstr ""
+
+msgid "The file no longer exists."
+msgstr ""
+
+msgid "This file type is not allowed. Allowed: %s"
+msgstr ""
+
+msgid "The file is too large. Maximum: %s"
+msgstr ""
+
+msgid "Please upload at most %d file."
+msgid_plural "Please upload at most %d files."
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Please check the highlighted fields."
 msgstr ""
 
@@ -370,6 +402,21 @@ msgid "An email address is required to book an appointment."
 msgstr ""
 
 msgid "Your message could not be saved. Please try again."
+msgstr ""
+
+msgid "Please upload a file."
+msgstr ""
+
+msgid "Please sign."
+msgstr ""
+
+msgid "Please type your full name."
+msgstr ""
+
+msgid "%s (typed signature)"
+msgstr ""
+
+msgid "Signed (image)"
 msgstr ""
 
 msgid "Please choose one of the available days."
@@ -504,7 +551,28 @@ msgstr ""
 msgid "Any available"
 msgstr ""
 
-msgid "This field type will be available in an upcoming version."
+msgid "%1$s · max. %2$s per file"
+msgstr ""
+
+msgid "up to %d files"
+msgstr ""
+
+msgid "Choose files or drop them here"
+msgstr ""
+
+msgid "Choose a file or drop it here"
+msgstr ""
+
+msgid "Sign with your mouse, finger or pen."
+msgstr ""
+
+msgid "Clear"
+msgstr ""
+
+msgid "Type my name instead"
+msgstr ""
+
+msgid "Your full name as signature"
 msgstr ""
 
 msgid "%d min"
@@ -949,6 +1017,12 @@ msgstr ""
 msgid "This form is not available."
 msgstr ""
 
+msgid "Invalid field."
+msgstr ""
+
+msgid "Too many uploads. Please try again later."
+msgstr ""
+
 msgid "The free version supports up to %d staff members or resources. Upgrade to Bookora Pro for unlimited resources."
 msgstr ""
 
@@ -1355,6 +1429,9 @@ msgid "Comma separated, e.g. jpg, png, pdf"
 msgstr ""
 
 msgid "Max. size (MB)"
+msgstr ""
+
+msgid "Your server allows only %d MB per file – this limit applies."
 msgstr ""
 
 msgid "Max. files"
@@ -2577,6 +2654,9 @@ msgstr ""
 msgid "Please enter your first and last name."
 msgstr ""
 
+msgid "Please wait until all files have been uploaded."
+msgstr ""
+
 msgid "Something went wrong. Please try again."
 msgstr ""
 
@@ -2605,4 +2685,16 @@ msgid "Selected: %1$s, %2$s"
 msgstr ""
 
 msgid "%1$s at %2$s"
+msgstr ""
+
+msgid "Please upload at most %d file(s)."
+msgstr ""
+
+msgid "Uploading %s"
+msgstr ""
+
+msgid "Remove %s"
+msgstr ""
+
+msgid "Sign by hand instead"
 msgstr ""

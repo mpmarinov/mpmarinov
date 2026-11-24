@@ -14,7 +14,11 @@ import {
 } from '@wordpress/components';
 
 import { config, errorMessage, get, post } from '../api';
-import { formatDateTime, refreshBadges } from '../components/entryUi';
+import {
+	FieldValue,
+	formatDateTime,
+	refreshBadges,
+} from '../components/entryUi';
 
 const TABS = [
 	{ id: '', label: __( 'All', 'bookora' ) },
@@ -71,7 +75,7 @@ function EntryDetail( { id, onClose, onAction } ) {
 											{ v.value }
 										</a>
 									) : (
-										v.value
+										<FieldValue value={ v } />
 									) }
 								</dd>
 							</div>

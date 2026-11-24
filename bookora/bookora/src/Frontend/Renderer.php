@@ -8,6 +8,7 @@
 namespace Bookora\Frontend;
 
 use Bookora\Booking\CancellationPolicy;
+use Bookora\Forms\FileStore;
 use Bookora\Forms\Submission;
 use Bookora\Repository\FormRepository;
 use Bookora\Repository\ResourceRepository;
@@ -346,7 +347,7 @@ final class Renderer {
 			}
 			$public_fields[] = array_intersect_key(
 				$field,
-				array_flip( array( 'key', 'type', 'required', 'logic', 'workingDaysOnly', 'withTime', 'minDate', 'maxDate', 'allowAny', 'serviceIds', 'label' ) )
+				array_flip( array( 'key', 'type', 'required', 'logic', 'workingDaysOnly', 'withTime', 'minDate', 'maxDate', 'allowAny', 'serviceIds', 'label', 'maxFiles' ) )
 			);
 		}
 
@@ -491,6 +492,8 @@ final class Renderer {
 
 		if ( $group ) {
 			echo '<fieldset class="bookora__group" aria-describedby="' . esc_attr( trim( ( $help ? $id . '-help ' : '' ) . $id . '-error' ) ) . '"><legend class="bookora__label">' . esc_html( $label ) . ( $req ? '<span class="bookora__req" aria-hidden="true">*</span>' : '' ) . '</legend>';
+		} elseif ( 'signature' === $type ) {
+			echo '<p class="bookora__label" id="' . esc_attr( $id . '-label' ) . '">' . esc_html( $label ) . ( $req ? '<span class="bookora__req" aria-hidden="true">*</span>' : '' ) . '</p>';
 		} elseif ( '' !== $label && ! in_array( $type, array( 'heading', 'paragraph', 'divider', 'consent', 'hidden' ), true ) ) {
 			echo '<label class="bookora__label" for="' . esc_attr( $id ) . '">' . esc_html( $label ) . ( $req ? '<span class="bookora__req" aria-hidden="true">*</span>' : '' ) . '</label>';
 		}
@@ -649,8 +652,44 @@ final class Renderer {
 				break;
 
 			case 'file':
+				$exts  = array_values( array_diff( FileStore::extensions( $field ), array( 'jpeg' ) ) );
+				$max_f = max( 1, min( 10, (int) ( $field['maxFiles'] ?? 1 ) ) );
+				$bytes = FileStore::max_bytes( $field );
+				$hint  = sprintf(
+					/* translators: 1: file types, 2: size. */
+					__( '%1$s · max. %2$s per file', 'bookora' ),
+					strtoupper( implode( ', ', $exts ) ),
+					size_format( $bytes )
+				);
+				if ( $max_f > 1 ) {
+					/* translators: %d: number of files. */
+					$hint .= ' · ' . sprintf( __( 'up to %d files', 'bookora' ), $max_f );
+				}
+				printf(
+					'<div class="bookora-upload" data-max-files="%1$d" data-max-bytes="%2$d" data-extensions="%3$s"><label class="bookora-upload__drop"><input type="file" id="%4$s" class="bookora-upload__input" accept="%5$s"%6$s%7$s%8$s><span class="bookora-upload__cta">%9$s</span><span class="bookora-upload__hint" id="%4$s-types">%10$s</span></label><ul class="bookora-upload__list" aria-live="polite"></ul></div>',
+					(int) $max_f,
+					(int) $bytes,
+					esc_attr( implode( ',', FileStore::extensions( $field ) ) ),
+					esc_attr( $id ),
+					esc_attr( '.' . implode( ',.', FileStore::extensions( $field ) ) ),
+					$max_f > 1 ? ' multiple' : '',
+					$req ? ' aria-required="true"' : '',
+					' aria-describedby="' . esc_attr( trim( ( $help ? $id . '-help ' : '' ) . $id . '-types ' . $id . '-error' ) ) . '"',
+					esc_html( $max_f > 1 ? __( 'Choose files or drop them here', 'bookora' ) : __( 'Choose a file or drop it here', 'bookora' ) ),
+					esc_html( $hint )
+				);
+				break;
+
 			case 'signature':
-				echo '<p class="bookora__static bookora__muted">' . esc_html__( 'This field type will be available in an upcoming version.', 'bookora' ) . '</p>';
+				printf(
+					'<div class="bookora-sign"><canvas class="bookora-sign__pad" id="%1$s" role="img" aria-labelledby="%1$s-label" aria-describedby="%1$s-how %1$s-error"></canvas><p class="bookora-sign__how" id="%1$s-how">%2$s</p><div class="bookora-sign__tools"><button type="button" class="bookora-sign__btn" data-sign="clear">%3$s</button><button type="button" class="bookora-sign__btn" data-sign="type" aria-expanded="false" aria-controls="%1$s-typed-box">%4$s</button></div><div class="bookora-sign__typed" id="%1$s-typed-box" hidden><label for="%1$s-typed">%5$s</label><input type="text" id="%1$s-typed" autocomplete="name" maxlength="100"></div><input type="hidden" class="bookora-sign__value" name="%6$s"></div>',
+					esc_attr( $id ),
+					esc_html__( 'Sign with your mouse, finger or pen.', 'bookora' ),
+					esc_html__( 'Clear', 'bookora' ),
+					esc_html__( 'Type my name instead', 'bookora' ),
+					esc_html__( 'Your full name as signature', 'bookora' ),
+					esc_attr( $name )
+				);
 				break;
 
 			case 'hidden':

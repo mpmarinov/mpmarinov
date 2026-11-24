@@ -1068,6 +1068,127 @@ api( 'DELETE', '/services/' . $rsvc['id'] );
 api( 'DELETE', '/services/' . $rsvc2['id'] );
 api( 'POST', '/settings', array( 'reminder_hours' => array( 24 ) ) );
 
+echo "File upload & signature\n";
+$fs    = $cont->get( \Bookora\Forms\FileStore::class );
+$ftab  = \Bookora\Install\Schema::table( $wpdb->prefix, 'files' );
+$fform = api( 'POST', '/forms', array( 'title' => 'Upload', 'type' => 'standard', 'status' => 'published', 'fields' => array(
+	array( 'type' => 'email', 'key' => 'email', 'label' => 'E-Mail', 'required' => true ),
+	array( 'type' => 'file', 'key' => 'befund', 'label' => 'Befund', 'required' => true, 'extensions' => array( 'pdf', 'png', 'svg', 'php' ), 'maxSize' => 1, 'maxFiles' => 2 ),
+	array( 'type' => 'signature', 'key' => 'unterschrift', 'label' => 'Unterschrift', 'required' => true ),
+) ) )->get_data();
+$ff    = $frep->find( (int) $fform['id'] );
+check( array( 'pdf', 'png' ) === array_values( $ff['fields'][1]['extensions'] ), 'dangerous types (svg, php) are removed from the field settings', $ff['fields'][1]['extensions'] );
+$tmpdir = get_temp_dir() . 'bookora-test-' . wp_generate_password( 6, false );
+wp_mkdir_p( $tmpdir );
+$mkpng = static function ( int $w = 300, int $h = 120 ) {
+	$im = imagecreatetruecolor( $w, $h );
+	imagefill( $im, 0, 0, imagecolorallocate( $im, 255, 255, 255 ) );
+	imageline( $im, 10, 60, $w - 10, 70, imagecolorallocate( $im, 0, 0, 0 ) );
+	ob_start();
+	imagepng( $im );
+	return (string) ob_get_clean();
+};
+$tf = static function ( string $name, string $content ) use ( $tmpdir ) {
+	$path = $tmpdir . '/' . md5( $name . microtime() );
+	file_put_contents( $path, $content );
+	return array( 'name' => $name, 'type' => 'application/octet-stream', 'tmp_name' => $path, 'error' => 0, 'size' => strlen( $content ) );
+};
+add_filter( 'bookora_allow_local_upload', '__return_true' );
+$up = static function ( array $file, string $field = 'befund', $token = null ) use ( $ff, $old_token ) {
+	$r = new WP_REST_Request( 'POST', '/bookora/v1/public/forms/' . $ff['id'] . '/upload' );
+	$r->set_body_params( array( 'field' => $field, '_bk_t' => $token ?? $old_token( 10, (int) $ff['id'] ) ) );
+	$r->set_file_params( array( 'file' => $file ) );
+	return rest_ensure_response( rest_do_request( $r ) );
+};
+wp_set_current_user( 0 );
+$ok1 = $up( $tf( 'Röntgen Bild.png', $mkpng() ) );
+$tok = (string) ( $ok1->get_data()['token'] ?? '' );
+$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$ftab} WHERE token = %s", $tok ), ARRAY_A );
+$abs = \Bookora\Forms\FileStore::base_dir() . '/' . ( $row['path'] ?? 'x' );
+check( 201 === $ok1->get_status() && preg_match( '/^[a-f0-9]{32}$/', $tok ) && ! isset( $ok1->get_data()['id'] ), 'image upload returns only an unguessable token', $ok1->get_data() );
+check( $row && null === $row['entry_id'] && 'image/png' === $row['mime'] && is_file( $abs ) && ! str_contains( basename( $abs ), '.' ), 'stored privately under a random name without extension', $row );
+check( is_file( \Bookora\Forms\FileStore::base_dir() . '/.htaccess' ) && is_file( \Bookora\Forms\FileStore::base_dir() . '/index.php' ) && is_file( \Bookora\Forms\FileStore::base_dir() . '/web.config' ), 'private folder is locked (.htaccess, web.config, index.php)' );
+check( in_array( $row['name'], array( 'Rontgen-Bild.png', 'Roentgen-Bild.png', 'Röntgen-Bild.png' ), true ), 'file name is sanitized', $row['name'] );
+$bad = array(
+	'PHP code disguised as image'   => $tf( 'shell.png', "<?php system(\$_GET['c']); ?>" ),
+	'HTML disguised as PDF'         => $tf( 'doc.pdf', '<html><script>alert(1)</script></html>' ),
+	'PHP file'                      => $tf( 'shell.php', '<?php echo 1;' ),
+	'SVG (can contain scripts)'     => $tf( 'logo.svg', '<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>' ),
+	'double extension'              => $tf( 'bild.php.png', "<?php echo 1;" ),
+	'type not allowed in the field' => $tf( 'tabelle.csv', "a;b\n1;2" ),
+);
+foreach ( $bad as $label => $file ) {
+	$res = $up( $file );
+	check( 400 === $res->get_status(), 'rejected: ' . $label, array( $res->get_status(), $res->get_data() ) );
+}
+$big = $up( $tf( 'gross.pdf', '%PDF-1.4' . str_repeat( 'x', 1100 * 1024 ) ) );
+check( 413 === $big->get_status(), 'file larger than the field limit is rejected', $big->get_status() );
+check( 400 === $up( $tf( 'a.png', $mkpng() ), 'befund', 'x.y' )->get_status(), 'upload without valid form token is rejected' );
+check( 400 === $up( $tf( 'a.png', $mkpng() ), 'email' )->get_status(), 'upload into a non-file field is rejected' );
+add_filter( 'bookora_upload_limit', '__return_zero' );
+$_SERVER['REMOTE_ADDR'] = '203.0.113.99';
+check( 429 === $up( $tf( 'a.png', $mkpng() ) )->get_status(), 'uploads per IP are limited' );
+remove_filter( 'bookora_upload_limit', '__return_zero' );
+unset( $_SERVER['REMOTE_ADDR'] );
+$pdf  = $up( $tf( 'Befund.pdf', "%PDF-1.4\n1 0 obj<<>>endobj\ntrailer<<>>\n%%EOF" ) );
+$tok2 = (string) ( $pdf->get_data()['token'] ?? '' );
+check( 201 === $pdf->get_status(), 'PDF upload works', $pdf->get_data() );
+
+$sig    = 'data:image/png;base64,' . base64_encode( $mkpng( 400, 150 ) );
+$fsub   = static fn( array $f, string $ip ) => $sub->handle( $ff, array( '_bk_t' => $old_token( 10, (int) $ff['id'] ), 'fields' => $f ), array( 'ip' => $ip ) );
+$noreq  = $fsub( array( 'email' => 'upload@example.com' ), '198.51.100.40' );
+check( is_wp_error( $noreq ) && isset( $noreq->get_error_data()['fields']['befund'], $noreq->get_error_data()['fields']['unterschrift'] ), 'required file and signature are enforced', is_wp_error( $noreq ) ? $noreq->get_error_data() : $noreq );
+$three = $fsub( array( 'email' => 'upload@example.com', 'befund' => array( $tok, $tok2, str_repeat( 'a', 32 ) ), 'unterschrift' => $sig ), '198.51.100.41' );
+check( is_wp_error( $three ) && isset( $three->get_error_data()['fields']['befund'] ), 'more files than allowed are rejected' );
+$badsig = $fsub( array( 'email' => 'upload@example.com', 'befund' => array( $tok ), 'unterschrift' => 'data:image/png;base64,' . base64_encode( '<?php echo 1;' ) ), '198.51.100.42' );
+check( is_wp_error( $badsig ) && isset( $badsig->get_error_data()['fields']['unterschrift'] ), 'a fake signature image is rejected' );
+$good = $fsub( array( 'email' => 'upload@example.com', 'befund' => array( $tok, $tok2 ), 'unterschrift' => $sig ), '198.51.100.43' );
+$eid  = (int) ( $good['entry_id'] ?? 0 );
+check( $eid > 0 && 3 === (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$ftab} WHERE entry_id = %d", $eid ) ), 'submission attaches both files and the signature to the entry', $good );
+$again = $fsub( array( 'email' => 'upload@example.com', 'befund' => array( $tok ), 'unterschrift' => 'typed:Max Muster' ), '198.51.100.44' );
+check( is_wp_error( $again ) && isset( $again->get_error_data()['fields']['befund'] ), 'an upload token can only be used once' );
+$typed_tok = (string) ( $up( $tf( 'b.png', $mkpng() ) )->get_data()['token'] ?? '' );
+$typed = $fsub( array( 'email' => 'typed@example.com', 'befund' => array( $typed_tok ), 'unterschrift' => 'typed:Max Muster' ), '198.51.100.45' );
+wp_set_current_user( 1 );
+$tent = $ent->entry( (int) ( $typed['entry_id'] ?? 0 ) );
+$tval = array_column( (array) ( $tent['values'] ?? array() ), 'value', 'key' );
+check( str_contains( (string) ( $tval['unterschrift'] ?? '' ), 'Max Muster' ), 'typed signature (keyboard alternative) is stored as text', $tval );
+$gent = $ent->entry( $eid );
+$gby  = array_column( $gent['values'], null, 'key' );
+check( 2 === count( $gby['befund']['files'] ) && str_contains( $gby['befund']['value'], 'Befund.pdf' ) && 'signature' === $gby['unterschrift']['files'][0]['kind'], 'entry shows file names, download links and the signature', $gby['befund'] );
+check( str_contains( $gby['befund']['files'][0]['url'], 'admin-post.php?action=bookora_file' ) && str_contains( $gby['befund']['files'][0]['url'], '_wpnonce=' ), 'download links go through a protected admin URL' );
+$other = api( 'POST', '/forms', array( 'title' => 'Andere', 'type' => 'standard', 'status' => 'published', 'fields' => array( array( 'type' => 'file', 'key' => 'befund', 'label' => 'X' ) ) ) )->get_data();
+$foreign = $sub->handle( $frep->find( (int) $other['id'] ), array( '_bk_t' => $old_token( 10, (int) $other['id'] ), 'fields' => array( 'befund' => array( $typed_tok ) ) ), array( 'ip' => '198.51.100.46' ) );
+check( is_wp_error( $foreign ), 'a token of another form cannot be used' );
+
+if ( 0 !== $http( $live . 'wp-login.php' )[0] ) {
+	[ $dcode, $dbody ] = $http( html_entity_decode( $gby['befund']['files'][0]['url'] ) );
+	check( ! str_contains( $dbody, '%PDF' ) && ! str_contains( $dbody, 'PNG' ), 'download without login is refused', $dcode );
+	$curl = 'curl -s -o /dev/null -w "%{http_code}" -F field=befund -F ' . escapeshellarg( '_bk_t=' . $old_token( 10, (int) $ff['id'] ) ) . ' -F ' . escapeshellarg( 'file=@' . $tf( 'x', $mkpng() )['tmp_name'] . ';filename=echt.png' ) . ' ' . escapeshellarg( $live . '?rest_route=/bookora/v1/public/forms/' . $ff['id'] . '/upload' );
+	check( '201' === trim( (string) shell_exec( $curl ) ), 'real multipart upload over HTTP works' );
+	$curl_tok = json_decode( (string) shell_exec( str_replace( '-o /dev/null -w "%{http_code}" ', '', $curl ) ), true );
+	$payload  = wp_json_encode( array( '_bk_t' => $old_token( 10, (int) $ff['id'] ), 'fields' => array( 'email' => 'http-upload@example.com', 'befund' => array( (string) ( $curl_tok['token'] ?? '' ) ), 'unterschrift' => $sig ) ) );
+	$ctx      = stream_context_create( array( 'http' => array( 'method' => 'POST', 'ignore_errors' => true, 'header' => "Content-Type: application/json\r\nX-Forwarded-For: 192.0.2.77", 'content' => $payload, 'timeout' => 20 ) ) );
+	$resp     = (string) @file_get_contents( $live . '?rest_route=/bookora/v1/public/forms/' . $ff['id'] . '/submit', false, $ctx ); // phpcs:ignore
+	check( str_contains( $resp, '"success":true' ) && 2 === (int) $wpdb->get_var( 'SELECT COUNT(*) FROM ' . $ftab . " f JOIN {$wpdb->prefix}bookora_entries e ON e.id = f.entry_id JOIN {$wpdb->prefix}bookora_customers c ON c.id = e.customer_id WHERE c.email = 'http-upload@example.com'" ), 'complete submission with file and drawn signature works over HTTP (front-end context)', substr( $resp, 0, 300 ) );
+}
+
+$orph = (string) ( $up( $tf( 'c.png', $mkpng() ) )->get_data()['token'] ?? '' );
+$orow = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$ftab} WHERE token = %s", $orph ), ARRAY_A );
+$wpdb->update( $ftab, array( 'created_at' => gmdate( 'Y-m-d H:i:s', time() - 25 * HOUR_IN_SECONDS ) ), array( 'token' => $orph ) );
+$maint = ( new \Bookora\Core\Maintenance() )->run();
+check( $maint['files'] >= 1 && ! $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$ftab} WHERE token = %s", $orph ) ) && ! is_file( \Bookora\Forms\FileStore::base_dir() . '/' . $orow['path'] ), 'uploads that were never submitted are deleted after 24 h' );
+$gpath = \Bookora\Forms\FileStore::base_dir() . '/' . $wpdb->get_var( $wpdb->prepare( "SELECT path FROM {$ftab} WHERE entry_id = %d LIMIT 1", $eid ) );
+$ent->set_entry_status( array( $eid ), 'trash' );
+$ent->delete_entries( array( $eid ) );
+check( 0 === (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$ftab} WHERE entry_id = %d", $eid ) ) && ! is_file( $gpath ), 'deleting an entry deletes its files' );
+$tpath = \Bookora\Forms\FileStore::base_dir() . '/' . $wpdb->get_var( $wpdb->prepare( "SELECT path FROM {$ftab} WHERE entry_id = %d LIMIT 1", (int) $typed['entry_id'] ) );
+$cont->get( \Bookora\Privacy\Privacy::class )->erase( 'typed@example.com' );
+check( ! is_file( $tpath ) && 0 === (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$ftab} WHERE entry_id = %d", (int) $typed['entry_id'] ) ), 'GDPR erasure deletes uploaded files' );
+remove_filter( 'bookora_allow_local_upload', '__return_true' );
+array_map( 'wp_delete_file', glob( $tmpdir . '/*' ) ?: array() );
+@rmdir( $tmpdir );
+
 echo "Cleanup\n";
 check( 200 === api( 'DELETE', '/services/' . $service['id'] )->get_status(), 'service deleted' );
 check( 404 === api( 'GET', '/services/' . $service['id'] )->get_status(), 'deleted service is gone' );

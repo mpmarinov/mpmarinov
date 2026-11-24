@@ -180,6 +180,9 @@ final class Privacy {
 			);
 		}
 
+		// Uploaded files and signatures of this customer.
+		\Bookora\Forms\FileStore::delete_for_entries( array_map( 'intval', (array) $wpdb->get_col( $wpdb->prepare( "SELECT id FROM {$entries} WHERE customer_id = %d", $customer_id ) ) ) );
+
 		// Portable SQL (MySQL and SQLite): no multi-table DELETE.
 		$wpdb->query( $wpdb->prepare( "DELETE FROM {$values} WHERE entry_id IN ( SELECT id FROM {$entries} WHERE customer_id = %d )", $customer_id ) );
 		$wpdb->query( $wpdb->prepare( 'UPDATE ' . Schema::table( $wpdb->prefix, 'notification_log' ) . ' SET recipient = %s WHERE recipient = %s', 'deleted-' . $customer_id . '@invalid.invalid', $email ) );

@@ -13,6 +13,7 @@ import {
 } from '@wordpress/components';
 
 import { FIELD_TYPES, INPUT_TYPES } from './fieldTypes';
+import { config } from '../api';
 
 const OPERATORS = [
 	{ value: 'is', label: __( 'is', 'bookora' ) },
@@ -706,6 +707,19 @@ export default function Inspector( { field, fields, services, onChange } ) {
 									min={ 1 }
 									max={ 50 }
 									label={ __( 'Max. size (MB)', 'bookora' ) }
+									help={
+										( field.maxSize || 5 ) >
+										( config.maxUploadMb || 50 )
+											? sprintf(
+													/* translators: %d: megabytes. */
+													__(
+														'Your server allows only %d MB per file – this limit applies.',
+														'bookora'
+													),
+													config.maxUploadMb
+											  )
+											: undefined
+									}
 									value={ field.maxSize || 5 }
 									onChange={ num( 'maxSize' ) }
 								/>

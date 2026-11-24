@@ -284,7 +284,7 @@ final class FieldRegistry {
 					'withTime'        => ! empty( $raw['withTime'] ),
 				);
 			case 'file':
-				$allowed = array( 'jpg', 'jpeg', 'png', 'gif', 'webp', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'csv', 'zip' );
+				$allowed = array_keys( FileStore::SAFE_TYPES );
 				$ext     = array_values( array_intersect( array_map( 'strtolower', (array) ( $raw['extensions'] ?? array( 'jpg', 'png', 'pdf' ) ) ), $allowed ) );
 				return array(
 					'extensions' => $ext ? $ext : array( 'jpg', 'png', 'pdf' ),

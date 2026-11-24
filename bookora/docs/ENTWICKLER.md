@@ -166,6 +166,7 @@ bookora.setValue( 'quelle', new URLSearchParams( location.search ).get( 'quelle'
 | `bookora_field_types` | `array $types` → `array` | Eigene Feldtypen registrieren |
 | `bookora_email_events` | `array $events` → `array` | E-Mail-Ereignisse ergänzen |
 | `bookora_email_html` | `string $html, string $subject, string $body` → `string` | Komplettes E-Mail-HTML |
+| `bookora_upload_limit` | `int` | Uploads pro IP (bzw. IPv6 /64) und Stunde (Standard 30) |
 | `bookora_cancellation_policy` | `array $rule, ?array $service` → `array` | Stornoregel einer Leistung ändern (Frist `hours`, `fee`, `fee_type`, `fee_value`, `no_show`, `late_online`, `self_cancel`, `self_reschedule`) |
 | `bookora_send_reschedule_email` | `bool $send, int $booking_id` → `bool` | E-Mail beim Verschieben unterdrücken |
 | `bookora_feed_event` | `?array $event, array $booking, string $scope` → `?array` | Termin im Kalender-Abo ändern (`null` = weglassen) |
@@ -219,6 +220,7 @@ Admin-Routen brauchen ein eingeloggtes Konto mit dem passenden Bookora-Recht (No
 | `GET /public/services`, `GET /public/opening` | Leistungen, Öffnungstage (öffentlich) |
 | `GET /availability?service&from&to` | Freie Zeiten (öffentlich) |
 | `POST /public/forms/{id}/submit` | Formular absenden (öffentlich, mit Spam-Schutz) |
+| `POST /public/forms/{id}/upload` (multipart: `file`, `field`, `_bk_t`) | Datei für ein Upload-Feld hochladen → `{token, name, size}`; das Token wird beim Absenden als Wert des Feldes geschickt |
 | `GET /bookings`, `POST /bookings/{id}/status`, `POST /bookings/{id}/move` | Buchungen verwalten (`view=fees` = offene Gebühren) |
 | `POST /bookings/{id}/fee {status: open|paid|waived, amount?}` | Ausfallgebühr erfassen oder als bezahlt/erlassen markieren |
 | `GET /timeline?view=day|week&date` | Zeitstrahl |
@@ -234,4 +236,10 @@ Admin-Routen brauchen ein eingeloggtes Konto mit dem passenden Bookora-Recht (No
 - Verschieben geht nur auf reguläre freie Zeiten desselben Mitarbeiters (Öffnungszeiten, Vorlauf, Pausen, private Kalender gelten).
 - Die Stornoregel wird bei der Buchung als Kopie gespeichert (`bookings.policy`, JSON: Frist, Gebühr, Text, Zeitpunkt der Zustimmung). Spätere Änderungen an Einstellungen oder Preis ändern bestehende Buchungen nicht. Eine Gebühr gilt nur, wenn der Kunde zugestimmt hat.
 - Platzhalter: `{cancellation_policy}`, `{cancellation_deadline}`, `{cancellation_fee}`, `{cancellation_fee_note}`, `{cancel_reason}`, `{fee_info}`, `{time_until}`, `{business_phone}`.
+
+## 7. Dateien und Unterschriften
+
+- Dateien liegen in `wp-content/uploads/bookora-private/` unter zufälligen Namen ohne Endung und sind nur über `admin-post.php?action=bookora_file` (angemeldet, Nonce) abrufbar. PHP: `\Bookora\Forms\FileStore::for_entry( $entry_id )` liefert Name, Größe, Typ und Download-Link je Feld.
+- Erlaubte Typen: `FileStore::SAFE_TYPES` (Bilder, PDF, Office, Text, ZIP). SVG, HTML und Skripte sind nie möglich.
+- Unterschrift: Wert ist entweder ein PNG (`data:image/png;base64,…`, max. 300 KB) oder `typed:Vorname Nachname` (Tastatur-Alternative).
 

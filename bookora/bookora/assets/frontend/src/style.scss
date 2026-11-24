@@ -777,3 +777,172 @@
 		@include bookora-dark;
 	}
 }
+
+/* File upload */
+.bookora-upload__drop {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+	padding: 18px;
+	border: 2px dashed var(--bookora-border);
+	border-radius: var(--bookora-radius);
+	background: var(--bookora-bg);
+	text-align: center;
+	cursor: pointer;
+
+	&:hover,
+	&.is-over {
+		border-color: var(--bookora-primary);
+		background: var(--bookora-soft);
+	}
+
+	&:focus-within {
+		outline: 3px solid var(--bookora-primary);
+		outline-offset: 2px;
+	}
+}
+
+.bookora-upload__input {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	cursor: pointer;
+}
+
+.bookora-upload__cta {
+	font-weight: 600;
+	color: var(--bookora-primary);
+}
+
+.bookora-upload__hint {
+	font-size: 0.875em;
+	color: var(--bookora-muted);
+}
+
+.bookora-upload__list {
+	list-style: none;
+	margin: 8px 0 0;
+	padding: 0;
+	display: grid;
+	gap: 6px;
+
+	&:empty {
+		display: none;
+	}
+}
+
+.bookora-upload__item {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 8px 10px;
+	border: 1px solid var(--bookora-border);
+	border-radius: var(--bookora-radius);
+	background: var(--bookora-bg);
+
+	&.is-done::before {
+		content: "✓";
+		color: #15803d;
+		font-weight: 700;
+	}
+
+	progress {
+		flex: 0 0 90px;
+		height: 6px;
+		accent-color: var(--bookora-primary);
+	}
+}
+
+.bookora-upload__name {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.bookora-upload__meta {
+	font-size: 0.875em;
+	color: var(--bookora-muted);
+}
+
+.bookora-upload__remove {
+	border: 0;
+	background: none;
+	color: var(--bookora-muted);
+	font-size: 1.4em;
+	line-height: 1;
+	min-width: 32px;
+	min-height: 32px;
+	cursor: pointer;
+
+	&:hover,
+	&:focus-visible {
+		color: var(--bookora-error);
+	}
+}
+
+/* Signature: always on white "paper", also in dark mode */
+.bookora-sign__pad {
+	display: block;
+	width: 100%;
+	height: 180px;
+	border: 1px solid var(--bookora-border);
+	border-radius: var(--bookora-radius);
+	background: #fff linear-gradient(to top, transparent 44px, #d1d5db 44px, #d1d5db 45px, transparent 45px);
+	touch-action: none;
+	cursor: crosshair;
+}
+
+.bookora-sign__how {
+	margin: 6px 0 0;
+	font-size: 0.875em;
+	color: var(--bookora-muted);
+}
+
+.bookora-sign__tools {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 8px;
+}
+
+.bookora-sign__btn {
+	padding: 6px 12px;
+	border: 1px solid var(--bookora-border);
+	border-radius: var(--bookora-radius);
+	background: var(--bookora-bg);
+	color: inherit;
+	font: inherit;
+	font-size: 0.875em;
+	cursor: pointer;
+
+	&:focus-visible {
+		outline: 3px solid var(--bookora-primary);
+		outline-offset: 2px;
+	}
+}
+
+.bookora-sign__typed {
+	margin-top: 8px;
+
+	label {
+		display: block;
+		margin-bottom: 4px;
+		font-size: 0.875em;
+	}
+
+	input {
+		width: 100%;
+		min-height: var(--bookora-input-height);
+		padding: 0 12px;
+		border: 1px solid var(--bookora-border);
+		border-radius: var(--bookora-radius);
+		font-family: "Segoe Script", "Bradley Hand", "Brush Script MT", cursive;
+		font-size: 1.3em;
+	}
+}

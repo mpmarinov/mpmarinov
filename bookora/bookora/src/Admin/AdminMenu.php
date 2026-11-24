@@ -185,6 +185,7 @@ final class AdminMenu {
 				),
 				'isPro'         => (bool) apply_filters( 'bookora_is_pro', false ),
 				'weekStart'     => (int) $this->settings->get( 'week_start', 1 ),
+				'maxUploadMb'   => max( 1, (int) floor( wp_max_upload_size() / MB_IN_BYTES ) ),
 				'timeFormat'    => (string) $this->settings->get( 'time_format', '24h' ),
 				'siteTimezone'  => wp_timezone_string(),
 				'currency'      => (string) apply_filters( 'bookora_currency', 'EUR' ),

@@ -38,6 +38,8 @@ email_templates (pro Ereignis, optional pro Formular und Sprache)
 | `external_events` | Belegte Zeiten aus externen Kalendern (ohne Titel) | `connection_id`, `external_id`, `start_utc`, `end_utc`, `all_day` |
 | `booking_sync` | Zuordnung Buchung ↔ externer Termin | `booking_id`, `connection_id`, `external_id`, `etag` |
 
+| `files` | Hochgeladene Dateien und Unterschriften | `token` (Einmal-Token für das Formular), `form_id`, `entry_id` (NULL bis zum Absenden), `field_key`, `kind` (upload/signature), `name`, `mime`, `size`, `path` (relativ, ohne Endung), `ip_hash` |
+
 ## Status einer Buchung
 
 `pending` → `confirmed` → `completed`

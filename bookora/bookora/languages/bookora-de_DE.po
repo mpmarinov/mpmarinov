@@ -359,6 +359,38 @@ msgstr "Unter dieser Adresse gibt es den Kalender nicht mehr. Wurde die Adresse 
 msgid "The calendar server answered with error %d. Bookora will try again automatically."
 msgstr "Der Kalender-Server hat mit Fehler %d geantwortet. Bookora versucht es automatisch erneut."
 
+msgid "The file could not be uploaded. Please try again."
+msgstr "Die Datei konnte nicht hochgeladen werden. Bitte versuchen Sie es erneut."
+
+msgid "The file is empty."
+msgstr "Die Datei ist leer."
+
+msgid "Please sign again."
+msgstr "Bitte unterschreiben Sie erneut."
+
+msgid "The file could not be saved. Please try again."
+msgstr "Die Datei konnte nicht gespeichert werden. Bitte versuchen Sie es erneut."
+
+msgid "An uploaded file has expired. Please upload it again."
+msgstr "Eine hochgeladene Datei ist abgelaufen. Bitte laden Sie sie erneut hoch."
+
+msgid "You are not allowed to open this file."
+msgstr "Sie dürfen diese Datei nicht öffnen."
+
+msgid "The file no longer exists."
+msgstr "Die Datei existiert nicht mehr."
+
+msgid "This file type is not allowed. Allowed: %s"
+msgstr "Dieser Dateityp ist nicht erlaubt. Erlaubt: %s"
+
+msgid "The file is too large. Maximum: %s"
+msgstr "Die Datei ist zu groß. Maximal: %s"
+
+msgid "Please upload at most %d file."
+msgid_plural "Please upload at most %d files."
+msgstr[0] "Bitte laden Sie höchstens %d Datei hoch."
+msgstr[1] "Bitte laden Sie höchstens %d Dateien hoch."
+
 msgid "Please check the highlighted fields."
 msgstr "Bitte prüfen Sie die markierten Felder."
 
@@ -373,6 +405,21 @@ msgstr "Für eine Buchung wird eine E-Mail-Adresse benötigt."
 
 msgid "Your message could not be saved. Please try again."
 msgstr "Ihre Nachricht konnte nicht gespeichert werden. Bitte versuchen Sie es erneut."
+
+msgid "Please upload a file."
+msgstr "Bitte laden Sie eine Datei hoch."
+
+msgid "Please sign."
+msgstr "Bitte unterschreiben Sie."
+
+msgid "Please type your full name."
+msgstr "Bitte geben Sie Ihren vollständigen Namen ein."
+
+msgid "%s (typed signature)"
+msgstr "%s (eingetippte Unterschrift)"
+
+msgid "Signed (image)"
+msgstr "Unterschrieben (Bild)"
 
 msgid "Please choose one of the available days."
 msgstr "Bitte wählen Sie einen der verfügbaren Tage."
@@ -506,8 +553,29 @@ msgstr "Bitte Datum wählen"
 msgid "Any available"
 msgstr "Beliebig (erster freier)"
 
-msgid "This field type will be available in an upcoming version."
-msgstr "Dieser Feldtyp ist in einer kommenden Version verfügbar."
+msgid "%1$s · max. %2$s per file"
+msgstr "%1$s · max. %2$s pro Datei"
+
+msgid "up to %d files"
+msgstr "bis zu %d Dateien"
+
+msgid "Choose files or drop them here"
+msgstr "Dateien auswählen oder hierher ziehen"
+
+msgid "Choose a file or drop it here"
+msgstr "Datei auswählen oder hierher ziehen"
+
+msgid "Sign with your mouse, finger or pen."
+msgstr "Unterschreiben Sie mit Maus, Finger oder Stift."
+
+msgid "Clear"
+msgstr "Löschen"
+
+msgid "Type my name instead"
+msgstr "Stattdessen Namen eintippen"
+
+msgid "Your full name as signature"
+msgstr "Ihr vollständiger Name als Unterschrift"
 
 msgid "%d min"
 msgstr "%d Min."
@@ -951,6 +1019,12 @@ msgstr "Ungültige Formularfelder."
 msgid "This form is not available."
 msgstr "Dieses Formular ist nicht verfügbar."
 
+msgid "Invalid field."
+msgstr "Ungültiges Feld."
+
+msgid "Too many uploads. Please try again later."
+msgstr "Zu viele Uploads. Bitte versuchen Sie es später erneut."
+
 msgid "The free version supports up to %d staff members or resources. Upgrade to Bookora Pro for unlimited resources."
 msgstr "Die kostenlose Version unterstützt bis zu %d Mitarbeiter oder Ressourcen. Mit Bookora Pro sind es unbegrenzt viele."
 
@@ -1358,6 +1432,9 @@ msgstr "Kommagetrennt, z. B. jpg, png, pdf"
 
 msgid "Max. size (MB)"
 msgstr "Max. Größe (MB)"
+
+msgid "Your server allows only %d MB per file – this limit applies."
+msgstr "Ihr Server erlaubt nur %d MB pro Datei – diese Grenze gilt."
 
 msgid "Max. files"
 msgstr "Max. Dateien"
@@ -2579,6 +2656,9 @@ msgstr "Die Verfügbarkeit konnte nicht geladen werden. Bitte versuchen Sie es e
 msgid "Please enter your first and last name."
 msgstr "Bitte geben Sie Vor- und Nachnamen ein."
 
+msgid "Please wait until all files have been uploaded."
+msgstr "Bitte warten Sie, bis alle Dateien hochgeladen sind."
+
 msgid "Something went wrong. Please try again."
 msgstr "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
 
@@ -2608,3 +2688,15 @@ msgstr "Gewählt: %1$s, %2$s"
 
 msgid "%1$s at %2$s"
 msgstr "%1$s um %2$s"
+
+msgid "Please upload at most %d file(s)."
+msgstr "Bitte laden Sie höchstens %d Datei(en) hoch."
+
+msgid "Uploading %s"
+msgstr "%s wird hochgeladen"
+
+msgid "Remove %s"
+msgstr "%s entfernen"
+
+msgid "Sign by hand instead"
+msgstr "Stattdessen von Hand unterschreiben"

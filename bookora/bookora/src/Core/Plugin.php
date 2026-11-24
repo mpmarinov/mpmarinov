@@ -14,6 +14,7 @@ use Bookora\Calendar\ConnectionRepository;
 use Bookora\Calendar\Feed;
 use Bookora\Calendar\IcsImporter;
 use Bookora\Booking\BookingService;
+use Bookora\Forms\FileStore;
 use Bookora\Forms\Submission;
 use Bookora\Frontend\Renderer;
 use Bookora\Install\Installer;
@@ -144,10 +145,12 @@ final class Plugin {
 				$c->get( BookingService::class ),
 				$c->get( AvailabilityService::class ),
 				$c->get( ServiceRepository::class ),
-				$c->get( Settings::class )
+				$c->get( Settings::class ),
+				$c->get( FileStore::class )
 			)
 		);
-		$c->set( PublicFormController::class, static fn( Container $c ) => new PublicFormController( $c->get( FormRepository::class ), $c->get( Submission::class ) ) );
+		$c->set( FileStore::class, static fn() => new FileStore() );
+		$c->set( PublicFormController::class, static fn( Container $c ) => new PublicFormController( $c->get( FormRepository::class ), $c->get( Submission::class ), $c->get( FileStore::class ) ) );
 		$c->set(
 			Renderer::class,
 			static fn( Container $c ) => new Renderer(
@@ -215,6 +218,7 @@ final class Plugin {
 		$c->get( ActionLinks::class )->register();
 		$c->get( CalendarLink::class )->register();
 		$c->get( ManagePage::class )->register();
+		$c->get( FileStore::class )->register();
 		( new Maintenance() )->register();
 		$c->get( Feed::class )->register();
 		$c->get( IcsImporter::class )->register();

@@ -50,6 +50,7 @@ final class Maintenance {
 		return array(
 			'tokens' => $deleted_tokens,
 			'log'    => $deleted_log,
+			'files'  => \Bookora\Forms\FileStore::purge_orphans(),
 		);
 	}
 }

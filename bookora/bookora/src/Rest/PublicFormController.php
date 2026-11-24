@@ -7,6 +7,7 @@
 
 namespace Bookora\Rest;
 
+use Bookora\Forms\FileStore;
 use Bookora\Forms\Submission;
 use Bookora\Repository\FormRepository;
 use WP_Error;
@@ -29,11 +30,18 @@ final class PublicFormController {
 	 *
 	 * @param FormRepository $forms      Forms.
 	 * @param Submission     $submission Submission handler.
+	 * @param FileStore|null $files      File storage.
 	 */
 	public function __construct(
 		private FormRepository $forms,
 		private Submission $submission,
+		private ?FileStore $files = null,
 	) {}
+
+	/**
+	 * Uploads per IP (or IPv6 /64) per hour.
+	 */
+	public const UPLOAD_LIMIT = 30;
 
 	/**
 	 * Register routes.
@@ -48,6 +56,75 @@ final class PublicFormController {
 				'permission_callback' => '__return_true',
 			)
 		);
+		register_rest_route(
+			SettingsController::NAMESPACE,
+			'/public/forms/(?P<id>\d+)/upload',
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'upload' ),
+				'permission_callback' => '__return_true',
+			)
+		);
+	}
+
+	/**
+	 * Upload one file for a file field (multipart: file, field, _bk_t). Returns a token that the
+	 * form sends with the submission.
+	 *
+	 * @param WP_REST_Request $request Request.
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function upload( WP_REST_Request $request ) {
+		$form    = $this->forms->find( (int) $request['id'] );
+		$preview = current_user_can( \Bookora\Security\Capabilities::MANAGE_FORMS );
+		if ( ! $form || ( 'published' !== $form['status'] && ! $preview ) ) {
+			return new WP_Error( 'bookora_not_found', __( 'This form is not available.', 'bookora' ), array( 'status' => 404 ) );
+		}
+		if ( ! Submission::valid_render_token( $request->get_param( '_bk_t' ), (int) $form['id'] ) ) {
+			return new WP_Error( 'bookora_spam', __( 'The form has expired. Please reload the page and try again.', 'bookora' ), array( 'status' => 400 ) );
+		}
+
+		$key   = sanitize_key( (string) $request->get_param( 'field' ) );
+		$field = null;
+		foreach ( (array) $form['fields'] as $f ) {
+			if ( 'file' === ( $f['type'] ?? '' ) && ( $f['key'] ?? '' ) === $key ) {
+				$field = $f;
+				break;
+			}
+		}
+		if ( ! $field ) {
+			return new WP_Error( 'bookora_invalid_field', __( 'Invalid field.', 'bookora' ), array( 'status' => 400 ) );
+		}
+
+		$ip     = self::client_ip();
+		$bucket = Submission::ip_bucket( $ip );
+		if ( '' !== $bucket ) {
+			$rl    = 'bookora_rl_up_' . substr( hash( 'sha256', $bucket . wp_salt( 'nonce' ) ), 0, 32 );
+			$count = (int) get_transient( $rl );
+			/**
+			 * Max. uploads per IP per hour.
+			 *
+			 * @param int $limit Limit.
+			 */
+			if ( $count >= (int) apply_filters( 'bookora_upload_limit', self::UPLOAD_LIMIT ) ) {
+				return new WP_Error( 'bookora_rate_limited', __( 'Too many uploads. Please try again later.', 'bookora' ), array( 'status' => 429 ) );
+			}
+			set_transient( $rl, $count + 1, HOUR_IN_SECONDS );
+		}
+
+		$file = $request->get_file_params()['file'] ?? null;
+		if ( ! is_array( $file ) || is_array( $file['name'] ?? null ) ) {
+			return new WP_Error( 'bookora_upload_failed', __( 'The file could not be uploaded. Please try again.', 'bookora' ), array( 'status' => 400 ) );
+		}
+
+		$result = ( $this->files ?? new FileStore() )->store_upload( $form, $field, $file, $ip );
+		if ( is_wp_error( $result ) ) {
+			return $result;
+		}
+		unset( $result['id'] );
+		$response = new WP_REST_Response( $result, 201 );
+		$response->header( 'Cache-Control', 'no-store' );
+		return $response;
 	}
 
 	/**

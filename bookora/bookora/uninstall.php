@@ -25,6 +25,20 @@ function bookora_uninstall_site(): void {
 		return;
 	}
 
+	// Private uploads (files and signatures): only Bookora's own folder, only regular files.
+	$bookora_uploads = wp_upload_dir( null, false );
+	$bookora_dir     = trailingslashit( (string) $bookora_uploads['basedir'] ) . 'bookora-private';
+	if ( is_dir( $bookora_dir ) ) {
+		$bookora_items = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $bookora_dir, FilesystemIterator::SKIP_DOTS ), RecursiveIteratorIterator::CHILD_FIRST );
+		foreach ( $bookora_items as $bookora_item ) {
+			if ( $bookora_item->isLink() ) {
+				continue;
+			}
+			$bookora_item->isDir() ? @rmdir( $bookora_item->getPathname() ) : wp_delete_file( $bookora_item->getPathname() ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_system_operations_rmdir
+		}
+		@rmdir( $bookora_dir ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, WordPress.WP.AlternativeFunctions.file_system_operations_rmdir
+	}
+
 	foreach ( \Bookora\Install\Schema::TABLES as $name ) {
 		$table = \Bookora\Install\Schema::table( $wpdb->prefix, $name );
 		$wpdb->query( "DROP TABLE IF EXISTS {$table}" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- internal table names.

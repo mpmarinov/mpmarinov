@@ -16,6 +16,7 @@ import {
 import { config, errorMessage, get, post } from '../api';
 import {
 	ACTION_LABEL,
+	FieldValue,
 	StatusBadge,
 	formatDateTime,
 	formatDay,
@@ -341,7 +342,9 @@ export function BookingDetail( {
 						{ entry.values.map( ( v ) => (
 							<div key={ v.key }>
 								<dt>{ v.label }</dt>
-								<dd>{ v.value }</dd>
+								<dd>
+									<FieldValue value={ v } />
+								</dd>
 							</div>
 						) ) }
 					</dl>
