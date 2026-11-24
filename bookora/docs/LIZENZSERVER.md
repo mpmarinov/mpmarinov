@@ -44,7 +44,7 @@ Die ZIPs liegen in `wp-content/uploads/mls-releases/` unter Zufallsnamen; der Or
 ## 4. Sicherheit
 - Schlüssel: nur als Hash (Suche) und verschlüsselt (Anzeige im Kundenkonto) gespeichert.
 - Nach 20 falschen Schlüsseln pro IP und Stunde wird gesperrt (Filter `marinov_license_max_fails`).
-- Lokale und Staging-Seiten zählen nicht als Website.
+- Lokale und Staging-Seiten zählen nicht als Website (Adressen wie `localhost`, `*.local`, `*.test` oder beginnend mit `staging.`, `stage.`, `stag.`, `dev.`, `test.` – also auch `stag.mpmarinov.com`).
 - Ein Ausfall des Lizenzservers schaltet bei Kunden nichts ab: Pro läuft weiter, nur Updates kommen später.
 
 ## 5. Vor dem Livegang testen (Checkliste)

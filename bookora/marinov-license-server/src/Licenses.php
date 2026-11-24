@@ -136,7 +136,7 @@ final class Licenses {
 		$host = explode( '/', $site )[0];
 		return in_array( $host, array( 'localhost', '127.0.0.1' ), true )
 			|| (bool) preg_match( '/\.(local|test|localhost|invalid|example)$/', $host )
-			|| (bool) preg_match( '/^(staging|stage|dev|test)\./', $host );
+			|| (bool) preg_match( '/^(staging|stage|stag|dev|test)\./', $host );
 	}
 
 	/**
