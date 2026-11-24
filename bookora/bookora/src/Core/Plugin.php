@@ -188,6 +188,7 @@ final class Plugin {
 			)
 		);
 		$c->set( Crypto::class, static fn() => new Crypto() );
+		$c->set( \Bookora\Integrations\Integrations::class, static fn( Container $c ) => new \Bookora\Integrations\Integrations( $c->get( Crypto::class ), $c->get( EntryRepository::class ) ) );
 		$c->set( ConnectionRepository::class, static fn( Container $c ) => new ConnectionRepository( $c->get( Crypto::class ) ) );
 		$c->set( IcsImporter::class, static fn( Container $c ) => new IcsImporter( $c->get( ConnectionRepository::class ), $c->get( AvailabilityService::class ), $c->get( Settings::class ) ) );
 		$c->set( Feed::class, static fn( Container $c ) => new Feed( $c->get( EntryRepository::class ), $c->get( ResourceRepository::class ), $c->get( Settings::class ) ) );
@@ -223,6 +224,7 @@ final class Plugin {
 		$c->get( Feed::class )->register();
 		$c->get( IcsImporter::class )->register();
 		$c->get( Mailer::class )->register();
+		$c->get( \Bookora\Integrations\Integrations::class )->register();
 
 		add_action(
 			'rest_api_init',

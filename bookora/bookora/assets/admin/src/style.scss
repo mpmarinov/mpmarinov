@@ -1632,3 +1632,25 @@
 	color: #646970;
 	font-size: 12px;
 }
+
+/* Integrations */
+.bookora-integrations {
+
+	.components-card {
+		margin-bottom: 16px;
+	}
+
+	h3 {
+		margin: 24px 0 8px;
+	}
+
+	.components-base-control {
+		margin-bottom: 12px;
+	}
+}
+
+.bookora-grid-2 {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+	gap: 0 16px;
+}

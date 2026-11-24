@@ -193,13 +193,16 @@ final class FormRepository extends TableRepository {
 		$d = self::default_settings();
 
 		return array(
-			'submitLabel'    => mb_substr( sanitize_text_field( (string) ( $s['submitLabel'] ?? '' ) ), 0, 100 ),
-			'successMessage' => wp_kses_post( (string) ( $s['successMessage'] ?? '' ) ),
-			'redirectUrl'    => esc_url_raw( (string) ( $s['redirectUrl'] ?? '' ) ),
-			'labelPlacement' => in_array( $s['labelPlacement'] ?? '', array( 'top', 'left', 'hidden' ), true ) ? $s['labelPlacement'] : $d['labelPlacement'],
-			'stepProgress'   => in_array( $s['stepProgress'] ?? '', array( 'bar', 'steps', 'none' ), true ) ? $s['stepProgress'] : $d['stepProgress'],
-			'notifyAdmin'    => ! array_key_exists( 'notifyAdmin', $s ) || ! empty( $s['notifyAdmin'] ),
-			'storeEntries'   => ! array_key_exists( 'storeEntries', $s ) || ! empty( $s['storeEntries'] ),
+			'submitLabel'     => mb_substr( sanitize_text_field( (string) ( $s['submitLabel'] ?? '' ) ), 0, 100 ),
+			'successMessage'  => wp_kses_post( (string) ( $s['successMessage'] ?? '' ) ),
+			'redirectUrl'     => esc_url_raw( (string) ( $s['redirectUrl'] ?? '' ) ),
+			'labelPlacement'  => in_array( $s['labelPlacement'] ?? '', array( 'top', 'left', 'hidden' ), true ) ? $s['labelPlacement'] : $d['labelPlacement'],
+			'stepProgress'    => in_array( $s['stepProgress'] ?? '', array( 'bar', 'steps', 'none' ), true ) ? $s['stepProgress'] : $d['stepProgress'],
+			'notifyAdmin'     => ! array_key_exists( 'notifyAdmin', $s ) || ! empty( $s['notifyAdmin'] ),
+			'storeEntries'    => ! array_key_exists( 'storeEntries', $s ) || ! empty( $s['storeEntries'] ),
+			// Newsletter sign-up: provider and the checkbox the visitor must tick.
+			'newsletter'      => in_array( $s['newsletter'] ?? '', array( 'mailchimp', 'brevo' ), true ) ? $s['newsletter'] : '',
+			'newsletterField' => sanitize_key( (string) ( $s['newsletterField'] ?? '' ) ),
 		);
 	}
 }

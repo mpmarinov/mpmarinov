@@ -37,6 +37,9 @@ msgstr ""
 msgid "Calendar Sync"
 msgstr ""
 
+msgid "Integrations"
+msgstr ""
+
 msgid "Settings"
 msgstr ""
 
@@ -576,6 +579,66 @@ msgid "Your full name as signature"
 msgstr ""
 
 msgid "%d min"
+msgstr ""
+
+msgid "Please enter a Slack webhook address (starts with https://hooks.slack.com/)."
+msgstr ""
+
+msgid "The Telegram bot token looks wrong. It has the form 123456789:ABC… and is shown by @BotFather."
+msgstr ""
+
+msgid "The Mailchimp API key looks wrong. It ends with the data center, e.g. …-us21."
+msgstr ""
+
+msgid "Spam protection needs both the site key and the secret key."
+msgstr ""
+
+msgid "Test message from Bookora on %s – the connection works."
+msgstr ""
+
+msgid "Please confirm that you are not a robot."
+msgstr ""
+
+msgid "New booking: %1$s – %2$s on %3$s at %4$s"
+msgstr ""
+
+msgid "Cancelled by the customer: %1$s – %2$s on %3$s at %4$s"
+msgstr ""
+
+msgid "Moved by the customer: %1$s – %2$s now on %3$s at %4$s"
+msgstr ""
+
+msgid "New entry: %s"
+msgstr ""
+
+msgid "Please save a Slack webhook address first."
+msgstr ""
+
+msgid "Please save the bot token and the chat ID first."
+msgstr ""
+
+msgid "Mailchimp is not configured."
+msgstr ""
+
+msgid "Please save the API key and the audience ID first."
+msgstr ""
+
+msgid "Brevo is not configured."
+msgstr ""
+
+msgid "Please save the API key and the list ID first."
+msgstr ""
+
+msgid "%s could not be reached. Please try again later."
+msgstr ""
+
+msgid "%s rejected the access data. Please check the key or token."
+msgstr ""
+
+msgid "%s does not know this list, chat or address. Please check the ID."
+msgstr ""
+
+msgid "%1$s returned an error (%2$d)."
 msgstr ""
 
 msgid "Link no longer valid"
@@ -1198,6 +1261,27 @@ msgid "Store entries in the database"
 msgstr ""
 
 msgid "Booking forms always store entries."
+msgstr ""
+
+msgid "Newsletter"
+msgstr ""
+
+msgid "Sign up for the newsletter with"
+msgstr ""
+
+msgid "No newsletter"
+msgstr ""
+
+msgid "Only if this box is ticked"
+msgstr ""
+
+msgid "Add a consent field such as “Yes, I would like to receive the newsletter.” The visitor then gets a confirmation email from the newsletter service (double opt-in). Access data: Bookora → Integrations."
+msgstr ""
+
+msgid "– choose a field –"
+msgstr ""
+
+msgid "Without a consent field nobody is signed up."
 msgstr ""
 
 msgid "Appearance"
@@ -2497,6 +2581,117 @@ msgid "General opening hours (business)"
 msgstr ""
 
 msgid "Show hours for"
+msgstr ""
+
+msgid "New booking"
+msgstr ""
+
+msgid "New entry (forms without appointment)"
+msgstr ""
+
+msgid "Cancelled by the customer"
+msgstr ""
+
+msgid "Moved by the customer"
+msgstr ""
+
+msgid "All connections are optional. Bookora only contacts a service once you have entered its access data. Keys are stored encrypted."
+msgstr ""
+
+msgid "Spam protection"
+msgstr ""
+
+msgid "Bookora already blocks most spam without any service (hidden field, time check, limits per IP). An additional check helps against targeted bots. Note: the provider’s script is loaded on pages with a form – mention it in your privacy policy."
+msgstr ""
+
+msgid "Additional check"
+msgstr ""
+
+msgid "Cloudflare Turnstile (recommended, usually without puzzle)"
+msgstr ""
+
+msgid "Site key"
+msgstr ""
+
+msgid "Secret key"
+msgstr ""
+
+msgid "Messages to Slack and Telegram"
+msgstr ""
+
+msgid "Short message with customer name, service, date and a link to the admin – no form contents of bookings."
+msgstr ""
+
+msgid "Send a message for"
+msgstr ""
+
+msgid "Webhook address"
+msgstr ""
+
+msgid "In Slack: Apps → Incoming Webhooks → add to a channel → copy the address."
+msgstr ""
+
+msgid "Guide"
+msgstr ""
+
+msgid "Test message sent to Slack."
+msgstr ""
+
+msgid "Send test message"
+msgstr ""
+
+msgid "Bot token"
+msgstr ""
+
+msgid "Create a bot with @BotFather and copy the token."
+msgstr ""
+
+msgid "Chat ID"
+msgstr ""
+
+msgid "Your user or group ID, or @channelname. Send the bot a message first."
+msgstr ""
+
+msgid "Test message sent to Telegram."
+msgstr ""
+
+msgid "Visitors are only signed up if they tick a consent box in the form, and they always receive a confirmation email (double opt-in). Choose the form and the box in the form builder → Form → Newsletter."
+msgstr ""
+
+msgid "API key"
+msgstr ""
+
+msgid "Profile → Extras → API keys. Ends with e.g. -us21."
+msgstr ""
+
+msgid "Audience ID"
+msgstr ""
+
+msgid "Audience → Settings → Audience name and defaults."
+msgstr ""
+
+msgid "Connection to Mailchimp works."
+msgstr ""
+
+msgid "Check connection"
+msgstr ""
+
+msgid "List ID"
+msgstr ""
+
+msgid "Template ID of the confirmation email"
+msgstr ""
+
+msgid "A Brevo template of the type “double opt-in” with the confirmation link."
+msgstr ""
+
+msgid "Page after confirming"
+msgstr ""
+
+msgid "e.g. %s"
+msgstr ""
+
+msgid "Connection to Brevo works."
 msgstr ""
 
 msgid "This section is being built and will be available in an upcoming version."

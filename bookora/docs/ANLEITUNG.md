@@ -134,6 +134,14 @@ Sie werden jeweils per E-Mail informiert, der Termin wird sofort wieder frei.
 
 **Private Termine blockieren:** Fügen Sie die *private iCal-Adresse* Ihres Google-, iCloud- oder Outlook-Kalenders ein. Bookora prüft sie alle 15 Minuten und bietet Zeiten, in denen Sie schon etwas vorhaben, nicht mehr an. Gespeichert werden nur Beginn und Ende – nie Titel oder Details.
 
+## 10a. Anbindungen (Bookora → Anbindungen)
+
+Alles optional – ohne Zugangsdaten wird kein Dienst kontaktiert.
+
+- **Spam-Schutz:** Bookora blockt Spam schon von sich aus. Bei gezielten Bots zusätzlich *Cloudflare Turnstile* (empfohlen, meist ohne Rätsel), *hCaptcha* oder *Google reCAPTCHA* eintragen. In der Datenschutzerklärung erwähnen.
+- **Slack / Telegram:** kurze Nachricht bei neuer Buchung, neuem Eintrag, Absage oder Verschiebung. *Testnachricht senden* prüft die Verbindung.
+- **Newsletter (Mailchimp, Brevo):** im Formular-Builder → *Formular* → *Newsletter* Dienst und das Zustimmungsfeld wählen („Ja, ich möchte den Newsletter erhalten“). Angemeldet wird nur, wer das Feld anhakt, und immer mit Bestätigungs-E-Mail (Double-Opt-in).
+
 ## 11. Datei-Upload und Unterschrift
 
 - Erlaubt sind nur harmlose Dateitypen (Bilder, PDF, Office, Text, ZIP). Der echte Inhalt wird geprüft.

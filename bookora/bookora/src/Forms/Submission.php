@@ -680,7 +680,14 @@ final class Submission {
 			set_transient( $key, $count + 1, self::RATE_WINDOW );
 		}
 
-		return true;
+		/**
+		 * Additional spam checks (e.g. CAPTCHA). Return a WP_Error to reject.
+		 *
+		 * @param true|WP_Error        $result  Result so far.
+		 * @param array<string, mixed> $input   Submitted data.
+		 * @param array<string, mixed> $meta    ip, user_agent, …
+		 */
+		return apply_filters( 'bookora_spam_check', true, $input, $meta );
 	}
 
 	/**

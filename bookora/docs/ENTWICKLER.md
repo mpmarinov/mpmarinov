@@ -150,6 +150,8 @@ bookora.setValue( 'quelle', new URLSearchParams( location.search ).get( 'quelle'
 | `bookora_booking_moved` | `int $booking_id, string $previous_start_utc, ?int $previous_resource` | Im Zeitstrahl verschoben |
 | `bookora_entry_created` | `int $entry_id, array $values, array $form` | Neuer Formulareintrag |
 | `bookora_calendar_synced` | `int $connection_id, int $busy_times` | Privater Kalender importiert |
+| `bookora_form_before_submit` | `$form` | Ausgabe vor dem Absende-Knopf (z. B. CAPTCHA) |
+| `bookora_newsletter_signup` | `$result, $provider, $email` | Nach einem Newsletter-Anmeldeversuch |
 | `bookora_customer_cancelled` | `int $booking_id, float $fee, string $reason` | Kunde hat über den Link in der E-Mail abgesagt |
 | `bookora_customer_rescheduled` | `int $booking_id, string $previous_start_utc` | Kunde hat über den Link verschoben |
 | `bookora_booking_fee_changed` | `int $booking_id, float $amount, string $status, string $reason` | Ausfallgebühr erfasst, bezahlt, erlassen |
@@ -167,6 +169,8 @@ bookora.setValue( 'quelle', new URLSearchParams( location.search ).get( 'quelle'
 | `bookora_email_events` | `array $events` → `array` | E-Mail-Ereignisse ergänzen |
 | `bookora_email_html` | `string $html, string $subject, string $body` → `string` | Komplettes E-Mail-HTML |
 | `bookora_upload_limit` | `int` | Uploads pro IP (bzw. IPv6 /64) und Stunde (Standard 30) |
+| `bookora_spam_check` | `true\|WP_Error` | Eigene Spam-Prüfung beim Absenden (`$result, $input, $meta`) |
+| `bookora_captcha_fail_open` | `bool` | Formulare annehmen, wenn der CAPTCHA-Dienst nicht erreichbar ist (Standard `true`) |
 | `bookora_reminder_batch` | `int` | Erinnerungen pro Cron-Lauf (Standard 40, Rest eine Minute später) |
 | `bookora_mail_queue` | `bool` | E-Mails über die Warteschlange senden (Standard `true`; `false` = sofort wie vor 1.8) |
 | `bookora_cancellation_policy` | `array $rule, ?array $service` → `array` | Stornoregel einer Leistung ändern (Frist `hours`, `fee`, `fee_type`, `fee_value`, `no_show`, `late_online`, `self_cancel`, `self_reschedule`) |

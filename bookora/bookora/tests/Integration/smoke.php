@@ -1266,6 +1266,118 @@ $mq->process_queue();
 check( $mq_ctx && 'termin.ics' === ( $mq_att[0]['name'] ?? '' ) && str_contains( (string) ( $mq_att[0]['content'] ?? '' ), 'BEGIN:VCALENDAR' ), 'calendar file is kept in the queue until delivery', $mq_att );
 check( 0 === (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$mq_tab}" ), 'queue is empty after delivery' );
 
+echo "Integrations (simulated services, no real requests)\n";
+wp_set_current_user( 1 );
+$ig_calls = array();
+$ig_reply = array();
+$ig_hook  = static function ( $pre, $args, $url ) use ( &$ig_calls, &$ig_reply ) {
+	$host = (string) wp_parse_url( $url, PHP_URL_HOST );
+	if ( ! preg_match( '/(slack\.com|telegram\.org|mailchimp\.com|brevo\.com|cloudflare\.com)$/', $host ) ) {
+		return $pre;
+	}
+	$ig_calls[] = array( 'url' => $url, 'body' => $args['body'] ?? '', 'headers' => $args['headers'] ?? array() );
+	foreach ( $ig_reply as $needle => $reply ) {
+		if ( str_contains( $url, $needle ) ) {
+			return is_wp_error( $reply ) ? $reply : array( 'headers' => array(), 'body' => $reply[1], 'response' => array( 'code' => $reply[0], 'message' => '' ), 'cookies' => array(), 'filename' => null );
+		}
+	}
+	return array( 'headers' => array(), 'body' => '{"success":true,"ok":true}', 'response' => array( 'code' => 200, 'message' => '' ), 'cookies' => array(), 'filename' => null );
+};
+add_filter( 'pre_http_request', $ig_hook, 5, 3 );
+$ig_last = static function ( string $needle ) use ( &$ig_calls ) {
+	foreach ( array_reverse( $ig_calls ) as $c ) {
+		if ( str_contains( $c['url'], $needle ) ) {
+			return $c;
+		}
+	}
+	return null;
+};
+check( 400 === api( 'POST', '/integrations', array( 'slack_webhook' => 'https://evil.example.com/hook' ) )->get_status(), 'only real Slack webhook addresses are accepted' );
+check( 400 === api( 'POST', '/integrations', array( 'telegram_token' => 'abc' ) )->get_status() && 400 === api( 'POST', '/integrations', array( 'mailchimp_key' => 'xyz' ) )->get_status(), 'malformed Telegram token and Mailchimp key are rejected' );
+check( 400 === api( 'POST', '/integrations', array( 'captcha' => 'turnstile', 'captcha_site_key' => 'site' ) )->get_status(), 'spam protection needs both keys' );
+$ig_slack = 'https://hooks.slack.com/services/T000/B000/XXXXXXXXXXXXXXXXXXXXXXXX';
+$ig_tg    = '123456789:AAH' . str_repeat( 'x', 32 );
+$ig_mc    = str_repeat( 'a', 32 ) . '-us21';
+$ig_save  = api( 'POST', '/integrations', array( 'slack_webhook' => $ig_slack, 'telegram_token' => $ig_tg, 'telegram_chat' => '-100123', 'mailchimp_key' => $ig_mc, 'mailchimp_list' => 'abc123', 'brevo_key' => 'xkeysib-secret-1234', 'brevo_list' => 7, 'brevo_template' => 3, 'notify_events' => array( 'booking', 'entry', 'evil' ) ) )->get_data();
+$ig_raw   = (string) wp_json_encode( get_option( 'bookora_integrations' ) );
+check( '••••XXXX' === $ig_save['slack_webhook'] && '••••1234' === $ig_save['brevo_key'] && array( 'booking', 'entry' ) === $ig_save['notify_events'], 'keys come back masked, unknown events are dropped', $ig_save );
+check( ! str_contains( $ig_raw, 'hooks.slack.com' ) && ! str_contains( $ig_raw, 'xkeysib' ) && ! str_contains( $ig_raw, $ig_mc ), 'keys are stored encrypted' );
+api( 'POST', '/integrations', $ig_save );
+$ig_int = \Bookora\Core\Plugin::instance()->container()->get( \Bookora\Integrations\Integrations::class );
+check( $ig_slack === $ig_int->all()['slack_webhook'] && 'xkeysib-secret-1234' === $ig_int->all()['brevo_key'], 'saving the masked values keeps the stored keys' );
+wp_set_current_user( 0 );
+check( 401 === api( 'GET', '/integrations' )->get_status(), 'visitors cannot read integration settings' );
+wp_set_current_user( 1 );
+check( 200 === api( 'POST', '/integrations/test/slack' )->get_status() && str_contains( (string) ( $ig_last( 'hooks.slack.com' )['body'] ?? '' ), 'Test message' ), 'Slack test message is posted to the webhook' );
+$ig_reply = array( 'api.telegram.org' => array( 401, '{"ok":false,"description":"Unauthorized"}' ) );
+$ig_err   = api( 'POST', '/integrations/test/telegram' );
+check( 400 === $ig_err->get_status() && str_contains( $ig_err->get_data()['message'], 'Telegram' ) && ! str_contains( $ig_err->get_data()['message'], 'AAH' ), 'Telegram error is readable and never shows the token', $ig_err->get_data() );
+$ig_reply = array( 'api.telegram.org' => new WP_Error( 'http_request_failed', 'cURL error 28 bot' . $ig_tg ) );
+$ig_err   = api( 'POST', '/integrations/test/telegram' );
+check( 502 === $ig_err->get_status() && ! str_contains( (string) wp_json_encode( $ig_err->get_data() ), $ig_tg ), 'network error does not leak the token either' );
+$ig_reply = array();
+$ig_calls = array();
+$ig_svc   = api( 'POST', '/services', array( 'name' => 'Integrationstest', 'duration' => 30 ) )->get_data();
+$ig_slot  = ( new DateTimeImmutable( next_weekday( 1 ) . ' 15:00', wp_timezone() ) )->getTimestamp();
+\Bookora\Core\Plugin::instance()->container()->get( \Bookora\Booking\BookingService::class )->create( array( 'service_id' => $ig_svc['id'], 'start' => $ig_slot, 'customer' => array( 'email' => 'igor@example.com', 'name' => 'Igor Integration' ) ) );
+$ig_s = $ig_last( 'hooks.slack.com' );
+$ig_t = $ig_last( 'api.telegram.org' );
+check( $ig_s && str_contains( $ig_s['body'], 'Igor Integration' ) && str_contains( $ig_s['body'], 'Integrationstest' ) && $ig_t && str_contains( $ig_t['body'], '"chat_id":"-100123"' ), 'new booking goes to Slack and Telegram', $ig_calls );
+$ig_form = api(
+	'POST',
+	'/forms',
+	array(
+		'title'    => 'Newsletter-Test',
+		'status'   => 'published',
+		'settings' => array( 'newsletter' => 'mailchimp', 'newsletterField' => 'news' ),
+		'fields'   => array(
+			array( 'type' => 'name', 'key' => 'name', 'label' => 'Name', 'format' => 'first_last' ),
+			array( 'type' => 'email', 'key' => 'email', 'label' => 'E-Mail', 'required' => true ),
+			array( 'type' => 'textarea', 'key' => 'msg', 'label' => 'Nachricht' ),
+			array( 'type' => 'consent', 'key' => 'news', 'label' => 'Newsletter', 'text' => 'Ja, Newsletter' ),
+		),
+	)
+)->get_data();
+check( 'mailchimp' === $ig_form['settings']['newsletter'] && 'news' === $ig_form['settings']['newsletterField'], 'form stores the newsletter connection' );
+$ig_post = static fn( array $fields ) => api( 'POST', '/public/forms/' . $ig_form['id'] . '/submit', array( '_bk_t' => $old_token( 10, (int) $ig_form['id'] ), 'fields' => $fields ) );
+wp_set_current_user( 0 );
+$ig_calls = array();
+$ig_post( array( 'name' => array( 'first' => 'Nina', 'last' => 'News' ), 'email' => 'nina@example.com', 'msg' => 'Hallo Welt' ) );
+check( null === $ig_last( 'mailchimp.com' ) && str_contains( (string) ( $ig_last( 'hooks.slack.com' )['body'] ?? '' ), 'Hallo Welt' ), 'without ticking the box nobody is signed up; the entry goes to Slack' );
+$ig_calls = array();
+$ig_post( array( 'name' => array( 'first' => 'Nina', 'last' => 'News' ), 'email' => 'nina@example.com', 'news' => '1' ) );
+$ig_m = $ig_last( 'mailchimp.com' );
+$ig_b = json_decode( (string) ( $ig_m['body'] ?? '' ), true );
+check( $ig_m && str_starts_with( $ig_m['url'], 'https://us21.api.mailchimp.com/3.0/lists/abc123/members' ) && 'pending' === ( $ig_b['status'] ?? '' ) && 'Nina' === ( $ig_b['merge_fields']['FNAME'] ?? '' ), 'with consent: Mailchimp sign-up with double opt-in (status pending) in the right data center', $ig_m );
+$ig_reply = array( 'mailchimp.com' => array( 400, '{"title":"Member Exists","status":400}' ) );
+check( true === $ig_int->mailchimp_subscribe( 'nina@example.com', 'Nina', '' ), 'already subscribed counts as success' );
+$ig_reply = array();
+$ig_calls = array();
+check( true === $ig_int->brevo_subscribe( 'bea@example.com', 'Bea', 'Brevo' ), 'Brevo sign-up succeeds' );
+$ig_bb = json_decode( (string) ( $ig_last( 'brevo.com' )['body'] ?? '' ), true );
+check( array( 7 ) === ( $ig_bb['includeListIds'] ?? null ) && 3 === ( $ig_bb['templateId'] ?? null ) && 'xkeysib-secret-1234' === ( $ig_last( 'brevo.com' )['headers']['api-key'] ?? '' ), 'Brevo uses double opt-in with list, template and key header', $ig_bb );
+wp_set_current_user( 1 );
+api( 'POST', '/integrations', array( 'captcha' => 'turnstile', 'captcha_site_key' => '0x4AAA-site', 'captcha_secret' => '0x4AAA-secret' ) + $ig_int->public_settings() );
+$ig_html = do_shortcode( '[bookora id="' . $ig_form['id'] . '"]' );
+check( str_contains( $ig_html, 'class="bookora-captcha cf-turnstile" data-sitekey="0x4AAA-site"' ) && wp_script_is( 'bookora-captcha', 'enqueued' ) && ! str_contains( $ig_html, '0x4AAA-secret' ), 'Turnstile widget and script appear in the form (secret never)' );
+wp_set_current_user( 0 );
+$ig_cap = static fn( string $token ) => api( 'POST', '/public/forms/' . $ig_form['id'] . '/submit', array( '_bk_t' => $old_token( 10, (int) $ig_form['id'] ), '_captcha' => $token, 'fields' => array( 'email' => 'cap@example.com' ) ) );
+check( 'bookora_captcha' === ( $ig_cap( '' )->get_data()['code'] ?? '' ), 'without CAPTCHA answer the form is rejected' );
+$ig_reply = array( 'siteverify' => array( 200, '{"success":false}' ) );
+check( 'bookora_captcha' === ( $ig_cap( 'fake' )->get_data()['code'] ?? '' ), 'a wrong CAPTCHA answer is rejected' );
+$ig_reply = array( 'siteverify' => array( 200, '{"success":true}' ) );
+$ig_calls = array();
+$ig_ok    = $ig_cap( 'good-token' );
+$ig_v     = $ig_last( 'siteverify' );
+check( $ig_ok->get_status() < 300 && str_contains( (string) wp_json_encode( $ig_v['body'] ?? '' ), 'good-token' ) && ! str_contains( (string) wp_json_encode( $ig_v['body'] ?? '' ), 'remoteip' ), 'a correct answer is accepted; the visitor IP is not sent', $ig_ok->get_data() );
+$ig_reply = array( 'siteverify' => new WP_Error( 'http_request_failed', 'down' ) );
+check( $ig_cap( 'any' )->get_status() < 300, 'if the CAPTCHA service is down, bookings are not lost' );
+$ig_reply = array();
+wp_set_current_user( 1 );
+delete_option( 'bookora_integrations' );
+remove_filter( 'pre_http_request', $ig_hook, 5 );
+api( 'DELETE', '/services/' . $ig_svc['id'] );
+
 echo "Customer time zone\n";
 $tz_start = ( new DateTimeImmutable( '2026-11-25 09:00', wp_timezone() ) )->getTimestamp();
 $tz_note  = \Bookora\Notifications\Mailer::local_time( 'America/New_York', $tz_start, $tz_start + 2700 );

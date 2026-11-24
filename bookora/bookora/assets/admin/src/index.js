@@ -15,6 +15,7 @@ import EmailsScreen from './screens/EmailsScreen';
 import TimelineScreen from './screens/TimelineScreen';
 import CalendarsScreen from './screens/CalendarsScreen';
 import DashboardScreen from './screens/DashboardScreen';
+import IntegrationsScreen from './screens/IntegrationsScreen';
 import './builder/builder.scss';
 import Placeholder from './screens/Placeholder';
 import './style.scss';
@@ -31,6 +32,7 @@ const SCREENS = {
 	emails: EmailsScreen,
 	timeline: TimelineScreen,
 	calendars: CalendarsScreen,
+	integrations: IntegrationsScreen,
 };
 
 const TITLES = {
@@ -44,6 +46,7 @@ const TITLES = {
 	hours: __( 'Opening Hours', 'bookora' ),
 	emails: __( 'Emails', 'bookora' ),
 	calendars: __( 'Calendar Sync', 'bookora' ),
+	integrations: __( 'Integrations', 'bookora' ),
 	settings: __( 'Settings', 'bookora' ),
 };
 

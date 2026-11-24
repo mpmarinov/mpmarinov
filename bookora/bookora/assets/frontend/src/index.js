@@ -546,6 +546,19 @@ class BookoraForm {
 		} );
 	}
 
+	/** A CAPTCHA answer is valid only once: get a fresh one after a failed submit. */
+	resetCaptcha() {
+		const widget = this.form.querySelector( '[data-bookora-captcha]' );
+		const provider = {
+			turnstile: window.turnstile,
+			hcaptcha: window.hcaptcha,
+			recaptcha: window.grecaptcha,
+		}[ widget?.dataset.bookoraCaptcha ];
+		try {
+			provider?.reset();
+		} catch ( e ) {}
+	}
+
 	/** Currently selected service id (service field or the form's only service). */
 	serviceId() {
 		const select = this.form.querySelector( '[data-role="service"]' );
@@ -755,6 +768,10 @@ class BookoraForm {
 				.value,
 			_source: window.location.href,
 			_timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || '',
+			_captcha:
+				this.form.querySelector(
+					'[name="cf-turnstile-response"], [name="h-captcha-response"], [name="g-recaptcha-response"]'
+				)?.value || '',
 		};
 
 		// beforeSubmit: listeners may add values, or cancel (return false / detail.cancel( message )).
@@ -815,6 +832,7 @@ class BookoraForm {
 					if ( body?.code === 'bookora_slot_taken' ) {
 						this.appointment?.reload();
 					}
+					this.resetCaptcha();
 					this.showMessage(
 						body?.message ||
 							__(

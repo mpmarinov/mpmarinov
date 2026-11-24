@@ -141,6 +141,59 @@ export default function FormSettings( { form, onChange } ) {
 			</PanelBody>
 
 			<PanelBody
+				title={ __( 'Newsletter', 'bookora' ) }
+				initialOpen={ !! settings.newsletter }
+			>
+				<SelectControl
+					__nextHasNoMarginBottom
+					label={ __( 'Sign up for the newsletter with', 'bookora' ) }
+					value={ settings.newsletter || '' }
+					options={ [
+						{ value: '', label: __( 'No newsletter', 'bookora' ) },
+						{ value: 'mailchimp', label: 'Mailchimp' },
+						{ value: 'brevo', label: 'Brevo' },
+					] }
+					onChange={ setting( 'newsletter' ) }
+				/>
+				{ !! settings.newsletter && (
+					<SelectControl
+						__nextHasNoMarginBottom
+						label={ __( 'Only if this box is ticked', 'bookora' ) }
+						help={ __(
+							'Add a consent field such as “Yes, I would like to receive the newsletter.” The visitor then gets a confirmation email from the newsletter service (double opt-in). Access data: Bookora → Integrations.',
+							'bookora'
+						) }
+						value={ settings.newsletterField || '' }
+						options={ [
+							{
+								value: '',
+								label: __( '– choose a field –', 'bookora' ),
+							},
+							...( form.fields || [] )
+								.filter( ( f ) =>
+									[ 'consent', 'checkboxes' ].includes(
+										f.type
+									)
+								)
+								.map( ( f ) => ( {
+									value: f.key,
+									label: f.label || f.key,
+								} ) ),
+						] }
+						onChange={ setting( 'newsletterField' ) }
+					/>
+				) }
+				{ !! settings.newsletter && ! settings.newsletterField && (
+					<Notice status="warning" isDismissible={ false }>
+						{ __(
+							'Without a consent field nobody is signed up.',
+							'bookora'
+						) }
+					</Notice>
+				) }
+			</PanelBody>
+
+			<PanelBody
 				title={ __( 'Appearance', 'bookora' ) }
 				initialOpen={ false }
 			>

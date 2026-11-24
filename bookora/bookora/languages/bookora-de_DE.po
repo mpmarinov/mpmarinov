@@ -39,6 +39,9 @@ msgstr "E-Mails"
 msgid "Calendar Sync"
 msgstr "Kalender-Sync"
 
+msgid "Integrations"
+msgstr "Anbindungen"
+
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -579,6 +582,66 @@ msgstr "Ihr vollständiger Name als Unterschrift"
 
 msgid "%d min"
 msgstr "%d Min."
+
+msgid "Please enter a Slack webhook address (starts with https://hooks.slack.com/)."
+msgstr "Bitte eine Slack-Webhook-Adresse eingeben (beginnt mit https://hooks.slack.com/)."
+
+msgid "The Telegram bot token looks wrong. It has the form 123456789:ABC… and is shown by @BotFather."
+msgstr "Das Telegram-Bot-Token sieht falsch aus. Es hat die Form 123456789:ABC… und wird von @BotFather angezeigt."
+
+msgid "The Mailchimp API key looks wrong. It ends with the data center, e.g. …-us21."
+msgstr "Der Mailchimp-API-Schlüssel sieht falsch aus. Er endet mit dem Rechenzentrum, z. B. …-us21."
+
+msgid "Spam protection needs both the site key and the secret key."
+msgstr "Für den Spam-Schutz werden Website-Schlüssel und geheimer Schlüssel benötigt."
+
+msgid "Test message from Bookora on %s – the connection works."
+msgstr "Testnachricht von Bookora auf %s – die Verbindung funktioniert."
+
+msgid "Please confirm that you are not a robot."
+msgstr "Bitte bestätigen Sie, dass Sie kein Roboter sind."
+
+msgid "New booking: %1$s – %2$s on %3$s at %4$s"
+msgstr "Neue Buchung: %1$s – %2$s am %3$s um %4$s"
+
+msgid "Cancelled by the customer: %1$s – %2$s on %3$s at %4$s"
+msgstr "Vom Kunden abgesagt: %1$s – %2$s am %3$s um %4$s"
+
+msgid "Moved by the customer: %1$s – %2$s now on %3$s at %4$s"
+msgstr "Vom Kunden verschoben: %1$s – %2$s jetzt am %3$s um %4$s"
+
+msgid "New entry: %s"
+msgstr "Neuer Eintrag: %s"
+
+msgid "Please save a Slack webhook address first."
+msgstr "Bitte zuerst eine Slack-Webhook-Adresse speichern."
+
+msgid "Please save the bot token and the chat ID first."
+msgstr "Bitte zuerst Bot-Token und Chat-ID speichern."
+
+msgid "Mailchimp is not configured."
+msgstr "Mailchimp ist nicht eingerichtet."
+
+msgid "Please save the API key and the audience ID first."
+msgstr "Bitte zuerst API-Schlüssel und Audience-ID speichern."
+
+msgid "Brevo is not configured."
+msgstr "Brevo ist nicht eingerichtet."
+
+msgid "Please save the API key and the list ID first."
+msgstr "Bitte zuerst API-Schlüssel und Listen-ID speichern."
+
+msgid "%s could not be reached. Please try again later."
+msgstr "%s ist nicht erreichbar. Bitte später erneut versuchen."
+
+msgid "%s rejected the access data. Please check the key or token."
+msgstr "%s hat die Zugangsdaten abgelehnt. Bitte Schlüssel oder Token prüfen."
+
+msgid "%s does not know this list, chat or address. Please check the ID."
+msgstr "%s kennt diese Liste, diesen Chat oder diese Adresse nicht. Bitte die ID prüfen."
+
+msgid "%1$s returned an error (%2$d)."
+msgstr "%1$s hat einen Fehler gemeldet (%2$d)."
 
 msgid "Link no longer valid"
 msgstr "Link nicht mehr gültig"
@@ -1201,6 +1264,27 @@ msgstr "Einträge in der Datenbank speichern"
 
 msgid "Booking forms always store entries."
 msgstr "Buchungsformulare speichern Einträge immer."
+
+msgid "Newsletter"
+msgstr "Newsletter"
+
+msgid "Sign up for the newsletter with"
+msgstr "Für den Newsletter anmelden bei"
+
+msgid "No newsletter"
+msgstr "Kein Newsletter"
+
+msgid "Only if this box is ticked"
+msgstr "Nur wenn dieses Feld angehakt ist"
+
+msgid "Add a consent field such as “Yes, I would like to receive the newsletter.” The visitor then gets a confirmation email from the newsletter service (double opt-in). Access data: Bookora → Integrations."
+msgstr "Fügen Sie ein Zustimmungsfeld hinzu, z. B. „Ja, ich möchte den Newsletter erhalten.“ Der Besucher bekommt dann eine Bestätigungs-E-Mail vom Newsletter-Dienst (Double-Opt-in). Zugangsdaten: Bookora → Anbindungen."
+
+msgid "– choose a field –"
+msgstr "– Feld wählen –"
+
+msgid "Without a consent field nobody is signed up."
+msgstr "Ohne Zustimmungsfeld wird niemand angemeldet."
 
 msgid "Appearance"
 msgstr "Darstellung"
@@ -2500,6 +2584,117 @@ msgstr "Allgemeine Öffnungszeiten (Betrieb)"
 
 msgid "Show hours for"
 msgstr "Zeiten anzeigen für"
+
+msgid "New booking"
+msgstr "Neue Buchung"
+
+msgid "New entry (forms without appointment)"
+msgstr "Neuer Eintrag (Formulare ohne Termin)"
+
+msgid "Cancelled by the customer"
+msgstr "Vom Kunden abgesagt"
+
+msgid "Moved by the customer"
+msgstr "Vom Kunden verschoben"
+
+msgid "All connections are optional. Bookora only contacts a service once you have entered its access data. Keys are stored encrypted."
+msgstr "Alle Anbindungen sind optional. Bookora kontaktiert einen Dienst erst, wenn Sie dessen Zugangsdaten eingetragen haben. Schlüssel werden verschlüsselt gespeichert."
+
+msgid "Spam protection"
+msgstr "Spam-Schutz"
+
+msgid "Bookora already blocks most spam without any service (hidden field, time check, limits per IP). An additional check helps against targeted bots. Note: the provider’s script is loaded on pages with a form – mention it in your privacy policy."
+msgstr "Bookora blockt den meisten Spam bereits ohne fremden Dienst (verstecktes Feld, Zeitprüfung, Limits pro IP). Eine zusätzliche Prüfung hilft gegen gezielte Bots. Hinweis: Das Skript des Anbieters wird auf Seiten mit Formular geladen – nennen Sie es in Ihrer Datenschutzerklärung."
+
+msgid "Additional check"
+msgstr "Zusätzliche Prüfung"
+
+msgid "Cloudflare Turnstile (recommended, usually without puzzle)"
+msgstr "Cloudflare Turnstile (empfohlen, meist ohne Rätsel)"
+
+msgid "Site key"
+msgstr "Website-Schlüssel"
+
+msgid "Secret key"
+msgstr "Geheimer Schlüssel"
+
+msgid "Messages to Slack and Telegram"
+msgstr "Nachrichten an Slack und Telegram"
+
+msgid "Short message with customer name, service, date and a link to the admin – no form contents of bookings."
+msgstr "Kurze Nachricht mit Kundenname, Leistung, Datum und Link ins Admin – keine Formularinhalte von Buchungen."
+
+msgid "Send a message for"
+msgstr "Nachricht senden bei"
+
+msgid "Webhook address"
+msgstr "Webhook-Adresse"
+
+msgid "In Slack: Apps → Incoming Webhooks → add to a channel → copy the address."
+msgstr "In Slack: Apps → Incoming Webhooks → zu einem Kanal hinzufügen → Adresse kopieren."
+
+msgid "Guide"
+msgstr "Anleitung"
+
+msgid "Test message sent to Slack."
+msgstr "Testnachricht an Slack gesendet."
+
+msgid "Send test message"
+msgstr "Testnachricht senden"
+
+msgid "Bot token"
+msgstr "Bot-Token"
+
+msgid "Create a bot with @BotFather and copy the token."
+msgstr "Bot mit @BotFather anlegen und das Token kopieren."
+
+msgid "Chat ID"
+msgstr "Chat-ID"
+
+msgid "Your user or group ID, or @channelname. Send the bot a message first."
+msgstr "Ihre Benutzer- oder Gruppen-ID oder @kanalname. Schreiben Sie dem Bot vorher eine Nachricht."
+
+msgid "Test message sent to Telegram."
+msgstr "Testnachricht an Telegram gesendet."
+
+msgid "Visitors are only signed up if they tick a consent box in the form, and they always receive a confirmation email (double opt-in). Choose the form and the box in the form builder → Form → Newsletter."
+msgstr "Besucher werden nur angemeldet, wenn sie im Formular ein Zustimmungsfeld anhaken, und erhalten immer eine Bestätigungs-E-Mail (Double-Opt-in). Formular und Feld wählen Sie im Formular-Builder → Formular → Newsletter."
+
+msgid "API key"
+msgstr "API-Schlüssel"
+
+msgid "Profile → Extras → API keys. Ends with e.g. -us21."
+msgstr "Profil → Extras → API keys. Endet z. B. auf -us21."
+
+msgid "Audience ID"
+msgstr "Audience-ID (Zielgruppe)"
+
+msgid "Audience → Settings → Audience name and defaults."
+msgstr "Audience → Settings → Audience name and defaults."
+
+msgid "Connection to Mailchimp works."
+msgstr "Die Verbindung zu Mailchimp funktioniert."
+
+msgid "Check connection"
+msgstr "Verbindung prüfen"
+
+msgid "List ID"
+msgstr "Listen-ID"
+
+msgid "Template ID of the confirmation email"
+msgstr "Vorlagen-ID der Bestätigungs-E-Mail"
+
+msgid "A Brevo template of the type “double opt-in” with the confirmation link."
+msgstr "Eine Brevo-Vorlage vom Typ „Double-Opt-in“ mit dem Bestätigungslink."
+
+msgid "Page after confirming"
+msgstr "Seite nach der Bestätigung"
+
+msgid "e.g. %s"
+msgstr "z. B. %s"
+
+msgid "Connection to Brevo works."
+msgstr "Die Verbindung zu Brevo funktioniert."
 
 msgid "This section is being built and will be available in an upcoming version."
 msgstr "Dieser Bereich ist in Arbeit und in einer kommenden Version verfügbar."

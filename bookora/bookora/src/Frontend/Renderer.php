@@ -219,6 +219,15 @@ final class Renderer {
 				</div>
 				<input type="hidden" name="_bk_t" value="<?php echo esc_attr( Submission::render_token( (int) $form['id'] ) ); ?>">
 
+				<?php
+				/**
+				 * Before the submit button (e.g. CAPTCHA widget).
+				 *
+				 * @param array<string, mixed> $form Form.
+				 */
+				do_action( 'bookora_form_before_submit', $form );
+				?>
+
 				<div class="bookora__message" role="alert" aria-live="assertive" hidden></div>
 
 				<div class="bookora__nav">

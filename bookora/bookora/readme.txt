@@ -42,6 +42,12 @@ Google: [Terms](https://policies.google.com/terms), [Privacy](https://policies.g
 
 **Subscribing with Google Calendar or Outlook.** The buttons "Google Calendar" and "Outlook" open calendar.google.com or outlook.live.com in your browser and pass your private Bookora calendar address, so that the service can subscribe to it. The service then downloads your appointments from your website regularly (including customer names and contact details, unless you switch this off in Calendar Sync). This only happens when you click one of these buttons. Links: see Google and Microsoft above.
 
+**Optional integrations (Bookora → Integrations).** Nothing is sent unless you enter the access data of a service. The keys are stored encrypted in your database.
+
+* *Spam protection* – Cloudflare Turnstile, hCaptcha or Google reCAPTCHA. When activated, the provider's script is loaded on pages with a Bookora form, and on submit the answer token (not the visitor's IP address) is checked at the provider. [Cloudflare Privacy](https://www.cloudflare.com/privacypolicy/), [Turnstile Terms](https://www.cloudflare.com/website-terms/) · [hCaptcha Privacy](https://www.hcaptcha.com/privacy), [Terms](https://www.hcaptcha.com/terms) · [Google Privacy](https://policies.google.com/privacy), [Terms](https://policies.google.com/terms)
+* *Slack and Telegram* – for the events you choose, a short message (customer name, service, date and time, staff member, admin link; for forms without appointment the submitted text fields) is sent to your Slack webhook or your Telegram bot. [Slack Privacy](https://slack.com/trust/privacy/privacy-policy), [Terms](https://slack.com/terms-of-service) · [Telegram Privacy](https://telegram.org/privacy), [Terms](https://telegram.org/tos)
+* *Mailchimp and Brevo* – only for forms connected to the newsletter and only if the visitor ticks the consent box: email address and name are sent to your list; the service sends a double opt-in confirmation email. [Mailchimp/Intuit Privacy](https://www.intuit.com/privacy/statement/), [Terms](https://mailchimp.com/legal/terms/) · [Brevo Privacy](https://www.brevo.com/legal/privacypolicy/), [Terms](https://www.brevo.com/legal/termsofuse/)
+
 == Third-party libraries ==
 
 * [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) by Kazuhiko Arase (MIT) – QR codes for the calendar subscription, generated in the browser
@@ -79,7 +85,7 @@ On your own server, in a private folder (wp-content/uploads/bookora-private) und
 
 = Does Bookora contact external services? =
 
-Only the calendar addresses you enter yourself are fetched (every 15 minutes, via the WordPress HTTP API). The links "Google Calendar" and "Outlook" in the admin open the respective website in your browser. No data is sent to Marinov Solutions.
+Only services you set up yourself: the calendar addresses you enter (fetched every 15 minutes) and the optional integrations (spam protection, Slack, Telegram, Mailchimp, Brevo) once you enter their keys. The links "Google Calendar" and "Outlook" in the admin open the respective website in your browser. No data is sent to Marinov Solutions.
 
 == Changelog ==
 

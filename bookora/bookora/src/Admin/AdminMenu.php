@@ -60,17 +60,18 @@ final class AdminMenu {
 	 */
 	private function screens(): array {
 		return array(
-			'dashboard' => array( __( 'Dashboard', 'bookora' ), Capabilities::VIEW_BOOKINGS ),
-			'timeline'  => array( __( 'Timeline', 'bookora' ), Capabilities::VIEW_BOOKINGS ),
-			'bookings'  => array( __( 'Bookings', 'bookora' ), Capabilities::VIEW_BOOKINGS ),
-			'entries'   => array( __( 'Entries', 'bookora' ), Capabilities::VIEW_BOOKINGS ),
-			'forms'     => array( __( 'Forms', 'bookora' ), Capabilities::MANAGE_FORMS ),
-			'services'  => array( __( 'Services', 'bookora' ), Capabilities::MANAGE_SETTINGS ),
-			'resources' => array( __( 'Staff & Resources', 'bookora' ), Capabilities::MANAGE_SETTINGS ),
-			'hours'     => array( __( 'Opening Hours', 'bookora' ), Capabilities::MANAGE_SETTINGS ),
-			'emails'    => array( __( 'Emails', 'bookora' ), Capabilities::MANAGE_SETTINGS ),
-			'calendars' => array( __( 'Calendar Sync', 'bookora' ), Capabilities::MANAGE_SETTINGS ),
-			'settings'  => array( __( 'Settings', 'bookora' ), Capabilities::MANAGE_SETTINGS ),
+			'dashboard'    => array( __( 'Dashboard', 'bookora' ), Capabilities::VIEW_BOOKINGS ),
+			'timeline'     => array( __( 'Timeline', 'bookora' ), Capabilities::VIEW_BOOKINGS ),
+			'bookings'     => array( __( 'Bookings', 'bookora' ), Capabilities::VIEW_BOOKINGS ),
+			'entries'      => array( __( 'Entries', 'bookora' ), Capabilities::VIEW_BOOKINGS ),
+			'forms'        => array( __( 'Forms', 'bookora' ), Capabilities::MANAGE_FORMS ),
+			'services'     => array( __( 'Services', 'bookora' ), Capabilities::MANAGE_SETTINGS ),
+			'resources'    => array( __( 'Staff & Resources', 'bookora' ), Capabilities::MANAGE_SETTINGS ),
+			'hours'        => array( __( 'Opening Hours', 'bookora' ), Capabilities::MANAGE_SETTINGS ),
+			'emails'       => array( __( 'Emails', 'bookora' ), Capabilities::MANAGE_SETTINGS ),
+			'calendars'    => array( __( 'Calendar Sync', 'bookora' ), Capabilities::MANAGE_SETTINGS ),
+			'integrations' => array( __( 'Integrations', 'bookora' ), Capabilities::MANAGE_SETTINGS ),
+			'settings'     => array( __( 'Settings', 'bookora' ), Capabilities::MANAGE_SETTINGS ),
 		);
 	}
 
