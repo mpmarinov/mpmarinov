@@ -236,7 +236,7 @@ Statt Merchant of Record (Freemius/Paddle/Lemon Squeezy) Verkauf im bestehenden 
 | Berechnete Felder (z. B. Gesamtpreis) | fehlt | Phase 11 |
 | E-Mail-Warteschlange (Action Scheduler statt Direktversand) | Erinnerungen in Paketen (40 pro Lauf); Bestätigungsmails weiter direkt | Phase 10 |
 | Warteliste | fehlt | Pro (laut Abschnitt 9) |
-| Bulgarische Übersetzung | fehlt | vor Phase 14 |
+| Bulgarische Übersetzung | ✅ 24.11.2026: alle 1.035 Texte (Admin, Formular, E-Mails), Kunden förmlich mit „Вие“; automatisch geprüft: Platzhalter, HTML, Zeilenumbrüche, Pluralformen | – |
 | Abnahmetest auf Staging (Marin, per ZIP) | bereit | jetzt möglich |
 | MySQL-Performancetest (lokal im Container, kein Zugriff auf Server) | ✅ 24.11.2026, siehe `docs/PERFORMANCE.md` | – |
 
@@ -263,7 +263,7 @@ Statt Merchant of Record (Freemius/Paddle/Lemon Squeezy) Verkauf im bestehenden 
 |---|---|
 | 0 – Konzept & Datenmodell | ✅ erledigt (`docs/DATENMODELL.md`) |
 | 1 – Grundgerüst | ✅ erledigt: Plugin-Bootstrap, Autoloader, DI-Container, 15 DB-Tabellen mit Migrationen, Rollen & Rechte, Einstellungen + REST-API, React-Admin mit Einstellungsseite, Verschlüsselung (libsodium), DSGVO-Export/-Löschung, Deinstallation, Unit-Tests, PHPCS, CI |
-| i18n | 🔄 Deutsch komplett (725 Texte, PHP + JS), Werkzeug `npm run i18n`; Bulgarisch folgt |
+| i18n | ✅ Deutsch und Bulgarisch komplett (je 1.035 Texte, PHP + JS), Werkzeug `npm run i18n` |
 | 2 – Leistungen, Öffnungszeiten, Slot-Engine | ✅ erledigt: Slot-Engine (Puffer, Gruppen, Ausnahmen, Zeitumstellung), Doppelbuchungsschutz, REST-API, MySQL + SQLite (Playground), Admin-Bildschirme für Leistungen, Mitarbeiter/Ressourcen, Öffnungszeiten, Feiertage & Sonderöffnungen. 23 Unit-Tests, 62 Integrationsprüfungen, Browser-Test Desktop + Mobil grün |
 | 3 – Formular-Builder & Eintragsverwaltung | ✅ Builder, Formulare auf der Webseite, Kalender, Buchungsverwaltung (Bestätigen/Ablehnen/Stornieren/Erschienen, Notizen, Wiedereröffnen mit Konfliktprüfung), Eintragsverwaltung (Lesen, Markieren, Spam, Papierkorb, Sammelaktionen, CSV-Export), Menü-Zähler. Datei-Upload & Unterschrift ✅ (24.11.2026) |
 | 4–5 – Kalender & Status-Workflow | ✅ in Phase 2/3 enthalten; Ein-Klick-Bestätigung per E-Mail-Link folgt mit Phase 6 |
