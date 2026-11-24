@@ -133,8 +133,16 @@ function SortableField( { field, selected, onSelect, onDuplicate, onRemove } ) {
 		id: field.id,
 	} );
 	const def = FIELD_TYPES[ field.type ] || {};
+	const name = sprintf(
+		/* translators: 1: field type, 2: field label. */
+		__( '%1$s: %2$s', 'bookora' ),
+		def.label,
+		field.label || ''
+	);
 
+	// A click anywhere on the field is a mouse shortcut; keyboard users use the "Edit" button in the toolbar.
 	return (
+		// eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
 		<div
 			ref={ setNodeRef }
 			style={ {
@@ -148,19 +156,8 @@ function SortableField( { field, selected, onSelect, onDuplicate, onRemove } ) {
 				isDragging ? 'is-dragging' : '',
 			].join( ' ' ) }
 			onClick={ () => onSelect( field.id ) }
-			onKeyDown={ ( e ) => {
-				if ( e.key === 'Enter' && e.target === e.currentTarget ) {
-					onSelect( field.id );
-				}
-			} }
-			role="button"
-			tabIndex={ 0 }
-			aria-label={ sprintf(
-				/* translators: 1: field type, 2: field label. */
-				__( '%1$s: %2$s', 'bookora' ),
-				def.label,
-				field.label || ''
-			) }
+			role="group"
+			aria-label={ name }
 		>
 			<div className="bookora-canvas__toolbar">
 				<button
@@ -182,6 +179,20 @@ function SortableField( { field, selected, onSelect, onDuplicate, onRemove } ) {
 					</span>
 				) }
 				<span className="bookora-canvas__spacer" />
+				<Button
+					size="small"
+					icon="edit"
+					label={ sprintf(
+						/* translators: %s: field name, e.g. "E-mail: Your e-mail". */
+						__( 'Edit %s', 'bookora' ),
+						name
+					) }
+					aria-pressed={ selected }
+					onClick={ ( e ) => {
+						e.stopPropagation();
+						onSelect( field.id );
+					} }
+				/>
 				{ ! def.single && (
 					<Button
 						size="small"
@@ -357,6 +368,52 @@ export default function Builder( { formId, onBack } ) {
 		}
 	};
 
+	// Screen reader texts for keyboard reordering (dnd-kit only ships English).
+	const fieldName = ( id ) =>
+		fields.find( ( f ) => f.id === id )?.label || __( 'Field', 'bookora' );
+	const position = ( id ) => fields.findIndex( ( f ) => f.id === id ) + 1;
+	const dragA11y = {
+		screenReaderInstructions: {
+			draggable: __(
+				'To move a field, press Space or Enter, use the arrow keys to choose the new position and press Space or Enter again. Escape cancels.',
+				'bookora'
+			),
+		},
+		announcements: {
+			onDragStart: ( { active } ) =>
+				sprintf(
+					/* translators: 1: field label, 2: position. */
+					__( 'Picked up %1$s at position %2$d.', 'bookora' ),
+					fieldName( active.id ),
+					position( active.id )
+				),
+			onDragOver: ( { active, over } ) =>
+				over
+					? sprintf(
+							/* translators: 1: field label, 2: position. */
+							__( '%1$s is now at position %2$d.', 'bookora' ),
+							fieldName( active.id ),
+							position( over.id )
+					  )
+					: '',
+			onDragEnd: ( { active, over } ) =>
+				over
+					? sprintf(
+							/* translators: 1: field label, 2: position. */
+							__( '%1$s was moved to position %2$d.', 'bookora' ),
+							fieldName( active.id ),
+							position( over.id )
+					  )
+					: '',
+			onDragCancel: ( { active } ) =>
+				sprintf(
+					/* translators: %s: field label. */
+					__( 'Moving %s was cancelled.', 'bookora' ),
+					fieldName( active.id )
+				),
+		},
+	};
+
 	const onDragEnd = ( { active, over } ) => {
 		if ( over && active.id !== over.id ) {
 			const from = fields.findIndex( ( f ) => f.id === active.id );
@@ -461,7 +518,10 @@ export default function Builder( { formId, onBack } ) {
 					/>
 				</aside>
 
-				<main className="bookora-builder__center">
+				<section
+					className="bookora-builder__center"
+					aria-label={ __( 'Form preview', 'bookora' ) }
+				>
 					{ ( missingBooking || missingEmail ) && (
 						<div className="bookora-builder__hints">
 							{ missingBooking && (
@@ -532,6 +592,7 @@ export default function Builder( { formId, onBack } ) {
 								sensors={ sensors }
 								collisionDetection={ closestCenter }
 								onDragEnd={ onDragEnd }
+								accessibility={ dragA11y }
 							>
 								<SortableContext
 									items={ fields.map( ( f ) => f.id ) }
@@ -563,7 +624,7 @@ export default function Builder( { formId, onBack } ) {
 							</span>
 						</div>
 					</div>
-				</main>
+				</section>
 
 				<aside
 					className="bookora-builder__right"

@@ -65,7 +65,7 @@
 }
 
 .bookora-muted {
-	color: #757575;
+	color: #646970;
 }
 
 .bookora-error {
@@ -150,7 +150,7 @@
 	display: flex;
 	flex-wrap: wrap;
 	gap: 4px 16px;
-	color: #757575;
+	color: #646970;
 	margin-top: 4px;
 	font-size: 13px;
 }
@@ -437,7 +437,7 @@
 		font-variant-numeric: tabular-nums;
 
 		span {
-			color: #757575;
+			color: #646970;
 			font-size: 12px;
 		}
 	}
@@ -468,11 +468,12 @@
 		margin-top: 16px;
 	}
 
+	h2,
 	h3 {
 		font-size: 13px;
 		text-transform: uppercase;
 		letter-spacing: 0.03em;
-		color: #757575;
+		color: #646970;
 	}
 
 	&__when {
@@ -493,7 +494,7 @@
 		margin: 0;
 
 		dt {
-			color: #757575;
+			color: #646970;
 		}
 
 		dd {
@@ -511,7 +512,7 @@
 
 		dt {
 			font-size: 12px;
-			color: #757575;
+			color: #646970;
 		}
 
 		dd {
@@ -608,7 +609,7 @@
 
 	&__meta {
 		font-size: 12px;
-		color: #757575;
+		color: #646970;
 	}
 
 	&.is-new {
@@ -690,7 +691,7 @@
 
 		span {
 			font-size: 12px;
-			color: #757575;
+			color: #646970;
 		}
 	}
 }
@@ -703,7 +704,7 @@
 
 	&__title {
 		font-size: 12px;
-		color: #757575;
+		color: #646970;
 		width: 100%;
 	}
 
@@ -833,7 +834,7 @@
 			top: 7px;
 			transform: translateX(-50%);
 			font-size: 11px;
-			color: #757575;
+			color: #646970;
 			font-variant-numeric: tabular-nums;
 		}
 
@@ -865,7 +866,7 @@
 
 		small {
 			margin-left: auto;
-			color: #757575;
+			color: #646970;
 			font-weight: 400;
 		}
 	}
@@ -1342,6 +1343,7 @@
 	border: 1px solid #e5e7eb;
 	border-radius: 8px;
 
+	h2,
 	h3 {
 		margin-top: 0;
 	}
@@ -1405,4 +1407,15 @@
 		border-radius: 6px;
 		background: #fff;
 	}
+}
+
+// Contrast: the theme blue (#007cba) on the grey admin background is only 4.0:1.
+// The darker shade WordPress provides reaches 5.1:1 (WCAG AA).
+.bookora-admin .components-button.is-secondary:not(:disabled):not(.is-destructive),
+.bookora-admin .components-button.is-tertiary:not(:disabled):not(.is-destructive) {
+	color: var(--wp-admin-theme-color-darker-10, #006ba1);
+}
+
+.bookora-admin .components-button.is-secondary:not(:disabled):not(.is-destructive) {
+	box-shadow: inset 0 0 0 1px var(--wp-admin-theme-color-darker-10, #006ba1);
 }

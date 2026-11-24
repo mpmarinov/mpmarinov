@@ -1047,6 +1047,9 @@ msgstr ""
 msgid "Conditional logic"
 msgstr ""
 
+msgid "Edit %s"
+msgstr ""
+
 msgid "Duplicate"
 msgstr ""
 
@@ -1054,6 +1057,24 @@ msgid "Delete"
 msgstr ""
 
 msgid "Form saved."
+msgstr ""
+
+msgid "Field"
+msgstr ""
+
+msgid "To move a field, press Space or Enter, use the arrow keys to choose the new position and press Space or Enter again. Escape cancels."
+msgstr ""
+
+msgid "Picked up %1$s at position %2$d."
+msgstr ""
+
+msgid "%1$s is now at position %2$d."
+msgstr ""
+
+msgid "%1$s was moved to position %2$d."
+msgstr ""
+
+msgid "Moving %s was cancelled."
 msgstr ""
 
 msgid "Discard unsaved changes?"
@@ -1089,6 +1110,9 @@ msgstr ""
 msgid "Add fields"
 msgstr ""
 
+msgid "Form preview"
+msgstr ""
+
 msgid "A booking form needs a \"Date & time\" field."
 msgstr ""
 
@@ -1102,9 +1126,6 @@ msgid "Multi-step form with %d steps"
 msgstr ""
 
 msgid "Click a field on the left to add it to your form."
-msgstr ""
-
-msgid "Field"
 msgstr ""
 
 msgid "Form"

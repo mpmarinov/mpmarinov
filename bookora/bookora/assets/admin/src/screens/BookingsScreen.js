@@ -95,7 +95,9 @@ function FeePanel( { booking, onUpdated } ) {
 
 	return (
 		<div className="bookora-detail__fee">
-			<h3>{ __( 'Cancellation terms & fee', 'bookora' ) }</h3>
+			<h2 className="bookora-detail__heading">
+				{ __( 'Cancellation terms & fee', 'bookora' ) }
+			</h2>
 			{ policy.text && (
 				<p className="bookora-muted">
 					{ policy.text }
@@ -330,7 +332,9 @@ export function BookingDetail( {
 					<dd>{ formatDateTime( booking.created_at ) }</dd>
 				</dl>
 
-				<h3>{ __( 'Form details', 'bookora' ) }</h3>
+				<h2 className="bookora-detail__heading">
+					{ __( 'Form details', 'bookora' ) }
+				</h2>
 				{ ! entry && <Spinner /> }
 				{ entry && entry.values.length === 0 && (
 					<p className="bookora-muted">

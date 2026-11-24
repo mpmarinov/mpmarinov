@@ -1049,6 +1049,9 @@ msgstr "Ziehen zum Verschieben"
 msgid "Conditional logic"
 msgstr "Bedingte Logik"
 
+msgid "Edit %s"
+msgstr "%s bearbeiten"
+
 msgid "Duplicate"
 msgstr "Duplizieren"
 
@@ -1057,6 +1060,24 @@ msgstr "Löschen"
 
 msgid "Form saved."
 msgstr "Formular gespeichert."
+
+msgid "Field"
+msgstr "Feld"
+
+msgid "To move a field, press Space or Enter, use the arrow keys to choose the new position and press Space or Enter again. Escape cancels."
+msgstr "Zum Verschieben eines Feldes Leertaste oder Eingabetaste drücken, mit den Pfeiltasten die neue Position wählen und erneut Leertaste oder Eingabetaste drücken. Escape bricht ab."
+
+msgid "Picked up %1$s at position %2$d."
+msgstr "%1$s an Position %2$d aufgenommen."
+
+msgid "%1$s is now at position %2$d."
+msgstr "%1$s ist jetzt an Position %2$d."
+
+msgid "%1$s was moved to position %2$d."
+msgstr "%1$s wurde an Position %2$d verschoben."
+
+msgid "Moving %s was cancelled."
+msgstr "Verschieben von %s abgebrochen."
 
 msgid "Discard unsaved changes?"
 msgstr "Ungespeicherte Änderungen verwerfen?"
@@ -1091,6 +1112,9 @@ msgstr "Gespeichert"
 msgid "Add fields"
 msgstr "Felder hinzufügen"
 
+msgid "Form preview"
+msgstr "Formularvorschau"
+
 msgid "A booking form needs a \"Date & time\" field."
 msgstr "Ein Buchungsformular braucht ein Feld „Datum & Uhrzeit“."
 
@@ -1105,9 +1129,6 @@ msgstr "Mehrstufiges Formular mit %d Schritten"
 
 msgid "Click a field on the left to add it to your form."
 msgstr "Klicken Sie links auf ein Feld, um es hinzuzufügen."
-
-msgid "Field"
-msgstr "Feld"
 
 msgid "Form"
 msgstr "Formular"

@@ -922,5 +922,12 @@
 "Please upload a file.": "Bitte laden Sie eine Datei hoch.",
 "The file no longer exists.": "Die Datei existiert nicht mehr.",
 "Invalid field.": "Ungültiges Feld.",
-"Type my name instead": "Stattdessen Namen eintippen"
+"Type my name instead": "Stattdessen Namen eintippen",
+"Edit %s": "%s bearbeiten",
+"To move a field, press Space or Enter, use the arrow keys to choose the new position and press Space or Enter again. Escape cancels.": "Zum Verschieben eines Feldes Leertaste oder Eingabetaste drücken, mit den Pfeiltasten die neue Position wählen und erneut Leertaste oder Eingabetaste drücken. Escape bricht ab.",
+"Picked up %1$s at position %2$d.": "%1$s an Position %2$d aufgenommen.",
+"%1$s is now at position %2$d.": "%1$s ist jetzt an Position %2$d.",
+"%1$s was moved to position %2$d.": "%1$s wurde an Position %2$d verschoben.",
+"Moving %s was cancelled.": "Verschieben von %s abgebrochen.",
+"Form preview": "Formularvorschau"
 }

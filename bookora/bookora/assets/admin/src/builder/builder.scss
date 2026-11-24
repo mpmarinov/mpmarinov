@@ -9,7 +9,7 @@
 
 .bookora-builder {
 	--bk-border: #e0e0e0;
-	--bk-muted: #757575;
+	--bk-muted: #646970;
 	--bk-primary: #2563eb;
 	--bk-primary-soft: #eff4ff;
 
@@ -322,7 +322,7 @@
 		border-radius: 6px;
 		padding: 0 10px;
 		background: #fff;
-		color: #a7aaad;
+		color: #757575;
 		flex: 1;
 
 		&--area {
@@ -510,7 +510,7 @@
 		text-align: center;
 		padding: 6px 0;
 		border-radius: 6px;
-		color: #a7aaad;
+		color: #757575;
 		font-size: 12px;
 
 		&.is-free {

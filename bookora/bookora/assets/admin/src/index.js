@@ -49,15 +49,15 @@ function App( { screen } ) {
 	const Screen = SCREENS[ screen ] || Placeholder;
 	return (
 		<div className="bookora-app">
-			<header className="bookora-app__header">
+			<div className="bookora-app__header">
 				<span className="bookora-app__logo">Bookora</span>
 				<h1 className="bookora-app__title">
 					{ TITLES[ screen ] || '' }
 				</h1>
-			</header>
-			<main className="bookora-app__main">
+			</div>
+			<div className="bookora-app__main">
 				<Screen screen={ screen } />
-			</main>
+			</div>
 		</div>
 	);
 }
