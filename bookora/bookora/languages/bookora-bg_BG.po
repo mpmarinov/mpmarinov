@@ -634,6 +634,12 @@ msgstr "днес"
 msgid "tomorrow"
 msgstr "утре"
 
+msgid "Attempt %1$d failed, next try in %2$d minutes: %3$s"
+msgstr "Опит %1$d неуспешен, следващ опит след %2$d минути: %3$s"
+
+msgid "wp_mail() returned false. Please check the mail configuration (e.g. an SMTP plugin)."
+msgstr "wp_mail() върна false. Моля, проверете конфигурацията на пощата (напр. SMTP плъгин)."
+
 msgid "Add to Google Calendar"
 msgstr "Добавяне в Google Календар"
 
@@ -687,9 +693,6 @@ msgstr "Google Календар"
 
 msgid "Open in WordPress"
 msgstr "Отвори в WordPress"
-
-msgid "wp_mail() returned false. Please check the mail configuration (e.g. an SMTP plugin)."
-msgstr "wp_mail() върна false. Моля, проверете конфигурацията на пощата (напр. SMTP плъгин)."
 
 msgid "in %d hour"
 msgid_plural "in %d hours"
@@ -2291,6 +2294,9 @@ msgstr "Все още няма изпратени имейли."
 
 msgid "Sent"
 msgstr "Изпратен"
+
+msgid "Waiting"
+msgstr "Изчаква"
 
 msgid "Failed"
 msgstr "Неуспешен"

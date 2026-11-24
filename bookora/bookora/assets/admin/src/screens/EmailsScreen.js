@@ -494,16 +494,27 @@ function Log() {
 									<td>
 										<span
 											className={ `bookora-status bookora-status--${
-												r.status === 'sent'
-													? 'success'
-													: 'error'
+												{
+													sent: 'success',
+													queued: 'warning',
+												}[ r.status ] || 'error'
 											}` }
 											title={ r.error || '' }
 										>
-											{ r.status === 'sent'
-												? __( 'Sent', 'bookora' )
-												: __( 'Failed', 'bookora' ) }
+											{ {
+												sent: __( 'Sent', 'bookora' ),
+												queued: __(
+													'Waiting',
+													'bookora'
+												),
+											}[ r.status ] ||
+												__( 'Failed', 'bookora' ) }
 										</span>
+										{ r.error && r.status !== 'sent' && (
+											<span className="bookora-log__error">
+												{ r.error }
+											</span>
+										) }
 									</td>
 								</tr>
 							) ) }

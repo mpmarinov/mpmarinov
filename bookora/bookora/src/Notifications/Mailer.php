@@ -25,6 +25,12 @@ final class Mailer {
 
 	public const CRON_REMINDERS = 'bookora_send_reminders';
 
+	/** Delivery of queued emails (safety net and retries). */
+	public const CRON_QUEUE = 'bookora_mail_queue';
+
+	/** Minutes to wait before the 2nd, 3rd and 4th attempt. */
+	public const RETRY_MINUTES = array( 5, 30, 120 );
+
 	/** Follow-up run when one run had more reminders than its batch. */
 	public const CRON_REMINDERS_MORE = 'bookora_send_reminders_more';
 
@@ -34,6 +40,13 @@ final class Mailer {
 	 * @var array<int, array{content:string, name:string, type:string}>
 	 */
 	private array $attachments = array();
+
+	/**
+	 * Whether delivery at shutdown is already registered.
+	 *
+	 * @var bool
+	 */
+	private bool $flush_scheduled = false;
 
 	/**
 	 * Constructor.
@@ -68,6 +81,7 @@ final class Mailer {
 		add_action( 'bookora_customer_rescheduled', array( $this, 'on_customer_rescheduled' ), 10, 2 );
 		add_action( self::CRON_REMINDERS, array( $this, 'send_reminders' ) );
 		add_action( self::CRON_REMINDERS_MORE, array( $this, 'send_reminders' ) );
+		add_action( self::CRON_QUEUE, array( $this, 'process_queue' ) );
 		add_action( 'phpmailer_init', array( $this, 'phpmailer_init' ) );
 
 		if ( ! wp_next_scheduled( self::CRON_REMINDERS ) ) {
@@ -230,7 +244,7 @@ final class Mailer {
 		$ids  = implode( ',', array_map( 'intval', array_column( $rows, 'id' ) ) );
 		$done = array();
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- internal table, integer list.
-		foreach ( (array) $wpdb->get_results( "SELECT booking_id, event FROM {$log} WHERE booking_id IN ({$ids}) AND event LIKE 'booking_reminder:%' AND status = 'sent'", ARRAY_A ) as $l ) {
+		foreach ( (array) $wpdb->get_results( "SELECT booking_id, event FROM {$log} WHERE booking_id IN ({$ids}) AND event LIKE 'booking_reminder:%' AND status IN ('sent','queued')", ARRAY_A ) as $l ) {
 			$done[ (int) $l['booking_id'] ][ (int) substr( (string) $l['event'], 17 ) ] = true;
 		}
 
@@ -384,11 +398,10 @@ final class Mailer {
 			);
 		}
 
-		$ok                = (bool) wp_mail( $recipient, $subject, $html, $headers );
+		$attachments       = $this->attachments;
 		$this->attachments = array();
 
-		$this->log( $ctx, '' !== $log_event ? $log_event : $event, $recipient, $ok );
-		return $ok;
+		return $this->deliver( $ctx, '' !== $log_event ? $log_event : $event, $recipient, $subject, $html, $headers, $attachments );
 	}
 
 	/**
@@ -408,10 +421,197 @@ final class Mailer {
 		if ( $from ) {
 			$headers[] = sprintf( 'From: %s <%s>', $this->header_text( $this->business_name() ), $from );
 		}
+		return $this->deliver( array(), $log_event, $to, $subject, $this->layout( $subject, $body_html ), $headers, array() );
+	}
+
+	/**
+	 * Queue an email (or send it directly for previews/tests).
+	 *
+	 * Queued emails are delivered after the visitor's page has been sent (shutdown),
+	 * so a slow mail server never delays a booking. Failed deliveries are retried
+	 * after 5, 30 and 120 minutes.
+	 *
+	 * @param array<string, mixed>                                        $ctx         Context.
+	 * @param string                                                      $event       Log event.
+	 * @param string                                                      $to          Recipient(s).
+	 * @param string                                                      $subject     Subject.
+	 * @param string                                                      $html        HTML body.
+	 * @param string[]                                                    $headers     Headers.
+	 * @param array<int, array{content:string, name:string, type:string}> $attachments String attachments.
+	 */
+	private function deliver( array $ctx, string $event, string $to, string $subject, string $html, array $headers, array $attachments ): bool {
+		global $wpdb;
+
+		/**
+		 * Use the mail queue. Return false to send every email immediately (as before 1.8).
+		 *
+		 * @param bool $queue Default true.
+		 */
+		if ( ! empty( $ctx['sample'] ) || ! apply_filters( 'bookora_mail_queue', true ) ) {
+			[ $ok, $error ] = $this->transport( $to, $subject, $html, $headers, $attachments );
+			$this->log( $ctx, $event, $to, $ok ? 'sent' : 'failed', $error );
+			return $ok;
+		}
+
+		$log_id = $this->log( $ctx, $event, $to, 'queued' );
+		$now    = current_time( 'mysql', true );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$wpdb->insert(
+			Schema::table( $wpdb->prefix, 'mail_queue' ),
+			array(
+				'log_id'       => $log_id ? $log_id : null,
+				'recipient'    => mb_substr( $to, 0, 191 ),
+				'subject'      => mb_substr( $subject, 0, 255 ),
+				'body'         => $html,
+				'headers'      => (string) wp_json_encode( $headers ),
+				'attachments'  => $attachments ? (string) wp_json_encode( $attachments ) : null,
+				'attempts'     => 0,
+				'next_attempt' => $now,
+				'created_at'   => $now,
+			)
+		);
+
+		// Command line (WP-CLI, real cron): no visitor is waiting, deliver right away.
+		if ( 'cli' === PHP_SAPI ) {
+			$this->process_queue();
+			return true;
+		}
+		if ( ! $this->flush_scheduled ) {
+			$this->flush_scheduled = true;
+			add_action( 'shutdown', array( $this, 'flush_after_response' ), 100 );
+		}
+		if ( ! wp_next_scheduled( self::CRON_QUEUE ) ) {
+			// Safety net if the shutdown delivery is interrupted.
+			wp_schedule_single_event( time() + 2 * MINUTE_IN_SECONDS, self::CRON_QUEUE );
+		}
+		return true;
+	}
+
+	/**
+	 * Shutdown: finish the response for the visitor first, then deliver.
+	 */
+	public function flush_after_response(): void {
+		if ( function_exists( 'fastcgi_finish_request' ) && ! headers_sent() ) {
+			fastcgi_finish_request();
+		}
+		$this->process_queue();
+	}
+
+	/**
+	 * Deliver due emails from the queue.
+	 *
+	 * @param int $limit Max emails in this run.
+	 * @return array{sent:int, retry:int, failed:int}
+	 */
+	public function process_queue( int $limit = 25 ): array {
+		global $wpdb;
+		$stats = array(
+			'sent'   => 0,
+			'retry'  => 0,
+			'failed' => 0,
+		);
+		$table = Schema::table( $wpdb->prefix, 'mail_queue' );
+		$lock  = 'bookora_mail_queue_lock';
+		// Atomic lock: add_option fails if another process holds it (expires after 2 minutes).
+		if ( ! add_option( $lock, time(), '', false ) ) {
+			if ( time() - (int) get_option( $lock ) < 2 * MINUTE_IN_SECONDS ) {
+				return $stats;
+			}
+			update_option( $lock, time(), false );
+		}
+
+		try {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- internal table.
+			$rows = (array) $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE next_attempt <= %s ORDER BY id LIMIT %d", current_time( 'mysql', true ), $limit ), ARRAY_A );
+			foreach ( $rows as $row ) {
+				[ $ok, $error ] = $this->transport(
+					(string) $row['recipient'],
+					(string) $row['subject'],
+					(string) $row['body'],
+					(array) json_decode( (string) $row['headers'], true ),
+					(array) json_decode( (string) $row['attachments'], true )
+				);
+				$attempts       = (int) $row['attempts'] + 1;
+				if ( $ok || $attempts >= count( self::RETRY_MINUTES ) + 1 ) {
+					$wpdb->delete( $table, array( 'id' => (int) $row['id'] ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+					$this->update_log( (int) $row['log_id'], $ok ? 'sent' : 'failed', $error );
+					++$stats[ $ok ? 'sent' : 'failed' ];
+				} else {
+					$wait = self::RETRY_MINUTES[ $attempts - 1 ];
+					// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+					$wpdb->update(
+						$table,
+						array(
+							'attempts'     => $attempts,
+							'next_attempt' => gmdate( 'Y-m-d H:i:s', time() + $wait * MINUTE_IN_SECONDS ),
+						),
+						array( 'id' => (int) $row['id'] )
+					);
+					/* translators: 1: attempt number, 2: minutes, 3: error message. */
+					$this->update_log( (int) $row['log_id'], 'queued', sprintf( __( 'Attempt %1$d failed, next try in %2$d minutes: %3$s', 'bookora' ), $attempts, $wait, $error ) );
+					++$stats['retry'];
+				}
+			}
+
+			// More waiting? Continue later.
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- internal table.
+			$next = $wpdb->get_var( "SELECT MIN(next_attempt) FROM {$table}" );
+			if ( $next && ! wp_next_scheduled( self::CRON_QUEUE ) ) {
+				wp_schedule_single_event( max( time() + MINUTE_IN_SECONDS, (int) strtotime( $next . ' UTC' ) ), self::CRON_QUEUE );
+			}
+		} finally {
+			delete_option( $lock );
+		}
+		return $stats;
+	}
+
+	/**
+	 * Send one email now.
+	 *
+	 * @param string                                                      $to          Recipient(s).
+	 * @param string                                                      $subject     Subject.
+	 * @param string                                                      $html        HTML body.
+	 * @param string[]                                                    $headers     Headers.
+	 * @param array<int, array{content:string, name:string, type:string}> $attachments String attachments.
+	 * @return array{0:bool, 1:string} Success and error message.
+	 */
+	private function transport( string $to, string $subject, string $html, array $headers, array $attachments ): array {
+		$error             = '';
+		$catch             = static function ( $wp_error ) use ( &$error ): void {
+			$error = is_wp_error( $wp_error ) ? $wp_error->get_error_message() : '';
+		};
+		$this->attachments = $attachments;
+		add_action( 'wp_mail_failed', $catch );
+		$ok = (bool) wp_mail( $to, $subject, $html, $headers );
+		remove_action( 'wp_mail_failed', $catch );
 		$this->attachments = array();
-		$ok                = (bool) wp_mail( $to, $subject, $this->layout( $subject, $body_html ), $headers );
-		$this->log( array(), $log_event, $to, $ok );
-		return $ok;
+		if ( ! $ok && '' === $error ) {
+			$error = __( 'wp_mail() returned false. Please check the mail configuration (e.g. an SMTP plugin).', 'bookora' );
+		}
+		return array( $ok, $error );
+	}
+
+	/**
+	 * Update a log row after delivery.
+	 *
+	 * @param int    $log_id Log id.
+	 * @param string $status sent|failed|queued.
+	 * @param string $error  Error.
+	 */
+	private function update_log( int $log_id, string $status, string $error ): void {
+		global $wpdb;
+		if ( ! $log_id ) {
+			return;
+		}
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$wpdb->update(
+			Schema::table( $wpdb->prefix, 'notification_log' ),
+			array(
+				'status' => $status,
+				'error'  => '' === $error ? null : mb_substr( $error, 0, 1000 ),
+			),
+			array( 'id' => $log_id )
+		);
 	}
 
 	/**
@@ -887,12 +1087,14 @@ final class Mailer {
 	 * @param array<string, mixed> $ctx       Context.
 	 * @param string               $event     Event.
 	 * @param string               $recipient Recipient.
-	 * @param bool                 $ok        Success.
+	 * @param string               $status    queued|sent|failed.
+	 * @param string               $error     Error message.
+	 * @return int Log id (0 for previews).
 	 */
-	private function log( array $ctx, string $event, string $recipient, bool $ok ): void {
+	private function log( array $ctx, string $event, string $recipient, string $status, string $error = '' ): int {
 		global $wpdb;
 		if ( ! empty( $ctx['sample'] ) ) {
-			return;
+			return 0;
 		}
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
 		$wpdb->insert(
@@ -903,10 +1105,11 @@ final class Mailer {
 				'channel'    => 'email',
 				'event'      => mb_substr( $event, 0, 40 ),
 				'recipient'  => mb_substr( $recipient, 0, 191 ),
-				'status'     => $ok ? 'sent' : 'failed',
-				'error'      => $ok ? null : __( 'wp_mail() returned false. Please check the mail configuration (e.g. an SMTP plugin).', 'bookora' ),
+				'status'     => $status,
+				'error'      => '' === $error ? null : mb_substr( $error, 0, 1000 ),
 				'created_at' => current_time( 'mysql', true ),
 			)
 		);
+		return (int) $wpdb->insert_id;
 	}
 }

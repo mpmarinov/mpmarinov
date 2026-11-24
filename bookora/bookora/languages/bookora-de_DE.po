@@ -634,6 +634,12 @@ msgstr "heute"
 msgid "tomorrow"
 msgstr "morgen"
 
+msgid "Attempt %1$d failed, next try in %2$d minutes: %3$s"
+msgstr "Versuch %1$d fehlgeschlagen, nächster Versuch in %2$d Minuten: %3$s"
+
+msgid "wp_mail() returned false. Please check the mail configuration (e.g. an SMTP plugin)."
+msgstr "wp_mail() meldet einen Fehler. Bitte prüfen Sie den E-Mail-Versand (z. B. mit einem SMTP-Plugin)."
+
 msgid "Add to Google Calendar"
 msgstr "Zu Google Kalender hinzufügen"
 
@@ -687,9 +693,6 @@ msgstr "Google Kalender"
 
 msgid "Open in WordPress"
 msgstr "In WordPress öffnen"
-
-msgid "wp_mail() returned false. Please check the mail configuration (e.g. an SMTP plugin)."
-msgstr "wp_mail() meldet einen Fehler. Bitte prüfen Sie den E-Mail-Versand (z. B. mit einem SMTP-Plugin)."
 
 msgid "in %d hour"
 msgid_plural "in %d hours"
@@ -2291,6 +2294,9 @@ msgstr "Noch keine E-Mails gesendet."
 
 msgid "Sent"
 msgstr "Gesendet"
+
+msgid "Waiting"
+msgstr "Wartet"
 
 msgid "Failed"
 msgstr "Fehlgeschlagen"

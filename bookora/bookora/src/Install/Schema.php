@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Schema {
 
-	public const VERSION = '1.7.0';
+	public const VERSION = '1.8.0';
 
 	/**
 	 * Unprefixed table names.
@@ -34,6 +34,7 @@ final class Schema {
 		'action_tokens',
 		'email_templates',
 		'notification_log',
+		'mail_queue',
 		'calendar_connections',
 		'external_events',
 		'files',
@@ -261,6 +262,21 @@ final class Schema {
   KEY entry_id (entry_id),
   KEY booking_id (booking_id),
   KEY status (status)
+) $collate;",
+
+			'mail_queue'           => "CREATE TABLE {$t('mail_queue')} (
+  id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  log_id bigint(20) unsigned NULL,
+  recipient varchar(191) NOT NULL DEFAULT '',
+  subject varchar(255) NOT NULL DEFAULT '',
+  body longtext NULL,
+  headers text NULL,
+  attachments longtext NULL,
+  attempts tinyint(3) unsigned NOT NULL DEFAULT 0,
+  next_attempt datetime NOT NULL,
+  created_at datetime NOT NULL,
+  PRIMARY KEY  (id),
+  KEY next_attempt (next_attempt)
 ) $collate;",
 
 			'calendar_connections' => "CREATE TABLE {$t('calendar_connections')} (

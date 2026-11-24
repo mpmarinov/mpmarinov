@@ -156,6 +156,9 @@ WordPress-Benutzern können Sie die Rolle **Booking Manager** (Buchungsverwaltun
 **Kunden sehen keine freien Termine.**
 Prüfen Sie: Öffnungszeiten eingetragen? Leistung aktiv und einem Mitarbeiter mit Arbeitszeiten zugeordnet? Mindestvorlauf/„Buchbar bis“ zu streng? Ein verbundener privater Kalender blockiert den Tag?
 
+**Im E-Mail-Protokoll steht „Wartet“.**
+Bookora verschickt E-Mails über eine Warteschlange. Klappt der Versand nicht, versucht es Bookora nach 5, 30 und 120 Minuten erneut; der Grund steht unter dem Status. Erst danach gilt die E-Mail als „Fehlgeschlagen“.
+
 **Es kommen keine E-Mails an.**
 **E-Mails → Test-E-Mail** senden. Kommt nichts an, liegt es meist am Mailversand des Hosters – ein SMTP-Plugin löst das.
 

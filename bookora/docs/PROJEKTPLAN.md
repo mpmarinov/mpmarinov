@@ -234,7 +234,7 @@ Statt Merchant of Record (Freemius/Paddle/Lemon Squeezy) Verkauf im bestehenden 
 | Datei-Upload & Unterschrift | ✅ umgesetzt (siehe 10b.6) | – |
 | Kunden-Zeitzone (Slots in eigener Zeit anzeigen) | ✅ 24.11.2026: Umschalter Ortszeit Betrieb / eigene Zeit (nur bei abweichender Zeitzone), Standard einstellbar, Kundenmail mit `{local_time}` | – |
 | Berechnete Felder (z. B. Gesamtpreis) | ✅ 24.11.2026: Formel-Feld mit eigenem Parser (kein eval) in PHP und JS, 3.206 Zufallsformeln ohne Abweichung, Server rechnet immer neu | – |
-| E-Mail-Warteschlange (Action Scheduler statt Direktversand) | Erinnerungen in Paketen (40 pro Lauf); Bestätigungsmails weiter direkt | Phase 10 |
+| E-Mail-Warteschlange | ✅ 24.11.2026: eigene Warteschlange (Tabelle `mail_queue`, kein Fremdpaket): Zustellung nach der Antwort an den Besucher, Wiederholung nach 5/30/120 Min., Sperre gegen Doppelversand, Status „Wartet“ im Protokoll | – |
 | Warteliste | fehlt | Pro (laut Abschnitt 9) |
 | Bulgarische Übersetzung | ✅ 24.11.2026: alle 1.035 Texte (Admin, Formular, E-Mails), Kunden förmlich mit „Вие“; automatisch geprüft: Platzhalter, HTML, Zeilenumbrüche, Pluralformen | – |
 | Abnahmetest auf Staging (Marin, per ZIP) | bereit | jetzt möglich |

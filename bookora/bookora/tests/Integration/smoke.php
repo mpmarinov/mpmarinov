@@ -1223,6 +1223,49 @@ check( isset( $calc_vals['netto'], $calc_vals['brutto'] ) && preg_match( '/^91[.
 $calc_html = do_shortcode( '[bookora id="' . $calc_form['id'] . '"]' );
 check( str_contains( $calc_html, 'class="bookora-calc"' ) && str_contains( $calc_html, '&quot;numbers&quot;' ) && ! str_contains( $calc_html, 'system(' ), 'form shows the result field and passes option values to the browser' );
 
+echo "Mail queue\n";
+$mq     = \Bookora\Core\Plugin::instance()->container()->get( \Bookora\Notifications\Mailer::class );
+$mq_tab = $wpdb->prefix . 'bookora_mail_queue';
+$mq_log = $wpdb->prefix . 'bookora_notification_log';
+$wpdb->query( "DELETE FROM {$mq_tab}" );
+$mq_down = static fn() => false;
+add_filter( 'pre_wp_mail', $mq_down );
+$mq->send_message( 'queue-test@example.com', 'Queue test', '<p>Hallo</p>', 'queue_test' );
+$mq_row  = $wpdb->get_row( "SELECT * FROM {$mq_tab} ORDER BY id DESC LIMIT 1", ARRAY_A );
+$mq_logr = $wpdb->get_row( "SELECT * FROM {$mq_log} WHERE event = 'queue_test' ORDER BY id DESC LIMIT 1", ARRAY_A );
+check( $mq_row && 1 === (int) $mq_row['attempts'] && strtotime( $mq_row['next_attempt'] . ' UTC' ) > time() + 4 * 60 && 'queued' === $mq_logr['status'] && str_contains( (string) $mq_logr['error'], '5' ), 'failed delivery stays queued and is retried in 5 minutes', array( $mq_row, $mq_logr ) );
+$wpdb->update( $mq_tab, array( 'next_attempt' => gmdate( 'Y-m-d H:i:s', time() - 1 ) ), array( 'id' => $mq_row['id'] ) );
+$mq->process_queue();
+$wpdb->update( $mq_tab, array( 'next_attempt' => gmdate( 'Y-m-d H:i:s', time() - 1 ) ), array( 'id' => $mq_row['id'] ) );
+$mq->process_queue();
+check( 3 === (int) $wpdb->get_var( "SELECT attempts FROM {$mq_tab} WHERE id = " . (int) $mq_row['id'] ), 'retries are counted (5, 30, 120 minutes)' );
+$wpdb->update( $mq_tab, array( 'next_attempt' => gmdate( 'Y-m-d H:i:s', time() - 1 ) ), array( 'id' => $mq_row['id'] ) );
+$mq->process_queue();
+check( null === $wpdb->get_var( "SELECT id FROM {$mq_tab} WHERE id = " . (int) $mq_row['id'] ) && 'failed' === $wpdb->get_var( "SELECT status FROM {$mq_log} WHERE id = " . (int) $mq_logr['id'] ), 'after the 4th failed attempt the email is marked as failed' );
+$mq->send_message( 'queue-test2@example.com', 'Queue test 2', '<p>Hallo</p>', 'queue_test2' );
+remove_filter( 'pre_wp_mail', $mq_down );
+$mq_id2 = (int) $wpdb->get_var( "SELECT id FROM {$mq_tab} ORDER BY id DESC LIMIT 1" );
+$wpdb->update( $mq_tab, array( 'next_attempt' => gmdate( 'Y-m-d H:i:s', time() - 1 ) ), array( 'id' => $mq_id2 ) );
+$mq_stats = $mq->process_queue();
+check( 1 === $mq_stats['sent'] && 'sent' === $wpdb->get_var( "SELECT status FROM {$mq_log} WHERE event = 'queue_test2' ORDER BY id DESC LIMIT 1" ) && null === $wpdb->get_var( "SELECT error FROM {$mq_log} WHERE event = 'queue_test2' ORDER BY id DESC LIMIT 1" ), 'when the mail server is back, the waiting email goes out' );
+add_option( 'bookora_mail_queue_lock', time() );
+$mq->send_message( 'queue-test3@example.com', 'Queue test 3', '<p>Hallo</p>', 'queue_test3' );
+check( 'queued' === $wpdb->get_var( "SELECT status FROM {$mq_log} WHERE event = 'queue_test3' ORDER BY id DESC LIMIT 1" ), 'a second process does not deliver while another one holds the lock' );
+delete_option( 'bookora_mail_queue_lock' );
+$mq->process_queue();
+check( 'sent' === $wpdb->get_var( "SELECT status FROM {$mq_log} WHERE event = 'queue_test3' ORDER BY id DESC LIMIT 1" ), 'next run delivers it' );
+$mq_b   = (int) $wpdb->get_var( "SELECT id FROM {$wpdb->prefix}bookora_bookings WHERE status = 'confirmed' ORDER BY id DESC LIMIT 1" );
+$mq_ctx = $mq->booking_context( $mq_b );
+add_option( 'bookora_mail_queue_lock', time() );
+if ( $mq_ctx ) {
+	$mq->send( 'booking_confirmed', $mq_ctx );
+}
+$mq_att = (array) json_decode( (string) $wpdb->get_var( "SELECT attachments FROM {$mq_tab} ORDER BY id DESC LIMIT 1" ), true );
+delete_option( 'bookora_mail_queue_lock' );
+$mq->process_queue();
+check( $mq_ctx && 'termin.ics' === ( $mq_att[0]['name'] ?? '' ) && str_contains( (string) ( $mq_att[0]['content'] ?? '' ), 'BEGIN:VCALENDAR' ), 'calendar file is kept in the queue until delivery', $mq_att );
+check( 0 === (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$mq_tab}" ), 'queue is empty after delivery' );
+
 echo "Customer time zone\n";
 $tz_start = ( new DateTimeImmutable( '2026-11-25 09:00', wp_timezone() ) )->getTimestamp();
 $tz_note  = \Bookora\Notifications\Mailer::local_time( 'America/New_York', $tz_start, $tz_start + 2700 );

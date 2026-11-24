@@ -1095,5 +1095,7 @@
 "Total": "Общо",
 "Unknown field: %s": "Непознато поле: %s",
 "Use + - * / ( ), numbers and the fields below, e.g. {persons} * {service_price}. Functions: round(x, 2), min(a, b), max(a, b), ceil(x), floor(x).": "Използвайте + - * / ( ), числа и полетата по-долу, напр. {persons} * {service_price}. Функции: round(x, 2), min(a, b), max(a, b), ceil(x), floor(x).",
-"Value for calculations": "Стойност за изчисления"
+"Value for calculations": "Стойност за изчисления",
+"Waiting": "Изчаква",
+"Attempt %1$d failed, next try in %2$d minutes: %3$s": "Опит %1$d неуспешен, следващ опит след %2$d минути: %3$s"
 }

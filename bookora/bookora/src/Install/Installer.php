@@ -44,6 +44,7 @@ final class Installer {
 		wp_clear_scheduled_hook( 'bookora_daily_maintenance' );
 		wp_clear_scheduled_hook( \Bookora\Notifications\Mailer::CRON_REMINDERS );
 		wp_clear_scheduled_hook( \Bookora\Notifications\Mailer::CRON_REMINDERS_MORE );
+		wp_clear_scheduled_hook( \Bookora\Notifications\Mailer::CRON_QUEUE );
 		wp_clear_scheduled_hook( \Bookora\Calendar\IcsImporter::CRON );
 	}
 

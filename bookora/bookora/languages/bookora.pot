@@ -632,6 +632,12 @@ msgstr ""
 msgid "tomorrow"
 msgstr ""
 
+msgid "Attempt %1$d failed, next try in %2$d minutes: %3$s"
+msgstr ""
+
+msgid "wp_mail() returned false. Please check the mail configuration (e.g. an SMTP plugin)."
+msgstr ""
+
 msgid "Add to Google Calendar"
 msgstr ""
 
@@ -684,9 +690,6 @@ msgid "Google Calendar"
 msgstr ""
 
 msgid "Open in WordPress"
-msgstr ""
-
-msgid "wp_mail() returned false. Please check the mail configuration (e.g. an SMTP plugin)."
 msgstr ""
 
 msgid "in %d hour"
@@ -2288,6 +2291,9 @@ msgid "No emails sent yet."
 msgstr ""
 
 msgid "Sent"
+msgstr ""
+
+msgid "Waiting"
 msgstr ""
 
 msgid "Failed"
