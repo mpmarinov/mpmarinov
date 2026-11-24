@@ -76,16 +76,16 @@ check( 200 === $c && true === $d['valid'] && null === $d['latest'] && ! isset( $
 $zip_path = tempnam( get_temp_dir(), 'mls' ) . '.zip';
 $zip      = new ZipArchive();
 $zip->open( $zip_path, ZipArchive::CREATE | ZipArchive::OVERWRITE );
-$zip->addFromString( 'bookora-pro/bookora-pro.php', "<?php\n/* Plugin Name: Bookora Pro\n Version: 1.1.0 */" );
+$zip->addFromString( 'bookora-pro/bookora-pro.php', "<?php\n/* Plugin Name: Bookora Pro\n Version: 9.1.0 */" );
 $zip->close();
-$rel = Releases::add( 'bookora-pro', $zip_path, array( 'version' => '1.1.0', 'changelog' => '<p>Neu: Warteliste</p><script>x</script>' ) );
+$rel = Releases::add( 'bookora-pro', $zip_path, array( 'version' => '9.1.0', 'changelog' => '<p>Neu: Warteliste</p><script>x</script>' ) );
 check( ! is_wp_error( $rel ) && ! str_contains( $rel['changelog'], 'script' ) && file_exists( Releases::path( $rel ) ), 'release is stored in the protected folder, changelog sanitised', $rel );
 check( is_wp_error( Releases::add( 'bookora-pro', __FILE__, array( 'version' => '1.2.0' ) ) ), 'non-ZIP files are refused' );
 $htaccess = (string) file_get_contents( Releases::dir() . '/.htaccess' );
 // Note: the PHP test server ignores .htaccess; Apache/LiteSpeed block the folder, and the random name protects on nginx.
-check( str_contains( $htaccess, 'Require all denied' ) && file_exists( Releases::dir() . '/web.config' ) && (bool) preg_match( '/^bookora-pro-1\.1\.0-[A-Za-z0-9]{12}\.zip$/', $rel['file'] ), 'release folder is locked (.htaccess, web.config) and the file name is random', $rel['file'] );
+check( str_contains( $htaccess, 'Require all denied' ) && file_exists( Releases::dir() . '/web.config' ) && (bool) preg_match( '/^bookora-pro-9\.1\.0-[A-Za-z0-9]{12}\.zip$/', $rel['file'] ), 'release folder is locked (.htaccess, web.config) and the file name is random', $rel['file'] );
 [ $c, $d ] = post( $api . 'check', array( 'key' => $one['key'], 'site' => 'https://praxis-b.de', 'product' => 'bookora-pro', 'version' => '1.0.0' ) );
-check( '1.1.0' === ( $d['latest']['version'] ?? '' ) && ! isset( $d['latest']['file'] ) && str_contains( (string) ( $d['package'] ?? '' ), 'sig=' ), 'check offers 1.1.0 with a signed download link (file name stays secret)', $d );
+check( '9.1.0' === ( $d['latest']['version'] ?? '' ) && ! isset( $d['latest']['file'] ) && str_contains( (string) ( $d['package'] ?? '' ), 'sig=' ), 'check offers 9.1.0 with a signed download link (file name stays secret)', $d );
 $dl = wp_remote_get( $d['package'], array( 'timeout' => 20 ) );
 check( 200 === wp_remote_retrieve_response_code( $dl ) && str_starts_with( wp_remote_retrieve_body( $dl ), "PK\x03\x04" ), 'signed link delivers the ZIP' );
 $bad = wp_remote_get( str_replace( 'sig=', 'sig=0', $d['package'] ) );
@@ -99,7 +99,7 @@ post( $api . 'activate', array( 'key' => $old['key'], 'site' => 'https://alt.de'
 [ , $before ] = post( $api . 'check', array( 'key' => $old['key'], 'site' => 'https://alt.de', 'product' => 'bookora-pro' ) );
 $lic->update( $old['id'], array( 'expires_at' => gmdate( 'Y-m-d H:i:s', time() - 60 ) ) );
 [ , $d ] = post( $api . 'check', array( 'key' => $old['key'], 'site' => 'https://alt.de', 'product' => 'bookora-pro' ) );
-check( 'expired' === $d['status'] && ! isset( $d['package'] ) && '1.1.0' === $d['latest']['version'], 'expired license: update is shown, but without download', $d );
+check( 'expired' === $d['status'] && ! isset( $d['package'] ) && '9.1.0' === $d['latest']['version'], 'expired license: update is shown, but without download', $d );
 $dl = wp_remote_get( $before['package'] );
 check( 403 === wp_remote_retrieve_response_code( $dl ), 'an earlier download link stops working after expiry' );
 [ $c, $d ] = post( $api . 'activate', array( 'key' => $old['key'], 'site' => 'https://neu.de', 'product' => 'bookora-pro' ) );
@@ -137,7 +137,7 @@ check( true === $res && \BookoraPro\License::is_active() && 5 === \BookoraPro\Li
 $t  = (object) array( 'response' => array(), 'checked' => array() );
 $t  = $client->inject_update( $t );
 $up = $t->response[ BOOKORA_PRO_BASENAME ] ?? null;
-check( $up && '1.1.0' === $up->new_version && str_contains( $up->package, 'sig=' ), 'WordPress update screen gets version 1.1.0 with download', $up );
+check( $up && '9.1.0' === $up->new_version && str_contains( $up->package, 'sig=' ), 'WordPress update screen gets version 9.1.0 with download', $up );
 $info = $client->plugin_info( false, 'plugin_information', (object) array( 'slug' => 'bookora-pro' ) );
 check( is_object( $info ) && str_contains( $info->sections['changelog'], 'Warteliste' ), '"View details" shows the changelog' );
 check( PHP_INT_MAX === (int) apply_filters( 'bookora_resource_limit', 3 ) && true === apply_filters( 'bookora_is_pro', false ), 'Pro lifts the staff limit' );
@@ -172,7 +172,9 @@ $svc_req = new WP_REST_Request( 'POST', '/bookora/v1/services' );
 $svc_req->set_header( 'Content-Type', 'application/json' );
 $svc_req->set_body( wp_json_encode( array( 'name' => 'Webhook-Test', 'duration' => 30 ) ) );
 $svc  = rest_do_request( $svc_req )->get_data();
-$d    = new DateTimeImmutable( 'next monday 16:00', wp_timezone() );
+$d    = ( new DateTimeImmutable( 'next monday 16:00', wp_timezone() ) )->modify( '+21 days' );
+// Test installation only: free the test slot from earlier runs.
+$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->prefix}bookora_bookings WHERE start_utc >= %s AND start_utc < %s", get_gmt_from_date( $d->modify( '+7 days' )->format( 'Y-m-d 00:00:00' ) ), get_gmt_from_date( $d->modify( '+8 days' )->format( 'Y-m-d 00:00:00' ) ) ) );
 $book = \Bookora\Core\Plugin::instance()->container()->get( \Bookora\Booking\BookingService::class )->create( array( 'service_id' => $svc['id'], 'start' => $d->modify( '+7 days' )->getTimestamp(), 'customer' => array( 'email' => 'webhook@example.com', 'name' => 'Wera Webhook' ) ) );
 $last = end( $sent );
 $body = $last ? json_decode( $last['args']['body'], true ) : null;

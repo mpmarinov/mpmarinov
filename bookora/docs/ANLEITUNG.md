@@ -142,6 +142,19 @@ Alles optional – ohne Zugangsdaten wird kein Dienst kontaktiert.
 - **Slack / Telegram:** kurze Nachricht bei neuer Buchung, neuem Eintrag, Absage oder Verschiebung. *Testnachricht senden* prüft die Verbindung.
 - **Newsletter (Mailchimp, Brevo):** im Formular-Builder → *Formular* → *Newsletter* Dienst und das Zustimmungsfeld wählen („Ja, ich möchte den Newsletter erhalten“). Angemeldet wird nur, wer das Feld anhakt, und immer mit Bestätigungs-E-Mail (Double-Opt-in).
 
+## 10b. Online-Zahlung (Bookora Pro)
+
+*Bookora → Pro → Online-Zahlung*:
+1. **Zahlung**: „Voller Preis“ oder „Anzahlung“ (z. B. 30 % oder 20 € fest). Nur Leistungen mit Preis; optional nur ausgewählte Leistungen.
+2. **Stripe**: geheimen Schlüssel eintragen (Stripe → Entwickler → API-Schlüssel, beginnt mit `sk_live_`). Empfohlen: unter Stripe → Webhooks die angezeigte Adresse mit dem Ereignis `checkout.session.completed` anlegen und das Signatur-Geheimnis (`whsec_…`) eintragen – dann wird auch bestätigt, wer nach dem Bezahlen das Fenster schließt.
+3. **PayPal**: Client-ID und Secret (developer.paypal.com → Apps & Credentials). Zum Ausprobieren „Sandbox“ anhaken.
+
+So läuft es für Kunden: buchen → Zahlungsseite → Karte, Apple Pay, Google Pay oder PayPal auf der sicheren Seite des Anbieters → Termin automatisch bestätigt, erst jetzt gehen die E-Mails raus. Wer nicht innerhalb der Frist (mind. 30 Minuten) bezahlt, dessen Termin wird freigegeben.
+
+**Erstattung:** Bei rechtzeitiger Absage durch den Kunden wird automatisch erstattet, bei später Absage abzüglich Ausfallgebühr; sagen Sie selbst ab, wird alles erstattet. Teil-Erstattungen von Hand unter *Pro → Letzte Zahlungen*. In der Buchungsliste zeigt ein Hinweis „Bezahlt online“, „Anzahlung bezahlt“ oder „Zahlung offen“.
+
+> Testen Sie zuerst mit Stripe-Testschlüsseln (`sk_test_…`) und PayPal-Sandbox. Kartendaten berühren Ihre Website nie.
+
 ## 11. Datei-Upload und Unterschrift
 
 - Erlaubt sind nur harmlose Dateitypen (Bilder, PDF, Office, Text, ZIP). Der echte Inhalt wird geprüft.

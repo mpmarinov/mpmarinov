@@ -176,12 +176,19 @@ final class AdminPage {
 				</form>
 			<?php endif; ?>
 
+			<?php
+			/**
+			 * More sections on the Pro page (online payment …).
+			 */
+			do_action( 'bookora_pro_admin_sections' );
+			?>
+
 			<h2><?php esc_html_e( 'Webhooks (Zapier, Make, n8n, Google Sheets)', 'bookora-pro' ); ?></h2>
 			<p class="description"><?php esc_html_e( 'Bookora sends a JSON message to the address for each chosen event. Each message is signed: header X-Bookora-Signature = sha256 HMAC of the body with the secret shown below.', 'bookora-pro' ); ?></p>
 			<?php $hooks = Webhooks::all(); ?>
 			<?php if ( $hooks ) : ?>
 				<table class="widefat striped" style="max-width:1100px">
-					<thead><tr><th><?php esc_html_e( 'Address', 'bookora-pro' ); ?></th><th><?php esc_html_e( 'Events', 'bookora-pro' ); ?></th><th><?php esc_html_e( 'Secret', 'bookora-pro' ); ?></th><th></th></tr></thead>
+					<thead><tr><th><?php esc_html_e( 'Address', 'bookora-pro' ); ?></th><th><?php esc_html_e( 'Events', 'bookora-pro' ); ?></th><th><?php esc_html_e( 'Secret', 'bookora-pro' ); ?></th><th><span class="screen-reader-text"><?php esc_html_e( 'Actions', 'bookora-pro' ); ?></span></th></tr></thead>
 					<tbody>
 					<?php foreach ( $hooks as $hook ) : ?>
 						<tr>

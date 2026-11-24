@@ -560,6 +560,23 @@ final class EntryRepository {
 	 * @return array<string, mixed>
 	 */
 	private static function format_booking( array $b ): array {
+		$booking = self::booking_fields( $b );
+		/**
+		 * Booking data for the admin, feeds and emails. Add-ons can append "badges":
+		 * list of {label, tone} shown next to the status (tone: success|warning|error|neutral).
+		 *
+		 * @param array<string, mixed> $booking Booking.
+		 */
+		return (array) apply_filters( 'bookora_booking_data', $booking + array( 'badges' => array() ) );
+	}
+
+	/**
+	 * Booking row → API fields.
+	 *
+	 * @param array<string, mixed> $b Row.
+	 * @return array<string, mixed>
+	 */
+	private static function booking_fields( array $b ): array {
 		$tz    = wp_timezone();
 		$start = new \DateTimeImmutable( $b['start_utc'], new \DateTimeZone( 'UTC' ) );
 		$end   = new \DateTimeImmutable( $b['end_utc'], new \DateTimeZone( 'UTC' ) );

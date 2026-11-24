@@ -1,0 +1,408 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Bookora Pro\n"
+"Language: bg_BG\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Bookora Pro needs the free Bookora plugin. Please install and activate Bookora."
+msgstr "Bookora Pro изисква безплатния плъгин Bookora. Моля, инсталирайте и активирайте Bookora."
+
+msgid "Bookora Pro"
+msgstr "Bookora Pro"
+
+msgid "Pro"
+msgstr "Pro"
+
+msgid "License"
+msgstr "Лиценз"
+
+msgid "Please enter your Bookora Pro license key to receive updates."
+msgstr "Моля, въведете лицензния ключ за Bookora Pro, за да получавате актуализации."
+
+msgid "Enter license key"
+msgstr "Въведете лицензен ключ"
+
+msgid "Not allowed."
+msgstr "Не е разрешено."
+
+msgid "License activated. Thank you!"
+msgstr "Лицензът е активиран. Благодарим Ви!"
+
+msgid "License removed from this website."
+msgstr "Лицензът е премахнат от този уебсайт."
+
+msgid "Webhook added."
+msgstr "Webhook е добавен."
+
+msgid "Webhook removed."
+msgstr "Webhook е премахнат."
+
+msgid "Test delivered."
+msgstr "Тестът е доставен."
+
+msgid "The address did not answer with success (2xx). See the log below."
+msgstr "Адресът не отговори с успех (2xx). Вижте дневника по-долу."
+
+msgid "New booking"
+msgstr "Нова резервация"
+
+msgid "Booking status changed (confirmed, cancelled, attended …)"
+msgstr "Статусът на резервацията е променен (потвърдена, отменена, явил се …)"
+
+msgid "Booking moved in the admin"
+msgstr "Резервацията е преместена в администрацията"
+
+msgid "Cancelled by the customer"
+msgstr "Отменена от клиента"
+
+msgid "Moved by the customer"
+msgstr "Преместена от клиента"
+
+msgid "New form entry"
+msgstr "Нов запис във формуляр"
+
+msgid "Active"
+msgstr "Активен"
+
+msgid "%1$d of %2$s websites"
+msgstr "%1$d от %2$s уебсайта"
+
+msgid "updates until %s"
+msgstr "актуализации до %s"
+
+msgid "Remove license from this website"
+msgstr "Премахни лиценза от този уебсайт"
+
+msgid "Your license has expired. All Pro features keep working; updates and support resume when you renew."
+msgstr "Лицензът Ви е изтекъл. Всички Pro функции продължават да работят; актуализациите и поддръжката се възобновяват при подновяване."
+
+msgid "License key"
+msgstr "Лицензен ключ"
+
+msgid "Activate"
+msgstr "Активирай"
+
+msgid "You find the key in the order email and in your account on mpmarinov.com under “Licenses”. Local and staging sites do not count."
+msgstr "Ключът ще намерите в имейла за поръчката и в профила си на mpmarinov.com в раздел „Лицензи“. Локалните и тестовите (staging) сайтове не се броят."
+
+msgid "Webhooks (Zapier, Make, n8n, Google Sheets)"
+msgstr "Webhooks (Zapier, Make, n8n, Google Sheets)"
+
+msgid "Bookora sends a JSON message to the address for each chosen event. Each message is signed: header X-Bookora-Signature = sha256 HMAC of the body with the secret shown below."
+msgstr "Bookora изпраща JSON съобщение до адреса при всяко избрано събитие. Всяко съобщение е подписано: заглавка X-Bookora-Signature = sha256 HMAC на тялото с показания по-долу таен ключ."
+
+msgid "Address"
+msgstr "Адрес"
+
+msgid "Events"
+msgstr "Събития"
+
+msgid "Secret"
+msgstr "Таен ключ"
+
+msgid "Send test"
+msgstr "Изпрати тест"
+
+msgid "Remove"
+msgstr "Премахни"
+
+msgid "Address (https://…)"
+msgstr "Адрес (https://…)"
+
+msgid "Add webhook"
+msgstr "Добави webhook"
+
+msgid "Google Sheets without Zapier: Apps Script in 2 minutes"
+msgstr "Google Sheets без Zapier: Apps Script за 2 минути"
+
+msgid "Open the spreadsheet → Extensions → Apps Script, paste the code and save."
+msgstr "Отворете таблицата → Разширения → Apps Script, поставете кода и запазете."
+
+msgid "Deploy → New deployment → Web app → access “Anyone” → copy the address."
+msgstr "Внедряване → Ново внедряване → Уеб приложение → достъп „Всеки“ → копирайте адреса."
+
+msgid "Add the address above as a webhook. Each booking becomes a new row."
+msgstr "Добавете горния адрес като webhook. Всяка резервация става нов ред."
+
+msgid "Last deliveries"
+msgstr "Последни доставки"
+
+msgid "no connection"
+msgstr "няма връзка"
+
+msgid "attempt %d"
+msgstr "опит %d"
+
+msgid "The license server could not be reached. Please try again later."
+msgstr "Сървърът за лицензи не може да бъде достигнат. Моля, опитайте отново по-късно."
+
+msgid "The license could not be checked."
+msgstr "Лицензът не можа да бъде проверен."
+
+msgid "PayPal did not return a payment page."
+msgstr "PayPal не върна страница за плащане."
+
+msgid "Invalid payment reference."
+msgstr "Невалиден референтен номер на плащането."
+
+msgid "PayPal rejected the access data. Please check client ID and secret (and live/sandbox)."
+msgstr "PayPal отхвърли данните за достъп. Моля, проверете Client ID и Secret (и live/sandbox)."
+
+msgid "PayPal could not be reached. Please try again in a moment."
+msgstr "PayPal не може да бъде достигнат. Моля, опитайте отново след малко."
+
+msgid "PayPal: %s"
+msgstr "PayPal: %s"
+
+msgid "The Stripe secret key starts with sk_live_ or sk_test_ (Developers → API keys)."
+msgstr "Тайният ключ на Stripe започва с sk_live_ или sk_test_ (Developers → API keys)."
+
+msgid "The Stripe webhook signing secret starts with whsec_."
+msgstr "Тайният ключ за подпис на webhook в Stripe започва с whsec_."
+
+msgid "Please enter the access data of Stripe or PayPal first."
+msgstr "Моля, първо въведете данните за достъп до Stripe или PayPal."
+
+msgid "Almost done – you are being forwarded to the payment."
+msgstr "Почти готово – пренасочваме Ви към плащането."
+
+msgid "Payment"
+msgstr "Плащане"
+
+msgid "This payment link is not valid."
+msgstr "Този линк за плащане не е валиден."
+
+msgid "The payment page could not be opened. Please try again or choose another payment method."
+msgstr "Страницата за плащане не можа да бъде отворена. Моля, опитайте отново или изберете друг начин на плащане."
+
+msgid "The payment was cancelled. You can try again."
+msgstr "Плащането беше отменено. Можете да опитате отново."
+
+msgid "%1$s on %2$s"
+msgstr "%1$s на %2$s"
+
+msgid "Deposit: %s"
+msgstr "Капаро: %s"
+
+msgid "The payment could not be assigned. If you have paid, please contact us."
+msgstr "Плащането не можа да бъде съпоставено. Ако сте платили, моля, свържете се с нас."
+
+msgid "The payment has not been completed yet."
+msgstr "Плащането все още не е завършено."
+
+msgid "The paid amount does not match. Please contact us."
+msgstr "Платената сума не съвпада. Моля, свържете се с нас."
+
+msgid "Payment open: %s"
+msgstr "Очаква плащане: %s"
+
+msgid "Deposit paid: %s"
+msgstr "Платено капаро: %s"
+
+msgid "Paid online: %s"
+msgstr "Платено онлайн: %s"
+
+msgid "Not paid in time"
+msgstr "Не е платено навреме"
+
+msgid "Refunded: %s"
+msgstr "Възстановено: %s"
+
+msgid "Partly refunded: %s"
+msgstr "Частично възстановено: %s"
+
+msgid "Service"
+msgstr "Услуга"
+
+msgid "Appointment"
+msgstr "Час"
+
+msgid "Deposit"
+msgstr "Капаро"
+
+msgid "Amount"
+msgstr "Сума"
+
+msgid "of %s"
+msgstr "от %s"
+
+msgid "Thank you for your payment"
+msgstr "Благодарим Ви за плащането"
+
+msgid "Your payment has been received and your appointment is confirmed. You will receive a confirmation by email."
+msgstr "Вашето плащане е получено и Вашият час е потвърден. Ще получите потвърждение по имейл."
+
+msgid "Time expired"
+msgstr "Времето изтече"
+
+msgid "The payment was not completed in time, so the appointment has been released. You are welcome to book again."
+msgstr "Плащането не беше извършено навреме, затова часът беше освободен. Добре дошли сте да резервирате отново."
+
+msgid "Back to the website"
+msgstr "Обратно към уебсайта"
+
+msgid "Payment refunded"
+msgstr "Сумата е възстановена"
+
+msgid "We have refunded %s."
+msgstr "Възстановихме Ви %s."
+
+msgid "Pay by card, Apple Pay or Google Pay"
+msgstr "Платете с карта, Apple Pay или Google Pay"
+
+msgid "Pay with PayPal"
+msgstr "Платете с PayPal"
+
+msgid "Pay to confirm your appointment"
+msgstr "Платете, за да потвърдите Вашия час"
+
+msgid "The appointment is reserved for you for %d more minute. You pay on the secure page of the payment provider."
+msgid_plural "The appointment is reserved for you for %d more minutes. You pay on the secure page of the payment provider."
+msgstr[0] "Часът е запазен за Вас още %d минута. Плащате на защитената страница на доставчика на плащания."
+msgstr[1] "Часът е запазен за Вас още %d минути. Плащате на защитената страница на доставчика на плащания."
+
+msgid "This payment cannot be refunded."
+msgstr "Това плащане не може да бъде възстановено."
+
+msgid "Refund sent."
+msgstr "Възстановяването е изпратено."
+
+msgid "Payment settings saved."
+msgstr "Настройките за плащане са запазени."
+
+msgid "leave empty to keep"
+msgstr "оставете празно, за да запазите"
+
+msgid "remove"
+msgstr "премахни"
+
+msgid "waiting for payment"
+msgstr "очаква плащане"
+
+msgid "paid"
+msgstr "платено"
+
+msgid "not paid in time"
+msgstr "не е платено навреме"
+
+msgid "refunded"
+msgstr "възстановено"
+
+msgid "partly refunded"
+msgstr "частично възстановено"
+
+msgid "Online payment"
+msgstr "Онлайн плащане"
+
+msgid "Customers pay on the secure page of Stripe or PayPal – card data never touches your website. The appointment is reserved until payment and confirmed automatically afterwards. If it is not paid in time, it is released."
+msgstr "Клиентите плащат на защитената страница на Stripe или PayPal – данните на картата никога не достигат до Вашия уебсайт. Часът е запазен до плащането и след това се потвърждава автоматично. Ако не бъде платен навреме, се освобождава."
+
+msgid "No online payment"
+msgstr "Без онлайн плащане"
+
+msgid "Full price when booking"
+msgstr "Пълна цена при резервация"
+
+msgid "Deposit when booking"
+msgstr "Капаро при резервация"
+
+msgid "Only services with a price. Free services are booked as before."
+msgstr "Само услуги с цена. Безплатните услуги се резервират както досега."
+
+msgid "Deposit value"
+msgstr "Стойност на капарото"
+
+msgid "Deposit type"
+msgstr "Вид капаро"
+
+msgid "% of the price"
+msgstr "% от цената"
+
+msgid "€ fixed"
+msgstr "€ фиксирано"
+
+msgid "Only for these services"
+msgstr "Само за тези услуги"
+
+msgid "None ticked = all services with a price."
+msgstr "Нито една отметната = всички услуги с цена."
+
+msgid "Time to pay"
+msgstr "Срок за плащане"
+
+msgid "minutes (at least 30)"
+msgstr "минути (най-малко 30)"
+
+msgid "Refunds"
+msgstr "Възстановявания"
+
+msgid "Refund automatically when an appointment is cancelled (customer cancellations minus the cancellation fee, if any)."
+msgstr "Автоматично възстановяване при отменен час (при отказ от клиента – минус таксата за отказ, ако има такава)."
+
+msgid "Secret key"
+msgstr "Таен ключ"
+
+msgid "Webhook signing secret (recommended)"
+msgstr "Таен ключ за подпис на webhook (препоръчително)"
+
+msgid "Stripe → Developers → Webhooks → add endpoint with this address and the event checkout.session.completed:"
+msgstr "Stripe → Developers → Webhooks → добавете endpoint с този адрес и събитието checkout.session.completed:"
+
+msgid "Client ID"
+msgstr "Client ID"
+
+msgid "Sandbox (test mode)"
+msgstr "Sandbox (тестов режим)"
+
+msgid "developer.paypal.com → Apps & Credentials → create app → copy Client ID and Secret."
+msgstr "developer.paypal.com → Apps & Credentials → създайте приложение → копирайте Client ID и Secret."
+
+msgid "Save payment settings"
+msgstr "Запази настройките за плащане"
+
+msgid "Latest payments"
+msgstr "Последни плащания"
+
+msgid "Date"
+msgstr "Дата"
+
+msgid "Customer"
+msgstr "Клиент"
+
+msgid "Via"
+msgstr "Чрез"
+
+msgid "Status"
+msgstr "Статус"
+
+msgid "deposit"
+msgstr "капаро"
+
+msgid "refunded %s"
+msgstr "възстановени %s"
+
+msgid "Amount to refund"
+msgstr "Сума за възстановяване"
+
+msgid "Refund this amount to the customer?"
+msgstr "Да се възстанови ли тази сума на клиента?"
+
+msgid "Refund"
+msgstr "Възстанови"
+
+msgid "Stripe did not return a payment page."
+msgstr "Stripe не върна страница за плащане."
+
+msgid "Stripe could not be reached. Please try again in a moment."
+msgstr "Stripe не може да бъде достигнат. Моля, опитайте отново след малко."
+
+msgid "Stripe: %s"
+msgstr "Stripe: %s"
+
+msgid "Please enter a public https:// address."
+msgstr "Моля, въведете публичен https:// адрес."
+
+msgid "Please choose at least one event."
+msgstr "Моля, изберете поне едно събитие."

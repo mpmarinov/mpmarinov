@@ -56,7 +56,7 @@ Bookora by Marinov Solutions turns your WordPress site into a complete booking s
 * Design without code: main color, corner radius, spacing, light/dark/automatic color scheme
 
 = Bookora Pro =
-The separate, paid add-on Bookora Pro adds unlimited staff members and resources and webhooks for Zapier, Make, n8n and Google Sheets. It is not required: everything listed above works with this plugin alone. More: https://mpmarinov.com/bookora
+The separate, paid add-on Bookora Pro adds online payment and deposits (Stripe, PayPal), unlimited staff members and resources and webhooks for Zapier, Make, n8n and Google Sheets. It is not required: everything listed above works with this plugin alone. More: https://mpmarinov.com/bookora
 
 == External services ==
 

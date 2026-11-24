@@ -96,6 +96,16 @@ final class Mailer {
 	 * @param int $entry_id   Entry id.
 	 */
 	public function on_booking_created( int $booking_id, int $entry_id ): void {
+		/**
+		 * Send the emails for a new booking now? Return false to send them later yourself
+		 * (e.g. only after an online payment).
+		 *
+		 * @param bool $notify     Default true.
+		 * @param int  $booking_id Booking id.
+		 */
+		if ( ! apply_filters( 'bookora_notify_booking_created', true, $booking_id ) ) {
+			return;
+		}
 		$ctx = $this->booking_context( $booking_id );
 		if ( ! $ctx ) {
 			return;

@@ -2,8 +2,8 @@
 /**
  * Plugin Name:       Bookora Pro
  * Plugin URI:        https://mpmarinov.com/bookora
- * Description:       Pro add-on for Bookora: unlimited staff and resources, webhooks for Zapier, Make, n8n and Google Sheets, automatic updates.
- * Version:           1.0.0
+ * Description:       Pro add-on for Bookora: online payment and deposits (Stripe, PayPal), unlimited staff and resources, webhooks for Zapier, Make, n8n and Google Sheets, automatic updates.
+ * Version:           1.1.0
  * Requires at least: 6.6
  * Requires PHP:      8.1
  * Requires Plugins:  bookora
@@ -17,7 +17,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'BOOKORA_PRO_VERSION', '1.0.0' );
+define( 'BOOKORA_PRO_VERSION', '1.1.0' );
 define( 'BOOKORA_PRO_BASENAME', plugin_basename( __FILE__ ) );
 
 spl_autoload_register(
@@ -36,6 +36,7 @@ register_deactivation_hook(
 	static function (): void {
 		wp_clear_scheduled_hook( \BookoraPro\License::CRON );
 		wp_clear_scheduled_hook( \BookoraPro\Webhooks::RETRY );
+		wp_clear_scheduled_hook( \BookoraPro\Payments::CRON );
 	}
 );
 
@@ -48,8 +49,11 @@ add_action(
 
 		$license  = new \BookoraPro\License();
 		$webhooks = new \BookoraPro\Webhooks();
+		$payments = new \BookoraPro\Payments();
 		$license->register();
 		$webhooks->register();
+		$payments->register();
+		( new \BookoraPro\PaymentsAdmin( $payments ) )->register();
 		( new \BookoraPro\AdminPage( $license, $webhooks ) )->register();
 	}
 );

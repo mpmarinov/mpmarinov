@@ -171,6 +171,10 @@ bookora.setValue( 'quelle', new URLSearchParams( location.search ).get( 'quelle'
 | `bookora_upload_limit` | `int` | Uploads pro IP (bzw. IPv6 /64) und Stunde (Standard 30) |
 | `bookora_spam_check` | `true\|WP_Error` | Eigene Spam-Prüfung beim Absenden (`$result, $input, $meta`) |
 | `bookora_captcha_fail_open` | `bool` | Formulare annehmen, wenn der CAPTCHA-Dienst nicht erreichbar ist (Standard `true`) |
+| `bookora_booking_input` | `array` | Buchungsdaten vor dem Speichern (`$input, $form, $clean`) |
+| `bookora_booking_response` | `array` | Antwort an den Besucher nach der Buchung (`$response, $booking_id, $form`), z. B. Weiterleitung |
+| `bookora_notify_booking_created` | `bool` | E-Mails zur neuen Buchung jetzt senden (`$notify, $booking_id`) |
+| `bookora_booking_data` | `array` | Buchungsdaten fürs Admin; `badges` = Liste `{label, tone}` |
 | `bookora_reminder_batch` | `int` | Erinnerungen pro Cron-Lauf (Standard 40, Rest eine Minute später) |
 | `bookora_mail_queue` | `bool` | E-Mails über die Warteschlange senden (Standard `true`; `false` = sofort wie vor 1.8) |
 | `bookora_cancellation_policy` | `array $rule, ?array $service` → `array` | Stornoregel einer Leistung ändern (Frist `hours`, `fee`, `fee_type`, `fee_value`, `no_show`, `late_online`, `self_cancel`, `self_reschedule`) |

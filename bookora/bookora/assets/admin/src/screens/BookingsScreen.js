@@ -51,6 +51,25 @@ export function formatMoney( amount ) {
 	} ) } €`;
 }
 
+/**
+ * Extra hints from add-ons (e.g. "Paid online").
+ *
+ * @param {Object} props
+ * @param {Object} props.booking Booking.
+ */
+export function ExtraBadges( { booking } ) {
+	return ( booking.badges || [] ).map( ( b, i ) => (
+		<span
+			key={ i }
+			className={ `bookora-status bookora-status--${
+				b.tone || 'neutral'
+			}` }
+		>
+			{ b.label }
+		</span>
+	) );
+}
+
 export function FeeBadge( { booking } ) {
 	if ( ! booking.fee_amount || ! booking.fee_status ) {
 		return null;
@@ -300,6 +319,7 @@ export function BookingDetail( {
 							: '' }
 					</span>
 					<StatusBadge status={ booking.status } />
+					<ExtraBadges booking={ booking } />
 				</div>
 
 				<dl className="bookora-detail__contact">
@@ -607,7 +627,8 @@ export default function BookingsScreen() {
 												{ b.name || b.email }
 											</strong>{ ' ' }
 											<StatusBadge status={ b.status } />{ ' ' }
-											<FeeBadge booking={ b } />
+											<FeeBadge booking={ b } />{ ' ' }
+											<ExtraBadges booking={ b } />
 											<div className="bookora-meta">
 												<span>{ b.service_name }</span>
 												{ b.resource_name && (

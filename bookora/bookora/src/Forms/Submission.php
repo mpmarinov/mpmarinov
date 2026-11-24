@@ -213,6 +213,15 @@ final class Submission {
 				return $flood;
 			}
 
+			/**
+			 * Booking data before it is stored (e.g. keep it unconfirmed until it is paid).
+			 *
+			 * @param array<string, mixed> $booking_input service_id, resource_id, start, seats, status …
+			 * @param array<string, mixed> $form          Form.
+			 * @param array<string, mixed> $clean         Sanitized values.
+			 */
+			$booking_input = (array) apply_filters( 'bookora_booking_input', $booking_input, $form, $clean );
+
 			$result = $this->bookings->create(
 				$booking_input + array(
 					'form_id'    => (int) $form['id'],
@@ -235,14 +244,26 @@ final class Submission {
 			}
 			$this->store()->attach( $attach, (int) $result['entry_id'] );
 
-			return array(
-				'entry_id' => $result['entry_id'],
-				'booking'  => array(
-					'uid'    => $result['uid'],
-					'status' => $result['status'],
+			/**
+			 * Answer to the visitor after a booking (e.g. send them to a payment page).
+			 *
+			 * @param array<string, mixed> $response   entry_id, booking, message, redirect.
+			 * @param int                  $booking_id Booking id.
+			 * @param array<string, mixed> $form       Form.
+			 */
+			return (array) apply_filters(
+				'bookora_booking_response',
+				array(
+					'entry_id' => $result['entry_id'],
+					'booking'  => array(
+						'uid'    => $result['uid'],
+						'status' => $result['status'],
+					),
+					'message'  => $message,
+					'redirect' => (string) ( $settings['redirectUrl'] ?? '' ),
 				),
-				'message'  => $message,
-				'redirect' => (string) ( $settings['redirectUrl'] ?? '' ),
+				(int) $result['booking_id'],
+				$form
 			);
 		}
 

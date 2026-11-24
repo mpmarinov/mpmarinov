@@ -1,0 +1,408 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Bookora Pro\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Bookora Pro needs the free Bookora plugin. Please install and activate Bookora."
+msgstr "Bookora Pro benötigt das kostenlose Plugin Bookora. Bitte installieren und aktivieren Sie Bookora."
+
+msgid "Bookora Pro"
+msgstr "Bookora Pro"
+
+msgid "Pro"
+msgstr "Pro"
+
+msgid "License"
+msgstr "Lizenz"
+
+msgid "Please enter your Bookora Pro license key to receive updates."
+msgstr "Bitte geben Sie Ihren Lizenzschlüssel für Bookora Pro ein, um Updates zu erhalten."
+
+msgid "Enter license key"
+msgstr "Lizenzschlüssel eingeben"
+
+msgid "Not allowed."
+msgstr "Nicht erlaubt."
+
+msgid "License activated. Thank you!"
+msgstr "Lizenz aktiviert. Vielen Dank!"
+
+msgid "License removed from this website."
+msgstr "Lizenz von dieser Website entfernt."
+
+msgid "Webhook added."
+msgstr "Webhook hinzugefügt."
+
+msgid "Webhook removed."
+msgstr "Webhook entfernt."
+
+msgid "Test delivered."
+msgstr "Test zugestellt."
+
+msgid "The address did not answer with success (2xx). See the log below."
+msgstr "Die Adresse hat nicht mit Erfolg (2xx) geantwortet. Siehe Protokoll unten."
+
+msgid "New booking"
+msgstr "Neue Buchung"
+
+msgid "Booking status changed (confirmed, cancelled, attended …)"
+msgstr "Buchungsstatus geändert (bestätigt, storniert, erschienen …)"
+
+msgid "Booking moved in the admin"
+msgstr "Buchung im Admin-Bereich verschoben"
+
+msgid "Cancelled by the customer"
+msgstr "Vom Kunden storniert"
+
+msgid "Moved by the customer"
+msgstr "Vom Kunden verschoben"
+
+msgid "New form entry"
+msgstr "Neuer Formulareintrag"
+
+msgid "Active"
+msgstr "Aktiv"
+
+msgid "%1$d of %2$s websites"
+msgstr "%1$d von %2$s Websites"
+
+msgid "updates until %s"
+msgstr "Updates bis %s"
+
+msgid "Remove license from this website"
+msgstr "Lizenz von dieser Website entfernen"
+
+msgid "Your license has expired. All Pro features keep working; updates and support resume when you renew."
+msgstr "Ihre Lizenz ist abgelaufen. Alle Pro-Funktionen bleiben nutzbar; Updates und Support gibt es wieder nach der Verlängerung."
+
+msgid "License key"
+msgstr "Lizenzschlüssel"
+
+msgid "Activate"
+msgstr "Aktivieren"
+
+msgid "You find the key in the order email and in your account on mpmarinov.com under “Licenses”. Local and staging sites do not count."
+msgstr "Den Schlüssel finden Sie in der Bestell-E-Mail und in Ihrem Konto auf mpmarinov.com unter „Lizenzen“. Lokale und Staging-Websites zählen nicht."
+
+msgid "Webhooks (Zapier, Make, n8n, Google Sheets)"
+msgstr "Webhooks (Zapier, Make, n8n, Google Sheets)"
+
+msgid "Bookora sends a JSON message to the address for each chosen event. Each message is signed: header X-Bookora-Signature = sha256 HMAC of the body with the secret shown below."
+msgstr "Bookora sendet für jedes gewählte Ereignis eine JSON-Nachricht an die Adresse. Jede Nachricht ist signiert: Header X-Bookora-Signature = sha256 HMAC des Inhalts mit dem unten angezeigten Geheimnis."
+
+msgid "Address"
+msgstr "Adresse"
+
+msgid "Events"
+msgstr "Ereignisse"
+
+msgid "Secret"
+msgstr "Geheimnis"
+
+msgid "Send test"
+msgstr "Test senden"
+
+msgid "Remove"
+msgstr "Entfernen"
+
+msgid "Address (https://…)"
+msgstr "Adresse (https://…)"
+
+msgid "Add webhook"
+msgstr "Webhook hinzufügen"
+
+msgid "Google Sheets without Zapier: Apps Script in 2 minutes"
+msgstr "Google Sheets ohne Zapier: Apps Script in 2 Minuten"
+
+msgid "Open the spreadsheet → Extensions → Apps Script, paste the code and save."
+msgstr "Tabelle öffnen → Erweiterungen → Apps Script, Code einfügen und speichern."
+
+msgid "Deploy → New deployment → Web app → access “Anyone” → copy the address."
+msgstr "Bereitstellen → Neue Bereitstellung → Web-App → Zugriff „Jeder“ → Adresse kopieren."
+
+msgid "Add the address above as a webhook. Each booking becomes a new row."
+msgstr "Fügen Sie die Adresse oben als Webhook hinzu. Jede Buchung wird zu einer neuen Zeile."
+
+msgid "Last deliveries"
+msgstr "Letzte Zustellungen"
+
+msgid "no connection"
+msgstr "keine Verbindung"
+
+msgid "attempt %d"
+msgstr "Versuch %d"
+
+msgid "The license server could not be reached. Please try again later."
+msgstr "Der Lizenzserver ist nicht erreichbar. Bitte versuchen Sie es später erneut."
+
+msgid "The license could not be checked."
+msgstr "Die Lizenz konnte nicht geprüft werden."
+
+msgid "PayPal did not return a payment page."
+msgstr "PayPal hat keine Zahlungsseite zurückgegeben."
+
+msgid "Invalid payment reference."
+msgstr "Ungültige Zahlungsreferenz."
+
+msgid "PayPal rejected the access data. Please check client ID and secret (and live/sandbox)."
+msgstr "PayPal hat die Zugangsdaten abgelehnt. Bitte prüfen Sie Client-ID und Secret (sowie Live/Sandbox)."
+
+msgid "PayPal could not be reached. Please try again in a moment."
+msgstr "PayPal ist nicht erreichbar. Bitte versuchen Sie es gleich noch einmal."
+
+msgid "PayPal: %s"
+msgstr "PayPal: %s"
+
+msgid "The Stripe secret key starts with sk_live_ or sk_test_ (Developers → API keys)."
+msgstr "Der geheime Schlüssel von Stripe beginnt mit sk_live_ oder sk_test_ (Developers → API keys)."
+
+msgid "The Stripe webhook signing secret starts with whsec_."
+msgstr "Das Webhook-Signatur-Geheimnis von Stripe beginnt mit whsec_."
+
+msgid "Please enter the access data of Stripe or PayPal first."
+msgstr "Bitte geben Sie zuerst die Zugangsdaten von Stripe oder PayPal ein."
+
+msgid "Almost done – you are being forwarded to the payment."
+msgstr "Fast geschafft – Sie werden zur Zahlung weitergeleitet."
+
+msgid "Payment"
+msgstr "Zahlung"
+
+msgid "This payment link is not valid."
+msgstr "Dieser Zahlungslink ist ungültig."
+
+msgid "The payment page could not be opened. Please try again or choose another payment method."
+msgstr "Die Zahlungsseite konnte nicht geöffnet werden. Bitte versuchen Sie es erneut oder wählen Sie eine andere Zahlungsart."
+
+msgid "The payment was cancelled. You can try again."
+msgstr "Die Zahlung wurde abgebrochen. Sie können es erneut versuchen."
+
+msgid "%1$s on %2$s"
+msgstr "%1$s am %2$s"
+
+msgid "Deposit: %s"
+msgstr "Anzahlung: %s"
+
+msgid "The payment could not be assigned. If you have paid, please contact us."
+msgstr "Die Zahlung konnte nicht zugeordnet werden. Falls Sie bereits bezahlt haben, kontaktieren Sie uns bitte."
+
+msgid "The payment has not been completed yet."
+msgstr "Die Zahlung ist noch nicht abgeschlossen."
+
+msgid "The paid amount does not match. Please contact us."
+msgstr "Der gezahlte Betrag stimmt nicht überein. Bitte kontaktieren Sie uns."
+
+msgid "Payment open: %s"
+msgstr "Zahlung offen: %s"
+
+msgid "Deposit paid: %s"
+msgstr "Anzahlung bezahlt: %s"
+
+msgid "Paid online: %s"
+msgstr "Online bezahlt: %s"
+
+msgid "Not paid in time"
+msgstr "Nicht rechtzeitig bezahlt"
+
+msgid "Refunded: %s"
+msgstr "Erstattet: %s"
+
+msgid "Partly refunded: %s"
+msgstr "Teilweise erstattet: %s"
+
+msgid "Service"
+msgstr "Leistung"
+
+msgid "Appointment"
+msgstr "Termin"
+
+msgid "Deposit"
+msgstr "Anzahlung"
+
+msgid "Amount"
+msgstr "Betrag"
+
+msgid "of %s"
+msgstr "von %s"
+
+msgid "Thank you for your payment"
+msgstr "Vielen Dank für Ihre Zahlung"
+
+msgid "Your payment has been received and your appointment is confirmed. You will receive a confirmation by email."
+msgstr "Ihre Zahlung ist eingegangen und Ihr Termin ist bestätigt. Sie erhalten eine Bestätigung per E-Mail."
+
+msgid "Time expired"
+msgstr "Zeit abgelaufen"
+
+msgid "The payment was not completed in time, so the appointment has been released. You are welcome to book again."
+msgstr "Die Zahlung wurde nicht rechtzeitig abgeschlossen, daher wurde der Termin freigegeben. Sie können gerne erneut buchen."
+
+msgid "Back to the website"
+msgstr "Zurück zur Website"
+
+msgid "Payment refunded"
+msgstr "Zahlung erstattet"
+
+msgid "We have refunded %s."
+msgstr "Wir haben %s erstattet."
+
+msgid "Pay by card, Apple Pay or Google Pay"
+msgstr "Mit Karte, Apple Pay oder Google Pay bezahlen"
+
+msgid "Pay with PayPal"
+msgstr "Mit PayPal bezahlen"
+
+msgid "Pay to confirm your appointment"
+msgstr "Bezahlen Sie, um Ihren Termin zu bestätigen"
+
+msgid "The appointment is reserved for you for %d more minute. You pay on the secure page of the payment provider."
+msgid_plural "The appointment is reserved for you for %d more minutes. You pay on the secure page of the payment provider."
+msgstr[0] "Der Termin ist noch %d Minute für Sie reserviert. Sie bezahlen auf der sicheren Seite des Zahlungsanbieters."
+msgstr[1] "Der Termin ist noch %d Minuten für Sie reserviert. Sie bezahlen auf der sicheren Seite des Zahlungsanbieters."
+
+msgid "This payment cannot be refunded."
+msgstr "Diese Zahlung kann nicht erstattet werden."
+
+msgid "Refund sent."
+msgstr "Erstattung gesendet."
+
+msgid "Payment settings saved."
+msgstr "Zahlungseinstellungen gespeichert."
+
+msgid "leave empty to keep"
+msgstr "leer lassen, um beizubehalten"
+
+msgid "remove"
+msgstr "entfernen"
+
+msgid "waiting for payment"
+msgstr "wartet auf Zahlung"
+
+msgid "paid"
+msgstr "bezahlt"
+
+msgid "not paid in time"
+msgstr "nicht rechtzeitig bezahlt"
+
+msgid "refunded"
+msgstr "erstattet"
+
+msgid "partly refunded"
+msgstr "teilweise erstattet"
+
+msgid "Online payment"
+msgstr "Online-Zahlung"
+
+msgid "Customers pay on the secure page of Stripe or PayPal – card data never touches your website. The appointment is reserved until payment and confirmed automatically afterwards. If it is not paid in time, it is released."
+msgstr "Kunden bezahlen auf der sicheren Seite von Stripe oder PayPal – Kartendaten berühren Ihre Website nie. Der Termin ist bis zur Zahlung reserviert und wird danach automatisch bestätigt. Wird er nicht rechtzeitig bezahlt, wird er freigegeben."
+
+msgid "No online payment"
+msgstr "Keine Online-Zahlung"
+
+msgid "Full price when booking"
+msgstr "Voller Preis bei der Buchung"
+
+msgid "Deposit when booking"
+msgstr "Anzahlung bei der Buchung"
+
+msgid "Only services with a price. Free services are booked as before."
+msgstr "Nur Leistungen mit Preis. Kostenlose Leistungen werden wie bisher gebucht."
+
+msgid "Deposit value"
+msgstr "Höhe der Anzahlung"
+
+msgid "Deposit type"
+msgstr "Art der Anzahlung"
+
+msgid "% of the price"
+msgstr "% des Preises"
+
+msgid "€ fixed"
+msgstr "€ fest"
+
+msgid "Only for these services"
+msgstr "Nur für diese Leistungen"
+
+msgid "None ticked = all services with a price."
+msgstr "Keine ausgewählt = alle Leistungen mit Preis."
+
+msgid "Time to pay"
+msgstr "Zahlungsfrist"
+
+msgid "minutes (at least 30)"
+msgstr "Minuten (mindestens 30)"
+
+msgid "Refunds"
+msgstr "Erstattungen"
+
+msgid "Refund automatically when an appointment is cancelled (customer cancellations minus the cancellation fee, if any)."
+msgstr "Bei Stornierung eines Termins automatisch erstatten (bei Stornierungen durch Kunden abzüglich einer etwaigen Stornogebühr)."
+
+msgid "Secret key"
+msgstr "Geheimer Schlüssel"
+
+msgid "Webhook signing secret (recommended)"
+msgstr "Webhook-Signatur-Geheimnis (empfohlen)"
+
+msgid "Stripe → Developers → Webhooks → add endpoint with this address and the event checkout.session.completed:"
+msgstr "Stripe → Developers → Webhooks → Endpunkt mit dieser Adresse und dem Ereignis checkout.session.completed hinzufügen:"
+
+msgid "Client ID"
+msgstr "Client-ID"
+
+msgid "Sandbox (test mode)"
+msgstr "Sandbox (Testmodus)"
+
+msgid "developer.paypal.com → Apps & Credentials → create app → copy Client ID and Secret."
+msgstr "developer.paypal.com → Apps & Credentials → App erstellen → Client-ID und Secret kopieren."
+
+msgid "Save payment settings"
+msgstr "Zahlungseinstellungen speichern"
+
+msgid "Latest payments"
+msgstr "Letzte Zahlungen"
+
+msgid "Date"
+msgstr "Datum"
+
+msgid "Customer"
+msgstr "Kunde"
+
+msgid "Via"
+msgstr "Über"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "deposit"
+msgstr "Anzahlung"
+
+msgid "refunded %s"
+msgstr "%s erstattet"
+
+msgid "Amount to refund"
+msgstr "Zu erstattender Betrag"
+
+msgid "Refund this amount to the customer?"
+msgstr "Diesen Betrag an den Kunden erstatten?"
+
+msgid "Refund"
+msgstr "Erstatten"
+
+msgid "Stripe did not return a payment page."
+msgstr "Stripe hat keine Zahlungsseite zurückgegeben."
+
+msgid "Stripe could not be reached. Please try again in a moment."
+msgstr "Stripe ist nicht erreichbar. Bitte versuchen Sie es gleich noch einmal."
+
+msgid "Stripe: %s"
+msgstr "Stripe: %s"
+
+msgid "Please enter a public https:// address."
+msgstr "Bitte geben Sie eine öffentliche https://-Adresse ein."
+
+msgid "Please choose at least one event."
+msgstr "Bitte wählen Sie mindestens ein Ereignis."
