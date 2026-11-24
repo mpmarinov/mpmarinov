@@ -167,6 +167,7 @@ bookora.setValue( 'quelle', new URLSearchParams( location.search ).get( 'quelle'
 | `bookora_email_events` | `array $events` → `array` | E-Mail-Ereignisse ergänzen |
 | `bookora_email_html` | `string $html, string $subject, string $body` → `string` | Komplettes E-Mail-HTML |
 | `bookora_upload_limit` | `int` | Uploads pro IP (bzw. IPv6 /64) und Stunde (Standard 30) |
+| `bookora_reminder_batch` | `int` | Erinnerungen pro Cron-Lauf (Standard 40, Rest eine Minute später) |
 | `bookora_cancellation_policy` | `array $rule, ?array $service` → `array` | Stornoregel einer Leistung ändern (Frist `hours`, `fee`, `fee_type`, `fee_value`, `no_show`, `late_online`, `self_cancel`, `self_reschedule`) |
 | `bookora_send_reschedule_email` | `bool $send, int $booking_id` → `bool` | E-Mail beim Verschieben unterdrücken |
 | `bookora_feed_event` | `?array $event, array $booking, string $scope` → `?array` | Termin im Kalender-Abo ändern (`null` = weglassen) |

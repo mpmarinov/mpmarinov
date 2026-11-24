@@ -25,6 +25,9 @@ final class Mailer {
 
 	public const CRON_REMINDERS = 'bookora_send_reminders';
 
+	/** Follow-up run when one run had more reminders than its batch. */
+	public const CRON_REMINDERS_MORE = 'bookora_send_reminders_more';
+
 	/**
 	 * Attachments for the next wp_mail() call (added in phpmailer_init).
 	 *
@@ -64,6 +67,7 @@ final class Mailer {
 		add_action( 'bookora_customer_cancelled', array( $this, 'on_customer_cancelled' ), 10, 3 );
 		add_action( 'bookora_customer_rescheduled', array( $this, 'on_customer_rescheduled' ), 10, 2 );
 		add_action( self::CRON_REMINDERS, array( $this, 'send_reminders' ) );
+		add_action( self::CRON_REMINDERS_MORE, array( $this, 'send_reminders' ) );
 		add_action( 'phpmailer_init', array( $this, 'phpmailer_init' ) );
 
 		if ( ! wp_next_scheduled( self::CRON_REMINDERS ) ) {
@@ -230,7 +234,22 @@ final class Mailer {
 			$done[ (int) $l['booking_id'] ][ (int) substr( (string) $l['event'], 17 ) ] = true;
 		}
 
+		/**
+		 * Maximum reminders per cron run. The rest follows a minute later,
+		 * so a busy calendar never runs into the host's time limit or the mail provider's rate limit.
+		 *
+		 * @param int $batch Default 40.
+		 */
+		$batch   = max( 1, (int) apply_filters( 'bookora_reminder_batch', 40 ) );
+		$started = microtime( true );
+
 		foreach ( $rows as $row ) {
+			if ( $sent >= $batch || microtime( true ) - $started > 20 ) {
+				if ( ! wp_next_scheduled( self::CRON_REMINDERS_MORE ) ) {
+					wp_schedule_single_event( time() + MINUTE_IN_SECONDS, self::CRON_REMINDERS_MORE );
+				}
+				break;
+			}
 			$id    = (int) $row['id'];
 			$start = (int) strtotime( $row['start_utc'] . ' UTC' );
 			$left  = $start - $now;

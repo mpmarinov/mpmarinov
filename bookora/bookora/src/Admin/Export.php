@@ -62,8 +62,6 @@ final class Export {
 			wp_die( esc_html__( 'Not found.', 'bookora' ), 404 );
 		}
 
-		[ $header, $rows ] = $this->entries->export( $form_id );
-
 		/**
 		 * CSV delimiter. Semicolon by default for German/Bulgarian Excel, comma otherwise.
 		 *
@@ -79,10 +77,13 @@ final class Export {
 
 		$out = fopen( 'php://output', 'w' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen -- streaming output.
 		fwrite( $out, "\xEF\xBB\xBF" ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite -- UTF-8 BOM so Excel shows umlauts.
-		fputcsv( $out, $header, $delimiter, '"', '' );
-		foreach ( $rows as $row ) {
-			fputcsv( $out, $row, $delimiter, '"', '' );
-		}
+		// Rows are written as they are read (header first), so memory stays flat for large forms.
+		$this->entries->export(
+			$form_id,
+			static function ( array $row ) use ( $out, $delimiter ): void {
+				fputcsv( $out, $row, $delimiter, '"', '' );
+			}
+		);
 		fclose( $out ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
 		exit;
 	}

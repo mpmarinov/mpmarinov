@@ -89,8 +89,11 @@ final class EntryRepository {
 		$from     = self::t( 'entries' ) . ' e LEFT JOIN ' . self::t( 'customers' ) . ' c ON c.id = e.customer_id LEFT JOIN ' . self::t( 'bookings' ) . ' b ON b.entry_id = e.id LEFT JOIN ' . self::t( 'forms' ) . ' f ON f.id = e.form_id';
 		$sql      = implode( ' AND ', $where );
 
-		$total = (int) $wpdb->get_var( $params ? $wpdb->prepare( "SELECT COUNT(*) FROM {$from} WHERE {$sql}", $params ) : "SELECT COUNT(*) FROM {$from} WHERE {$sql}" );
-		$rows  = (array) $wpdb->get_results(
+		// Counting needs the bookings join (to leave booking entries out) and the customers only for a search.
+		$base_from  = self::t( 'entries' ) . ' e LEFT JOIN ' . self::t( 'bookings' ) . ' b ON b.entry_id = e.id';
+		$count_from = $base_from . ( '' !== $search ? ' LEFT JOIN ' . self::t( 'customers' ) . ' c ON c.id = e.customer_id' : '' );
+		$total      = (int) $wpdb->get_var( $params ? $wpdb->prepare( "SELECT COUNT(*) FROM {$count_from} WHERE {$sql}", $params ) : "SELECT COUNT(*) FROM {$count_from} WHERE {$sql}" );
+		$rows       = (array) $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT e.id, e.uid, e.form_id, e.status, e.created_at, c.name, c.email, c.phone, f.title AS form_title, b.id AS booking_id
 				FROM {$from} WHERE {$sql} ORDER BY e.id DESC LIMIT %d OFFSET %d",
@@ -100,7 +103,7 @@ final class EntryRepository {
 		);
 
 		$count_rows = (array) $wpdb->get_results(
-			$base_params ? $wpdb->prepare( "SELECT e.status, COUNT(*) AS n FROM {$from} WHERE {$base_where} GROUP BY e.status", $base_params ) : "SELECT e.status, COUNT(*) AS n FROM {$from} WHERE {$base_where} GROUP BY e.status",
+			$base_params ? $wpdb->prepare( "SELECT e.status, COUNT(*) AS n FROM {$base_from} WHERE {$base_where} GROUP BY e.status", $base_params ) : "SELECT e.status, COUNT(*) AS n FROM {$base_from} WHERE {$base_where} GROUP BY e.status",
 			ARRAY_A
 		);
 
@@ -137,7 +140,7 @@ final class EntryRepository {
 	/**
 	 * Bookings for the admin list.
 	 *
-	 * @param array{view?:string, from?:string, to?:string, service_id?:int, resource_id?:int, search?:string, page?:int, per_page?:int} $args Filters.
+	 * @param array{view?:string, from?:string, to?:string, service_id?:int, resource_id?:int, search?:string, page?:int, per_page?:int, counts?:bool} $args Filters; counts=false skips the tab counts.
 	 * @return array{items: array<int, array<string, mixed>>, total: int, counts: array<string, int>}
 	 */
 	public function bookings( array $args ): array {
@@ -189,19 +192,47 @@ final class EntryRepository {
 		$from     = self::t( 'bookings' ) . ' b LEFT JOIN ' . self::t( 'customers' ) . ' c ON c.id = b.customer_id LEFT JOIN ' . self::t( 'services' ) . ' s ON s.id = b.service_id LEFT JOIN ' . self::t( 'resources' ) . ' r ON r.id = b.resource_id';
 		$sql      = implode( ' AND ', $where );
 
-		$total = (int) $wpdb->get_var( $params ? $wpdb->prepare( "SELECT COUNT(*) FROM {$from} WHERE {$sql}", $params ) : "SELECT COUNT(*) FROM {$from} WHERE {$sql}" );
-		$rows  = (array) $wpdb->get_results(
-			$wpdb->prepare(
-				"SELECT b.*, c.name, c.email, c.phone, s.name AS service_name, s.color AS service_color, r.name AS resource_name
-				FROM {$from} WHERE {$sql} ORDER BY b.start_utc {$order}, b.id {$order} LIMIT %d OFFSET %d",
-				array_merge( $params, array( $per_page, $offset ) )
-			),
-			ARRAY_A
-		);
+		// Only a search needs the customer table; counting never needs the other joins.
+		$count_from = self::t( 'bookings' ) . ' b' . ( '' !== $search ? ' LEFT JOIN ' . self::t( 'customers' ) . ' c ON c.id = b.customer_id' : '' );
+		$total      = (int) $wpdb->get_var( $params ? $wpdb->prepare( "SELECT COUNT(*) FROM {$count_from} WHERE {$sql}", $params ) : "SELECT COUNT(*) FROM {$count_from} WHERE {$sql}" );
 
-		$counts = array();
+		// Fetch the page by id first (deferred join): large offsets then skip index entries, not full rows.
+		$ids  = array_map(
+			'intval',
+			(array) $wpdb->get_col(
+				$wpdb->prepare(
+					"SELECT b.id FROM {$count_from} WHERE {$sql} ORDER BY b.start_utc {$order}, b.id {$order} LIMIT %d OFFSET %d",
+					array_merge( $params, array( $per_page, $offset ) )
+				)
+			)
+		);
+		$rows = array();
+		if ( $ids ) {
+			$id_list = implode( ',', $ids );
+			$rows    = (array) $wpdb->get_results(
+				"SELECT b.*, c.name, c.email, c.phone, s.name AS service_name, s.color AS service_color, r.name AS resource_name
+				FROM {$from} WHERE b.id IN ({$id_list}) ORDER BY b.start_utc {$order}, b.id {$order}", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- integers only.
+				ARRAY_A
+			);
+		}
+
+		if ( isset( $args['counts'] ) && false === $args['counts'] ) {
+			return array(
+				'items'  => array_map( array( self::class, 'format_booking' ), $rows ),
+				'total'  => $total,
+				'counts' => array(),
+			);
+		}
+
+		// All tab counts in one pass over the bookings table.
+		$sums = array();
 		foreach ( $views as $key => $condition ) {
-			$counts[ $key ] = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$from} WHERE {$condition}" );
+			$sums[] = "SUM(CASE WHEN {$condition} THEN 1 ELSE 0 END) AS `{$key}`";
+		}
+		$count_row = (array) $wpdb->get_row( 'SELECT ' . implode( ', ', $sums ) . ' FROM ' . self::t( 'bookings' ) . ' b', ARRAY_A );
+		$counts    = array();
+		foreach ( array_keys( $views ) as $key ) {
+			$counts[ $key ] = (int) ( $count_row[ $key ] ?? 0 );
 		}
 
 		return array(
@@ -209,6 +240,27 @@ final class EntryRepository {
 			'total'  => $total,
 			'counts' => $counts,
 		);
+	}
+
+	/**
+	 * All bookings matching the filters, page by page (no 1000 limit).
+	 *
+	 * @param array<string, mixed> $args  Filters as for bookings().
+	 * @param int                  $limit Safety cap.
+	 * @return list<array<string, mixed>>
+	 */
+	public function all_bookings( array $args, int $limit = 20000 ): array {
+		$out              = array();
+		$args['per_page'] = 1000;
+		$args['counts']   = false;
+		$page             = 0;
+		do {
+			$res   = $this->bookings( array( 'page' => ++$page ) + $args );
+			$out   = array_merge( $out, $res['items'] );
+			$total = count( $out );
+			$more  = 1000 === count( $res['items'] ) && $total < (int) $res['total'] && $total < $limit;
+		} while ( $more );
+		return array_slice( $out, 0, $limit );
 	}
 
 	/**
@@ -431,48 +483,63 @@ final class EntryRepository {
 	/**
 	 * Rows for CSV export of a form.
 	 *
-	 * @param int $form_id Form id.
+	 * @param int           $form_id Form id.
+	 * @param callable|null $emit    Receives the header and then each row as it is read; rows are then not returned.
 	 * @return array{0: string[], 1: array<int, array<int, string>>} Header and rows.
 	 */
-	public function export( int $form_id ): array {
+	public function export( int $form_id, ?callable $emit = null ): array {
 		global $wpdb;
 
-		$form    = $wpdb->get_row( $wpdb->prepare( 'SELECT fields FROM ' . self::t( 'forms' ) . ' WHERE id = %d', $form_id ), ARRAY_A );
-		$entries = (array) $wpdb->get_results( $wpdb->prepare( 'SELECT e.id, e.created_at, e.status, b.start_utc, b.status AS booking_status, b.fee_amount, b.fee_status FROM ' . self::t( 'entries' ) . ' e LEFT JOIN ' . self::t( 'bookings' ) . " b ON b.entry_id = e.id WHERE e.form_id = %d AND e.status <> 'trash' ORDER BY e.id", $form_id ), ARRAY_A );
-		$values  = array();
-		if ( $entries ) {
-			$in = implode( ',', array_map( 'intval', array_column( $entries, 'id' ) ) );
-			foreach ( (array) $wpdb->get_results( 'SELECT entry_id, field_key, value FROM ' . self::t( 'entry_values' ) . " WHERE entry_id IN ({$in})", ARRAY_A ) as $v ) {
-				$values[ (int) $v['entry_id'] ][ $v['field_key'] ] = $v['value'];
-			}
-		}
-
+		$form   = $wpdb->get_row( $wpdb->prepare( 'SELECT fields FROM ' . self::t( 'forms' ) . ' WHERE id = %d', $form_id ), ARRAY_A );
 		$fields = array_filter( (array) json_decode( (string) ( $form['fields'] ?? '' ), true ), static fn( $f ) => ! empty( $f['key'] ) && ! in_array( $f['type'], array( 'service', 'resource', 'appointment' ), true ) );
 		$tz     = wp_timezone();
 		$header = array_merge( array( __( 'ID', 'bookora' ), __( 'Submitted', 'bookora' ), __( 'Status', 'bookora' ), __( 'Appointment', 'bookora' ), __( 'Booking status', 'bookora' ), __( 'Fee', 'bookora' ), __( 'Fee status', 'bookora' ) ), array_map( static fn( $f ) => (string) ( $f['label'] ?? $f['key'] ), $fields ) );
 		$rows   = array();
-
-		foreach ( $entries as $e ) {
-			$row = array(
-				(string) $e['id'],
-				self::local( $e['created_at'], $tz ),
-				$e['status'],
-				$e['start_utc'] ? self::local( $e['start_utc'], $tz ) : '',
-				(string) $e['booking_status'],
-				(float) ( $e['fee_amount'] ?? 0 ) > 0 ? number_format( (float) $e['fee_amount'], 2, '.', '' ) : '',
-				(string) ( $e['fee_status'] ?? '' ),
-			);
-			foreach ( $fields as $f ) {
-				$row[] = self::display_value(
-					(string) ( $values[ (int) $e['id'] ][ $f['key'] ] ?? '' ),
-					array(
-						'type'    => $f['type'],
-						'options' => array_column( (array) ( $f['options'] ?? array() ), 'label', 'value' ),
-					)
-				);
-			}
-			$rows[] = array_map( array( self::class, 'csv_safe' ), $row );
+		$after  = 0;
+		if ( $emit ) {
+			$emit( array_map( array( self::class, 'csv_safe' ), $header ) );
 		}
+
+		// Chunks of 1000 entries: memory stays flat however many entries a form has.
+		do {
+			$entries = (array) $wpdb->get_results( $wpdb->prepare( 'SELECT e.id, e.created_at, e.status, b.start_utc, b.status AS booking_status, b.fee_amount, b.fee_status FROM ' . self::t( 'entries' ) . ' e LEFT JOIN ' . self::t( 'bookings' ) . " b ON b.entry_id = e.id WHERE e.form_id = %d AND e.status <> 'trash' AND e.id > %d ORDER BY e.id LIMIT 1000", $form_id, $after ), ARRAY_A );
+			$values  = array();
+			if ( $entries ) {
+				$in = implode( ',', array_map( 'intval', array_column( $entries, 'id' ) ) );
+				foreach ( (array) $wpdb->get_results( 'SELECT entry_id, field_key, value FROM ' . self::t( 'entry_values' ) . " WHERE entry_id IN ({$in})", ARRAY_A ) as $v ) {
+					$values[ (int) $v['entry_id'] ][ $v['field_key'] ] = $v['value'];
+				}
+			}
+
+			foreach ( $entries as $e ) {
+				$row = array(
+					(string) $e['id'],
+					self::local( $e['created_at'], $tz ),
+					$e['status'],
+					$e['start_utc'] ? self::local( $e['start_utc'], $tz ) : '',
+					(string) $e['booking_status'],
+					(float) ( $e['fee_amount'] ?? 0 ) > 0 ? number_format( (float) $e['fee_amount'], 2, '.', '' ) : '',
+					(string) ( $e['fee_status'] ?? '' ),
+				);
+				foreach ( $fields as $f ) {
+					$row[] = self::display_value(
+						(string) ( $values[ (int) $e['id'] ][ $f['key'] ] ?? '' ),
+						array(
+							'type'    => $f['type'],
+							'options' => array_column( (array) ( $f['options'] ?? array() ), 'label', 'value' ),
+						)
+					);
+				}
+				$row = array_map( array( self::class, 'csv_safe' ), $row );
+				if ( $emit ) {
+					$emit( $row );
+				} else {
+					$rows[] = $row;
+				}
+				$after = (int) $e['id'];
+			}
+			$chunk = count( $entries );
+		} while ( 1000 === $chunk );
 
 		return array( array_map( array( self::class, 'csv_safe' ), $header ), $rows );
 	}

@@ -21,6 +21,9 @@ $_SERVER['REQUEST_URI'] = '/';
 require rtrim( $argv[1], '/' ) . '/wp-load.php';
 require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
+// The fixtures (imported calendars, opening hours) are written in Berlin time.
+update_option( 'timezone_string', 'Europe/Berlin' );
+
 $failures = 0;
 $passed   = 0;
 
@@ -541,7 +544,7 @@ $http = static function ( string $url, array $headers = array() ): array {
 	$body = @file_get_contents( $url, false, $ctx ); // phpcs:ignore
 	return array( (int) preg_replace( '/^HTTP\/\S+ (\d+).*$/', '$1', $http_response_header[0] ?? '0' ), (string) $body, $http_response_header ?? array() );
 };
-$live = 'http://localhost:8089/';
+$live = getenv( 'BOOKORA_LIVE' ) ?: 'http://localhost:8089/';
 if ( 0 !== $http( $live . 'wp-login.php' )[0] ) {
 	$token = substr( $reset['https'], -40 );
 	[ $code, $body, $hdr ] = $http( $live . '?bookora_feed=' . $token );

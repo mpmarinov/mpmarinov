@@ -351,16 +351,7 @@ final class Feed {
 			'from'        => gmdate( 'Y-m-d', time() - self::PAST_DAYS * DAY_IN_SECONDS ),
 			'to'          => gmdate( 'Y-m-d', time() + self::NEXT_DAYS * DAY_IN_SECONDS ),
 			'resource_id' => 'all' === $scope ? 0 : (int) substr( $scope, 1 ),
-			'per_page'    => 1000,
 		);
-		$out  = array();
-		for ( $page = 1; $page <= 20; $page++ ) {
-			$res = $this->entries->bookings( $args + array( 'page' => $page ) );
-			$out = array_merge( $out, $res['items'] );
-			if ( count( $out ) >= (int) $res['total'] || ! $res['items'] ) {
-				break;
-			}
-		}
-		return $out;
+		return $this->entries->all_bookings( $args );
 	}
 }

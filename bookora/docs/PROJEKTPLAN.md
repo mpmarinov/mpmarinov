@@ -234,11 +234,11 @@ Statt Merchant of Record (Freemius/Paddle/Lemon Squeezy) Verkauf im bestehenden 
 | Datei-Upload & Unterschrift | ✅ umgesetzt (siehe 10b.6) | – |
 | Kunden-Zeitzone (Slots in eigener Zeit anzeigen) | wird nur gespeichert | vor Phase 11 |
 | Berechnete Felder (z. B. Gesamtpreis) | fehlt | Phase 11 |
-| E-Mail-Warteschlange (Action Scheduler statt Direktversand) | Direktversand | Phase 10 |
+| E-Mail-Warteschlange (Action Scheduler statt Direktversand) | Erinnerungen in Paketen (40 pro Lauf); Bestätigungsmails weiter direkt | Phase 10 |
 | Warteliste | fehlt | Pro (laut Abschnitt 9) |
 | Bulgarische Übersetzung | fehlt | vor Phase 14 |
 | Abnahmetest auf Staging (Marin, per ZIP) | bereit | jetzt möglich |
-| MySQL-Performancetest (lokal im Container, kein Zugriff auf Server) | – | Phase 10 |
+| MySQL-Performancetest (lokal im Container, kein Zugriff auf Server) | ✅ 24.11.2026, siehe `docs/PERFORMANCE.md` | – |
 
 ### 10b.5 Umsetzung 24.11.2026 – Entscheidungen
 - **Eine Frist für alles:** „Kostenlos bis X Stunden vorher“ gilt für Absagen und Verschieben (die vorhandene, bisher wirkungslose Einstellung `cancel_limit_hours` wird dafür verwendet). Danach: ohne Gebührenregel keine Online-Änderung mehr (Hinweis + Telefon/E-Mail), mit Gebührenregel Absage gegen Gebühr oder gesperrt (wählbar). Kurzfristiges Verschieben ist online nicht möglich, sonst ließe sich die Gebühr umgehen.

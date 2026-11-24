@@ -18,6 +18,7 @@ function bookora_uninstall_site(): void {
 	// Scheduled tasks are always removed – the plugin code is gone.
 	wp_clear_scheduled_hook( 'bookora_daily_maintenance' );
 	wp_clear_scheduled_hook( 'bookora_send_reminders' );
+	wp_clear_scheduled_hook( 'bookora_send_reminders_more' );
 	wp_clear_scheduled_hook( 'bookora_sync_calendars' );
 
 	$settings = get_option( 'bookora_settings', array() );

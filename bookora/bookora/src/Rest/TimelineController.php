@@ -31,6 +31,20 @@ defined( 'ABSPATH' ) || exit;
 final class TimelineController {
 
 	/**
+	 * Calculators of the current timeline request, by staff id.
+	 *
+	 * @var array<string, \Bookora\Availability\SlotCalculator>
+	 */
+	private array $calculators = array();
+
+	/**
+	 * Visible date range of the current timeline request.
+	 *
+	 * @var array{0:string, 1:string}|null
+	 */
+	private ?array $range = null;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param EntryRepository      $entries      Entries/bookings.
@@ -121,15 +135,17 @@ final class TimelineController {
 			$dates[] = $start->modify( "+{$i} days" )->format( 'Y-m-d' );
 		}
 
+		$this->range       = array( $dates[0], end( $dates ) );
+		$this->calculators = array();
+
 		$resources = $this->resources->all( array( 'status' => 'active' ) );
-		$bookings  = $this->entries->bookings(
+		$bookings  = $this->entries->all_bookings(
 			array(
-				'view'     => 'all',
-				'from'     => $start->modify( '-1 day' )->format( 'Y-m-d' ),
-				'to'       => $start->modify( '+' . ( $days + 1 ) . ' days' )->format( 'Y-m-d' ),
-				'per_page' => 1000,
+				'view' => 'all',
+				'from' => $start->modify( '-1 day' )->format( 'Y-m-d' ),
+				'to'   => $start->modify( '+' . ( $days + 1 ) . ' days' )->format( 'Y-m-d' ),
 			)
-		)['items'];
+		);
 		$bookings  = array_values( array_filter( $bookings, static fn( $b ) => in_array( $b['date'], $dates, true ) && ! in_array( $b['status'], array( 'rejected', 'cancelled' ), true ) ) );
 
 		$rows = array();
@@ -320,8 +336,21 @@ final class TimelineController {
 	 * @return array<int, array{0:int,1:int}>
 	 */
 	private function open_minutes( ?int $resource_id, string $date ): array {
-		$tz   = $this->availability->timezone( $resource_id );
-		$calc = new \Bookora\Availability\SlotCalculator( $tz, ( new \Bookora\Repository\ScheduleRepository() )->weekly( $resource_id ), ( new \Bookora\Repository\ScheduleRepository() )->exceptions( $resource_id, $date, $date ) );
+		// One calculator per staff member and request (the week view asks for 7 days × every staff member).
+		$key = (string) $resource_id;
+		if ( null === $this->range || $date < $this->range[0] || $date > $this->range[1] ) {
+			$this->range       = array( $date, $date );
+			$this->calculators = array();
+		}
+		if ( ! isset( $this->calculators[ $key ] ) ) {
+			$schedules                 = new \Bookora\Repository\ScheduleRepository();
+			$this->calculators[ $key ] = new \Bookora\Availability\SlotCalculator(
+				$this->availability->timezone( $resource_id ),
+				$schedules->weekly( $resource_id ),
+				$schedules->exceptions( $resource_id, $this->range[0], $this->range[1] )
+			);
+		}
+		$calc = $this->calculators[ $key ];
 		$out  = array();
 		foreach ( $calc->windows( $date ) as [ $a, $b ] ) {
 			$sa    = ( new DateTimeImmutable( '@' . $a ) )->setTimezone( wp_timezone() );

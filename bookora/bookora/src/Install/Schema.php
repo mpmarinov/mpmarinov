@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Schema {
 
-	public const VERSION = '1.6.0';
+	public const VERSION = '1.7.0';
 
 	/**
 	 * Unprefixed table names.
@@ -175,6 +175,7 @@ final class Schema {
   PRIMARY KEY  (id),
   UNIQUE KEY uid (uid),
   KEY form_status (form_id,status,created_at),
+  KEY status (status),
   KEY customer_id (customer_id)
 ) $collate;",
 
