@@ -50,6 +50,10 @@ function bookora_uninstall_site(): void {
 	delete_option( 'bookora_settings' );
 	delete_option( 'bookora_db_version' );
 	delete_option( 'bookora_feed_tokens' );
+	delete_option( 'bookora_integrations' );
+	// Remaining options and short-lived caches (rate limits, tokens) of the plugin.
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+	$wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s OR option_name LIKE %s", 'bookora\_%', '\_transient\_bookora\_%', '\_transient\_timeout\_bookora\_%' ) );
 	\Bookora\Security\Capabilities::uninstall();
 }
 

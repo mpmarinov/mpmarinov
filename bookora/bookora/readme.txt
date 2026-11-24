@@ -4,34 +4,59 @@ Tags: booking, appointments, calendar, scheduling, booking form
 Requires at least: 6.6
 Tested up to: 6.9
 Requires PHP: 8.1
-Stable tag: 0.1.0
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Booking forms, live availability, a drag & drop timeline and calendar sync for iPhone, Android and Outlook – free, without artificial limits.
+Appointment booking for practices and small businesses: booking forms, live availability, reminders, a timeline and calendar sync for your phone.
 
 == Description ==
 
-Bookora by Marinov Solutions turns your WordPress site into a complete booking system.
+Bookora by Marinov Solutions turns your WordPress site into a complete booking system for practices, salons, workshops, consultants and course providers. Customers book free times around the clock; you keep appointments, reminders and cancellations under control – on your phone and on your computer.
 
-* Unlimited booking forms with all field types, conditional logic and multi-step forms
-* Secure file uploads (e.g. referrals, photos, PDFs) and signatures – stored privately, only visible to you
-* Services with duration, buffers, capacity and opening hours
-* Live availability – already booked times are blocked automatically
-* One-click confirmation and rejection directly from the email
-* Customers move or cancel their appointment themselves via a personal link – up to a deadline you choose
+= Booking =
+* Live availability – booked times are blocked immediately, double bookings are prevented even when two people book at the same moment
+* Services with duration, buffers, places for courses and a daily maximum
+* Staff members and rooms with their own working hours (up to 3 in this plugin; the paid add-on Bookora Pro removes the limit)
+* Customers in another time zone can see the times in their own time
+* Setup wizard and 10 form templates (medical practice, hair salon, workshop, consulting, course, contact, quote request …)
+
+= Fewer no-shows =
+* Reminders, e.g. 7 days and 24 hours before the appointment
+* Customers cancel or move their appointment themselves via a personal link – up to a deadline you choose
 * Optional cancellation fee (e.g. "free up to 24 hours before, otherwise 50 %") with consent at booking, also for no-shows
-* Reminders e.g. 7 days and 24 hours before the appointment
-* Fully customizable confirmation, rejection and reminder emails
-* Drag & drop timeline for your day and week – move appointments, the customer is informed automatically
-* Calendar subscription for iPhone, Android (Google Calendar) and Outlook – one calendar for the business and one per staff member
-* Private calendars (Google, iCloud, Outlook) block busy times automatically – only start and end times are stored
-* Mobile-first, accessible and translation-ready (English, German, Bulgarian)
-* Design without code: main color, corner radius, spacing, light/dark/automatic color scheme
-* Custom CSS and JavaScript (global and per form) with code editor, JavaScript events (e.g. for Google Tag Manager), developer hooks and REST API
-* GDPR tools: data export and erasure
+* One-click confirmation and rejection directly from the email
+* Reliable email queue with automatic retries if your mail server is briefly unavailable
 
-This plugin is under active development.
+= Your day at a glance =
+* Dashboard with today's appointments and open requests
+* Drag & drop timeline for day and week – move appointments, the customer is informed automatically
+* Calendar subscription for iPhone, Android (Google Calendar) and Outlook – via QR code or link, one calendar for the business and one per staff member
+* Private calendars (Google, iCloud, Outlook) block busy times automatically – only start and end times are stored
+
+= Forms =
+* Form builder with all field types, conditional logic and multi-step forms – also for forms without appointments (contact, request, survey)
+* Secure file uploads (e.g. referrals, photos, PDFs) and signatures – stored privately, only visible to you
+* Calculated fields, e.g. a total price – always recalculated on the server
+* Fully customizable emails with placeholders and live preview
+
+= Privacy and accessibility =
+* All data stays on your server; no tracking, no external fonts, no data sent to us
+* GDPR export and erasure, including uploaded files
+* Accessible booking form and admin (WCAG 2.1 AA, tested with axe-core), full keyboard support
+* English, German and Bulgarian included
+
+= Optional integrations =
+* Spam protection with Cloudflare Turnstile, hCaptcha or Google reCAPTCHA (in addition to the built-in protection)
+* Notifications to Slack and Telegram
+* Newsletter sign-up with Mailchimp or Brevo – only with consent and double opt-in
+
+= For developers =
+* Custom CSS and JavaScript (global and per form) with code editor, JavaScript events (e.g. for Google Tag Manager), PHP hooks and a REST API
+* Design without code: main color, corner radius, spacing, light/dark/automatic color scheme
+
+= Bookora Pro =
+The separate, paid add-on Bookora Pro adds unlimited staff members and resources and webhooks for Zapier, Make, n8n and Google Sheets. It is not required: everything listed above works with this plugin alone. More: https://mpmarinov.com/bookora
 
 == External services ==
 
@@ -65,7 +90,7 @@ License texts: THIRD-PARTY-LICENSES.txt. The source code of the admin app is in 
 
 = Is the free version limited? =
 
-No. Unlimited forms, services and bookings are included for free.
+Forms, services and bookings are unlimited. You can add up to 3 staff members or resources (rooms, devices); if you work alone you do not need any. The paid add-on Bookora Pro removes this limit. There are no trial periods and nothing stops working after a while.
 
 = How do appointments get onto my phone? =
 
@@ -87,7 +112,32 @@ On your own server, in a private folder (wp-content/uploads/bookora-private) und
 
 Only services you set up yourself: the calendar addresses you enter (fetched every 15 minutes) and the optional integrations (spam protection, Slack, Telegram, Mailchimp, Brevo) once you enter their keys. The links "Google Calendar" and "Outlook" in the admin open the respective website in your browser. No data is sent to Marinov Solutions.
 
+== Screenshots ==
+
+1. Booking form on a phone: free times, choice of staff member, cancellation terms
+2. Setup wizard with form templates
+3. Timeline: day view with all staff members, appointments can be moved with drag & drop
+4. Bookings with status, cancellation fee and form details
+5. Form builder with conditional logic and calculated fields
+6. Calendar subscription for iPhone, Android and Outlook via QR code
+7. Email templates with placeholders and live preview
+8. Customer self-service: cancel or move an appointment
+
 == Changelog ==
 
-= 0.1.0 =
-* Initial development release: database schema, roles, settings, admin foundation, privacy tools.
+= 1.0.0 =
+* First public release.
+* Booking forms with live availability, double-booking protection, buffers, places and daily limits.
+* Staff members and resources with own working hours, holidays and special opening hours.
+* Customer self-service (cancel/move) with deadline and optional cancellation fee.
+* Reminders (e.g. 7 days and 24 hours before), email templates, one-click confirmation, email queue with retries.
+* Timeline with drag & drop, dashboard, setup wizard and 10 form templates.
+* Calendar subscription (QR code) and import of private calendars.
+* File upload, signature, calculated fields, conditional logic, multi-step forms.
+* Customer time zones, accessibility (WCAG 2.1 AA), English/German/Bulgarian.
+* Optional integrations: Turnstile, hCaptcha, reCAPTCHA, Slack, Telegram, Mailchimp, Brevo.
+
+== Upgrade Notice ==
+
+= 1.0.0 =
+First public release.
