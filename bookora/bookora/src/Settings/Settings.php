@@ -58,6 +58,7 @@ final class Settings {
 			'feed_include_pending'  => true,
 			'feed_customer_details' => true,
 			'setup_done'            => false,
+			'customer_timezone'     => 'business',
 		);
 	}
 
@@ -142,6 +143,7 @@ final class Settings {
 		$out['cancel_limit_hours'] = self::int_range( $input['cancel_limit_hours'] ?? 24, 0, 8760 );
 		$out['token_ttl_hours']    = self::int_range( $input['token_ttl_hours'] ?? 72, 1, 720 );
 		$out['setup_done']         = ! empty( $input['setup_done'] );
+		$out['customer_timezone']  = 'visitor' === ( $input['customer_timezone'] ?? '' ) ? 'visitor' : 'business';
 		$out['business_phone']     = mb_substr( sanitize_text_field( (string) ( $input['business_phone'] ?? '' ) ), 0, 50 );
 
 		$out['self_cancel']        = ! empty( $input['self_cancel'] );

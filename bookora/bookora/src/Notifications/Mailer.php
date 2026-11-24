@@ -296,6 +296,32 @@ final class Mailer {
 	}
 
 	/**
+	 * "(08:00 – 09:00 your time, New York)" when the customer booked from another time zone, else ''.
+	 *
+	 * @param string $timezone Customer's time zone (IANA).
+	 * @param int    $start    Start timestamp.
+	 * @param int    $end      End timestamp.
+	 * @param string $format   PHP time format.
+	 */
+	public static function local_time( string $timezone, int $start, int $end, string $format = 'H:i' ): string {
+		if ( '' === $timezone || ! in_array( $timezone, timezone_identifiers_list(), true ) ) {
+			return '';
+		}
+		$theirs = new \DateTimeZone( $timezone );
+		$ours   = wp_timezone();
+		$at     = new \DateTimeImmutable( '@' . $start );
+		if ( $theirs->getOffset( $at ) === $ours->getOffset( $at ) ) {
+			return '';
+		}
+		$day_differs = $at->setTimezone( $theirs )->format( 'Y-m-d' ) !== $at->setTimezone( $ours )->format( 'Y-m-d' );
+		$from        = wp_date( ( $day_differs ? 'D ' : '' ) . $format, $start, $theirs );
+		$to          = wp_date( $format, $end, $theirs );
+		$city        = str_replace( '_', ' ', (string) substr( (string) strrchr( '/' . $timezone, '/' ), 1 ) );
+		/* translators: 1: start time, 2: end time, 3: city of the customer's time zone. */
+		return sprintf( __( '(%1$s – %2$s your time, %3$s)', 'bookora' ), $from, $to, $city );
+	}
+
+	/**
 	 * "in 7 days", "tomorrow", "today", "in 3 hours".
 	 *
 	 * @param int $start Appointment start.
@@ -496,6 +522,7 @@ final class Mailer {
 		$vars['calendar_link']        = '' !== $booking['uid'] ? CalendarLink::url( $booking['uid'] ) : '';
 		$vars                        += $this->policy_vars( $booking, $service );
 		$vars['time_until']           = self::time_until( $ts, time() );
+		$vars['local_time']           = self::local_time( (string) ( $booking['timezone'] ?? '' ), $ts, $end, $tf );
 
 		return array(
 			'booking' => $booking,

@@ -390,6 +390,7 @@ final class Renderer {
 			'timeFormat' => (string) $site['time_format'],
 			'locale'     => str_replace( '_', '-', determine_locale() ),
 			'timezone'   => wp_timezone_string(),
+			'tzMode'     => (string) $site['customer_timezone'],
 		);
 
 		/**

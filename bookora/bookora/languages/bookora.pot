@@ -623,6 +623,9 @@ msgstr ""
 msgid "Open bookings in WordPress"
 msgstr ""
 
+msgid "(%1$s – %2$s your time, %3$s)"
+msgstr ""
+
 msgid "today"
 msgstr ""
 
@@ -756,13 +759,13 @@ msgstr ""
 msgid "We have received your booking request"
 msgstr ""
 
-msgid "Hello {customer_name},\n\nthank you for your request. We have received the following booking:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n\nWe will check the appointment and confirm it shortly by email.\n\n{manage_button}\n\nKind regards\n{business_name}"
+msgid "Hello {customer_name},\n\nthank you for your request. We have received the following booking:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} {local_time}\n\nWe will check the appointment and confirm it shortly by email.\n\n{manage_button}\n\nKind regards\n{business_name}"
 msgstr ""
 
 msgid "Your appointment on {date} is confirmed"
 msgstr ""
 
-msgid "Hello {customer_name},\n\nyour appointment is confirmed:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n{staff}\n\n{calendar_button}\n\nIf you cannot make it, please let us know in good time.\n{manage_button}\n{cancellation_policy}\n\nWe look forward to seeing you!\n{business_name}"
+msgid "Hello {customer_name},\n\nyour appointment is confirmed:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} {local_time}\n{staff}\n\n{calendar_button}\n\nIf you cannot make it, please let us know in good time.\n{manage_button}\n{cancellation_policy}\n\nWe look forward to seeing you!\n{business_name}"
 msgstr ""
 
 msgid "Your booking request for {date}"
@@ -780,13 +783,13 @@ msgstr ""
 msgid "Reminder: your appointment on {date} at {time}"
 msgstr ""
 
-msgid "Hello {customer_name},\n\nwe would like to remind you of your appointment {time_until}:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n\n{calendar_button}\n\nIf you cannot make it, please let us know as soon as possible.\n{manage_button}\n{cancellation_policy}\n\nSee you soon!\n{business_name}"
+msgid "Hello {customer_name},\n\nwe would like to remind you of your appointment {time_until}:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} {local_time}\n\n{calendar_button}\n\nIf you cannot make it, please let us know as soon as possible.\n{manage_button}\n{cancellation_policy}\n\nSee you soon!\n{business_name}"
 msgstr ""
 
 msgid "Your appointment has been moved to {date} at {time}"
 msgstr ""
 
-msgid "Hello {customer_name},\n\nyour appointment has been moved:\n\n<strong>{service}</strong>\nNew: {date}, {time} – {end_time}\n<s>Previously: {previous_date}, {previous_time}</s>\n\n{calendar_button}\n\nIf the new time does not suit you, please let us know.\n{manage_button}\n\nKind regards\n{business_name}"
+msgid "Hello {customer_name},\n\nyour appointment has been moved:\n\n<strong>{service}</strong>\nNew: {date}, {time} – {end_time} {local_time}\n<s>Previously: {previous_date}, {previous_time}</s>\n\n{calendar_button}\n\nIf the new time does not suit you, please let us know.\n{manage_button}\n\nKind regards\n{business_name}"
 msgstr ""
 
 msgid "New booking: {service} on {date} at {time}"
@@ -829,6 +832,9 @@ msgid "Customer phone"
 msgstr ""
 
 msgid "Start time"
+msgstr ""
+
+msgid "Time in the customer’s time zone, only if it differs (e.g. booked from abroad)"
 msgstr ""
 
 msgid "End time"
@@ -2697,6 +2703,18 @@ msgstr ""
 msgid "Confirmed automatically"
 msgstr ""
 
+msgid "Visitors from another time zone see times in"
+msgstr ""
+
+msgid "Visitors in another time zone can always switch. Choose \"their own time\" for online appointments (video, phone)."
+msgstr ""
+
+msgid "the local time of the business"
+msgstr ""
+
+msgid "their own time"
+msgstr ""
+
 msgid "Fill gaps between appointments"
 msgstr ""
 
@@ -3057,6 +3075,15 @@ msgstr ""
 msgid "Please choose a service first."
 msgstr ""
 
+msgid "Show times in"
+msgstr ""
+
+msgid "local time of the business (%s)"
+msgstr ""
+
+msgid "my time (%s)"
+msgstr ""
+
 msgid "Choose a day to see the free times."
 msgstr ""
 
@@ -3070,6 +3097,9 @@ msgid "%d free"
 msgstr ""
 
 msgid "No free times on this day."
+msgstr ""
+
+msgid "(%1$s in %2$s)"
 msgstr ""
 
 msgid "Selected: %1$s, %2$s"

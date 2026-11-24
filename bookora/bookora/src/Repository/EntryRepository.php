@@ -574,6 +574,7 @@ final class EntryRepository {
 			'date'          => $start->setTimezone( $tz )->format( 'Y-m-d' ),
 			'time'          => $start->setTimezone( $tz )->format( 'H:i' ),
 			'end_time'      => $end->setTimezone( $tz )->format( 'H:i' ),
+			'timezone'      => (string) ( $b['timezone'] ?? '' ),
 			'seats'         => (int) $b['seats'],
 			'notes'         => (string) $b['notes'],
 			'service_id'    => $b['service_id'] ? (int) $b['service_id'] : null,

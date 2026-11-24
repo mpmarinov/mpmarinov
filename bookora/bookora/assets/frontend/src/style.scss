@@ -946,3 +946,48 @@
 		font-size: 1.3em;
 	}
 }
+
+/* Visitor in another time zone: switch between business time and own time */
+.bookora-tz {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px 8px;
+	margin: 0 0 12px;
+	padding: 0;
+	border: 0;
+
+	legend {
+		float: left;
+		margin: 0 4px 0 0;
+		padding: 0;
+		color: var(--bookora-muted);
+		font-size: 0.9em;
+	}
+
+	&__option {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		padding: 6px 12px;
+		border: 1px solid var(--bookora-border);
+		border-radius: 999px;
+		cursor: pointer;
+		font-size: 0.9em;
+
+		input {
+			margin: 0;
+			accent-color: var(--bookora-primary);
+		}
+
+		&:has(input:checked) {
+			border-color: var(--bookora-primary);
+			background: var(--bookora-soft);
+		}
+
+		&:has(input:focus-visible) {
+			outline: 2px solid var(--bookora-primary);
+			outline-offset: 2px;
+		}
+	}
+}

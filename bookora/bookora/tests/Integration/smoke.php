@@ -1192,6 +1192,20 @@ remove_filter( 'bookora_allow_local_upload', '__return_true' );
 array_map( 'wp_delete_file', glob( $tmpdir . '/*' ) ?: array() );
 @rmdir( $tmpdir );
 
+echo "Customer time zone\n";
+$tz_start = ( new DateTimeImmutable( '2026-11-25 09:00', wp_timezone() ) )->getTimestamp();
+$tz_note  = \Bookora\Notifications\Mailer::local_time( 'America/New_York', $tz_start, $tz_start + 2700 );
+check( str_contains( $tz_note, '03:00' ) && str_contains( $tz_note, '03:45' ) && str_contains( $tz_note, 'New York' ), 'customer from New York sees the time in their own zone', $tz_note );
+check( '' === \Bookora\Notifications\Mailer::local_time( 'Europe/Paris', $tz_start, $tz_start + 2700 ), 'same offset (Paris) adds no note' );
+check( '' === \Bookora\Notifications\Mailer::local_time( 'Mars/Base', $tz_start, $tz_start + 2700 ) && '' === \Bookora\Notifications\Mailer::local_time( '', $tz_start, $tz_start ), 'unknown or empty zone adds no note' );
+$tz_late = ( new DateTimeImmutable( '2026-11-25 05:00', wp_timezone() ) )->getTimestamp();
+check( 1 === preg_match( '/^\(\S+ 23:00/', \Bookora\Notifications\Mailer::local_time( 'America/New_York', $tz_late, $tz_late + 3600 ) ), 'note names the weekday when the day differs', \Bookora\Notifications\Mailer::local_time( 'America/New_York', $tz_late, $tz_late + 3600 ) );
+$tz_api = api( 'GET', '/availability', array(), array( 'service' => $service['id'], 'from' => $monday, 'to' => $monday, 'tz' => 'America/New_York' ) )->get_data();
+$tz_all = array_merge( ...array_values( (array) $tz_api['days'] ) ?: array( array() ) );
+check( 'America/New_York' === $tz_api['timezone'] && ( ! $tz_all || ( new DateTimeImmutable( $tz_all[0]['start'] ) )->setTimezone( new DateTimeZone( 'America/New_York' ) )->format( 'H:i' ) === $tz_all[0]['time'] ), 'availability returns times in the visitor zone', $tz_api );
+$settings = \Bookora\Core\Plugin::instance()->container()->get( \Bookora\Settings\Settings::class );
+check( 'business' === $settings->get( 'customer_timezone' ) && 'business' === $settings->sanitize( array( 'customer_timezone' => 'evil' ) )['customer_timezone'], 'time zone display setting defaults to the business and rejects junk' );
+
 echo "Cleanup\n";
 check( 200 === api( 'DELETE', '/services/' . $service['id'] )->get_status(), 'service deleted' );
 check( 404 === api( 'GET', '/services/' . $service['id'] )->get_status(), 'deleted service is gone' );

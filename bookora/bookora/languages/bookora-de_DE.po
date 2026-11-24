@@ -625,6 +625,9 @@ msgstr "Der Kunde wird automatisch per E-Mail informiert."
 msgid "Open bookings in WordPress"
 msgstr "Buchungen in WordPress öffnen"
 
+msgid "(%1$s – %2$s your time, %3$s)"
+msgstr "(%1$s – %2$s Ihre Zeit, %3$s)"
+
 msgid "today"
 msgstr "heute"
 
@@ -758,14 +761,14 @@ msgstr "An Sie, wenn jemand ein Kontakt- oder Anfrageformular absendet."
 msgid "We have received your booking request"
 msgstr "Wir haben Ihre Buchungsanfrage erhalten"
 
-msgid "Hello {customer_name},\n\nthank you for your request. We have received the following booking:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n\nWe will check the appointment and confirm it shortly by email.\n\n{manage_button}\n\nKind regards\n{business_name}"
-msgstr "Hallo {customer_name},\n\nvielen Dank für Ihre Anfrage. Wir haben folgende Buchung erhalten:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} Uhr\n\nWir prüfen den Termin und bestätigen ihn in Kürze per E-Mail.\n\n{manage_button}\n\nViele Grüße\n{business_name}"
+msgid "Hello {customer_name},\n\nthank you for your request. We have received the following booking:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} {local_time}\n\nWe will check the appointment and confirm it shortly by email.\n\n{manage_button}\n\nKind regards\n{business_name}"
+msgstr "Hallo {customer_name},\n\nvielen Dank für Ihre Anfrage. Wir haben folgende Buchung erhalten:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} Uhr {local_time}\n\nWir prüfen den Termin und bestätigen ihn in Kürze per E-Mail.\n\n{manage_button}\n\nViele Grüße\n{business_name}"
 
 msgid "Your appointment on {date} is confirmed"
 msgstr "Ihr Termin am {date} ist bestätigt"
 
-msgid "Hello {customer_name},\n\nyour appointment is confirmed:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n{staff}\n\n{calendar_button}\n\nIf you cannot make it, please let us know in good time.\n{manage_button}\n{cancellation_policy}\n\nWe look forward to seeing you!\n{business_name}"
-msgstr "Hallo {customer_name},\n\nIhr Termin ist bestätigt:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} Uhr\n{staff}\n\n{calendar_button}\n\nFalls Sie verhindert sind, sagen Sie bitte rechtzeitig Bescheid.\n{manage_button}\n{cancellation_policy}\n\nWir freuen uns auf Sie!\n{business_name}"
+msgid "Hello {customer_name},\n\nyour appointment is confirmed:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} {local_time}\n{staff}\n\n{calendar_button}\n\nIf you cannot make it, please let us know in good time.\n{manage_button}\n{cancellation_policy}\n\nWe look forward to seeing you!\n{business_name}"
+msgstr "Hallo {customer_name},\n\nIhr Termin ist bestätigt:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} Uhr {local_time}\n{staff}\n\n{calendar_button}\n\nFalls Sie verhindert sind, sagen Sie bitte rechtzeitig Bescheid.\n{manage_button}\n{cancellation_policy}\n\nWir freuen uns auf Sie!\n{business_name}"
 
 msgid "Your booking request for {date}"
 msgstr "Ihre Buchungsanfrage für {date}"
@@ -782,14 +785,14 @@ msgstr "Hallo {customer_name},\n\nIhr Termin wurde storniert:\n\n{service}\n{dat
 msgid "Reminder: your appointment on {date} at {time}"
 msgstr "Erinnerung: Ihr Termin am {date} um {time} Uhr"
 
-msgid "Hello {customer_name},\n\nwe would like to remind you of your appointment {time_until}:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n\n{calendar_button}\n\nIf you cannot make it, please let us know as soon as possible.\n{manage_button}\n{cancellation_policy}\n\nSee you soon!\n{business_name}"
-msgstr "Hallo {customer_name},\n\nwir möchten Sie an Ihren Termin {time_until} erinnern:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} Uhr\n\n{calendar_button}\n\nFalls Sie verhindert sind, sagen Sie bitte so früh wie möglich Bescheid.\n{manage_button}\n{cancellation_policy}\n\nBis bald!\n{business_name}"
+msgid "Hello {customer_name},\n\nwe would like to remind you of your appointment {time_until}:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} {local_time}\n\n{calendar_button}\n\nIf you cannot make it, please let us know as soon as possible.\n{manage_button}\n{cancellation_policy}\n\nSee you soon!\n{business_name}"
+msgstr "Hallo {customer_name},\n\nwir möchten Sie an Ihren Termin {time_until} erinnern:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} Uhr {local_time}\n\n{calendar_button}\n\nFalls Sie verhindert sind, sagen Sie bitte so früh wie möglich Bescheid.\n{manage_button}\n{cancellation_policy}\n\nBis bald!\n{business_name}"
 
 msgid "Your appointment has been moved to {date} at {time}"
 msgstr "Ihr Termin wurde auf {date} um {time} Uhr verschoben"
 
-msgid "Hello {customer_name},\n\nyour appointment has been moved:\n\n<strong>{service}</strong>\nNew: {date}, {time} – {end_time}\n<s>Previously: {previous_date}, {previous_time}</s>\n\n{calendar_button}\n\nIf the new time does not suit you, please let us know.\n{manage_button}\n\nKind regards\n{business_name}"
-msgstr "Hallo {customer_name},\n\nIhr Termin wurde verschoben:\n\n<strong>{service}</strong>\nNeu: {date}, {time} – {end_time} Uhr\n<s>Bisher: {previous_date}, {previous_time} Uhr</s>\n\n{calendar_button}\n\nFalls Ihnen die neue Zeit nicht passt, melden Sie sich bitte bei uns.\n{manage_button}\n\nViele Grüße\n{business_name}"
+msgid "Hello {customer_name},\n\nyour appointment has been moved:\n\n<strong>{service}</strong>\nNew: {date}, {time} – {end_time} {local_time}\n<s>Previously: {previous_date}, {previous_time}</s>\n\n{calendar_button}\n\nIf the new time does not suit you, please let us know.\n{manage_button}\n\nKind regards\n{business_name}"
+msgstr "Hallo {customer_name},\n\nIhr Termin wurde verschoben:\n\n<strong>{service}</strong>\nNeu: {date}, {time} – {end_time} Uhr {local_time}\n<s>Bisher: {previous_date}, {previous_time} Uhr</s>\n\n{calendar_button}\n\nFalls Ihnen die neue Zeit nicht passt, melden Sie sich bitte bei uns.\n{manage_button}\n\nViele Grüße\n{business_name}"
 
 msgid "New booking: {service} on {date} at {time}"
 msgstr "Neue Buchung: {service} am {date} um {time} Uhr"
@@ -832,6 +835,9 @@ msgstr "Telefon des Kunden"
 
 msgid "Start time"
 msgstr "Startzeit"
+
+msgid "Time in the customer’s time zone, only if it differs (e.g. booked from abroad)"
+msgstr "Uhrzeit in der Zeitzone des Kunden, nur wenn sie abweicht (z. B. Buchung aus dem Ausland)"
 
 msgid "End time"
 msgstr "Endzeit"
@@ -2699,6 +2705,18 @@ msgstr "Offen – mit einem Klick bestätigen"
 msgid "Confirmed automatically"
 msgstr "Automatisch bestätigt"
 
+msgid "Visitors from another time zone see times in"
+msgstr "Besucher aus einer anderen Zeitzone sehen die Zeiten in"
+
+msgid "Visitors in another time zone can always switch. Choose \"their own time\" for online appointments (video, phone)."
+msgstr "Besucher in einer anderen Zeitzone können jederzeit umschalten. Wählen Sie „ihrer eigenen Zeit“ für Online-Termine (Video, Telefon)."
+
+msgid "the local time of the business"
+msgstr "Ortszeit des Betriebs"
+
+msgid "their own time"
+msgstr "ihrer eigenen Zeit"
+
 msgid "Fill gaps between appointments"
 msgstr "Lücken zwischen Terminen füllen"
 
@@ -3059,6 +3077,15 @@ msgstr "Verbindungsproblem. Bitte prüfen Sie Ihre Internetverbindung und versuc
 msgid "Please choose a service first."
 msgstr "Bitte wählen Sie zuerst eine Leistung."
 
+msgid "Show times in"
+msgstr "Zeiten anzeigen in"
+
+msgid "local time of the business (%s)"
+msgstr "Ortszeit des Betriebs (%s)"
+
+msgid "my time (%s)"
+msgstr "meiner Zeit (%s)"
+
 msgid "Choose a day to see the free times."
 msgstr "Wählen Sie einen Tag, um die freien Zeiten zu sehen."
 
@@ -3073,6 +3100,9 @@ msgstr "%d frei"
 
 msgid "No free times on this day."
 msgstr "An diesem Tag sind keine Zeiten frei."
+
+msgid "(%1$s in %2$s)"
+msgstr "(%1$s in %2$s)"
 
 msgid "Selected: %1$s, %2$s"
 msgstr "Gewählt: %1$s, %2$s"

@@ -388,6 +388,32 @@ export default function SettingsScreen() {
 							set( 'max_advance_days' )( Number( v ) )
 						}
 					/>
+					<SelectControl
+						__nextHasNoMarginBottom
+						label={ __(
+							'Visitors from another time zone see times in',
+							'bookora'
+						) }
+						help={ __(
+							'Visitors in another time zone can always switch. Choose "their own time" for online appointments (video, phone).',
+							'bookora'
+						) }
+						value={ settings.customer_timezone }
+						options={ [
+							{
+								label: __(
+									'the local time of the business',
+									'bookora'
+								),
+								value: 'business',
+							},
+							{
+								label: __( 'their own time', 'bookora' ),
+								value: 'visitor',
+							},
+						] }
+						onChange={ set( 'customer_timezone' ) }
+					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
 						label={ __(

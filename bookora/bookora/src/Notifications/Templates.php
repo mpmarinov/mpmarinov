@@ -152,11 +152,11 @@ final class Templates {
 		$defaults = array(
 			'booking_received'          => array(
 				'subject' => __( 'We have received your booking request', 'bookora' ),
-				'body'    => __( "Hello {customer_name},\n\nthank you for your request. We have received the following booking:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n\nWe will check the appointment and confirm it shortly by email.\n\n{manage_button}\n\nKind regards\n{business_name}", 'bookora' ),
+				'body'    => __( "Hello {customer_name},\n\nthank you for your request. We have received the following booking:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} {local_time}\n\nWe will check the appointment and confirm it shortly by email.\n\n{manage_button}\n\nKind regards\n{business_name}", 'bookora' ),
 			),
 			'booking_confirmed'         => array(
 				'subject' => __( 'Your appointment on {date} is confirmed', 'bookora' ),
-				'body'    => __( "Hello {customer_name},\n\nyour appointment is confirmed:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n{staff}\n\n{calendar_button}\n\nIf you cannot make it, please let us know in good time.\n{manage_button}\n{cancellation_policy}\n\nWe look forward to seeing you!\n{business_name}", 'bookora' ),
+				'body'    => __( "Hello {customer_name},\n\nyour appointment is confirmed:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} {local_time}\n{staff}\n\n{calendar_button}\n\nIf you cannot make it, please let us know in good time.\n{manage_button}\n{cancellation_policy}\n\nWe look forward to seeing you!\n{business_name}", 'bookora' ),
 			),
 			'booking_rejected'          => array(
 				'subject' => __( 'Your booking request for {date}', 'bookora' ),
@@ -168,11 +168,11 @@ final class Templates {
 			),
 			'booking_reminder'          => array(
 				'subject' => __( 'Reminder: your appointment on {date} at {time}', 'bookora' ),
-				'body'    => __( "Hello {customer_name},\n\nwe would like to remind you of your appointment {time_until}:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n\n{calendar_button}\n\nIf you cannot make it, please let us know as soon as possible.\n{manage_button}\n{cancellation_policy}\n\nSee you soon!\n{business_name}", 'bookora' ),
+				'body'    => __( "Hello {customer_name},\n\nwe would like to remind you of your appointment {time_until}:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} {local_time}\n\n{calendar_button}\n\nIf you cannot make it, please let us know as soon as possible.\n{manage_button}\n{cancellation_policy}\n\nSee you soon!\n{business_name}", 'bookora' ),
 			),
 			'booking_rescheduled'       => array(
 				'subject' => __( 'Your appointment has been moved to {date} at {time}', 'bookora' ),
-				'body'    => __( "Hello {customer_name},\n\nyour appointment has been moved:\n\n<strong>{service}</strong>\nNew: {date}, {time} – {end_time}\n<s>Previously: {previous_date}, {previous_time}</s>\n\n{calendar_button}\n\nIf the new time does not suit you, please let us know.\n{manage_button}\n\nKind regards\n{business_name}", 'bookora' ),
+				'body'    => __( "Hello {customer_name},\n\nyour appointment has been moved:\n\n<strong>{service}</strong>\nNew: {date}, {time} – {end_time} {local_time}\n<s>Previously: {previous_date}, {previous_time}</s>\n\n{calendar_button}\n\nIf the new time does not suit you, please let us know.\n{manage_button}\n\nKind regards\n{business_name}", 'bookora' ),
 			),
 			'admin_new_booking'         => array(
 				'subject' => __( 'New booking: {service} on {date} at {time}', 'bookora' ),
@@ -215,6 +215,7 @@ final class Templates {
 			'{service}'               => __( 'Service', 'bookora' ),
 			'{date}'                  => __( 'Date', 'bookora' ),
 			'{time}'                  => __( 'Start time', 'bookora' ),
+			'{local_time}'            => __( 'Time in the customer’s time zone, only if it differs (e.g. booked from abroad)', 'bookora' ),
 			'{end_time}'              => __( 'End time', 'bookora' ),
 			'{previous_date}'         => __( 'Previous date (when moved)', 'bookora' ),
 			'{previous_time}'         => __( 'Previous time (when moved)', 'bookora' ),

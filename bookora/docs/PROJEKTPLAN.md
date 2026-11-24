@@ -232,7 +232,7 @@ Statt Merchant of Record (Freemius/Paddle/Lemon Squeezy) Verkauf im bestehenden 
 | Kunden-Selbstservice (Umbuchen/Stornieren per Link) | ✅ umgesetzt: Platzhalter `{manage_button}` / `{manage_link}` | – |
 | QR-Code auf der Kalender-Abo-Seite (Bibliothek qrcode-generator, MIT, kostenlos) | wartet auf Freigabe | Phase 10 |
 | Datei-Upload & Unterschrift | ✅ umgesetzt (siehe 10b.6) | – |
-| Kunden-Zeitzone (Slots in eigener Zeit anzeigen) | wird nur gespeichert | vor Phase 11 |
+| Kunden-Zeitzone (Slots in eigener Zeit anzeigen) | ✅ 24.11.2026: Umschalter Ortszeit Betrieb / eigene Zeit (nur bei abweichender Zeitzone), Standard einstellbar, Kundenmail mit `{local_time}` | – |
 | Berechnete Felder (z. B. Gesamtpreis) | fehlt | Phase 11 |
 | E-Mail-Warteschlange (Action Scheduler statt Direktversand) | Erinnerungen in Paketen (40 pro Lauf); Bestätigungsmails weiter direkt | Phase 10 |
 | Warteliste | fehlt | Pro (laut Abschnitt 9) |

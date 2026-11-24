@@ -26,6 +26,7 @@ Danach zeigt die Übersicht die Termine von heute, offene Anfragen, neue Einträ
 |---|---|
 | **Allgemein** | Name des Betriebs, Telefon (erscheint, wenn Kunden kurzfristig nicht mehr online absagen können), E-Mail-Adresse für Benachrichtigungen, Zeitformat |
 | **Buchungsregeln** | *Neue Buchungen sind* „bestätigt“ (sofort fest) oder „offen“ (Sie bestätigen jede Anfrage selbst). *Mindestvorlauf* (z. B. 120 Minuten = keine Buchung für die nächsten 2 Stunden). *Buchbar bis* (z. B. 90 Tage im Voraus) |
+| **Zeitzone der Besucher** | Unter *Buchungsregeln*: Besucher aus einer anderen Zeitzone (z. B. Kunden im Ausland) sehen die Zeiten standardmäßig in Ihrer Ortszeit und können mit einem Klick auf ihre eigene Zeit umschalten. Für Online-Termine (Video, Telefon) können Sie „ihrer eigenen Zeit“ als Standard wählen. Die E-Mail an den Kunden nennt dann zusätzlich seine Ortszeit, z. B. „09:00 – 09:45 Uhr (03:00 – 03:45 Ihre Zeit, New York)“ |
 | **Absagen & Verschieben durch Kunden** | Ob Kunden selbst absagen/verschieben dürfen, bis wann kostenlos, optional eine Ausfallgebühr (siehe Abschnitt 9) |
 | **Design & eigener Code** | Hauptfarbe, Ecken, Abstände, Hell/Dunkel/Automatisch, Schrift – mit Live-Vorschau |
 | **Sicherheit & Datenschutz** | Aufbewahrung, Löschen beim Deinstallieren |
@@ -94,7 +95,7 @@ Für reine Anfragen ohne Termin gibt es das **Kontaktformular** – die Einträg
 ## 8. E-Mails und Erinnerungen (Bookora → E-Mails)
 
 - Vorlagen für Bestätigung, Ablehnung, Absage, Verschiebung, Erinnerung und die Benachrichtigungen an Sie.
-- Platzhalter wie `{name}`, `{date}`, `{time}`, `{service}`, `{manage_button}` (Knopf „Termin verwalten“) – rechts mit Live-Vorschau und **Test-E-Mail**.
+- Platzhalter wie `{name}`, `{date}`, `{time}`, `{local_time}` (Ortszeit des Kunden, nur wenn abweichend), `{service}`, `{manage_button}` (Knopf „Termin verwalten“) – rechts mit Live-Vorschau und **Test-E-Mail**.
 - **Erinnerungen vor dem Termin:** empfohlen **7 Tage und 24 Stunden** vorher. Eine Erinnerung entfällt, wenn der Termin erst kurz vorher gebucht wurde. Der Platzhalter `{time_until}` schreibt automatisch „in 7 Tagen“ oder „morgen“.
 
 > **Wichtig für zuverlässige E-Mails:** Viele Hoster versenden WordPress-Mails nur eingeschränkt. Ein SMTP-Plugin (z. B. „WP Mail SMTP“) mit dem Postfach Ihrer Domain sorgt dafür, dass Bestätigungen nicht im Spam landen.

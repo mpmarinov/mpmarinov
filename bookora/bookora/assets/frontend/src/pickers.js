@@ -25,11 +25,86 @@ function fetchJson( url ) {
 		} );
 }
 
-function monthRange( year, month ) {
+function monthRange( year, month, pad = 0 ) {
 	return [
-		ymd( new Date( year, month, 1 ) ),
-		ymd( new Date( year, month + 1, 0 ) ),
+		ymd( new Date( year, month, 1 - pad ) ),
+		ymd( new Date( year, month + 1, pad ) ),
 	];
+}
+
+/** Time zone of the visitor's device, or '' if unknown. */
+function visitorTimezone() {
+	try {
+		return Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+	} catch ( e ) {
+		return '';
+	}
+}
+
+/**
+ * Do two time zones show different wall-clock times (now or in half a year)?
+ * Berlin and Paris are the same for our purpose; Berlin and London are not.
+ *
+ * @param {string} a Time zone.
+ * @param {string} b Time zone.
+ * @return {boolean} True if they differ.
+ */
+export function zonesDiffer( a, b ) {
+	if ( ! a || ! b || a === b ) {
+		return false;
+	}
+	try {
+		const now = Date.now();
+		return [ now, now + 182 * 86400000 ].some( ( t ) => {
+			const opts = {
+				hour: '2-digit',
+				minute: '2-digit',
+				hourCycle: 'h23',
+			};
+			return (
+				new Intl.DateTimeFormat( 'en', {
+					...opts,
+					timeZone: a,
+				} ).format( t ) !==
+				new Intl.DateTimeFormat( 'en', {
+					...opts,
+					timeZone: b,
+				} ).format( t )
+			);
+		} );
+	} catch ( e ) {
+		return false;
+	}
+}
+
+/**
+ * "America/New_York" → "New York".
+ *
+ * @param {string} tz Time zone.
+ * @return {string} City.
+ */
+export function tzCity( tz ) {
+	return String( tz ).split( '/' ).pop().replace( /_/g, ' ' );
+}
+
+/**
+ * H:i of an ISO timestamp in a time zone.
+ *
+ * @param {string} iso ISO timestamp.
+ * @param {string} tz  Time zone.
+ * @return {string} Time.
+ */
+function timeIn( iso, tz ) {
+	try {
+		return new Intl.DateTimeFormat( 'en-GB', {
+			hour: '2-digit',
+			minute: '2-digit',
+			hourCycle: 'h23',
+			timeZone: tz,
+		} ).format( new Date( iso ) );
+	} catch ( e ) {
+		return '';
+	}
 }
 
 function maxDate( maxAdvance ) {
@@ -92,7 +167,54 @@ export class AppointmentPicker {
 			className: 'bookora-appt__summary',
 			hidden: true,
 		} );
+		// Visitor in another time zone: let them choose in which time the slots are shown.
+		this.businessTz = config.timezone;
+		this.tz = config.timezone;
+		const own = visitorTimezone();
+		this.tzSwitch = null;
+		if ( zonesDiffer( this.businessTz, own ) ) {
+			this.tz = config.tzMode === 'visitor' ? own : this.businessTz;
+			const name = `bookora-tz-${ config.id }-${
+				field.dataset.key || 'a'
+			}`;
+			const option = ( value, text ) => {
+				const input = el( 'input', {
+					type: 'radio',
+					name,
+					value,
+					checked: this.tz === value,
+					onChange: () => this.setTimezone( value ),
+				} );
+				return el( 'label', { className: 'bookora-tz__option' }, [
+					input,
+					el( 'span', { text } ),
+				] );
+			};
+			this.tzSwitch = el( 'fieldset', { className: 'bookora-tz' }, [
+				el( 'legend', {
+					text: __( 'Show times in', 'bookora' ),
+				} ),
+				option(
+					this.businessTz,
+					sprintf(
+						/* translators: %s: city of the business, e.g. "Berlin". */
+						__( 'local time of the business (%s)', 'bookora' ),
+						tzCity( this.businessTz )
+					)
+				),
+				option(
+					own,
+					sprintf(
+						/* translators: %s: city of the visitor's time zone, e.g. "New York". */
+						__( 'my time (%s)', 'bookora' ),
+						tzCity( own )
+					)
+				),
+			] );
+		}
+
 		this.container.append(
+			...( this.tzSwitch ? [ this.tzSwitch ] : [] ),
 			this.hint,
 			el( 'div', { className: 'bookora-appt' }, [
 				this.calWrap,
@@ -115,10 +237,24 @@ export class AppointmentPicker {
 		this.reset();
 	}
 
+	/**
+	 * Switch the time zone the slots are shown in.
+	 *
+	 * @param {string} tz Time zone.
+	 */
+	setTimezone( tz ) {
+		this.tz = tz;
+		this.reset();
+	}
+
 	key( year, month ) {
-		return [ this.getService(), this.getResource() || 0, year, month ].join(
-			'|'
-		);
+		return [
+			this.tz,
+			this.getService(),
+			this.getResource() || 0,
+			year,
+			month,
+		].join( '|' );
 	}
 
 	days() {
@@ -134,8 +270,13 @@ export class AppointmentPicker {
 		}
 		const key = this.key( year, month );
 		if ( ! this.cache.has( key ) ) {
-			const [ from, to ] = monthRange( year, month );
-			const params = { service, from, to, tz: this.config.timezone };
+			// In another time zone, days at the month edge can shift by one.
+			const [ from, to ] = monthRange(
+				year,
+				month,
+				this.tz === this.businessTz ? 0 : 1
+			);
+			const params = { service, from, to, tz: this.tz };
 			if ( this.getResource() ) {
 				params.resource = this.getResource();
 			}
@@ -240,17 +381,31 @@ export class AppointmentPicker {
 			slot && slot.resources?.length === 1 ? slot.resources[ 0 ] : '';
 		if ( slot ) {
 			this.summary.hidden = false;
-			this.summary.textContent = sprintf(
-				/* translators: 1: date, 2: time. */
-				__( 'Selected: %1$s, %2$s', 'bookora' ),
-				longDate( this.selectedDay, this.config.locale ),
-				slot.end_time
-					? `${ formatTime(
-							slot.time,
-							this.config
-					  ) } – ${ formatTime( slot.end_time, this.config ) }`
-					: formatTime( slot.time, this.config )
-			);
+			const other =
+				this.tz !== this.businessTz
+					? ' ' +
+					  sprintf(
+							/* translators: 1: time, 2: city, e.g. "(14:00 in Berlin)". */
+							__( '(%1$s in %2$s)', 'bookora' ),
+							formatTime(
+								timeIn( slot.start, this.businessTz ),
+								this.config
+							),
+							tzCity( this.businessTz )
+					  )
+					: '';
+			this.summary.textContent =
+				sprintf(
+					/* translators: 1: date, 2: time. */
+					__( 'Selected: %1$s, %2$s', 'bookora' ),
+					longDate( this.selectedDay, this.config.locale ),
+					slot.end_time
+						? `${ formatTime(
+								slot.time,
+								this.config
+						  ) } – ${ formatTime( slot.end_time, this.config ) }`
+						: formatTime( slot.time, this.config )
+				) + other;
 		} else {
 			this.summary.hidden = true;
 		}
