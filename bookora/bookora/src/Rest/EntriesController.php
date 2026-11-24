@@ -145,6 +145,36 @@ final class EntriesController {
 
 		register_rest_route(
 			$ns,
+			'/bookings/(?P<id>\d+)/fee',
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => function ( WP_REST_Request $r ) {
+					$booking = $this->entries->booking( (int) $r['id'] );
+					if ( ! $booking ) {
+						return new WP_Error( 'bookora_not_found', __( 'Not found.', 'bookora' ), array( 'status' => 404 ) );
+					}
+					$amount = null === $r->get_param( 'amount' ) ? (float) $booking['fee_amount'] : (float) $r->get_param( 'amount' );
+					$reason = '' !== $booking['fee_reason'] ? $booking['fee_reason'] : 'manual';
+					$result = $this->entries->set_fee( (int) $r['id'], $amount, (string) $r->get_param( 'status' ), $reason );
+					return is_wp_error( $result ) ? $result : new WP_REST_Response( $result );
+				},
+				'permission_callback' => $manage,
+				'args'                => array(
+					'status' => array(
+						'type'     => 'string',
+						'required' => true,
+						'enum'     => array( '', 'open', 'paid', 'waived' ),
+					),
+					'amount' => array(
+						'type'    => 'number',
+						'minimum' => 0,
+					),
+				),
+			)
+		);
+
+		register_rest_route(
+			$ns,
 			'/badges',
 			array(
 				'methods'             => WP_REST_Server::READABLE,

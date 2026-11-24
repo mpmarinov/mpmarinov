@@ -347,8 +347,30 @@ class BookoraForm {
 			} );
 		}
 
+		// Cancellation terms with a fee: shown (and required) only for services that have them.
+		const policyField = this.form.querySelector(
+			'.bookora__field--policy'
+		);
+		const updatePolicy = () => {
+			if ( ! policyField ) {
+				return;
+			}
+			const id = service
+				? service.value
+				: String( this.config.service || '' );
+			const text = ( this.config.policies || {} )[ id ];
+			policyField.hidden = ! text;
+			if ( text ) {
+				policyField.querySelector(
+					'.bookora__policy-text'
+				).textContent = text;
+			}
+		};
+		updatePolicy();
+
 		service?.addEventListener( 'change', () => {
 			fillResources();
+			updatePolicy();
 			this.emit( 'service', { id: Number( service.value ) || null } );
 			this.appointment?.reset();
 		} );

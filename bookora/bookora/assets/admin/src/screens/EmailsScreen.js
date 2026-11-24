@@ -8,6 +8,7 @@ import {
 	FormToggle,
 	Modal,
 	Notice,
+	SelectControl,
 	Spinner,
 	TextControl,
 	TextareaControl,
@@ -35,6 +36,98 @@ const GROUPS = [
 	},
 ];
 
+const toRows = ( hours ) =>
+	( hours || [] )
+		.slice()
+		.sort( ( a, b ) => b - a )
+		.map( ( h ) =>
+			h % 24 === 0
+				? { value: h / 24, unit: 'days' }
+				: { value: h, unit: 'hours' }
+		);
+
+const toHours = ( rows ) =>
+	rows
+		.map( ( r ) => Number( r.value ) * ( r.unit === 'days' ? 24 : 1 ) )
+		.filter( ( h ) => h > 0 );
+
+function ReminderEditor( { rows, onChange } ) {
+	const update = ( i, patch ) =>
+		onChange(
+			rows.map( ( r, j ) => ( j === i ? { ...r, ...patch } : r ) )
+		);
+	return (
+		<fieldset className="bookora-fieldset bookora-reminders">
+			<legend>
+				{ __( 'Reminders before the appointment', 'bookora' ) }
+			</legend>
+			{ rows.length === 0 && (
+				<p className="bookora-muted">
+					{ __( 'No reminders.', 'bookora' ) }
+				</p>
+			) }
+			{ rows.map( ( r, i ) => (
+				<div className="bookora-reminders__row" key={ i }>
+					<TextControl
+						__nextHasNoMarginBottom
+						hideLabelFromVision
+						type="number"
+						min={ 1 }
+						max={ r.unit === 'days' ? 30 : 720 }
+						label={ __( 'Time before the appointment', 'bookora' ) }
+						value={ r.value }
+						onChange={ ( v ) => update( i, { value: v } ) }
+					/>
+					<SelectControl
+						__nextHasNoMarginBottom
+						hideLabelFromVision
+						label={ __( 'Unit', 'bookora' ) }
+						value={ r.unit }
+						options={ [
+							{
+								label: __( 'days before', 'bookora' ),
+								value: 'days',
+							},
+							{
+								label: __( 'hours before', 'bookora' ),
+								value: 'hours',
+							},
+						] }
+						onChange={ ( v ) => update( i, { unit: v } ) }
+					/>
+					<Button
+						variant="tertiary"
+						isDestructive
+						size="compact"
+						onClick={ () =>
+							onChange( rows.filter( ( _, j ) => j !== i ) )
+						}
+					>
+						{ __( 'Remove', 'bookora' ) }
+					</Button>
+				</div>
+			) ) }
+			{ rows.length < 5 && (
+				<Button
+					variant="secondary"
+					size="compact"
+					onClick={ () =>
+						onChange( [ ...rows, { value: 1, unit: 'days' } ] )
+					}
+				>
+					{ __( 'Add reminder', 'bookora' ) }
+				</Button>
+			) }
+			<p className="bookora-muted">
+				{ __(
+					'Recommended: 7 days and 24 hours before. A reminder is skipped if the appointment was confirmed only shortly before. Placeholder {time_until} writes e.g. "in 7 days" or "tomorrow".',
+					'bookora'
+				) }
+			</p>
+		</fieldset>
+	);
+}
+
 function SenderCard() {
 	const [ s, setS ] = useState( null );
 	const [ notice, setNotice ] = useState( null );
@@ -45,7 +138,7 @@ function SenderCard() {
 			.then( ( data ) =>
 				setS( {
 					...data,
-					reminder_text: ( data.reminder_hours || [] ).join( ', ' ),
+					reminder_rows: toRows( data.reminder_hours ),
 				} )
 			)
 			.catch( ( e ) =>
@@ -60,15 +153,12 @@ function SenderCard() {
 
 	const save = () => {
 		setBusy( true );
-		const reminderHours = s.reminder_text
-			.split( /[,;\s]+/ )
-			.map( Number )
-			.filter( ( n ) => n > 0 );
+		const reminderHours = toHours( s.reminder_rows );
 		post( '/settings', { ...s, reminder_hours: reminderHours } )
 			.then( ( data ) => {
 				setS( {
 					...data,
-					reminder_text: data.reminder_hours.join( ', ' ),
+					reminder_rows: toRows( data.reminder_hours ),
 				} );
 				setNotice( {
 					status: 'success',
@@ -133,15 +223,9 @@ function SenderCard() {
 						value={ s.business_address }
 						onChange={ set( 'business_address' ) }
 					/>
-					<TextControl
-						__nextHasNoMarginBottom
-						label={ __( 'Reminders (hours before)', 'bookora' ) }
-						help={ __(
-							'e.g. "24" or "48, 2" for two reminders.',
-							'bookora'
-						) }
-						value={ s.reminder_text }
-						onChange={ set( 'reminder_text' ) }
+					<ReminderEditor
+						rows={ s.reminder_rows }
+						onChange={ set( 'reminder_rows' ) }
 					/>
 					<TextControl
 						__nextHasNoMarginBottom

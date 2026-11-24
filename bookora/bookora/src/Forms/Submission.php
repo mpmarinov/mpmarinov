@@ -9,8 +9,10 @@ namespace Bookora\Forms;
 
 use Bookora\Availability\AvailabilityService;
 use Bookora\Booking\BookingService;
+use Bookora\Booking\CancellationPolicy;
 use Bookora\Install\Schema;
 use Bookora\Repository\ServiceRepository;
+use Bookora\Settings\Settings;
 use DateTimeImmutable;
 use WP_Error;
 
@@ -36,11 +38,13 @@ final class Submission {
 	 * @param BookingService      $bookings     Bookings.
 	 * @param AvailabilityService $availability Availability.
 	 * @param ServiceRepository   $services     Services.
+	 * @param Settings|null       $settings     Settings.
 	 */
 	public function __construct(
 		private BookingService $bookings,
 		private AvailabilityService $availability,
 		private ServiceRepository $services,
+		private ?Settings $settings = null,
 	) {}
 
 	/**
@@ -245,7 +249,7 @@ final class Submission {
 	 * @param array<string, mixed>  $form   Form.
 	 * @param array<string, mixed>  $values Raw values.
 	 * @param array<string, string> $errors Errors (by reference).
-	 * @return array{service_id:int, resource_id:int|null, start:int, seats:int}|null
+	 * @return array{policy_accepted:bool, service_id:int, resource_id:int|null, start:int, seats:int}|null
 	 */
 	private function booking_input( array $form, array $values, array &$errors ): ?array {
 		$fields      = (array) $form['fields'];
@@ -299,11 +303,23 @@ final class Submission {
 			$resource_id = absint( $raw['resource'] );
 		}
 
+		// Cancellation fee rule: the customer has to accept it explicitly.
+		$rule     = CancellationPolicy::for_service( $service, ( $this->settings ?? new Settings() )->all() );
+		$accepted = false;
+		if ( $rule['fee'] ) {
+			$accepted = ! empty( $values['_policy'] ) && is_scalar( $values['_policy'] );
+			if ( ! $accepted ) {
+				$errors['_policy'] = __( 'Please accept the cancellation terms.', 'bookora' );
+				return null;
+			}
+		}
+
 		return array(
-			'service_id'  => $service_id,
-			'resource_id' => $resource_id,
-			'start'       => (int) $time,
-			'seats'       => max( 1, min( (int) $service['capacity'], absint( $values['_seats'] ?? 1 ) ) ),
+			'policy_accepted' => $accepted,
+			'service_id'      => $service_id,
+			'resource_id'     => $resource_id,
+			'start'           => (int) $time,
+			'seats'           => max( 1, min( (int) $service['capacity'], absint( $values['_seats'] ?? 1 ) ) ),
 		);
 	}
 

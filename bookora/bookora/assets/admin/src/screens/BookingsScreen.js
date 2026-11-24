@@ -9,6 +9,7 @@ import {
 	SearchControl,
 	SelectControl,
 	Spinner,
+	TextControl,
 	TextareaControl,
 } from '@wordpress/components';
 
@@ -27,7 +28,163 @@ const VIEWS = [
 	{ id: 'past', label: __( 'Past', 'bookora' ) },
 	{ id: 'closed', label: __( 'Rejected & cancelled', 'bookora' ) },
 	{ id: 'all', label: __( 'All', 'bookora' ) },
+	{ id: 'fees', label: __( 'Open fees', 'bookora' ), optional: true },
 ];
+
+const FEE_STATUS = {
+	open: __( 'open', 'bookora' ),
+	paid: __( 'paid', 'bookora' ),
+	waived: __( 'waived', 'bookora' ),
+};
+
+const FEE_REASON = {
+	late_cancel: __( 'Late cancellation', 'bookora' ),
+	no_show: __( 'Did not attend', 'bookora' ),
+	manual: __( 'Entered manually', 'bookora' ),
+};
+
+export function formatMoney( amount ) {
+	return `${ Number( amount || 0 ).toLocaleString( undefined, {
+		minimumFractionDigits: 2,
+		maximumFractionDigits: 2,
+	} ) } €`;
+}
+
+export function FeeBadge( { booking } ) {
+	if ( ! booking.fee_amount || ! booking.fee_status ) {
+		return null;
+	}
+	return (
+		<span className={ `bookora-fee is-${ booking.fee_status }` }>
+			{ sprintf(
+				/* translators: 1: amount, 2: status (open, paid, waived). */
+				__( 'Fee %1$s · %2$s', 'bookora' ),
+				formatMoney( booking.fee_amount ),
+				FEE_STATUS[ booking.fee_status ] || booking.fee_status
+			) }
+		</span>
+	);
+}
+
+function FeePanel( { booking, onUpdated } ) {
+	const [ amount, setAmount ] = useState( '' );
+	const [ busy, setBusy ] = useState( false );
+	const [ error, setError ] = useState( '' );
+	const policy = booking.policy || {};
+	const hasFee = booking.fee_amount > 0 && booking.fee_status;
+
+	if ( ! hasFee && ! policy.fee && ! canManage ) {
+		return null;
+	}
+
+	const save = ( status, value ) => {
+		setBusy( true );
+		setError( '' );
+		post( `/bookings/${ booking.id }/fee`, {
+			status,
+			...( value !== undefined ? { amount: value } : {} ),
+		} )
+			.then( ( updated ) => {
+				setAmount( '' );
+				onUpdated?.( updated );
+			} )
+			.catch( ( e ) => setError( errorMessage( e ) ) )
+			.finally( () => setBusy( false ) );
+	};
+
+	return (
+		<div className="bookora-detail__fee">
+			<h3>{ __( 'Cancellation terms & fee', 'bookora' ) }</h3>
+			{ policy.text && (
+				<p className="bookora-muted">
+					{ policy.text }
+					{ policy.accepted_at &&
+						` ${ sprintf(
+							/* translators: %s: date and time. */
+							__( '(accepted by the customer on %s)', 'bookora' ),
+							formatDateTime( policy.accepted_at )
+						) }` }
+				</p>
+			) }
+			{ booking.cancelled_by === 'customer' && (
+				<p>{ __( 'Cancelled online by the customer.', 'bookora' ) }</p>
+			) }
+			{ error && (
+				<Notice status="error" isDismissible={ false }>
+					{ error }
+				</Notice>
+			) }
+			{ hasFee ? (
+				<>
+					<p>
+						<FeeBadge booking={ booking } />{ ' ' }
+						{ FEE_REASON[ booking.fee_reason ] || '' }
+					</p>
+					{ canManage && (
+						<div className="bookora-actions-inline">
+							{ booking.fee_status !== 'paid' && (
+								<Button
+									variant="secondary"
+									size="compact"
+									disabled={ busy }
+									onClick={ () => save( 'paid' ) }
+								>
+									{ __( 'Mark as paid', 'bookora' ) }
+								</Button>
+							) }
+							{ booking.fee_status !== 'waived' && (
+								<Button
+									variant="secondary"
+									size="compact"
+									disabled={ busy }
+									onClick={ () => save( 'waived' ) }
+								>
+									{ __( 'Waive fee', 'bookora' ) }
+								</Button>
+							) }
+							{ booking.fee_status !== 'open' && (
+								<Button
+									variant="tertiary"
+									size="compact"
+									disabled={ busy }
+									onClick={ () => save( 'open' ) }
+								>
+									{ __( 'Mark as open again', 'bookora' ) }
+								</Button>
+							) }
+						</div>
+					) }
+				</>
+			) : (
+				canManage && (
+					<div className="bookora-fee-form">
+						<TextControl
+							__nextHasNoMarginBottom
+							type="number"
+							min={ 0 }
+							step="0.01"
+							label={ __( 'Record a fee (€)', 'bookora' ) }
+							help={ __(
+								'E.g. for a short-notice cancellation by phone.',
+								'bookora'
+							) }
+							value={ amount }
+							onChange={ setAmount }
+						/>
+						<Button
+							variant="secondary"
+							size="compact"
+							disabled={ busy || ! ( Number( amount ) > 0 ) }
+							onClick={ () => save( 'open', Number( amount ) ) }
+						>
+							{ __( 'Record fee', 'bookora' ) }
+						</Button>
+					</div>
+				)
+			) }
+		</div>
+	);
+}
 
 const canManage = !! config.caps?.manageBookings;
 
@@ -85,6 +242,7 @@ export function BookingDetail( {
 	booking,
 	onClose,
 	onChange,
+	onUpdated,
 	busy,
 	children,
 } ) {
@@ -216,6 +374,12 @@ export function BookingDetail( {
 					</Button>
 				) }
 
+				<FeePanel
+					key={ `${ booking.id }-${ booking.fee_status }-${ booking.fee_amount }` }
+					booking={ booking }
+					onUpdated={ onUpdated }
+				/>
+
 				{ children }
 
 				<div className="bookora-modal-actions">
@@ -319,7 +483,12 @@ export default function BookingsScreen() {
 			) }
 
 			<div className="bookora-tabs" role="tablist">
-				{ VIEWS.map( ( v ) => (
+				{ VIEWS.filter(
+					( v ) =>
+						! v.optional ||
+						view === v.id ||
+						data?.counts?.[ v.id ] > 0
+				).map( ( v ) => (
 					<button
 						type="button"
 						role="tab"
@@ -430,7 +599,8 @@ export default function BookingsScreen() {
 											<strong>
 												{ b.name || b.email }
 											</strong>{ ' ' }
-											<StatusBadge status={ b.status } />
+											<StatusBadge status={ b.status } />{ ' ' }
+											<FeeBadge booking={ b } />
 											<div className="bookora-meta">
 												<span>{ b.service_name }</span>
 												{ b.resource_name && (
@@ -470,6 +640,10 @@ export default function BookingsScreen() {
 					booking={ open }
 					onClose={ () => setOpen( null ) }
 					onChange={ change }
+					onUpdated={ ( updated ) => {
+						setOpen( updated );
+						load( 1 );
+					} }
 					busy={ busy }
 				/>
 			) }

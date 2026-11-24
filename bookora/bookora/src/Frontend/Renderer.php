@@ -7,6 +7,7 @@
 
 namespace Bookora\Frontend;
 
+use Bookora\Booking\CancellationPolicy;
 use Bookora\Forms\Submission;
 use Bookora\Repository\FormRepository;
 use Bookora\Repository\ResourceRepository;
@@ -42,6 +43,13 @@ final class Renderer {
 	 * @var bool
 	 */
 	private bool $global_css_added = false;
+
+	/**
+	 * Cancellation terms per service (request cache).
+	 *
+	 * @var array<int, string>|null
+	 */
+	private ?array $policy_cache = null;
 
 	/**
 	 * Constructor.
@@ -197,6 +205,9 @@ final class Renderer {
 							foreach ( $step_fields as $field ) {
 								$this->field( $field, $form, $site );
 							}
+							if ( count( $steps ) - 1 === $i ) {
+								$this->policy_field( $form );
+							}
 							?>
 						</div>
 					</div>
@@ -341,6 +352,14 @@ final class Renderer {
 
 		$resources       = array();
 		$default_service = 0;
+		$policies        = $this->policies( $form );
+		if ( $policies ) {
+			$public_fields[] = array(
+				'key'      => '_policy',
+				'type'     => 'consent',
+				'required' => true,
+			);
+		}
 		if ( 'booking' === $form['type'] ) {
 			$active = array_column( $this->resources->all( array( 'status' => 'active' ) ), 'name', 'id' );
 			foreach ( $this->services->all( array( 'status' => 'active' ) ) as $service ) {
@@ -363,6 +382,7 @@ final class Renderer {
 			'rest'       => esc_url_raw( rest_url( 'bookora/v1' ) ),
 			'fields'     => $public_fields,
 			'resources'  => (object) $resources,
+			'policies'   => (object) $policies,
 			'service'    => $default_service,
 			'weekStart'  => (int) $site['week_start'],
 			'maxAdvance' => (int) $site['max_advance_days'],
@@ -378,6 +398,63 @@ final class Renderer {
 		 * @param array<string, mixed> $form   Form.
 		 */
 		return (array) apply_filters( 'bookora_frontend_config', $config, $form );
+	}
+
+	/**
+	 * Cancellation terms that need the customer's consent, per service id (booking forms only).
+	 * Cached per request.
+	 *
+	 * @param array<string, mixed> $form Form.
+	 * @return array<int, string> Service id => text.
+	 */
+	private function policies( array $form ): array {
+		if ( 'booking' !== $form['type'] ) {
+			return array();
+		}
+		if ( null === $this->policy_cache ) {
+			$this->policy_cache = array();
+			$site               = $this->settings->all();
+			foreach ( $this->services->all( array( 'status' => 'active' ) ) as $service ) {
+				$rule = CancellationPolicy::for_service( $service, $site );
+				if ( $rule['fee'] ) {
+					$this->policy_cache[ (int) $service['id'] ] = CancellationPolicy::text( $rule, (float) $service['price'] );
+				}
+			}
+		}
+		return $this->policy_cache;
+	}
+
+	/**
+	 * Consent box for the cancellation terms (shown by the script for services with a fee rule).
+	 *
+	 * @param array<string, mixed> $form Form.
+	 */
+	private function policy_field( array $form ): void {
+		$policies = $this->policies( $form );
+		if ( ! $policies ) {
+			return;
+		}
+		$id = 'bookora-' . (int) $form['id'] . '-policy';
+		// Visible from the start when the form books one fixed service with a rule.
+		$fields  = (array) $form['fields'];
+		$fixed   = ! in_array( 'service', array_column( $fields, 'type' ), true );
+		$first   = (int) array_key_first( $policies );
+		$default = 0;
+		foreach ( $this->services->all( array( 'status' => 'active' ) ) as $service ) {
+			$default = (int) $service['id'];
+			break;
+		}
+		$visible = $fixed && isset( $policies[ $default ] );
+		$text    = $visible ? $policies[ $default ] : $policies[ $first ];
+		?>
+		<div class="bookora__field bookora__field--consent bookora__field--policy" data-key="_policy"<?php echo $visible ? '' : ' hidden'; ?>>
+			<div class="bookora__control">
+				<p class="bookora__policy-text" id="<?php echo esc_attr( $id ); ?>-help"><?php echo esc_html( $text ); ?></p>
+				<label class="bookora__choice bookora__consent"><input type="checkbox" id="<?php echo esc_attr( $id ); ?>" name="fields[_policy]" value="1" required aria-describedby="<?php echo esc_attr( $id ); ?>-help <?php echo esc_attr( $id ); ?>-error"> <span><?php esc_html_e( 'I accept the cancellation terms.', 'bookora' ); ?></span></label>
+			</div>
+			<p class="bookora__error" id="<?php echo esc_attr( $id ); ?>-error" role="alert" hidden></p>
+		</div>
+		<?php
 	}
 
 	/**

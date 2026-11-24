@@ -17,6 +17,7 @@ use Bookora\Booking\BookingService;
 use Bookora\Forms\Submission;
 use Bookora\Frontend\Renderer;
 use Bookora\Install\Installer;
+use Bookora\Booking\ManagePage;
 use Bookora\Notifications\ActionLinks;
 use Bookora\Notifications\CalendarLink;
 use Bookora\Notifications\Mailer;
@@ -142,7 +143,8 @@ final class Plugin {
 			static fn( Container $c ) => new Submission(
 				$c->get( BookingService::class ),
 				$c->get( AvailabilityService::class ),
-				$c->get( ServiceRepository::class )
+				$c->get( ServiceRepository::class ),
+				$c->get( Settings::class )
 			)
 		);
 		$c->set( PublicFormController::class, static fn( Container $c ) => new PublicFormController( $c->get( FormRepository::class ), $c->get( Submission::class ) ) );
@@ -158,6 +160,7 @@ final class Plugin {
 		$c->set( Templates::class, static fn() => new Templates() );
 		$c->set( CalendarLink::class, static fn( Container $c ) => new CalendarLink( $c->get( EntryRepository::class ), $c->get( Settings::class ) ) );
 		$c->set( ActionLinks::class, static fn( Container $c ) => new ActionLinks( $c->get( EntryRepository::class ), $c->get( Settings::class ) ) );
+		$c->set( ManagePage::class, static fn( Container $c ) => new ManagePage( $c->get( EntryRepository::class ), $c->get( ServiceRepository::class ), $c->get( BookingService::class ), $c->get( Settings::class ) ) );
 		$c->set(
 			Mailer::class,
 			static fn( Container $c ) => new Mailer(
@@ -211,6 +214,7 @@ final class Plugin {
 		$c->get( Renderer::class )->register();
 		$c->get( ActionLinks::class )->register();
 		$c->get( CalendarLink::class )->register();
+		$c->get( ManagePage::class )->register();
 		( new Maintenance() )->register();
 		$c->get( Feed::class )->register();
 		$c->get( IcsImporter::class )->register();

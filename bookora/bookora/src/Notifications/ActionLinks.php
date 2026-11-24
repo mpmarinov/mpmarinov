@@ -7,6 +7,7 @@
 
 namespace Bookora\Notifications;
 
+use Bookora\Frontend\StandalonePage;
 use Bookora\Install\Schema;
 use Bookora\Repository\EntryRepository;
 use Bookora\Security\Crypto;
@@ -110,10 +111,6 @@ final class ActionLinks {
 			return;
 		}
 
-		nocache_headers();
-		header( 'X-Robots-Tag: noindex, nofollow' );
-		header( 'Referrer-Policy: no-referrer' );
-
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$token = sanitize_text_field( wp_unslash( $_GET[ self::QUERY_VAR ] ) );
 		$link  = $this->find( $token );
@@ -208,46 +205,6 @@ final class ActionLinks {
 	 * @param string $tone  success|neutral.
 	 */
 	private function page( string $title, string $body, string $tone = 'neutral' ): void {
-		$color = (string) $this->settings->get( 'primary_color', '#2563eb' );
-		$name  = (string) $this->settings->get( 'business_name', '' );
-		$name  = '' !== $name ? $name : get_bloginfo( 'name' );
-
-		status_header( 200 );
-		header( 'Content-Type: text/html; charset=utf-8' );
-		?>
-<!doctype html>
-<html <?php language_attributes(); ?>>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow">
-<meta name="referrer" content="no-referrer">
-<title><?php echo esc_html( $title . ' – ' . $name ); ?></title>
-<style>
-body{margin:0;font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#f3f4f6;color:#1f2937}
-.card{max-width:480px;margin:40px auto;background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.08);overflow:hidden}
-.head{background:<?php echo esc_attr( $color ); ?>;color:#fff;padding:18px 24px;font-weight:600}
-.body{padding:24px}h1{font-size:22px;margin:0 0 16px}
-dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:0 0 20px;padding:16px;background:#f9fafb;border-radius:10px}
-dt{color:#6b7280}dd{margin:0;font-weight:500}
-.btn{display:block;width:100%;padding:14px;border:0;border-radius:10px;font:inherit;font-weight:600;color:#fff;cursor:pointer}
-.btn-confirm{background:#15803d}.btn-reject{background:#b91c1c}
-.hint{color:#6b7280;font-size:14px;margin-top:12px}.ok{color:<?php echo 'success' === $tone ? '#15803d' : '#374151'; ?>;font-weight:600}
-.link{color:<?php echo esc_attr( $color ); ?>}
-@media (max-width:520px){.card{margin:0;border-radius:0;min-height:100vh}}
-</style>
-</head>
-<body>
-<div class="card">
-	<div class="head"><?php echo esc_html( $name ); ?></div>
-	<div class="body">
-		<h1><?php echo esc_html( $title ); ?></h1>
-		<?php echo $body; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from escaped parts. ?>
-	</div>
-</div>
-</body>
-</html>
-		<?php
-		exit;
+		StandalonePage::output( $this->settings, $title, $body, $tone );
 	}
 }

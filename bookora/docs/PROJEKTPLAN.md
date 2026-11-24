@@ -121,7 +121,7 @@ Zeitangaben = konzentrierte Entwicklungstage in gemeinsamen Sessions (ich progra
 | Umfang 1.0 | alle Anforderungen + „Empfohlen für 1.0“ aus Abschnitt 7 |
 | Formulare ohne Termin | **Ja** – Bookora ist Formular-Builder **und** Buchungssystem in einem Plugin |
 | Produktseite | Unterordner `mpmarinov.com/bookora` (kein eigenes Hosting); Domain bookora.com/.de als Weiterleitung reservieren |
-| Verkauf & Lizenzen | **neu offen (24.11.2026):** Verkauf des Pro-Abos über den eigenen Online-Shop auf mpmarinov.com statt Merchant of Record – siehe Abschnitt 10b.3 |
+| Verkauf & Lizenzen | **Entschieden (24.11.2026):** Pro-Abo über den eigenen WooCommerce-Shop auf mpmarinov.com (Stripe + PayPal vorhanden), eigener Lizenz- und Update-Server. Shop wird für digitale Produkte EU-weit angepasst (OSS) – siehe 10b.3 |
 
 ## 9. Free- und Pro-Strategie
 
@@ -197,15 +197,15 @@ Vor der finalen Wahl prüfen: freier Slug auf wordpress.org, Marken (DPMA, EUIPO
 
 ## 10b. Neue Anforderungen (24.11.2026)
 
-### 10b.1 Erinnerungen 7 Tage und 24 Stunden vorher
-**Stand:** Technisch schon möglich. Unter *E-Mails → Erinnerungen* „168, 24“ eintragen (Stunden, bis zu 5 Erinnerungen, max. 30 Tage).
+### 10b.1 Erinnerungen 7 Tage und 24 Stunden vorher ✅ umgesetzt (24.11.2026)
+**Vorher:** Technisch schon möglich. Unter *E-Mails → Erinnerungen* „168, 24“ eintragen (Stunden, bis zu 5 Erinnerungen, max. 30 Tage).
 **Umsetzung (vor Phase 11):**
 - Eingabe in Tagen/Stunden statt nur Stunden („7 Tage“, „24 Stunden“), Standard für neue Installationen: 7 Tage + 24 Stunden
 - Platzhalter `{zeit_bis_termin}` („in 7 Tagen“ / „morgen“), damit ein Text für beide Erinnerungen passt; optional eigener Text je Erinnerung
 - Regel: Wird ein Termin erst kurz vorher bestätigt, entfällt die längere Erinnerung (keine „in 7 Tagen“-Mail 2 Tage vorher); nach Cron-Ausfall wird nur die nächstliegende Erinnerung gesendet
 - Erinnerung kann je Leistung abgeschaltet werden
 
-### 10b.2 Stornofrist und Ausfallgebühr (optional, per Schalter)
+### 10b.2 Stornofrist und Ausfallgebühr (optional, per Schalter) ✅ umgesetzt (24.11.2026, zusammen mit dem Kunden-Selbstservice)
 Viele Praxen arbeiten mit „Absage bis 24 h vorher, sonst x % Ausfallgebühr“. In Bookora als **Option, standardmäßig aus**:
 - Schalter „Stornoregel verwenden“ global, je Leistung überschreibbar
 - Frist in Stunden (z. B. 24), Gebühr in % vom Leistungspreis **oder** fester Betrag; gilt wahlweise auch für Nichterscheinen („No-Show“)
@@ -224,12 +224,12 @@ Statt Merchant of Record (Freemius/Paddle/Lemon Squeezy) Verkauf im bestehenden 
 - Wiederkehrende Zahlung: WooCommerce Subscriptions (kostenpflichtig) oder kostenlose Alternative, Zahlungsanbieter mit Abo-Fähigkeit (Stripe, PayPal)
 - Lizenzschlüssel: wird nach Kauf automatisch erzeugt und per E-Mail verschickt, gilt für 1/5/unbegrenzt Websites
 - Lizenz- und Update-Server auf mpmarinov.com (baue ich): Pro-Add-on prüft Lizenz, holt Updates, Aktivierung/Deaktivierung je Website, Ablauf bei Kündigung
-**Offen:** Shop-System bestätigen (WooCommerce?), Entscheidung vor Phase 13
+**Entschieden:** WooCommerce mit Stripe und PayPal. Der 3D-Druck bleibt auf Deutschland beschränkt; für Bookora Pro wird der Shop um digitale Produkte mit EU-Umsatzsteuer (OSS-Registrierung beim BZSt, Steuersätze je Land) erweitert. Umsetzung Lizenz-/Update-Server in Phase 13
 
 ### 10b.4 Weitere Punkte (Abgleich Plan ↔ Code, 24.11.2026)
 | Punkt | Stand | Einplanung |
 |---|---|---|
-| Kunden-Selbstservice (Umbuchen/Stornieren per Link, `{storno_link}`) | fehlt | **vor Phase 11**, zusammen mit 10b.2 |
+| Kunden-Selbstservice (Umbuchen/Stornieren per Link) | ✅ umgesetzt: Platzhalter `{manage_button}` / `{manage_link}` | – |
 | QR-Code auf der Kalender-Abo-Seite (Bibliothek qrcode-generator, MIT, kostenlos) | wartet auf Freigabe | Phase 10 |
 | Datei-Upload & Unterschrift (Speicherung) | Feldtypen da, Speicherung fehlt | vor Phase 11 |
 | Kunden-Zeitzone (Slots in eigener Zeit anzeigen) | wird nur gespeichert | vor Phase 11 |
@@ -237,8 +237,16 @@ Statt Merchant of Record (Freemius/Paddle/Lemon Squeezy) Verkauf im bestehenden 
 | E-Mail-Warteschlange (Action Scheduler statt Direktversand) | Direktversand | Phase 10 |
 | Warteliste | fehlt | Pro (laut Abschnitt 9) |
 | Bulgarische Übersetzung | fehlt | vor Phase 14 |
-| Abnahmetest auf Staging (Marin, per ZIP) | – | nach 10b.1/10b.2 |
+| Abnahmetest auf Staging (Marin, per ZIP) | bereit | jetzt möglich |
 | MySQL-Performancetest (lokal im Container, kein Zugriff auf Server) | – | Phase 10 |
+
+### 10b.5 Umsetzung 24.11.2026 – Entscheidungen
+- **Eine Frist für alles:** „Kostenlos bis X Stunden vorher“ gilt für Absagen und Verschieben (die vorhandene, bisher wirkungslose Einstellung `cancel_limit_hours` wird dafür verwendet). Danach: ohne Gebührenregel keine Online-Änderung mehr (Hinweis + Telefon/E-Mail), mit Gebührenregel Absage gegen Gebühr oder gesperrt (wählbar). Kurzfristiges Verschieben ist online nicht möglich, sonst ließe sich die Gebühr umgehen.
+- **Gebühr nur mit Zustimmung:** Die Regel wird bei der Buchung als Kopie gespeichert (Text, Betrag, Zeitpunkt). Ältere Buchungen und Buchungen ohne Zustimmung kosten nie eine Gebühr.
+- **Unbestätigte Anfragen** können immer kostenlos zurückgezogen werden.
+- **Nichterscheinen:** Markieren als „Nicht erschienen“ erfasst die Gebühr automatisch, Zurücksetzen entfernt sie wieder. Manuelle Gebühr (z. B. telefonische Absage) im Buchungsdetail.
+- **Erinnerungen:** Standard 7 Tage + 24 Stunden; pro Buchung nur die nächstliegende fällige Erinnerung; eine Erinnerung entfällt, wenn sie später als zur Hälfte der Vorlaufzeit käme (7-Tage-Erinnerung spätestens 3,5 Tage vorher); je Leistung abschaltbar; Platzhalter `{time_until}`.
+- Tests: 316 Integrationsprüfungen (+49), 65 Unit-Tests (+7), Browser-Test Formular/Handy/Admin ohne Fehler.
 
 ## 11. Fortschritt
 

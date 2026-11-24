@@ -85,7 +85,192 @@ msgstr ""
 msgid "This time overlaps with another appointment (including breaks)."
 msgstr ""
 
+msgid "This appointment can no longer be changed."
+msgstr ""
+
+msgid "Sorry, this time is no longer available. Please choose another time."
+msgstr ""
+
 msgid "The booking could not be saved. Please try again."
+msgstr ""
+
+msgid "For later cancellations or if you do not attend, we charge a fee of %s."
+msgstr ""
+
+msgid "For later cancellations we charge a fee of %s."
+msgstr ""
+
+msgid "%1$s %% of the price (%2$s)"
+msgstr ""
+
+msgid "%s %% of the price"
+msgstr ""
+
+msgid "Free cancellation up to %d hour before the appointment."
+msgid_plural "Free cancellation up to %d hours before the appointment."
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Link not valid"
+msgstr ""
+
+msgid "This link is not valid. Please use the link from your most recent email."
+msgstr ""
+
+msgid "Appointment not found"
+msgstr ""
+
+msgid "This appointment no longer exists."
+msgstr ""
+
+msgid "Please try again"
+msgstr ""
+
+msgid "The page has expired. Please open the link from the email again."
+msgstr ""
+
+msgid "Your appointment"
+msgstr ""
+
+msgid "Move appointment"
+msgstr ""
+
+msgid "Withdraw request"
+msgstr ""
+
+msgid "Cancel appointment"
+msgstr ""
+
+msgid "Online changes were possible until %s. For short-notice changes please contact us directly."
+msgstr ""
+
+msgid "To change this appointment, please contact us directly."
+msgstr ""
+
+msgid "The free cancellation period ended on %1$s. If you cancel now, a fee of %2$s applies."
+msgstr ""
+
+msgid "A cancellation fee of %s applies."
+msgstr ""
+
+msgid "The free cancellation period has ended."
+msgstr ""
+
+msgid "Cancel with fee (%s)"
+msgstr ""
+
+msgid "Reason (optional)"
+msgstr ""
+
+msgid "Keep appointment"
+msgstr ""
+
+msgid "Withdraw request?"
+msgstr ""
+
+msgid "Cancel appointment?"
+msgstr ""
+
+msgid "Current appointment: %1$s, %2$s"
+msgstr ""
+
+msgid "Unfortunately there are no free times in the coming weeks. Please contact us directly."
+msgstr ""
+
+msgid "Choose a day"
+msgstr ""
+
+msgid "Free times on %s"
+msgstr ""
+
+msgid "Tap a time to move your appointment. You will receive a confirmation by email."
+msgstr ""
+
+msgid "Not possible"
+msgstr ""
+
+msgid "This appointment can no longer be cancelled online. Please contact us directly."
+msgstr ""
+
+msgid "Reason given by the customer:"
+msgstr ""
+
+msgid "Your appointment has been cancelled. A cancellation fee of %s has been recorded."
+msgstr ""
+
+msgid "Your appointment has been cancelled. You will receive a confirmation by email."
+msgstr ""
+
+msgid "Appointment cancelled"
+msgstr ""
+
+msgid "This appointment can no longer be moved online. Please contact us directly."
+msgstr ""
+
+msgid "Choose another time"
+msgstr ""
+
+msgid "Appointment moved"
+msgstr ""
+
+msgid "Your appointment has been moved. You will receive a confirmation with the new calendar file by email."
+msgstr ""
+
+msgid "Requested – not yet confirmed"
+msgstr ""
+
+msgid "Confirmed"
+msgstr ""
+
+msgid "Cancelled"
+msgstr ""
+
+msgid "Rejected"
+msgstr ""
+
+msgid "Completed"
+msgstr ""
+
+msgid "Not attended"
+msgstr ""
+
+msgid "Service"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "Staff member"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Cancellation fee"
+msgstr ""
+
+msgid "This appointment has been cancelled."
+msgstr ""
+
+msgid "Unfortunately this request could not be accepted."
+msgstr ""
+
+msgid "This appointment is in the past and can no longer be changed."
+msgstr ""
+
+msgid "Phone:"
+msgstr ""
+
+msgid "Email:"
+msgstr ""
+
+msgid "Back to the appointment"
+msgstr ""
+
+msgid "Back to the website"
 msgstr ""
 
 msgid "Hello,"
@@ -205,6 +390,9 @@ msgstr ""
 msgid "Please choose a date and time."
 msgstr ""
 
+msgid "Please accept the cancellation terms."
+msgstr ""
+
 msgid "This field is required."
 msgstr ""
 
@@ -283,6 +471,9 @@ msgstr ""
 msgid "Please enable JavaScript to use this form."
 msgstr ""
 
+msgid "I accept the cancellation terms."
+msgstr ""
+
 msgid "— Please choose —"
 msgstr ""
 
@@ -328,15 +519,6 @@ msgstr ""
 msgid "Booking not found"
 msgstr ""
 
-msgid "Please try again"
-msgstr ""
-
-msgid "The page has expired. Please open the link from the email again."
-msgstr ""
-
-msgid "Not possible"
-msgstr ""
-
 msgid "Booking confirmed"
 msgstr ""
 
@@ -370,25 +552,31 @@ msgstr ""
 msgid "The customer will be informed automatically by email."
 msgstr ""
 
-msgid "Service"
-msgstr ""
-
-msgid "Date"
-msgstr ""
-
-msgid "Time"
-msgstr ""
-
-msgid "Staff member"
-msgstr ""
-
 msgid "Open bookings in WordPress"
+msgstr ""
+
+msgid "today"
+msgstr ""
+
+msgid "tomorrow"
 msgstr ""
 
 msgid "Add to Google Calendar"
 msgstr ""
 
+msgid "Move or cancel appointment"
+msgstr ""
+
 msgid "customer"
+msgstr ""
+
+msgid "As you did not attend the appointment, we charge a fee of %s according to our cancellation terms."
+msgstr ""
+
+msgid "As the cancellation was made after the free cancellation period, we charge a fee of %s according to our cancellation terms."
+msgstr ""
+
+msgid "Cancellation fee recorded: %s (open)"
 msgstr ""
 
 msgid "Sample service"
@@ -401,6 +589,9 @@ msgid "This is a sample message."
 msgstr ""
 
 msgid "Contact"
+msgstr ""
+
+msgid "Sample reason"
 msgstr ""
 
 msgid "Confirm"
@@ -427,6 +618,16 @@ msgstr ""
 msgid "wp_mail() returned false. Please check the mail configuration (e.g. an SMTP plugin)."
 msgstr ""
 
+msgid "in %d hour"
+msgid_plural "in %d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "in %d day"
+msgid_plural "in %d days"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "Booking received"
 msgstr ""
 
@@ -451,9 +652,6 @@ msgstr ""
 msgid "To the customer before the appointment (time set in the settings)."
 msgstr ""
 
-msgid "Appointment moved"
-msgstr ""
-
 msgid "To the customer when you move the appointment in the timeline. Includes the new calendar file."
 msgstr ""
 
@@ -461,6 +659,18 @@ msgid "New booking (to you)"
 msgstr ""
 
 msgid "To you with buttons to confirm or reject with one click."
+msgstr ""
+
+msgid "Cancelled by the customer (to you)"
+msgstr ""
+
+msgid "To you when a customer cancels online, with reason and fee (if any)."
+msgstr ""
+
+msgid "Moved by the customer (to you)"
+msgstr ""
+
+msgid "To you when a customer moves the appointment online."
 msgstr ""
 
 msgid "Message received (auto-reply)"
@@ -478,13 +688,13 @@ msgstr ""
 msgid "We have received your booking request"
 msgstr ""
 
-msgid "Hello {customer_name},\n\nthank you for your request. We have received the following booking:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n\nWe will check the appointment and confirm it shortly by email.\n\nKind regards\n{business_name}"
+msgid "Hello {customer_name},\n\nthank you for your request. We have received the following booking:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n\nWe will check the appointment and confirm it shortly by email.\n\n{manage_button}\n\nKind regards\n{business_name}"
 msgstr ""
 
 msgid "Your appointment on {date} is confirmed"
 msgstr ""
 
-msgid "Hello {customer_name},\n\nyour appointment is confirmed:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n{staff}\n\n{calendar_button}\n\nIf you cannot make it, please let us know in good time.\n\nWe look forward to seeing you!\n{business_name}"
+msgid "Hello {customer_name},\n\nyour appointment is confirmed:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n{staff}\n\n{calendar_button}\n\nIf you cannot make it, please let us know in good time.\n{manage_button}\n{cancellation_policy}\n\nWe look forward to seeing you!\n{business_name}"
 msgstr ""
 
 msgid "Your booking request for {date}"
@@ -496,25 +706,37 @@ msgstr ""
 msgid "Your appointment on {date} has been cancelled"
 msgstr ""
 
-msgid "Hello {customer_name},\n\nyour appointment has been cancelled:\n\n{service}\n{date}, {time}\n\nYou are welcome to book a new appointment at any time: {site_url}\n\nKind regards\n{business_name}"
+msgid "Hello {customer_name},\n\nyour appointment has been cancelled:\n\n{service}\n{date}, {time}\n\n{cancellation_fee_note}\n\nYou are welcome to book a new appointment at any time: {site_url}\n\nKind regards\n{business_name}"
 msgstr ""
 
 msgid "Reminder: your appointment on {date} at {time}"
 msgstr ""
 
-msgid "Hello {customer_name},\n\nwe would like to remind you of your appointment:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n\n{calendar_button}\n\nIf you cannot make it, please let us know as soon as possible.\n\nSee you soon!\n{business_name}"
+msgid "Hello {customer_name},\n\nwe would like to remind you of your appointment {time_until}:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time}\n\n{calendar_button}\n\nIf you cannot make it, please let us know as soon as possible.\n{manage_button}\n{cancellation_policy}\n\nSee you soon!\n{business_name}"
 msgstr ""
 
 msgid "Your appointment has been moved to {date} at {time}"
 msgstr ""
 
-msgid "Hello {customer_name},\n\nyour appointment has been moved:\n\n<strong>{service}</strong>\nNew: {date}, {time} – {end_time}\n<s>Previously: {previous_date}, {previous_time}</s>\n\n{calendar_button}\n\nIf the new time does not suit you, please let us know.\n\nKind regards\n{business_name}"
+msgid "Hello {customer_name},\n\nyour appointment has been moved:\n\n<strong>{service}</strong>\nNew: {date}, {time} – {end_time}\n<s>Previously: {previous_date}, {previous_time}</s>\n\n{calendar_button}\n\nIf the new time does not suit you, please let us know.\n{manage_button}\n\nKind regards\n{business_name}"
 msgstr ""
 
 msgid "New booking: {service} on {date} at {time}"
 msgstr ""
 
 msgid "New booking from <strong>{customer_name}</strong>\n\n{service}\n{date}, {time} – {end_time}\n{staff}\n\nEmail: {customer_email}\nPhone: {customer_phone}\n\n{all_fields}\n\n{action_buttons}"
+msgstr ""
+
+msgid "Cancelled by the customer: {service} on {date} at {time}"
+msgstr ""
+
+msgid "<strong>{customer_name}</strong> has cancelled the appointment online. The time is free again.\n\n{service}\n{date}, {time} – {end_time}\n{staff}\n\nReason: {cancel_reason}\n{fee_info}\n\nEmail: {customer_email}\nPhone: {customer_phone}\n\n{admin_link}"
+msgstr ""
+
+msgid "Moved by the customer: {service} now on {date} at {time}"
+msgstr ""
+
+msgid "<strong>{customer_name}</strong> has moved the appointment online.\n\n{service}\nNew: {date}, {time} – {end_time}\n<s>Previously: {previous_date}, {previous_time}</s>\n{staff}\n\nEmail: {customer_email}\nPhone: {customer_phone}\n\n{admin_link}"
 msgstr ""
 
 msgid "Thank you for your message"
@@ -583,6 +805,33 @@ msgstr ""
 msgid "Buttons confirm / reject (only in emails to you)"
 msgstr ""
 
+msgid "Button \"Move or cancel appointment\" for the customer"
+msgstr ""
+
+msgid "Link \"Move or cancel appointment\""
+msgstr ""
+
+msgid "Cancellation terms (as agreed with the booking)"
+msgstr ""
+
+msgid "Date and time up to which cancelling is free"
+msgstr ""
+
+msgid "Recorded cancellation fee"
+msgstr ""
+
+msgid "Sentence about the fee (only if a fee was recorded)"
+msgstr ""
+
+msgid "Reason given by the customer when cancelling"
+msgstr ""
+
+msgid "Fee note for you (only if a fee was recorded)"
+msgstr ""
+
+msgid "Business phone"
+msgstr ""
+
 msgid "Link to the entry in WordPress"
 msgstr ""
 
@@ -622,13 +871,22 @@ msgstr ""
 msgid "Submitted"
 msgstr ""
 
-msgid "Status"
-msgstr ""
-
 msgid "Appointment"
 msgstr ""
 
 msgid "Booking status"
+msgstr ""
+
+msgid "Fee"
+msgstr ""
+
+msgid "Fee status"
+msgstr ""
+
+msgid "Invalid fee status."
+msgstr ""
+
+msgid "Could not be saved."
 msgstr ""
 
 msgid "Yes"
@@ -1263,22 +1521,10 @@ msgstr[1] ""
 msgid "Pending"
 msgstr ""
 
-msgid "Confirmed"
-msgstr ""
-
-msgid "Rejected"
-msgstr ""
-
-msgid "Cancelled"
-msgstr ""
-
 msgid "Attended"
 msgstr ""
 
 msgid "No-show"
-msgstr ""
-
-msgid "Cancel appointment"
 msgstr ""
 
 msgid "Reopen"
@@ -1300,6 +1546,57 @@ msgid "Rejected & cancelled"
 msgstr ""
 
 msgid "All"
+msgstr ""
+
+msgid "Open fees"
+msgstr ""
+
+msgid "open"
+msgstr ""
+
+msgid "paid"
+msgstr ""
+
+msgid "waived"
+msgstr ""
+
+msgid "Late cancellation"
+msgstr ""
+
+msgid "Did not attend"
+msgstr ""
+
+msgid "Entered manually"
+msgstr ""
+
+msgid "Fee %1$s · %2$s"
+msgstr ""
+
+msgid "Cancellation terms & fee"
+msgstr ""
+
+msgid "(accepted by the customer on %s)"
+msgstr ""
+
+msgid "Cancelled online by the customer."
+msgstr ""
+
+msgid "Mark as paid"
+msgstr ""
+
+msgid "Waive fee"
+msgstr ""
+
+msgid "Mark as open again"
+msgstr ""
+
+msgid "Record a fee (€)"
+msgstr ""
+
+msgid "E.g. for a short-notice cancellation by phone."
+msgstr ""
+
+msgid "Record fee"
 msgstr ""
 
 msgid "confirmed"
@@ -1543,6 +1840,30 @@ msgstr ""
 msgid "Contact & request forms"
 msgstr ""
 
+msgid "Reminders before the appointment"
+msgstr ""
+
+msgid "No reminders."
+msgstr ""
+
+msgid "Time before the appointment"
+msgstr ""
+
+msgid "Unit"
+msgstr ""
+
+msgid "days before"
+msgstr ""
+
+msgid "hours before"
+msgstr ""
+
+msgid "Add reminder"
+msgstr ""
+
+msgid "Recommended: 7 days and 24 hours before. A reminder is skipped if the appointment was confirmed only shortly before. Placeholder {time_until} writes e.g. \"in 7 days\" or \"tomorrow\"."
+msgstr ""
+
 msgid "Settings saved."
 msgstr ""
 
@@ -1565,12 +1886,6 @@ msgid "Should belong to your domain, otherwise emails may land in spam."
 msgstr ""
 
 msgid "Address (for calendar entries)"
-msgstr ""
-
-msgid "Reminders (hours before)"
-msgstr ""
-
-msgid "e.g. \"24\" or \"48, 2\" for two reminders."
 msgstr ""
 
 msgid "One-click links valid for (hours)"
@@ -1887,6 +2202,42 @@ msgstr ""
 msgid "Free"
 msgstr ""
 
+msgid "Cancellation & reminders"
+msgstr ""
+
+msgid "Send reminders for this service"
+msgstr ""
+
+msgid "Free cancellation up to (hours before)"
+msgstr ""
+
+msgid "Empty = use the global setting."
+msgstr ""
+
+msgid "As in the settings"
+msgstr ""
+
+msgid "No fee for this service"
+msgstr ""
+
+msgid "Own fee for this service"
+msgstr ""
+
+msgid "Fee type"
+msgstr ""
+
+msgid "Percent of the service price"
+msgstr ""
+
+msgid "Fixed amount (€)"
+msgstr ""
+
+msgid "Fee in €"
+msgstr ""
+
+msgid "Fee in %"
+msgstr ""
+
 msgid "Edit service"
 msgstr ""
 
@@ -1992,6 +2343,60 @@ msgstr ""
 msgid "Your name"
 msgstr ""
 
+msgid "Cancelling & moving by customers"
+msgstr ""
+
+msgid "Every booking email contains a personal link. With it, customers can move or cancel their appointment themselves – you are informed by email and the time becomes free automatically."
+msgstr ""
+
+msgid "Customers can cancel online"
+msgstr ""
+
+msgid "Customers can move online"
+msgstr ""
+
+msgid "Only to free times of the same staff member."
+msgstr ""
+
+msgid "Free of charge up to (hours before the appointment)"
+msgstr ""
+
+msgid "After this, online changes are no longer possible – unless you use a cancellation fee (below). 0 = until the start."
+msgstr ""
+
+msgid "Use a cancellation fee"
+msgstr ""
+
+msgid "Common in practices: \"Cancel up to 24 hours before, otherwise a fee applies.\" Customers must accept the terms when booking. Can be changed per service."
+msgstr ""
+
+msgid "Also charge if the customer does not attend"
+msgstr ""
+
+msgid "Recorded automatically when you mark the booking as \"Not attended\"."
+msgstr ""
+
+msgid "Cancelling online after the deadline"
+msgstr ""
+
+msgid "Allowed – the fee is shown beforehand and recorded"
+msgstr ""
+
+msgid "Not possible – customers have to call"
+msgstr ""
+
+msgid "Own wording (optional)"
+msgstr ""
+
+msgid "Leave empty for the automatic text. Placeholders: {hours}, {fee}."
+msgstr ""
+
+msgid "The free version records the fee and shows it in the bookings – you invoice it yourself. Note: In Germany a fee is only enforceable if it was agreed before; Bookora stores the customer's consent with the booking. This is not legal advice."
+msgstr ""
+
+msgid "Shown to customers when a short-notice change is only possible by phone. Placeholder {business_phone} in emails."
+msgstr ""
+
 msgid "Notification email"
 msgstr ""
 
@@ -2029,9 +2434,6 @@ msgid "Max. appointments per day (all services)"
 msgstr ""
 
 msgid "0 = no limit. Limits per service can be set in the service."
-msgstr ""
-
-msgid "Customers can cancel up to (hours before)"
 msgstr ""
 
 msgid "Design & own code"
@@ -2104,9 +2506,6 @@ msgid "Delete all Bookora data when the plugin is uninstalled"
 msgstr ""
 
 msgid "Save settings"
-msgstr ""
-
-msgid "Move appointment"
 msgstr ""
 
 msgid "Inform the customer by email"

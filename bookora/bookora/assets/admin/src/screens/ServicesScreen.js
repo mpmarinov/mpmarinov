@@ -49,6 +49,98 @@ function formatPrice( price ) {
 	}
 }
 
+function ServiceCancellation( { value, onChange } ) {
+	const mode = value.cancel_fee || 'inherit';
+	const upd = ( key ) => ( v ) => onChange( { ...value, [ key ]: v } );
+	return (
+		<fieldset className="bookora-fieldset">
+			<legend>{ __( 'Cancellation & reminders', 'bookora' ) }</legend>
+			<CheckboxControl
+				__nextHasNoMarginBottom
+				label={ __( 'Send reminders for this service', 'bookora' ) }
+				checked={ value.reminders !== false }
+				onChange={ upd( 'reminders' ) }
+			/>
+			<div className="bookora-grid">
+				<TextControl
+					__nextHasNoMarginBottom
+					type="number"
+					min={ 0 }
+					label={ __(
+						'Free cancellation up to (hours before)',
+						'bookora'
+					) }
+					help={ __( 'Empty = use the global setting.', 'bookora' ) }
+					value={ value.cancel_limit_hours ?? '' }
+					onChange={ ( v ) =>
+						upd( 'cancel_limit_hours' )(
+							v === '' ? '' : Math.max( 0, Number( v ) || 0 )
+						)
+					}
+				/>
+				<SelectControl
+					__nextHasNoMarginBottom
+					label={ __( 'Cancellation fee', 'bookora' ) }
+					value={ mode }
+					options={ [
+						{
+							label: __( 'As in the settings', 'bookora' ),
+							value: 'inherit',
+						},
+						{
+							label: __( 'No fee for this service', 'bookora' ),
+							value: 'off',
+						},
+						{
+							label: __( 'Own fee for this service', 'bookora' ),
+							value: 'custom',
+						},
+					] }
+					onChange={ upd( 'cancel_fee' ) }
+				/>
+				{ mode === 'custom' && (
+					<>
+						<SelectControl
+							__nextHasNoMarginBottom
+							label={ __( 'Fee type', 'bookora' ) }
+							value={ value.cancel_fee_type || 'percent' }
+							options={ [
+								{
+									label: __(
+										'Percent of the service price',
+										'bookora'
+									),
+									value: 'percent',
+								},
+								{
+									label: __( 'Fixed amount (€)', 'bookora' ),
+									value: 'fixed',
+								},
+							] }
+							onChange={ upd( 'cancel_fee_type' ) }
+						/>
+						<TextControl
+							__nextHasNoMarginBottom
+							type="number"
+							min={ 0 }
+							step="0.01"
+							label={
+								value.cancel_fee_type === 'fixed'
+									? __( 'Fee in €', 'bookora' )
+									: __( 'Fee in %', 'bookora' )
+							}
+							value={ value.cancel_fee_value ?? '' }
+							onChange={ ( v ) =>
+								upd( 'cancel_fee_value' )( Number( v ) || 0 )
+							}
+						/>
+					</>
+				) }
+			</div>
+		</fieldset>
+	);
+}
+
 function ServiceForm( { service, resources, weekly, onSave, onClose } ) {
 	const [ data, setData ] = useState( { ...EMPTY, ...service } );
 	const [ error, setError ] = useState( null );
@@ -246,6 +338,15 @@ function ServiceForm( { service, resources, weekly, onSave, onClose } ) {
 					weekly={ weekly }
 					data={ data }
 					weekStart={ Number( config.weekStart ?? 1 ) }
+				/>
+
+				<ServiceCancellation
+					value={
+						data.settings && ! Array.isArray( data.settings )
+							? data.settings
+							: {}
+					}
+					onChange={ set( 'settings' ) }
 				/>
 
 				<SelectControl

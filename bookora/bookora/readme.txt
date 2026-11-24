@@ -18,6 +18,9 @@ Bookora by Marinov Solutions turns your WordPress site into a complete booking s
 * Services with duration, buffers, capacity and opening hours
 * Live availability – already booked times are blocked automatically
 * One-click confirmation and rejection directly from the email
+* Customers move or cancel their appointment themselves via a personal link – up to a deadline you choose
+* Optional cancellation fee (e.g. "free up to 24 hours before, otherwise 50 %") with consent at booking, also for no-shows
+* Reminders e.g. 7 days and 24 hours before the appointment
 * Fully customizable confirmation, rejection and reminder emails
 * Drag & drop timeline for your day and week – move appointments, the customer is informed automatically
 * Calendar subscription for iPhone, Android (Google Calendar) and Outlook – one calendar for the business and one per staff member
@@ -57,6 +60,10 @@ Open Bookora → Calendar Sync and tap "Send link to phone". Open the email on y
 = Can my private appointments block booking times? =
 
 Yes. Paste the private iCal address of your Google, iCloud or Outlook calendar. Bookora checks it every 15 minutes and no longer offers times in which you already have something planned. Titles and details of your private appointments are never stored.
+
+= Can customers cancel or move appointments themselves? =
+
+Yes. Every booking email contains a personal link. Customers can cancel or move to another free time up to the deadline you set (default: 24 hours before). You are informed by email. Optionally you can use a cancellation fee: customers accept it when booking, and a late cancellation or a no-show records the fee in the booking. The free version does not collect payments – you invoice the fee yourself.
 
 = Does Bookora contact external services? =
 

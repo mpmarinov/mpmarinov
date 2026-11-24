@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Schema {
 
-	public const VERSION = '1.4.0';
+	public const VERSION = '1.5.0';
 
 	/**
 	 * Unprefixed table names.
@@ -201,6 +201,11 @@ final class Schema {
   seats smallint(5) unsigned NOT NULL DEFAULT 1,
   notes text NULL,
   source varchar(20) NOT NULL DEFAULT 'web',
+  policy longtext NULL,
+  fee_amount decimal(12,2) NOT NULL DEFAULT 0.00,
+  fee_status varchar(20) NOT NULL DEFAULT '',
+  fee_reason varchar(20) NOT NULL DEFAULT '',
+  cancelled_by varchar(20) NOT NULL DEFAULT '',
   created_at datetime NOT NULL,
   updated_at datetime NOT NULL,
   PRIMARY KEY  (id),
@@ -209,7 +214,8 @@ final class Schema {
   KEY status_time (status,start_utc),
   KEY customer_id (customer_id),
   KEY entry_id (entry_id),
-  KEY form_id (form_id)
+  KEY form_id (form_id),
+  KEY fee_status (fee_status)
 ) $collate;",
 
 			'action_tokens'        => "CREATE TABLE {$t('action_tokens')} (

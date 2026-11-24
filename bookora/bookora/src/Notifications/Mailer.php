@@ -7,6 +7,8 @@
 
 namespace Bookora\Notifications;
 
+use Bookora\Booking\CancellationPolicy;
+use Bookora\Booking\ManagePage;
 use Bookora\Install\Schema;
 use Bookora\Repository\EntryRepository;
 use Bookora\Repository\FormRepository;
@@ -59,6 +61,8 @@ final class Mailer {
 		add_action( 'bookora_booking_status_changed', array( $this, 'on_status_changed' ), 20, 3 );
 		add_action( 'bookora_entry_created', array( $this, 'on_entry_created' ), 10, 3 );
 		add_action( 'bookora_booking_moved', array( $this, 'on_booking_moved' ), 10, 2 );
+		add_action( 'bookora_customer_cancelled', array( $this, 'on_customer_cancelled' ), 10, 3 );
+		add_action( 'bookora_customer_rescheduled', array( $this, 'on_customer_rescheduled' ), 10, 2 );
 		add_action( self::CRON_REMINDERS, array( $this, 'send_reminders' ) );
 		add_action( 'phpmailer_init', array( $this, 'phpmailer_init' ) );
 
@@ -137,6 +141,41 @@ final class Mailer {
 	}
 
 	/**
+	 * Customer cancelled via the manage link → inform the owner.
+	 *
+	 * @param int    $booking_id Booking id.
+	 * @param float  $fee        Fee.
+	 * @param string $reason     Reason.
+	 */
+	public function on_customer_cancelled( int $booking_id, float $fee, string $reason ): void {
+		$ctx = $this->booking_context( $booking_id );
+		if ( ! $ctx ) {
+			return;
+		}
+		$ctx['vars']['cancel_reason'] = '' !== $reason ? $reason : '–';
+		$this->send( 'admin_booking_cancelled', $ctx );
+		unset( $fee );
+	}
+
+	/**
+	 * Customer moved the appointment via the manage link → inform the owner.
+	 *
+	 * @param int    $booking_id     Booking id.
+	 * @param string $previous_start Previous UTC start.
+	 */
+	public function on_customer_rescheduled( int $booking_id, string $previous_start ): void {
+		$ctx = $this->booking_context( $booking_id );
+		if ( ! $ctx ) {
+			return;
+		}
+		$prev                         = (int) strtotime( $previous_start . ' UTC' );
+		$tf                           = '12h' === $this->settings->get( 'time_format', '24h' ) ? 'g:i A' : 'H:i';
+		$ctx['vars']['previous_date'] = wp_date( 'l, ' . get_option( 'date_format' ), $prev );
+		$ctx['vars']['previous_time'] = wp_date( $tf, $prev );
+		$this->send( 'admin_booking_rescheduled', $ctx );
+	}
+
+	/**
 	 * Standard form submitted.
 	 *
 	 * @param int                  $entry_id Entry id.
@@ -157,33 +196,105 @@ final class Mailer {
 
 	/**
 	 * Hourly: reminders for confirmed bookings (each configured lead time once).
+	 *
+	 * Rules (e.g. 7 days + 24 hours):
+	 *  - per booking only the closest due reminder is sent (after a cron outage nobody gets two at once),
+	 *  - a reminder is skipped when it would come much too late, e.g. the appointment was confirmed only
+	 *    3 days before – then "in 7 days" makes no sense; the 24-hour reminder still follows,
+	 *  - bookings made shortly before the appointment get no reminder for that lead time (the confirmation covers it),
+	 *  - services can switch reminders off.
 	 */
 	public function send_reminders(): int {
 		global $wpdb;
 		$sent  = 0;
-		$hours = array_filter( array_map( 'intval', (array) $this->settings->get( 'reminder_hours', array( 24 ) ) ) );
-		$now   = time();
+		$hours = array_values( array_unique( array_filter( array_map( 'intval', (array) $this->settings->get( 'reminder_hours', array( 168, 24 ) ) ) ) ) );
+		sort( $hours );
+		if ( ! $hours ) {
+			return 0;
+		}
+		$now = time();
+		$max = max( $hours );
+		$tab = Schema::table( $wpdb->prefix, 'bookings' );
+		$log = Schema::table( $wpdb->prefix, 'notification_log' );
+		$svc = Schema::table( $wpdb->prefix, 'services' );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared -- internal tables.
+		$rows = (array) $wpdb->get_results( $wpdb->prepare( "SELECT b.id, b.start_utc, b.created_at, s.settings FROM {$tab} b LEFT JOIN {$svc} s ON s.id = b.service_id WHERE b.status = 'confirmed' AND b.start_utc > %s AND b.start_utc <= %s", gmdate( 'Y-m-d H:i:s', $now ), gmdate( 'Y-m-d H:i:s', $now + $max * HOUR_IN_SECONDS ) ), ARRAY_A );
+		if ( ! $rows ) {
+			return 0;
+		}
 
-		foreach ( $hours as $h ) {
-			// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared -- internal tables.
-			$rows = (array) $wpdb->get_results( $wpdb->prepare( 'SELECT b.id, b.start_utc, b.created_at FROM ' . Schema::table( $wpdb->prefix, 'bookings' ) . " b WHERE b.status = 'confirmed' AND b.start_utc > %s AND b.start_utc <= %s AND NOT EXISTS ( SELECT 1 FROM " . Schema::table( $wpdb->prefix, 'notification_log' ) . " l WHERE l.booking_id = b.id AND l.event = %s AND l.status = 'sent' )", gmdate( 'Y-m-d H:i:s', $now ), gmdate( 'Y-m-d H:i:s', $now + $h * HOUR_IN_SECONDS ), 'booking_reminder:' . $h ), ARRAY_A );
+		$ids  = implode( ',', array_map( 'intval', array_column( $rows, 'id' ) ) );
+		$done = array();
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- internal table, integer list.
+		foreach ( (array) $wpdb->get_results( "SELECT booking_id, event FROM {$log} WHERE booking_id IN ({$ids}) AND event LIKE 'booking_reminder:%' AND status = 'sent'", ARRAY_A ) as $l ) {
+			$done[ (int) $l['booking_id'] ][ (int) substr( (string) $l['event'], 17 ) ] = true;
+		}
 
-			// Skip bookings made shortly before the appointment: the confirmation already covers them.
-			$ids = array();
-			foreach ( $rows as $row ) {
-				if ( strtotime( $row['created_at'] . ' UTC' ) <= strtotime( $row['start_utc'] . ' UTC' ) - $h * HOUR_IN_SECONDS ) {
-					$ids[] = (int) $row['id'];
+		foreach ( $rows as $row ) {
+			$id    = (int) $row['id'];
+			$start = (int) strtotime( $row['start_utc'] . ' UTC' );
+			$left  = $start - $now;
+			$conf  = json_decode( (string) $row['settings'], true );
+			if ( is_array( $conf ) && array_key_exists( 'reminders', $conf ) && ! $conf['reminders'] ) {
+				continue;
+			}
+			// Closest due lead time (smallest window that contains the appointment).
+			$due = null;
+			foreach ( $hours as $h ) {
+				if ( $left <= $h * HOUR_IN_SECONDS ) {
+					$due = $h;
+					break;
 				}
 			}
-
-			foreach ( $ids as $id ) {
-				$ctx = $this->booking_context( (int) $id );
-				if ( $ctx && $this->send( 'booking_reminder', $ctx, 'booking_reminder:' . $h ) ) {
-					++$sent;
-				}
+			if ( null === $due || ! empty( $done[ $id ][ $due ] ) ) {
+				continue;
+			}
+			if ( ! self::reminder_in_time( $due, $left ) ) {
+				continue;
+			}
+			if ( strtotime( $row['created_at'] . ' UTC' ) > $start - $due * HOUR_IN_SECONDS ) {
+				continue;
+			}
+			$ctx = $this->booking_context( $id );
+			if ( $ctx && $this->send( 'booking_reminder', $ctx, 'booking_reminder:' . $due ) ) {
+				++$sent;
 			}
 		}
 		return $sent;
+	}
+
+	/**
+	 * Whether a reminder for a lead time still makes sense with this much time left.
+	 * Sent at the latest at half the lead time (7 days → until 3.5 days before), but always
+	 * with 90 minutes tolerance so short lead times are not lost between hourly cron runs.
+	 *
+	 * @param int $hours Lead time.
+	 * @param int $left  Seconds until the appointment.
+	 */
+	public static function reminder_in_time( int $hours, int $left ): bool {
+		$late = max( $hours * HOUR_IN_SECONDS / 2, 90 * MINUTE_IN_SECONDS );
+		return $hours * HOUR_IN_SECONDS - $left <= $late;
+	}
+
+	/**
+	 * "in 7 days", "tomorrow", "today", "in 3 hours".
+	 *
+	 * @param int $start Appointment start.
+	 * @param int $now   Now.
+	 */
+	public static function time_until( int $start, int $now ): string {
+		$tz   = wp_timezone();
+		$days = (int) ( new \DateTimeImmutable( '@' . $now ) )->setTimezone( $tz )->setTime( 0, 0 )->diff( ( new \DateTimeImmutable( '@' . $start ) )->setTimezone( $tz )->setTime( 0, 0 ) )->format( '%r%a' );
+		if ( $days <= 0 ) {
+			$h = (int) round( ( $start - $now ) / HOUR_IN_SECONDS );
+			/* translators: %d: hours. */
+			return $h >= 2 ? sprintf( _n( 'in %d hour', 'in %d hours', $h, 'bookora' ), $h ) : __( 'today', 'bookora' );
+		}
+		if ( 1 === $days ) {
+			return __( 'tomorrow', 'bookora' );
+		}
+		/* translators: %d: days. */
+		return sprintf( _n( 'in %d day', 'in %d days', $days, 'bookora' ), $days );
 	}
 
 	/**
@@ -295,6 +406,7 @@ final class Mailer {
 			'{action_buttons}'  => 'admin_new_booking' === $event ? $this->action_buttons( $ctx ) : '',
 			'{admin_link}'      => $this->admin_link( $ctx ),
 			'{calendar_button}' => $this->calendar_button( $ctx ),
+			'{manage_button}'   => $this->manage_button( $ctx ),
 		);
 
 		$body = wp_kses_post( (string) $tpl['body'] );
@@ -303,14 +415,18 @@ final class Mailer {
 		}
 		// Links are only created from the template itself and from trusted URLs – never from customer input
 		// (otherwise "name: verify at evil.example" would become a clickable phishing link).
-		$body = make_clickable( $body );
-		foreach ( array( 'site_url', 'google_calendar_link' ) as $url_key ) {
+		$body       = make_clickable( $body );
+		$link_texts = array(
+			'google_calendar_link' => __( 'Add to Google Calendar', 'bookora' ),
+			'manage_link'          => __( 'Move or cancel appointment', 'bookora' ),
+		);
+		foreach ( array( 'site_url', 'google_calendar_link', 'manage_link' ) as $url_key ) {
 			$url = esc_url( (string) ( $vars[ $url_key ] ?? '' ) );
 			if ( '' === $url ) {
 				continue;
 			}
 			$body = str_replace( '"{' . $url_key . '}"', '"' . $url . '"', $body );
-			$text = 'google_calendar_link' === $url_key ? __( 'Add to Google Calendar', 'bookora' ) : (string) $vars[ $url_key ];
+			$text = $link_texts[ $url_key ] ?? (string) $vars[ $url_key ];
 			$body = str_replace( '{' . $url_key . '}', '<a href="' . $url . '">' . esc_html( $text ) . '</a>', $body );
 		}
 		$body = $replace( $body, true );
@@ -359,6 +475,8 @@ final class Mailer {
 		);
 		$vars['google_calendar_link'] = Ics::google_link( $booking, $vars['service'] . ' – ' . $vars['business_name'], $vars['business_address'] );
 		$vars['calendar_link']        = '' !== $booking['uid'] ? CalendarLink::url( $booking['uid'] ) : '';
+		$vars                        += $this->policy_vars( $booking, $service );
+		$vars['time_until']           = self::time_until( $ts, time() );
 
 		return array(
 			'booking' => $booking,
@@ -366,6 +484,47 @@ final class Mailer {
 			'vars'    => $vars,
 			'fields'  => array_column( (array) ( $entry['values'] ?? array() ), 'value', 'key' ),
 			'labeled' => (array) ( $entry['values'] ?? array() ),
+		);
+	}
+
+	/**
+	 * Placeholders for self-service and cancellation terms.
+	 *
+	 * @param array<string, mixed>      $booking Booking.
+	 * @param array<string, mixed>|null $service Service.
+	 * @return array<string, string>
+	 */
+	private function policy_vars( array $booking, ?array $service ): array {
+		$rule   = CancellationPolicy::for_service( $service, $this->settings->all() );
+		$agreed = is_array( $booking['policy'] ?? null ) ? $booking['policy'] : null;
+		$text   = $agreed ? (string) ( $agreed['text'] ?? '' ) : CancellationPolicy::text( array( 'fee' => false ) + $rule, 0.0 );
+		$hours  = $agreed ? (int) ( $agreed['hours'] ?? 0 ) : (int) $rule['hours'];
+		$tf     = '12h' === $this->settings->get( 'time_format', '24h' ) ? 'g:i A' : 'H:i';
+		$start  = (int) strtotime( (string) $booking['start'] );
+		$fee    = (float) ( $booking['fee_amount'] ?? 0 );
+		$open   = in_array( $booking['status'], array( 'pending', 'confirmed' ), true );
+		$manage = ( $rule['self_cancel'] || $rule['self_reschedule'] ) && $open && '' !== (string) ( $booking['uid'] ?? '' );
+
+		return array(
+			'manage_link'           => $manage ? ManagePage::url( (string) $booking['uid'] ) : '',
+			'cancellation_policy'   => $text,
+			'cancellation_deadline' => $hours > 0 ? wp_date( 'l, ' . get_option( 'date_format' ) . ', ' . $tf, $start - $hours * HOUR_IN_SECONDS ) : '',
+			'cancellation_fee'      => $fee > 0 ? CancellationPolicy::money( $fee ) : '',
+			'cancellation_fee_note' => $fee > 0
+				? sprintf(
+					/* translators: %s: fee amount. */
+					'no_show' === ( $booking['fee_reason'] ?? '' ) ? __( 'As you did not attend the appointment, we charge a fee of %s according to our cancellation terms.', 'bookora' ) : __( 'As the cancellation was made after the free cancellation period, we charge a fee of %s according to our cancellation terms.', 'bookora' ),
+					CancellationPolicy::money( $fee )
+				)
+				: '',
+			'cancel_reason'         => '',
+			'fee_info'              => $fee > 0
+				? sprintf(
+					/* translators: %s: fee amount. */
+					__( 'Cancellation fee recorded: %s (open)', 'bookora' ),
+					CancellationPolicy::money( $fee )
+				)
+				: '',
 		);
 	}
 
@@ -395,7 +554,7 @@ final class Mailer {
 				'duration'       => '',
 				'price'          => '',
 				'staff'          => '',
-			),
+			) + array_fill_keys( array( 'manage_link', 'cancellation_policy', 'cancellation_deadline', 'cancellation_fee', 'cancellation_fee_note', 'cancel_reason', 'fee_info', 'time_until' ), '' ),
 			'fields'  => array_column( $entry['values'], 'value', 'key' ),
 			'labeled' => $entry['values'],
 		);
@@ -445,6 +604,18 @@ final class Mailer {
 		);
 		$vars['google_calendar_link'] = Ics::google_link( $booking, $vars['service'], $vars['business_address'] );
 		$vars['calendar_link']        = home_url( '/' );
+		$vars                        += array(
+			'manage_link'           => home_url( '/' ),
+			'cancellation_policy'   => CancellationPolicy::text( CancellationPolicy::for_service( null, $this->settings->all() ), 35.0 ),
+			'cancellation_deadline' => wp_date( 'l, ' . get_option( 'date_format' ) . ', H:i', $start - DAY_IN_SECONDS ),
+			'cancellation_fee'      => CancellationPolicy::money( 17.5 ),
+			/* translators: %s: fee amount. */
+			'cancellation_fee_note' => sprintf( __( 'As the cancellation was made after the free cancellation period, we charge a fee of %s according to our cancellation terms.', 'bookora' ), CancellationPolicy::money( 17.5 ) ),
+			'cancel_reason'         => __( 'Sample reason', 'bookora' ),
+			'time_until'            => __( 'tomorrow', 'bookora' ),
+			/* translators: %s: fee amount. */
+			'fee_info'              => sprintf( __( 'Cancellation fee recorded: %s (open)', 'bookora' ), CancellationPolicy::money( 17.5 ) ),
+		);
 
 		return array(
 			'booking' => $booking,
@@ -493,6 +664,7 @@ final class Mailer {
 		return array(
 			'business_name'    => $this->business_name(),
 			'business_address' => (string) $this->settings->get( 'business_address', '' ),
+			'business_phone'   => (string) $this->settings->get( 'business_phone', '' ),
 			'site_url'         => home_url( '/' ),
 		);
 	}
@@ -580,6 +752,19 @@ final class Mailer {
 
 		return '<p style="margin:20px 0 6px;"><a href="' . esc_url( $url ) . '" style="display:inline-block;padding:12px 22px;background:' . $color . ';color:#ffffff;text-decoration:none;border-radius:8px;font-weight:bold;">&#128197; ' . esc_html__( 'Add to calendar', 'bookora' ) . '</a></p>'
 			. '<p style="margin:0 0 16px;font-size:13px;color:#6b7280;">' . esc_html__( 'Works with iPhone, Android and Outlook.', 'bookora' ) . ' <a href="' . esc_url( (string) $ctx['vars']['google_calendar_link'] ) . '" style="color:#6b7280;">' . esc_html__( 'Google Calendar', 'bookora' ) . '</a></p>';
+	}
+
+	/**
+	 * Button "Move or cancel appointment" (empty when self-service is off or the booking is closed).
+	 *
+	 * @param array<string, mixed> $ctx Context.
+	 */
+	private function manage_button( array $ctx ): string {
+		$url = (string) ( $ctx['vars']['manage_link'] ?? '' );
+		if ( '' === $url ) {
+			return '';
+		}
+		return '<p style="margin:16px 0;"><a href="' . esc_url( $url ) . '" style="display:inline-block;padding:10px 18px;border:1px solid #d1d5db;color:#1f2937;text-decoration:none;border-radius:8px;font-weight:bold;">' . esc_html__( 'Move or cancel appointment', 'bookora' ) . '</a></p>';
 	}
 
 	/**

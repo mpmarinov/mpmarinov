@@ -150,6 +150,9 @@ bookora.setValue( 'quelle', new URLSearchParams( location.search ).get( 'quelle'
 | `bookora_booking_moved` | `int $booking_id, string $previous_start_utc, ?int $previous_resource` | Im Zeitstrahl verschoben |
 | `bookora_entry_created` | `int $entry_id, array $values, array $form` | Neuer Formulareintrag |
 | `bookora_calendar_synced` | `int $connection_id, int $busy_times` | Privater Kalender importiert |
+| `bookora_customer_cancelled` | `int $booking_id, float $fee, string $reason` | Kunde hat über den Link in der E-Mail abgesagt |
+| `bookora_customer_rescheduled` | `int $booking_id, string $previous_start_utc` | Kunde hat über den Link verschoben |
+| `bookora_booking_fee_changed` | `int $booking_id, float $amount, string $status, string $reason` | Ausfallgebühr erfasst, bezahlt, erlassen |
 
 ### Filter
 
@@ -163,6 +166,7 @@ bookora.setValue( 'quelle', new URLSearchParams( location.search ).get( 'quelle'
 | `bookora_field_types` | `array $types` → `array` | Eigene Feldtypen registrieren |
 | `bookora_email_events` | `array $events` → `array` | E-Mail-Ereignisse ergänzen |
 | `bookora_email_html` | `string $html, string $subject, string $body` → `string` | Komplettes E-Mail-HTML |
+| `bookora_cancellation_policy` | `array $rule, ?array $service` → `array` | Stornoregel einer Leistung ändern (Frist `hours`, `fee`, `fee_type`, `fee_value`, `no_show`, `late_online`, `self_cancel`, `self_reschedule`) |
 | `bookora_send_reschedule_email` | `bool $send, int $booking_id` → `bool` | E-Mail beim Verschieben unterdrücken |
 | `bookora_feed_event` | `?array $event, array $booking, string $scope` → `?array` | Termin im Kalender-Abo ändern (`null` = weglassen) |
 | `bookora_sanitize_settings` | `array $clean, array $input` → `array` | Eigene Einstellungen ergänzen |
@@ -215,9 +219,19 @@ Admin-Routen brauchen ein eingeloggtes Konto mit dem passenden Bookora-Recht (No
 | `GET /public/services`, `GET /public/opening` | Leistungen, Öffnungstage (öffentlich) |
 | `GET /availability?service&from&to` | Freie Zeiten (öffentlich) |
 | `POST /public/forms/{id}/submit` | Formular absenden (öffentlich, mit Spam-Schutz) |
-| `GET /bookings`, `POST /bookings/{id}/status`, `POST /bookings/{id}/move` | Buchungen verwalten |
+| `GET /bookings`, `POST /bookings/{id}/status`, `POST /bookings/{id}/move` | Buchungen verwalten (`view=fees` = offene Gebühren) |
+| `POST /bookings/{id}/fee {status: open|paid|waived, amount?}` | Ausfallgebühr erfassen oder als bezahlt/erlassen markieren |
 | `GET /timeline?view=day|week&date` | Zeitstrahl |
 | `GET /entries`, `POST /entries/bulk` | Formulareinträge |
 | `GET|POST /forms`, `GET|POST /services`, `/resources`, `/schedules/…` | Stammdaten |
 | `GET /calendars`, `POST /calendars/connections`, `POST /calendars/feeds/{scope}/reset` | Kalender-Sync |
 | `GET|POST /settings`, `GET|PUT /emails/{event}` | Einstellungen, E-Mail-Vorlagen |
+
+## 6. Selbstservice-Link und Stornoregel
+
+- Jede Buchung hat einen persönlichen Link `?bookora_manage=<uid>.<signatur>` (HMAC-SHA256 aus den WordPress-Salts, 128 Bit, nichts gespeichert). In E-Mails: `{manage_button}` oder `{manage_link}`. PHP: `\Bookora\Booking\ManagePage::url( $uid )`.
+- Die Seite zeigt nur Informationen (GET). Absagen und Verschieben sind POST mit Nonce – Link-Scanner in Mailprogrammen können nichts auslösen.
+- Verschieben geht nur auf reguläre freie Zeiten desselben Mitarbeiters (Öffnungszeiten, Vorlauf, Pausen, private Kalender gelten).
+- Die Stornoregel wird bei der Buchung als Kopie gespeichert (`bookings.policy`, JSON: Frist, Gebühr, Text, Zeitpunkt der Zustimmung). Spätere Änderungen an Einstellungen oder Preis ändern bestehende Buchungen nicht. Eine Gebühr gilt nur, wenn der Kunde zugestimmt hat.
+- Platzhalter: `{cancellation_policy}`, `{cancellation_deadline}`, `{cancellation_fee}`, `{cancellation_fee_note}`, `{cancel_reason}`, `{fee_info}`, `{time_until}`, `{business_phone}`.
+

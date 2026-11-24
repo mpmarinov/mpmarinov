@@ -30,7 +30,7 @@ email_templates (pro Ereignis, optional pro Formular und Sprache)
 | `customers` | Kunden | `email`, `name`, `phone`, `user_id`, `locale`, `timezone` |
 | `entries` | Jede Formular-Einsendung (mit oder ohne Termin) | `uid`, `form_id`, `customer_id`, `status` (new/read/starred/spam/trash), `ip_hash`, `user_agent`, `source_url` |
 | `entry_values` | Eingaben aus dem Formular | `entry_id`, `field_key`, `value` |
-| `bookings` | Termin zu einem Eintrag | `uid`, `entry_id`, `form_id`, `service_id`, `resource_id`, `customer_id`, `start_utc`, `end_utc`, `timezone`, `status`, `seats` |
+| `bookings` | Termin zu einem Eintrag | `uid`, `entry_id`, `form_id`, `service_id`, `resource_id`, `customer_id`, `start_utc`, `end_utc`, `timezone`, `status`, `seats`, `policy` (vereinbarte Stornoregel als JSON), `fee_amount`, `fee_status` (''/open/paid/waived), `fee_reason` (late_cancel/no_show/manual), `cancelled_by` (customer/admin) |
 | `action_tokens` | Ein-Klick-Links | `booking_id`, `action`, `token_hash` (SHA-256), `expires_at`, `used_at` |
 | `email_templates` | Eigene Texte | `event`, `form_id`, `locale`, `subject`, `body` |
 | `notification_log` | Versandprotokoll | `booking_id`, `channel`, `event`, `recipient`, `status`, `error` |

@@ -12,6 +12,7 @@ import {
 	SelectControl,
 	Spinner,
 	TextControl,
+	TextareaControl,
 	ToggleControl,
 } from '@wordpress/components';
 
@@ -56,6 +57,164 @@ function DesignPreview( { settings } ) {
 				{ __( 'Book now', 'bookora' ) }
 			</span>
 		</div>
+	);
+}
+
+function CancellationCard( { settings, set } ) {
+	const feeOn = !! settings.cancel_fee_enabled;
+	const percent = settings.cancel_fee_type !== 'fixed';
+	return (
+		<Card>
+			<CardHeader>
+				<h2>{ __( 'Cancelling & moving by customers', 'bookora' ) }</h2>
+			</CardHeader>
+			<CardBody>
+				<p className="bookora-muted">
+					{ __(
+						'Every booking email contains a personal link. With it, customers can move or cancel their appointment themselves – you are informed by email and the time becomes free automatically.',
+						'bookora'
+					) }
+				</p>
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={ __( 'Customers can cancel online', 'bookora' ) }
+					checked={ !! settings.self_cancel }
+					onChange={ set( 'self_cancel' ) }
+				/>
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={ __( 'Customers can move online', 'bookora' ) }
+					help={ __(
+						'Only to free times of the same staff member.',
+						'bookora'
+					) }
+					checked={ !! settings.self_reschedule }
+					onChange={ set( 'self_reschedule' ) }
+				/>
+				<TextControl
+					type="number"
+					__nextHasNoMarginBottom
+					label={ __(
+						'Free of charge up to (hours before the appointment)',
+						'bookora'
+					) }
+					help={ __(
+						'After this, online changes are no longer possible – unless you use a cancellation fee (below). 0 = until the start.',
+						'bookora'
+					) }
+					min={ 0 }
+					value={ settings.cancel_limit_hours }
+					onChange={ ( v ) =>
+						set( 'cancel_limit_hours' )( Number( v ) )
+					}
+				/>
+
+				<ToggleControl
+					__nextHasNoMarginBottom
+					label={ __( 'Use a cancellation fee', 'bookora' ) }
+					help={ __(
+						'Common in practices: "Cancel up to 24 hours before, otherwise a fee applies." Customers must accept the terms when booking. Can be changed per service.',
+						'bookora'
+					) }
+					checked={ feeOn }
+					onChange={ set( 'cancel_fee_enabled' ) }
+				/>
+				{ feeOn && (
+					<div className="bookora-subsettings">
+						<SelectControl
+							__nextHasNoMarginBottom
+							label={ __( 'Fee type', 'bookora' ) }
+							value={ settings.cancel_fee_type }
+							options={ [
+								{
+									label: __(
+										'Percent of the service price',
+										'bookora'
+									),
+									value: 'percent',
+								},
+								{
+									label: __( 'Fixed amount (€)', 'bookora' ),
+									value: 'fixed',
+								},
+							] }
+							onChange={ set( 'cancel_fee_type' ) }
+						/>
+						<TextControl
+							type="number"
+							__nextHasNoMarginBottom
+							label={
+								percent
+									? __( 'Fee in %', 'bookora' )
+									: __( 'Fee in €', 'bookora' )
+							}
+							min={ 0 }
+							max={ percent ? 100 : undefined }
+							step={ percent ? 1 : 0.01 }
+							value={ settings.cancel_fee_value }
+							onChange={ ( v ) =>
+								set( 'cancel_fee_value' )( Number( v ) )
+							}
+						/>
+						<ToggleControl
+							__nextHasNoMarginBottom
+							label={ __(
+								'Also charge if the customer does not attend',
+								'bookora'
+							) }
+							help={ __(
+								'Recorded automatically when you mark the booking as "Not attended".',
+								'bookora'
+							) }
+							checked={ !! settings.cancel_fee_no_show }
+							onChange={ set( 'cancel_fee_no_show' ) }
+						/>
+						<SelectControl
+							__nextHasNoMarginBottom
+							label={ __(
+								'Cancelling online after the deadline',
+								'bookora'
+							) }
+							value={ settings.cancel_late_online }
+							options={ [
+								{
+									label: __(
+										'Allowed – the fee is shown beforehand and recorded',
+										'bookora'
+									),
+									value: 'fee',
+								},
+								{
+									label: __(
+										'Not possible – customers have to call',
+										'bookora'
+									),
+									value: 'block',
+								},
+							] }
+							onChange={ set( 'cancel_late_online' ) }
+						/>
+						<TextareaControl
+							__nextHasNoMarginBottom
+							label={ __( 'Own wording (optional)', 'bookora' ) }
+							help={ __(
+								'Leave empty for the automatic text. Placeholders: {hours}, {fee}.',
+								'bookora'
+							) }
+							value={ settings.cancel_policy_text }
+							onChange={ set( 'cancel_policy_text' ) }
+							rows={ 3 }
+						/>
+						<Notice status="info" isDismissible={ false }>
+							{ __(
+								"The free version records the fee and shows it in the bookings – you invoice it yourself. Note: In Germany a fee is only enforceable if it was agreed before; Bookora stores the customer's consent with the booking. This is not legal advice.",
+								'bookora'
+							) }
+						</Notice>
+					</div>
+				) }
+			</CardBody>
+		</Card>
 	);
 }
 
@@ -124,6 +283,17 @@ export default function SettingsScreen() {
 						label={ __( 'Business name', 'bookora' ) }
 						value={ settings.business_name }
 						onChange={ set( 'business_name' ) }
+						__nextHasNoMarginBottom
+					/>
+					<TextControl
+						type="tel"
+						label={ __( 'Phone', 'bookora' ) }
+						help={ __(
+							'Shown to customers when a short-notice change is only possible by phone. Placeholder {business_phone} in emails.',
+							'bookora'
+						) }
+						value={ settings.business_phone }
+						onChange={ set( 'business_phone' ) }
 						__nextHasNoMarginBottom
 					/>
 					<TextControl
@@ -248,21 +418,10 @@ export default function SettingsScreen() {
 							set( 'max_per_day' )( Number( v ) )
 						}
 					/>
-					<TextControl
-						type="number"
-						__nextHasNoMarginBottom
-						label={ __(
-							'Customers can cancel up to (hours before)',
-							'bookora'
-						) }
-						min={ 0 }
-						value={ settings.cancel_limit_hours }
-						onChange={ ( v ) =>
-							set( 'cancel_limit_hours' )( Number( v ) )
-						}
-					/>
 				</CardBody>
 			</Card>
+
+			<CancellationCard settings={ settings } set={ set } />
 
 			<Card>
 				<CardHeader>

@@ -77,6 +77,11 @@ foreach ( \Bookora\Install\Schema::TABLES as $table ) {
 	$wpdb->query( 'DELETE FROM ' . \Bookora\Install\Schema::table( $wpdb->prefix, $table ) );
 }
 $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '\\_transient\\_bookora\\_rl\\_%' OR option_name LIKE '\\_transient\\_timeout\\_bookora\\_rl\\_%' OR option_name LIKE 'bookora\\_sync\\_lock\\_%'" );
+$bk_opt = get_option( \Bookora\Settings\Settings::OPTION, array() );
+if ( is_array( $bk_opt ) ) {
+	$bk_opt['cancel_fee_enabled'] = false; // A crashed earlier run must not leave the fee rule on.
+	update_option( \Bookora\Settings\Settings::OPTION, $bk_opt, false );
+}
 wp_cache_flush();
 \Bookora\Install\Installer::install();
 rest_get_server();
@@ -872,6 +877,196 @@ $wpdb->insert( $tok_table, array( 'booking_id' => 1, 'action' => 'confirm', 'tok
 $res_m  = ( new \Bookora\Core\Maintenance() )->run();
 check( $res_m['tokens'] >= 1 && 0 === (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$tok_table} WHERE token_hash = '" . str_repeat( 'a', 64 ) . "'" ), 'daily maintenance removes expired one-click tokens', $res_m );
 check( false !== has_action( 'bookora_daily_maintenance' ), 'daily maintenance is hooked' );
+
+echo "Self-service & cancellation terms (10b.2)\n";
+$cp     = \Bookora\Booking\CancellationPolicy::class;
+$ent    = $cont->get( \Bookora\Repository\EntryRepository::class );
+$bsvc   = $cont->get( \Bookora\Booking\BookingService::class );
+$btab   = \Bookora\Install\Schema::table( $wpdb->prefix, 'bookings' );
+$psvc   = api( 'POST', '/services', array( 'name' => 'Behandlung', 'duration' => 30, 'price' => 48 ) )->get_data();
+$sday   = ( new DateTimeImmutable( next_weekday( 1 ) ) )->modify( '+21 days' )->format( 'Y-m-d' );
+$sat    = static fn( string $hm ) => ( new DateTimeImmutable( $sday . ' ' . $hm, wp_timezone() ) )->getTimestamp();
+$pbook  = static function ( string $hm, string $email, array $extra = array(), string $ip = '198.51.100.10' ) use ( $sub, $bf, $old_token, $psvc, $sday ) {
+	return $sub->handle( $bf, array( '_bk_t' => $old_token( 10, (int) $bf['id'] ), 'fields' => $extra + array( 'leistung' => (string) $psvc['id'], 'termin' => ( new DateTimeImmutable( $sday . ' ' . $hm, wp_timezone() ) )->format( 'c' ), 'name' => 'Paula Probe', 'email' => $email ) ), array( 'ip' => $ip ) );
+};
+$bid_of = static fn( $res ) => is_array( $res ) ? (int) $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$btab} WHERE uid = %s", (string) ( $res["booking"]["uid"] ?? "" ) ) ) : 0;
+$set_start = static function ( int $id, int $start ) use ( $wpdb, $btab ) {
+	$wpdb->update( $btab, array( 'start_utc' => gmdate( 'Y-m-d H:i:s', $start ), 'end_utc' => gmdate( 'Y-m-d H:i:s', $start + 1800 ), 'created_at' => gmdate( 'Y-m-d H:i:s', time() - 7 * DAY_IN_SECONDS ) ), array( 'id' => $id ) );
+};
+
+$sset = api( 'GET', '/settings' )->get_data();
+check( true === $sset['self_cancel'] && true === $sset['self_reschedule'] && false === $sset['cancel_fee_enabled'] && 24 === $sset['cancel_limit_hours'], 'defaults: self-service on, fee off, free up to 24 h', array_intersect_key( $sset, array_flip( array( 'self_cancel', 'self_reschedule', 'cancel_fee_enabled', 'cancel_limit_hours' ) ) ) );
+
+$free = $pbook( '14:00', 'frei@example.com' );
+$fid  = $bid_of( $free );
+$fb   = (array) $ent->booking( $fid );
+check( $fid > 0 && false === $fb['policy']['fee'] && 24 === $fb['policy']['hours'], 'without fee rule no consent is needed; the free-cancellation rule is stored', $fb['policy'] ?? $free );
+
+api( 'POST', '/settings', array( 'cancel_fee_enabled' => true, 'cancel_fee_type' => 'percent', 'cancel_fee_value' => 50, 'cancel_fee_no_show' => true, 'cancel_late_online' => 'fee', 'business_phone' => '+49 30 123456' ) );
+$miss = $pbook( '15:00', 'gebuehr@example.com', array(), '198.51.100.11' );
+check( is_wp_error( $miss ) && isset( $miss->get_error_data()['fields']['_policy'] ), 'with fee rule the booking is refused without consent', is_wp_error( $miss ) ? $miss->get_error_data() : $miss );
+$ok  = $pbook( '15:00', 'gebuehr@example.com', array( '_policy' => '1' ), '198.51.100.11' );
+$gid = $bid_of( $ok );
+$gb  = $ent->booking( $gid );
+check( $gid > 0 && true === $gb['policy']['fee'] && 24.0 === (float) $gb['policy']['fee_amount'] && ! empty( $gb['policy']['accepted_at'] ), 'consent is stored with the booking: 50 % of 48 € = 24 €, with time of acceptance', $gb['policy'] ?? $ok );
+check( str_contains( $gb['policy']['text'], '24' ) && str_contains( $gb['policy']['text'], '50' ), 'agreed wording is stored (incl. amount)', $gb['policy']['text'] );
+
+$html = $cont->get( \Bookora\Frontend\Renderer::class )->render( (int) $bf['id'] );
+preg_match( '/data-bookora="([^"]+)"/', $html, $cm );
+$cfg = json_decode( html_entity_decode( $cm[1] ?? '' ), true );
+check( str_contains( $html, 'bookora__field--policy' ) && str_contains( $html, 'name="fields[_policy]"' ) && isset( $cfg['policies'][ $psvc['id'] ] ), 'form shows the consent box and passes the terms per service', array_keys( (array) ( $cfg['policies'] ?? array() ) ) );
+
+$svc_rule = static fn( array $settings ) => $cp::for_service( array( 'settings' => $settings, 'price' => 48 ), api( 'GET', '/settings' )->get_data() );
+check( false === $svc_rule( array( 'cancel_fee' => 'off' ) )['fee'], 'a service can switch the fee off' );
+$cr = $svc_rule( array( 'cancel_fee' => 'custom', 'cancel_fee_type' => 'fixed', 'cancel_fee_value' => 20, 'cancel_limit_hours' => 48 ) );
+check( true === $cr['fee'] && 20.0 === $cp::fee_amount( $cr, 48 ) && 48 === $cr['hours'], 'a service can have its own fixed fee and deadline', $cr );
+check( 0.0 === $cp::fee_amount( array( 'fee' => true, 'fee_type' => 'percent', 'fee_value' => 150 ), 0 ) && 48.0 === $cp::fee_amount( array( 'fee' => true, 'fee_type' => 'percent', 'fee_value' => 150 ), 48 ), 'percent fee is capped at 100 % and 0 for free services' );
+check( 100.0 === (float) api( 'POST', '/settings', array( 'cancel_fee_value' => 250 ) )->get_data()['cancel_fee_value'], 'settings cap percent fees at 100' );
+api( 'POST', '/settings', array( 'cancel_fee_value' => 50 ) );
+
+$rule = $cp::for_service( $cont->get( \Bookora\Repository\ServiceRepository::class )->find( (int) $psvc['id'] ), api( 'GET', '/settings' )->get_data() );
+$opt  = $cp::options( $gb, $rule, time() );
+check( 'free' === $opt['cancel'] && 'free' === $opt['reschedule'], 'early: cancelling and moving are free', $opt );
+$ent->set_booking_status( $gid, 'confirmed' );
+$set_start( $gid, time() + 10 * HOUR_IN_SECONDS );
+$opt = $cp::options( $ent->booking( $gid ), $rule, time() );
+check( 'fee' === $opt['cancel'] && 24.0 === $opt['fee'] && 'blocked' === $opt['reschedule'], 'within 24 h: cancelling costs the agreed fee, moving online is no longer possible', $opt );
+$opt = $cp::options( $ent->booking( $gid ), array( 'late_online' => 'block' ) + $rule, time() );
+$late_free = $cp::options( $ent->booking( $fid ), $rule, time() );
+check( 'fee' === $opt['cancel'], 'the agreed setting (stored with the booking) wins over later changes' );
+$set_start( $fid, time() + 10 * HOUR_IN_SECONDS );
+$ent->set_booking_status( $fid, 'confirmed' );
+$opt = $cp::options( $ent->booking( $fid ), $rule, time() );
+check( 'blocked' === $opt['cancel'] && 'blocked' === $opt['reschedule'], 'no fee agreed: after the deadline online changes are blocked (no surprise fee)', $opt );
+$pend = $pbook( '16:00', 'pending@example.com', array( '_policy' => '1' ), '198.51.100.12' );
+$pid  = $bid_of( $pend );
+$set_start( $pid, time() + 5 * HOUR_IN_SECONDS );
+check( 'free' === $cp::options( $ent->booking( $pid ), $rule, time() )['cancel'], 'an unconfirmed request can always be withdrawn free of charge' );
+$set_start( $pid, time() - HOUR_IN_SECONDS );
+check( 'closed' === $cp::options( $ent->booking( $pid ), $rule, time() )['cancel'], 'past appointments cannot be changed' );
+
+$mails = array();
+$mctx  = $mailer->booking_context( $gid );
+[ , $mhtml ] = $mailer->render( 'booking_confirmed', \Bookora\Notifications\Templates::default_template( 'booking_confirmed' ), $mctx );
+check( str_contains( $mhtml, 'bookora_manage=' ) && str_contains( $mhtml, esc_html( $gb['policy']['text'] ) ), 'confirmation email contains the manage button and the agreed terms' );
+$ectx = $mailer->entry_context( (int) $gb['entry_id'] );
+[ , $ehtml ] = $mailer->render( 'booking_confirmed', \Bookora\Notifications\Templates::default_template( 'booking_confirmed' ), $ectx );
+check( ! str_contains( $ehtml, '{manage' ) && ! str_contains( $ehtml, '{cancellation' ), 'placeholders are removed where they do not apply' );
+
+$muid = (string) $gb['uid'];
+$murl = \Bookora\Booking\ManagePage::url( $muid );
+check( (bool) preg_match( '/bookora_manage=[a-f0-9-]{36}\.[a-f0-9]{32}$/', $murl ), 'manage link carries uid and a 128-bit signature' );
+$post = static function ( string $url, array $data ) {
+	$ctx  = stream_context_create( array( 'http' => array( 'method' => 'POST', 'ignore_errors' => true, 'header' => 'Content-Type: application/x-www-form-urlencoded', 'content' => http_build_query( $data ), 'timeout' => 20 ) ) );
+	$body = @file_get_contents( $url, false, $ctx ); // phpcs:ignore
+	return array( (int) preg_replace( '/^HTTP\/\S+ (\d+).*$/', '$1', $http_response_header[0] ?? '0' ), (string) $body );
+};
+$nonce_of = static fn( string $html ) => preg_match( '/name="_bookora_nonce" value="([^"]+)"/', $html, $nm ) ? $nm[1] : '';
+
+if ( 0 !== $http( $live . 'wp-login.php' )[0] ) {
+	check( 404 === $http( $live . '?bookora_manage=' . $muid . '.' . str_repeat( '0', 32 ) )[0] && 404 === $http( $live . '?bookora_manage=../../x' )[0], 'manage page: forged links get 404' );
+	[ $code, $page ] = $http( $murl );
+	check( 200 === $code && str_contains( $page, 'noindex' ) && preg_match( '/24[.,]00/', $page ) && ! str_contains( $page, 'view=move' ), 'manage page within 24 h: fee is shown, moving is not offered', substr( trim( preg_replace( '/\s+/', ' ', strip_tags( preg_replace( '#<style.*</style>#s', '', $page ) ) ) ), 0, 900 ) );
+	[ , $cpage ] = $http( $murl . '&view=cancel&do=cancel' );
+	check( 'confirmed' === $ent->booking( $gid )['status'], 'opening links (GET) never changes anything' );
+	check( '' === $post( $murl, array( 'do' => 'cancel' ) )[1] || 'confirmed' === $ent->booking( $gid )['status'], 'POST without nonce is refused' );
+	$post( $murl, array( 'do' => 'cancel', '_bookora_nonce' => $nonce_of( $cpage ), 'reason' => 'Krank' ) );
+	wp_cache_flush();
+	$cb = $ent->booking( $gid );
+	check( 'cancelled' === $cb['status'] && 24.0 === $cb['fee_amount'] && 'open' === $cb['fee_status'] && 'late_cancel' === $cb['fee_reason'] && 'customer' === $cb['cancelled_by'], 'late cancellation by the customer records the agreed fee', array_intersect_key( $cb, array_flip( array( 'status', 'fee_amount', 'fee_status', 'fee_reason', 'cancelled_by' ) ) ) );
+	check( str_contains( $cb['notes'], 'Krank' ), 'reason is added to the internal notes' );
+	[ , $closed ] = $http( $murl );
+	check( ! str_contains( $closed, 'view=cancel' ) && preg_match( '/24[.,]00/', $closed ), 'cancelled appointment shows the fee and offers no actions', substr( trim( preg_replace( '/\s+/', ' ', strip_tags( preg_replace( '#<style.*</style>#s', '', $closed ) ) ) ), 0, 900 ) );
+
+	// Moving (early, free).
+	$mv  = $pbook( '17:00', 'move@example.com', array( '_policy' => '1' ), '198.51.100.13' );
+	$mid = $bid_of( $mv );
+	$ent->set_booking_status( $mid, 'confirmed' );
+	$mvu = \Bookora\Booking\ManagePage::url( $ent->booking( $mid )['uid'] );
+	[ $code, $mpage ] = $http( $mvu . '&view=move' );
+	preg_match_all( '/name="start" value="(\d+)"/', $mpage, $sm );
+		check( 200 === $code && count( $sm[1] ) > 0 && ! in_array( (string) $sat( '17:00' ), $sm[1], true ), 'move page lists free times (not the current one)', count( $sm[1] ) );
+	$target = (int) end( $sm[1] );
+	$before = count( glob( WP_CONTENT_DIR . '/test-mails/*' ) ?: array() );
+	[ , $done ] = $post( $mvu, array( 'do' => 'move', 'start' => $target, '_bookora_nonce' => $nonce_of( $mpage ) ) );
+	wp_cache_flush();
+	$moved = $ent->booking( $mid );
+	check( strtotime( $moved['start'] ) === $target && 'confirmed' === $moved['status'], 'customer moved the appointment to a free time', array( $moved['start'], gmdate( 'c', $target ), substr( strip_tags( $done ), 0, 300 ) ) );
+	check( count( glob( WP_CONTENT_DIR . '/test-mails/*' ) ?: array() ) >= $before + 2, 'customer gets the new time, owner is informed' );
+	$wpdb->update( $btab, array( 'start_utc' => gmdate( 'Y-m-d H:i:s', $sat( '15:00' ) ), 'end_utc' => gmdate( 'Y-m-d H:i:s', $sat( '15:30' ) ) ), array( 'id' => $gid ) );
+	$ent->set_booking_status( $gid, 'pending' );
+	[ , $again ] = $http( $mvu . '&view=move' );
+	$post( $mvu, array( 'do' => 'move', 'start' => $sat( '15:00' ), '_bookora_nonce' => $nonce_of( $again ) ) );
+	$post( $mvu, array( 'do' => 'move', 'start' => $sat( '03:00' ), '_bookora_nonce' => $nonce_of( $again ) ) );
+	wp_cache_flush();
+	check( strtotime( $ent->booking( $mid )['start'] ) === $target, 'moving onto a taken time or outside opening hours is refused' );
+} else {
+	echo "  (web server not running – manage page HTTP checks skipped)\n";
+}
+check( is_wp_error( $bsvc->reschedule_by_customer( $fid, $sat( '03:00' ) ) ), 'reschedule_by_customer only accepts regular free slots' );
+
+$ns = $pbook( '18:00', 'noshow@example.com', array( '_policy' => '1' ), '198.51.100.14' );
+$nid = $bid_of( $ns );
+api( 'POST', '/bookings/' . $nid . '/status', array( 'status' => 'confirmed' ) );
+$nsr = api( 'POST', '/bookings/' . $nid . '/status', array( 'status' => 'no_show' ) )->get_data();
+check( 24.0 === $nsr['fee_amount'] && 'no_show' === $nsr['fee_reason'] && 'open' === $nsr['fee_status'], 'marking "not attended" records the agreed fee', $nsr );
+check( 1 <= api( 'GET', '/bookings', array(), array( 'view' => 'fees' ) )->get_data()['total'], 'view "open fees" lists it' );
+$paid = api( 'POST', '/bookings/' . $nid . '/fee', array( 'status' => 'paid' ) )->get_data();
+check( 'paid' === $paid['fee_status'] && 24.0 === $paid['fee_amount'], 'fee can be marked as paid' );
+api( 'POST', '/bookings/' . $nid . '/fee', array( 'status' => 'open' ) );
+$back = api( 'POST', '/bookings/' . $nid . '/status', array( 'status' => 'completed' ) )->get_data();
+check( 0.0 === $back['fee_amount'] && '' === $back['fee_status'], 'correcting "not attended" removes the open fee again', $back );
+$man = api( 'POST', '/bookings/' . $fid . '/fee', array( 'status' => 'open', 'amount' => 15 ) )->get_data();
+check( 15.0 === $man['fee_amount'] && 'manual' === $man['fee_reason'], 'a fee can be recorded manually (e.g. phone cancellation)', $man );
+check( 400 === api( 'POST', '/bookings/' . $fid . '/fee', array( 'status' => 'bogus' ) )->get_status(), 'invalid fee status is rejected' );
+wp_set_current_user( 0 );
+check( in_array( api( 'POST', '/bookings/' . $fid . '/fee', array( 'status' => 'waived' ) )->get_status(), array( 401, 403 ), true ), 'visitors cannot change fees' );
+wp_set_current_user( 1 );
+[ $hdr, $rows ] = $ent->export( (int) $bf['id'] );
+check( in_array( 'Gebühr', $hdr, true ) || in_array( 'Fee', $hdr, true ), 'CSV export contains the fee', $hdr );
+
+api( 'POST', '/settings', array( 'cancel_fee_enabled' => false, 'business_phone' => '' ) );
+api( 'DELETE', '/services/' . $psvc['id'] );
+
+echo "Reminders 7 days + 24 hours (10b.1)\n";
+check( array( 168, 24 ) === \Bookora\Settings\Settings::defaults()['reminder_hours'], 'new installations remind 7 days and 24 hours before' );
+api( 'POST', '/settings', array( 'reminder_hours' => array( 24, 168 ) ) );
+$rsvc  = api( 'POST', '/services', array( 'name' => 'Erinnerung', 'duration' => 30 ) )->get_data();
+$rsvc2 = api( 'POST', '/services', array( 'name' => 'Ohne Erinnerung', 'duration' => 30, 'settings' => array( 'reminders' => false ) ) )->get_data();
+$rmk   = static function ( int $svc, float $days_ahead, string $email ) use ( $wpdb, $btab, $ent ) {
+	$start = time() + (int) ( $days_ahead * DAY_IN_SECONDS );
+	$wpdb->insert( \Bookora\Install\Schema::table( $wpdb->prefix, 'customers' ), array( 'email' => $email, 'name' => 'Rita', 'created_at' => gmdate( 'Y-m-d H:i:s' ), 'updated_at' => gmdate( 'Y-m-d H:i:s' ) ) );
+	$cid = (int) $wpdb->insert_id;
+	$wpdb->insert( $btab, array( 'uid' => wp_generate_uuid4(), 'service_id' => $svc, 'customer_id' => $cid, 'start_utc' => gmdate( 'Y-m-d H:i:s', $start ), 'end_utc' => gmdate( 'Y-m-d H:i:s', $start + 1800 ), 'status' => 'confirmed', 'created_at' => gmdate( 'Y-m-d H:i:s', time() - 20 * DAY_IN_SECONDS ), 'updated_at' => gmdate( 'Y-m-d H:i:s' ) ) );
+	return (int) $wpdb->insert_id;
+};
+$wpdb->query( "UPDATE {$btab} SET status = 'completed' WHERE status = 'confirmed'" ); // isolate from earlier sections
+$r7  = $rmk( (int) $rsvc['id'], 6.8, 'r7@example.com' );
+$r3  = $rmk( (int) $rsvc['id'], 3.0, 'r3@example.com' );
+$r1  = $rmk( (int) $rsvc['id'], 0.8, 'r1@example.com' );
+$rx  = $rmk( (int) $rsvc2['id'], 0.8, 'rx@example.com' );
+$sent_log = static fn( int $id ) => $wpdb->get_col( $wpdb->prepare( 'SELECT event FROM ' . \Bookora\Install\Schema::table( $wpdb->prefix, 'notification_log' ) . " WHERE booking_id = %d AND event LIKE 'booking_reminder%%'", $id ) );
+$mailer->send_reminders();
+check( array( 'booking_reminder:168' ) === $sent_log( $r7 ), '6.8 days before: the 7-day reminder is sent', $sent_log( $r7 ) );
+check( array() === $sent_log( $r3 ), 'only 3 days left (confirmed late): no "in 7 days" reminder', $sent_log( $r3 ) );
+check( array( 'booking_reminder:24' ) === $sent_log( $r1 ), 'within 24 h only the 24-hour reminder is sent (never two at once)', $sent_log( $r1 ) );
+check( array() === $sent_log( $rx ), 'a service can switch reminders off' );
+$mailer->send_reminders();
+check( 1 === count( $sent_log( $r7 ) ) && 1 === count( $sent_log( $r1 ) ), 'each reminder is sent only once' );
+$wpdb->update( $btab, array( 'start_utc' => gmdate( 'Y-m-d H:i:s', time() + 20 * HOUR_IN_SECONDS ), 'end_utc' => gmdate( 'Y-m-d H:i:s', time() + 21 * HOUR_IN_SECONDS ) ), array( 'id' => $r7 ) );
+$wpdb->update( $btab, array( 'start_utc' => gmdate( 'Y-m-d H:i:s', time() + 20 * HOUR_IN_SECONDS ), 'end_utc' => gmdate( 'Y-m-d H:i:s', time() + 21 * HOUR_IN_SECONDS ) ), array( 'id' => $r3 ) );
+$mailer->send_reminders();
+check( array( 'booking_reminder:168', 'booking_reminder:24' ) === $sent_log( $r7 ) && array( 'booking_reminder:24' ) === $sent_log( $r3 ), 'the 24-hour reminder follows later', array( $sent_log( $r7 ), $sent_log( $r3 ) ) );
+check( \Bookora\Notifications\Mailer::reminder_in_time( 1, 10 * MINUTE_IN_SECONDS ) && \Bookora\Notifications\Mailer::reminder_in_time( 24, 13 * HOUR_IN_SECONDS ) && ! \Bookora\Notifications\Mailer::reminder_in_time( 24, 11 * HOUR_IN_SECONDS ), 'tolerance: 1-hour reminder survives the hourly cron, 24 h reminder at least 12 h before' );
+$noon = ( new DateTimeImmutable( 'today 12:00', wp_timezone() ) )->getTimestamp();
+$tu   = static fn( string $mod ) => \Bookora\Notifications\Mailer::time_until( ( new DateTimeImmutable( '@' . $noon ) )->modify( $mod )->getTimestamp(), $noon );
+check( in_array( $tu( '+7 days' ), array( 'in 7 days', 'in 7 Tagen' ), true ) && in_array( $tu( '+1 day' ), array( 'tomorrow', 'morgen' ), true ) && in_array( $tu( '+3 hours' ), array( 'in 3 hours', 'in 3 Stunden' ), true ), '{time_until} reads "in 7 days" / "tomorrow" / "in 3 hours"', array( $tu( '+7 days' ), $tu( '+1 day' ), $tu( '+3 hours' ) ) );
+$rctx = $mailer->booking_context( $r7 );
+[ , $rhtml ] = $mailer->render( 'booking_reminder', \Bookora\Notifications\Templates::default_template( 'booking_reminder' ), $rctx );
+check( ! str_contains( $rhtml, '{time_until}' ) && ( str_contains( $rhtml, 'tomorrow' ) || str_contains( $rhtml, 'morgen' ) || str_contains( $rhtml, 'in 20' ) || str_contains( $rhtml, 'today' ) || str_contains( $rhtml, 'heute' ) ), 'reminder text contains the time until the appointment' );
+api( 'DELETE', '/services/' . $rsvc['id'] );
+api( 'DELETE', '/services/' . $rsvc2['id'] );
+api( 'POST', '/settings', array( 'reminder_hours' => array( 24 ) ) );
 
 echo "Cleanup\n";
 check( 200 === api( 'DELETE', '/services/' . $service['id'] )->get_status(), 'service deleted' );

@@ -150,6 +150,7 @@ final class EntryRepository {
 			'past'     => "b.status IN ('confirmed','completed','no_show') AND b.end_utc < '" . esc_sql( $now ) . "'",
 			'closed'   => "b.status IN ('rejected','cancelled')",
 			'active'   => "b.status IN ('pending','confirmed')",
+			'fees'     => "b.fee_status = 'open'",
 			'all'      => '1=1',
 		);
 		$view   = isset( $views[ $args['view'] ?? '' ] ) ? $args['view'] : 'pending';
@@ -434,7 +435,7 @@ final class EntryRepository {
 		global $wpdb;
 
 		$form    = $wpdb->get_row( $wpdb->prepare( 'SELECT fields FROM ' . self::t( 'forms' ) . ' WHERE id = %d', $form_id ), ARRAY_A );
-		$entries = (array) $wpdb->get_results( $wpdb->prepare( 'SELECT e.id, e.created_at, e.status, b.start_utc, b.status AS booking_status FROM ' . self::t( 'entries' ) . ' e LEFT JOIN ' . self::t( 'bookings' ) . " b ON b.entry_id = e.id WHERE e.form_id = %d AND e.status <> 'trash' ORDER BY e.id", $form_id ), ARRAY_A );
+		$entries = (array) $wpdb->get_results( $wpdb->prepare( 'SELECT e.id, e.created_at, e.status, b.start_utc, b.status AS booking_status, b.fee_amount, b.fee_status FROM ' . self::t( 'entries' ) . ' e LEFT JOIN ' . self::t( 'bookings' ) . " b ON b.entry_id = e.id WHERE e.form_id = %d AND e.status <> 'trash' ORDER BY e.id", $form_id ), ARRAY_A );
 		$values  = array();
 		if ( $entries ) {
 			$in = implode( ',', array_map( 'intval', array_column( $entries, 'id' ) ) );
@@ -445,7 +446,7 @@ final class EntryRepository {
 
 		$fields = array_filter( (array) json_decode( (string) ( $form['fields'] ?? '' ), true ), static fn( $f ) => ! empty( $f['key'] ) && ! in_array( $f['type'], array( 'service', 'resource', 'appointment' ), true ) );
 		$tz     = wp_timezone();
-		$header = array_merge( array( __( 'ID', 'bookora' ), __( 'Submitted', 'bookora' ), __( 'Status', 'bookora' ), __( 'Appointment', 'bookora' ), __( 'Booking status', 'bookora' ) ), array_map( static fn( $f ) => (string) ( $f['label'] ?? $f['key'] ), $fields ) );
+		$header = array_merge( array( __( 'ID', 'bookora' ), __( 'Submitted', 'bookora' ), __( 'Status', 'bookora' ), __( 'Appointment', 'bookora' ), __( 'Booking status', 'bookora' ), __( 'Fee', 'bookora' ), __( 'Fee status', 'bookora' ) ), array_map( static fn( $f ) => (string) ( $f['label'] ?? $f['key'] ), $fields ) );
 		$rows   = array();
 
 		foreach ( $entries as $e ) {
@@ -455,6 +456,8 @@ final class EntryRepository {
 				$e['status'],
 				$e['start_utc'] ? self::local( $e['start_utc'], $tz ) : '',
 				(string) $e['booking_status'],
+				(float) ( $e['fee_amount'] ?? 0 ) > 0 ? number_format( (float) $e['fee_amount'], 2, '.', '' ) : '',
+				(string) ( $e['fee_status'] ?? '' ),
 			);
 			foreach ( $fields as $f ) {
 				$row[] = self::display_value(
@@ -514,7 +517,85 @@ final class EntryRepository {
 			'created_at'    => $b['created_at'],
 			'updated_at'    => (string) ( $b['updated_at'] ?? $b['created_at'] ),
 			'transitions'   => self::TRANSITIONS[ $b['status'] ] ?? array(),
+			'policy'        => self::decode_policy( $b['policy'] ?? null ),
+			'fee_amount'    => (float) ( $b['fee_amount'] ?? 0 ),
+			'fee_status'    => (string) ( $b['fee_status'] ?? '' ),
+			'fee_reason'    => (string) ( $b['fee_reason'] ?? '' ),
+			'cancelled_by'  => (string) ( $b['cancelled_by'] ?? '' ),
 		);
+	}
+
+	/**
+	 * Stored cancellation rule of a booking.
+	 *
+	 * @param mixed $raw JSON.
+	 * @return array<string, mixed>|null
+	 */
+	private static function decode_policy( $raw ): ?array {
+		$data = is_string( $raw ) && '' !== $raw ? json_decode( $raw, true ) : null;
+		return is_array( $data ) ? $data : null;
+	}
+
+	public const FEE_STATUSES = array( '', 'open', 'paid', 'waived' );
+
+	/**
+	 * Set or clear the fee of a booking.
+	 *
+	 * @param int    $booking_id Booking id.
+	 * @param float  $amount     Amount (0 clears).
+	 * @param string $status     ''|open|paid|waived.
+	 * @param string $reason     late_cancel|no_show|manual|''.
+	 * @return array<string, mixed>|\WP_Error
+	 */
+	public function set_fee( int $booking_id, float $amount, string $status, string $reason = '' ) {
+		global $wpdb;
+		if ( ! in_array( $status, self::FEE_STATUSES, true ) ) {
+			return new \WP_Error( 'bookora_invalid_fee', __( 'Invalid fee status.', 'bookora' ), array( 'status' => 400 ) );
+		}
+		$amount = round( max( 0.0, min( 1000000.0, $amount ) ), 2 );
+		if ( $amount <= 0 ) {
+			$status = '';
+			$reason = '';
+		} elseif ( '' === $status ) {
+			$status = 'open';
+		}
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$ok = $wpdb->update(
+			self::t( 'bookings' ),
+			array(
+				'fee_amount' => $amount,
+				'fee_status' => $status,
+				'fee_reason' => sanitize_key( $reason ),
+				'updated_at' => current_time( 'mysql', true ),
+			),
+			array( 'id' => $booking_id )
+		);
+		if ( false === $ok ) {
+			return new \WP_Error( 'bookora_db_error', __( 'Could not be saved.', 'bookora' ), array( 'status' => 500 ) );
+		}
+		/**
+		 * Fires after the fee of a booking changed.
+		 *
+		 * @param int    $booking_id Booking id.
+		 * @param float  $amount     Amount.
+		 * @param string $status     Fee status.
+		 * @param string $reason     Reason.
+		 */
+		do_action( 'bookora_booking_fee_changed', $booking_id, $amount, $status, $reason );
+		$booking = $this->booking( $booking_id );
+		return $booking ? $booking : new \WP_Error( 'bookora_not_found', __( 'Not found.', 'bookora' ), array( 'status' => 404 ) );
+	}
+
+	/**
+	 * Mark who cancelled a booking (customer|admin).
+	 *
+	 * @param int    $booking_id Booking id.
+	 * @param string $by         customer|admin.
+	 */
+	public function set_cancelled_by( int $booking_id, string $by ): void {
+		global $wpdb;
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$wpdb->update( self::t( 'bookings' ), array( 'cancelled_by' => sanitize_key( $by ) ), array( 'id' => $booking_id ) );
 	}
 
 	/**

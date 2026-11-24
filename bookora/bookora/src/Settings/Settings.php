@@ -25,6 +25,7 @@ final class Settings {
 		return array(
 			'business_name'         => '',
 			'business_address'      => '',
+			'business_phone'        => '',
 			'email_from_address'    => '',
 			'admin_email'           => '',
 			'time_format'           => '24h',
@@ -36,7 +37,15 @@ final class Settings {
 			'max_per_day'           => 0,
 			'fill_gaps'             => true,
 			'cancel_limit_hours'    => 24,
-			'reminder_hours'        => array( 24 ),
+			'self_cancel'           => true,
+			'self_reschedule'       => true,
+			'cancel_fee_enabled'    => false,
+			'cancel_fee_type'       => 'percent',
+			'cancel_fee_value'      => 50,
+			'cancel_fee_no_show'    => true,
+			'cancel_late_online'    => 'fee',
+			'cancel_policy_text'    => '',
+			'reminder_hours'        => array( 168, 24 ),
 			'token_ttl_hours'       => 72,
 			'primary_color'         => '#2563eb',
 			'form_radius'           => 10,
@@ -131,6 +140,17 @@ final class Settings {
 		$out['fill_gaps']          = ! empty( $input['fill_gaps'] );
 		$out['cancel_limit_hours'] = self::int_range( $input['cancel_limit_hours'] ?? 24, 0, 8760 );
 		$out['token_ttl_hours']    = self::int_range( $input['token_ttl_hours'] ?? 72, 1, 720 );
+		$out['business_phone']     = mb_substr( sanitize_text_field( (string) ( $input['business_phone'] ?? '' ) ), 0, 50 );
+
+		$out['self_cancel']        = ! empty( $input['self_cancel'] );
+		$out['self_reschedule']    = ! empty( $input['self_reschedule'] );
+		$out['cancel_fee_enabled'] = ! empty( $input['cancel_fee_enabled'] );
+		$out['cancel_fee_type']    = in_array( $input['cancel_fee_type'] ?? '', array( 'percent', 'fixed' ), true ) ? $input['cancel_fee_type'] : 'percent';
+		$fee                       = round( max( 0.0, (float) str_replace( ',', '.', (string) ( $input['cancel_fee_value'] ?? 0 ) ) ), 2 );
+		$out['cancel_fee_value']   = 'percent' === $out['cancel_fee_type'] ? min( 100.0, $fee ) : min( 100000.0, $fee );
+		$out['cancel_fee_no_show'] = ! empty( $input['cancel_fee_no_show'] );
+		$out['cancel_late_online'] = 'block' === ( $input['cancel_late_online'] ?? '' ) ? 'block' : 'fee';
+		$out['cancel_policy_text'] = mb_substr( sanitize_textarea_field( (string) ( $input['cancel_policy_text'] ?? '' ) ), 0, 1000 );
 
 		$reminders = is_array( $input['reminder_hours'] ?? null ) ? $input['reminder_hours'] : array();
 		$reminders = array_values( array_unique( array_filter( array_map( static fn( $h ) => self::int_range( $h, 0, 720 ), $reminders ) ) ) );

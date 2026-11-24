@@ -771,6 +771,7 @@ export default function TimelineScreen() {
 					booking={ open }
 					onClose={ () => setOpen( null ) }
 					onChange={ changeStatus }
+					onUpdated={ setOpen }
 					busy={ busy }
 				>
 					<MoveForm

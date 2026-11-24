@@ -208,6 +208,111 @@ final class BookingService {
 	}
 
 	/**
+	 * Move a booking on behalf of the customer (manage link). Unlike move(), the new time must be
+	 * a regular free slot: opening hours, notice, horizon, breaks and external calendars apply.
+	 * The staff member stays the same.
+	 *
+	 * @param int $booking_id Booking id.
+	 * @param int $start      New UTC start.
+	 * @return array{previous_start:string}|WP_Error
+	 */
+	public function reschedule_by_customer( int $booking_id, int $start ) {
+		global $wpdb;
+		$table = Schema::table( $wpdb->prefix, 'bookings' );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared -- internal table name.
+		$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table} WHERE id = %d", $booking_id ), ARRAY_A );
+		if ( ! $row || ! in_array( $row['status'], array( 'pending', 'confirmed' ), true ) ) {
+			return new WP_Error( 'bookora_not_movable', __( 'This appointment can no longer be changed.', 'bookora' ), array( 'status' => 409 ) );
+		}
+
+		$service_id = (int) $row['service_id'];
+		$service    = $service_id ? $this->services->find( $service_id ) : null;
+		if ( ! $service || 'active' !== $service['status'] ) {
+			return new WP_Error( 'bookora_unknown_service', __( 'This service is not available.', 'bookora' ), array( 'status' => 404 ) );
+		}
+
+		$resource_id = $row['resource_id'] ? (int) $row['resource_id'] : null;
+		$rules       = SlotRules::from_service( $service, $this->settings->all(), (int) $row['seats'] );
+		$end         = $start + $rules->duration * 60;
+		$lock        = $this->lock_name( $resource_id );
+
+		if ( ! $this->acquire_lock( $lock ) ) {
+			return new WP_Error( 'bookora_busy', __( 'Please try again in a moment.', 'bookora' ), array( 'status' => 409 ) );
+		}
+
+		try {
+			$calc = $this->availability->calculator( $service_id, $resource_id, $start - DAY_IN_SECONDS, $end + DAY_IN_SECONDS, $booking_id );
+			if ( ! $calc->is_available( $start, $rules, time() ) || ! AvailabilityService::allowed( $start, $service_id, $resource_id ) ) {
+				return new WP_Error( 'bookora_slot_taken', __( 'Sorry, this time is no longer available. Please choose another time.', 'bookora' ), array( 'status' => 409 ) );
+			}
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+			$wpdb->update(
+				$table,
+				array(
+					'start_utc'  => gmdate( 'Y-m-d H:i:s', $start ),
+					'end_utc'    => gmdate( 'Y-m-d H:i:s', $end ),
+					'updated_at' => current_time( 'mysql', true ),
+				),
+				array( 'id' => $booking_id )
+			);
+		} finally {
+			$this->release_lock( $lock );
+		}
+
+		/** This action is documented in src/Booking/BookingService.php */
+		do_action( 'bookora_booking_moved', $booking_id, $row['start_utc'], $resource_id );
+
+		/**
+		 * Fires after the customer moved the appointment via the manage link.
+		 *
+		 * @param int    $booking_id     Booking id.
+		 * @param string $previous_start Previous UTC start.
+		 */
+		do_action( 'bookora_customer_rescheduled', $booking_id, $row['start_utc'] );
+
+		return array( 'previous_start' => $row['start_utc'] );
+	}
+
+	/**
+	 * Free start times for moving a booking (its own time counts as free), same staff member.
+	 *
+	 * @param int    $booking_id Booking id.
+	 * @param string $from       Y-m-d (local).
+	 * @param string $to         Y-m-d (local).
+	 * @return array<string, int[]> Local date => UTC start timestamps.
+	 */
+	public function customer_slots( int $booking_id, string $from, string $to ): array {
+		global $wpdb;
+		$table = Schema::table( $wpdb->prefix, 'bookings' );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQL.NotPrepared -- internal table name.
+		$row     = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$table} WHERE id = %d", $booking_id ), ARRAY_A );
+		$service = $row && $row['service_id'] ? $this->services->find( (int) $row['service_id'] ) : null;
+		if ( ! $row || ! $service || 'active' !== $service['status'] ) {
+			return array();
+		}
+		$resource_id = $row['resource_id'] ? (int) $row['resource_id'] : null;
+		$tz          = $this->availability->timezone( $resource_id );
+		try {
+			$a = new \DateTimeImmutable( $from . ' 00:00', $tz );
+			$b = new \DateTimeImmutable( $to . ' 23:59', $tz );
+		} catch ( \Exception $e ) {
+			return array();
+		}
+		$rules = SlotRules::from_service( $service, $this->settings->all(), (int) $row['seats'] );
+		$calc  = $this->availability->calculator( (int) $service['id'], $resource_id, $a->getTimestamp() - DAY_IN_SECONDS, $b->getTimestamp() + 2 * DAY_IN_SECONDS, $booking_id );
+		$own   = (int) strtotime( $row['start_utc'] . ' UTC' );
+		$out   = array();
+		foreach ( $calc->slots( $from, $to, $rules, time() ) as $slot ) {
+			$start = (int) $slot['start'];
+			if ( $start === $own || ! AvailabilityService::allowed( $start, (int) $service['id'], $resource_id ) ) {
+				continue;
+			}
+			$out[ wp_date( 'Y-m-d', $start, $tz ) ][] = $start;
+		}
+		return $out;
+	}
+
+	/**
 	 * Busy intervals for a resource without one booking.
 	 *
 	 * @param int|null $resource_id Resource.
@@ -242,6 +347,13 @@ final class BookingService {
 		$tz      = (string) ( $input['timezone'] ?? '' );
 		$tz      = in_array( $tz, timezone_identifiers_list(), true ) ? $tz : wp_timezone_string();
 		$uid     = wp_generate_uuid4();
+
+		// The cancellation rule is stored as agreed. A fee only applies if the customer accepted it.
+		$rule = CancellationPolicy::for_service( $service, $this->settings->all() );
+		if ( empty( $input['policy_accepted'] ) ) {
+			$rule['fee'] = false;
+		}
+		$policy = CancellationPolicy::snapshot( $rule, (float) $service['price'] );
 
 		// phpcs:disable WordPress.DB.DirectDatabaseQuery
 		$wpdb->query( 'START TRANSACTION' );
@@ -299,6 +411,7 @@ final class BookingService {
 					'seats'       => $seats,
 					'notes'       => sanitize_textarea_field( (string) ( $input['notes'] ?? '' ) ),
 					'source'      => 'web',
+					'policy'      => wp_json_encode( $policy ),
 					'created_at'  => $now,
 					'updated_at'  => $now,
 				)
