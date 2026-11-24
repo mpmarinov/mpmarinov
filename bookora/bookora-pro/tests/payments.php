@@ -36,14 +36,16 @@ function api( string $m, string $r, array $b = array() ) {
 	return rest_do_request( $q );
 }
 /** Call the payment page like a browser; returns "page:…" or "redirect:…". */
-function visit( array $get ): string {
-	$_GET = $get;
+function visit( array $get, array $post = array() ): string {
+	$_GET  = $get;
+	$_POST = $post;
 	try {
 		( new Payments() )->page();
 	} catch ( RuntimeException $e ) {
 		return $e->getMessage();
 	} finally {
-		$_GET = array();
+		$_GET  = array();
+		$_POST = array();
 	}
 	return 'nothing';
 }
@@ -261,6 +263,8 @@ check( 14.7 === (float) $p4['amount'] && 'deposit' === $p4['kind'], 'deposit of 
 $q4    = query( Payments::url( $p4 ) );
 $page4 = visit( $q4 );
 check( str_contains( $page4, 'Deposit' ) && str_contains( $page4, 'Pay with PayPal' ) && ! str_contains( $page4, 'Pay by card' ), 'payment page: deposit, PayPal only', $page4 );
+visit( $q4, array( 'onsite' => '1' ) );
+check( ! str_contains( $page4, 'Pay on site' ) && 'open' === Payments::find( (int) $p4['id'] )['status'], '"pay on site" switched off: not offered and not accepted' );
 $reply = array(
 	'/v1/oauth2/token'                => array( 200, array( 'access_token' => 'TOKEN1', 'expires_in' => 32000 ), 'POST' ),
 	'/v2/checkout/orders/ORDER12345/capture' => array( 201, array( 'status' => 'COMPLETED', 'purchase_units' => array( array( 'payments' => array( 'captures' => array( array( 'id' => 'CAP777', 'status' => 'COMPLETED', 'amount' => array( 'value' => '14.70', 'currency_code' => 'EUR' ) ) ) ) ) ) ), 'POST' ),
@@ -285,6 +289,59 @@ $wpdb->update( Payments::table(), array( 'provider' => 'paypal', 'session_id' =>
 $reply = array( '/v2/checkout/orders/ORDER55555/capture' => array( 201, array( 'status' => 'COMPLETED', 'purchase_units' => array( array( 'payments' => array( 'captures' => array( array( 'id' => 'CAP5', 'status' => 'COMPLETED', 'amount' => array( 'value' => '0.01' ) ) ) ) ) ) ), 'POST' ) ) + $reply;
 $q5    = query( Payments::url( Payments::find( (int) $p5['id'] ) ) );
 check( str_contains( visit( $q5 + array( 'return' => 'paypal', 'token' => 'ORDER55555' ) ), 'does not match' ) && 'open' === Payments::find( (int) $p5['id'] )['status'], 'a manipulated amount (0,01 €) is not accepted' );
+
+echo "Pay on site\n";
+wp_set_current_user( 1 );
+Payments::save( array( 'mode' => 'deposit', 'deposit_type' => 'percent', 'deposit_value' => 30, 'paypal_client' => 'client-abc', 'refund_cancel' => 1, 'onsite' => 1 ) );
+check( true === Payments::settings()['onsite'] && 'secret-xyz' === Payments::settings()['paypal_secret'], 'setting "pay on site" is saved' );
+wp_set_current_user( 0 );
+$submit( (int) $svc['id'], 16, 'bar@example.com' );
+$b6    = (int) $wpdb->get_var( "SELECT MAX(id) FROM {$wpdb->prefix}bookora_bookings" );
+$p6    = Payments::for_booking( $b6 );
+$q6    = query( Payments::url( $p6 ) );
+$page6 = visit( $q6 );
+check( str_contains( $page6, 'Pay with PayPal' ) && str_contains( $page6, 'Pay on site instead' ) && str_contains( $page6, '49' ), 'payment page offers PayPal and "pay on site" with the full price', $page6 );
+$log6  = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}bookora_notification_log" );
+$calls = array();
+$done6 = visit( $q6, array( 'onsite' => '1' ) );
+$row6  = Payments::find( (int) $p6['id'] );
+$want  = (string) $c->get( \Bookora\Settings\Settings::class )->get( 'default_status', 'pending' );
+check( str_contains( $done6, 'Thank you for your booking' ) && str_contains( $done6, 'To pay on site' ) && str_contains( $done6, '49' ) && 'onsite' === $row6['status'], 'customer chooses "pay on site": booking done, 49 € to pay there', $done6 );
+check( $want === $entries->booking( $b6 )['status'] && false === wp_next_scheduled( Payments::CRON, array( (int) $p6['id'] ) ) && ! $calls, 'booking follows the normal confirmation rule, no expiry, no call to PayPal' );
+$ev6 = $wpdb->get_col( $wpdb->prepare( "SELECT event FROM {$wpdb->prefix}bookora_notification_log WHERE booking_id = %d", $b6 ) );
+check( in_array( 'admin_new_booking', $ev6, true ) && in_array( 'confirmed' === $want ? 'booking_confirmed' : 'booking_received', $ev6, true ) && 2 === count( $ev6 ), 'emails to the customer and to you go out now', $ev6 );
+visit( $q6, array( 'onsite' => '1' ) );
+$wpdb->update( Payments::table(), array( 'expires_at' => gmdate( 'Y-m-d H:i:s', time() - 60 ) ), array( 'id' => $p6['id'] ) );
+$payments->expire( (int) $p6['id'] );
+check( 2 === (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}bookora_notification_log WHERE booking_id = %d", $b6 ) ) && 'onsite' === Payments::find( (int) $p6['id'] )['status'] && 'cancelled' !== $entries->booking( $b6 )['status'], 'nothing twice, and the booking is never released for lack of payment' );
+check( str_contains( ( $entries->booking( $b6 )['badges'][0]['label'] ?? '' ), 'on site' ) && 'warning' === $entries->booking( $b6 )['badges'][0]['tone'], 'admin list shows "pays on site: 49 €"', $entries->booking( $b6 )['badges'] ?? null );
+check( is_wp_error( $payments->refund( Payments::find( (int) $p6['id'] ), 10 ) ), 'nothing can be refunded online for an on-site payment' );
+check( $payments->mark_received( (int) $p6['id'] ) && ! $payments->mark_received( (int) $p6['id'] ), 'you mark it as received – only once' );
+$row6 = Payments::find( (int) $p6['id'] );
+check( 'paid' === $row6['status'] && 'onsite' === $row6['provider'] && 49.0 === (float) $row6['amount'] && 'full' === $row6['kind'], 'stored as 49 € paid on site' );
+check( str_contains( ( $entries->booking( $b6 )['badges'][0]['label'] ?? '' ), 'Paid on site' ), 'admin list shows "paid on site"' );
+$calls = array();
+do_action( 'bookora_customer_cancelled', $b6, 0.0, '' );
+check( ! $calls && 'paid' === Payments::find( (int) $p6['id'] )['status'], 'cancellation of an on-site payment: no online refund attempted' );
+
+// Started PayPal, then chose "on site", then paid in the PayPal tab after all: the money counts, no duplicate emails.
+$submit( (int) $svc['id'], 17, 'doch-online@example.com' );
+$b7 = (int) $wpdb->get_var( "SELECT MAX(id) FROM {$wpdb->prefix}bookora_bookings" );
+$p7 = Payments::for_booking( $b7 );
+$wpdb->update( Payments::table(), array( 'provider' => 'paypal', 'session_id' => 'ORDER77777' ), array( 'id' => $p7['id'] ) );
+$q7 = query( Payments::url( Payments::find( (int) $p7['id'] ) ) );
+visit( $q7, array( 'onsite' => '1' ) );
+$n7 = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}bookora_notification_log WHERE booking_id = %d", $b7 ) );
+$payments->mark_paid( (int) $p7['id'], 'CAP7' );
+check( 'paid' === Payments::find( (int) $p7['id'] )['status'] && $n7 === (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}bookora_notification_log WHERE booking_id = %d", $b7 ) ), 'online payment after choosing "on site" is recorded without duplicate emails' );
+
+add_filter( 'bookora_pro_onsite_allowed', '__return_false' );
+$submit( (int) $svc['id'], 18, 'nur-online@example.com' );
+$p8 = Payments::for_booking( (int) $wpdb->get_var( "SELECT MAX(id) FROM {$wpdb->prefix}bookora_bookings" ) );
+$q8 = query( Payments::url( $p8 ) );
+visit( $q8, array( 'onsite' => '1' ) );
+check( 'open' === Payments::find( (int) $p8['id'] )['status'] && ! str_contains( visit( $q8 ), 'Pay on site' ), 'filter can switch "pay on site" off (e.g. for certain services)' );
+remove_filter( 'bookora_pro_onsite_allowed', '__return_false' );
 
 // Clean up.
 wp_set_current_user( 1 );

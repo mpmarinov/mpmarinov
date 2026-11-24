@@ -99,6 +99,9 @@ msgstr ""
 msgid "Secret"
 msgstr ""
 
+msgid "Actions"
+msgstr ""
+
 msgid "Send test"
 msgstr ""
 
@@ -192,7 +195,16 @@ msgstr ""
 msgid "The paid amount does not match. Please contact us."
 msgstr ""
 
+msgid "This amount was paid on site. Please refund it directly to the customer."
+msgstr ""
+
+msgid "Pays on site: %s"
+msgstr ""
+
 msgid "Payment open: %s"
+msgstr ""
+
+msgid "Paid on site: %s"
 msgstr ""
 
 msgid "Deposit paid: %s"
@@ -225,6 +237,18 @@ msgstr ""
 msgid "of %s"
 msgstr ""
 
+msgid "Thank you for your booking"
+msgstr ""
+
+msgid "To pay on site"
+msgstr ""
+
+msgid "Your appointment is booked. You pay on site, in cash or as offered there. You will receive a confirmation by email."
+msgstr ""
+
+msgid "Your booking request has been received. You pay on site, in cash or as offered there. You will receive an email from us."
+msgstr ""
+
 msgid "Thank you for your payment"
 msgstr ""
 
@@ -252,6 +276,9 @@ msgstr ""
 msgid "Pay with PayPal"
 msgstr ""
 
+msgid "Pay on site instead (%s)"
+msgstr ""
+
 msgid "Pay to confirm your appointment"
 msgstr ""
 
@@ -259,6 +286,12 @@ msgid "The appointment is reserved for you for %d more minute. You pay on the se
 msgid_plural "The appointment is reserved for you for %d more minutes. You pay on the secure page of the payment provider."
 msgstr[0] ""
 msgstr[1] ""
+
+msgid "Marked as paid on site."
+msgstr ""
+
+msgid "This payment cannot be marked as paid."
+msgstr ""
 
 msgid "This payment cannot be refunded."
 msgstr ""
@@ -276,6 +309,9 @@ msgid "remove"
 msgstr ""
 
 msgid "waiting for payment"
+msgstr ""
+
+msgid "pays on site"
 msgstr ""
 
 msgid "paid"
@@ -338,6 +374,15 @@ msgstr ""
 msgid "Refund automatically when an appointment is cancelled (customer cancellations minus the cancellation fee, if any)."
 msgstr ""
 
+msgid "Pay on site"
+msgstr ""
+
+msgid "Customers may also choose to pay on site (cash or card at your location)."
+msgstr ""
+
+msgid "The booking is then handled like one without online payment (confirmed automatically or by you, as set under Settings). When the customer has paid, click “Received” in the list below."
+msgstr ""
+
 msgid "Secret key"
 msgstr ""
 
@@ -378,6 +423,12 @@ msgid "deposit"
 msgstr ""
 
 msgid "refunded %s"
+msgstr ""
+
+msgid "on site"
+msgstr ""
+
+msgid "Received (%s)"
 msgstr ""
 
 msgid "Amount to refund"

@@ -153,6 +153,8 @@ So läuft es für Kunden: buchen → Zahlungsseite → Karte, Apple Pay, Google 
 
 **Erstattung:** Bei rechtzeitiger Absage durch den Kunden wird automatisch erstattet, bei später Absage abzüglich Ausfallgebühr; sagen Sie selbst ab, wird alles erstattet. Teil-Erstattungen von Hand unter *Pro → Letzte Zahlungen*. In der Buchungsliste zeigt ein Hinweis „Bezahlt online“, „Anzahlung bezahlt“ oder „Zahlung offen“.
 
+**Bezahlung vor Ort:** Ist „Kunden dürfen auch vor Ort bezahlen“ angehakt (Standard), zeigt die Zahlungsseite zusätzlich „Lieber vor Ort bezahlen (35,00 €)“. Wählt der Kunde das, läuft die Buchung wie ohne Online-Zahlung (je nach *Einstellungen* automatisch bestätigt oder von Ihnen) und verfällt nicht. Es wird immer der volle Preis vor Ort fällig, keine Anzahlung. In der Buchungsliste steht „Zahlt vor Ort: 35,00 €“. Hat der Kunde bezahlt, klicken Sie unter *Pro → Letzte Zahlungen* auf **Erhalten**. Erstattungen von Barzahlungen machen Sie selbst, Bookora versucht dort nichts online. Entwickler können die Option per Filter `bookora_pro_onsite_allowed` für einzelne Leistungen abschalten.
+
 > Testen Sie zuerst mit Stripe-Testschlüsseln (`sk_test_…`) und PayPal-Sandbox. Kartendaten berühren Ihre Website nie.
 
 ## 11. Datei-Upload und Unterschrift

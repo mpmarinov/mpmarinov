@@ -43,7 +43,11 @@ final class PaymentsAdmin {
 		check_admin_referer( 'bookora_pro_payments' );
 		$action = sanitize_key( wp_unslash( $_POST['do'] ?? '' ) );
 		$status = 'success';
-		if ( 'refund' === $action ) {
+		if ( 'received' === $action ) {
+			$ok     = $this->payments->mark_received( absint( $_POST['id'] ?? 0 ) );
+			$msg    = $ok ? __( 'Marked as paid on site.', 'bookora-pro' ) : __( 'This payment cannot be marked as paid.', 'bookora-pro' );
+			$status = $ok ? 'success' : 'error';
+		} elseif ( 'refund' === $action ) {
 			$payment = Payments::find( absint( $_POST['id'] ?? 0 ) );
 			$amount  = (float) str_replace( ',', '.', sanitize_text_field( wp_unslash( $_POST['amount'] ?? '' ) ) );
 			$result  = $payment && in_array( $payment['status'], array( 'paid', 'partially_refunded' ), true ) ? $this->payments->refund( $payment, $amount ) : new \WP_Error( 'x', __( 'This payment cannot be refunded.', 'bookora-pro' ) );
@@ -95,6 +99,7 @@ final class PaymentsAdmin {
 	private static function status_label( string $status ): string {
 		$labels = array(
 			'open'               => __( 'waiting for payment', 'bookora-pro' ),
+			'onsite'             => __( 'pays on site', 'bookora-pro' ),
 			'paid'               => __( 'paid', 'bookora-pro' ),
 			'expired'            => __( 'not paid in time', 'bookora-pro' ),
 			'refunded'           => __( 'refunded', 'bookora-pro' ),
@@ -145,6 +150,10 @@ final class PaymentsAdmin {
 				<tr><th scope="row"><?php esc_html_e( 'Refunds', 'bookora-pro' ); ?></th><td>
 					<label><input type="checkbox" name="refund_cancel" value="1" <?php checked( $s['refund_cancel'] ); ?>> <?php esc_html_e( 'Refund automatically when an appointment is cancelled (customer cancellations minus the cancellation fee, if any).', 'bookora-pro' ); ?></label>
 				</td></tr>
+				<tr><th scope="row"><?php esc_html_e( 'Pay on site', 'bookora-pro' ); ?></th><td>
+					<label><input type="checkbox" name="onsite" value="1" <?php checked( $s['onsite'] ); ?>> <?php esc_html_e( 'Customers may also choose to pay on site (cash or card at your location).', 'bookora-pro' ); ?></label>
+					<p class="description"><?php esc_html_e( 'The booking is then handled like one without online payment (confirmed automatically or by you, as set under Settings). When the customer has paid, click “Received” in the list below.', 'bookora-pro' ); ?></p>
+				</td></tr>
 			</tbody></table>
 
 			<h3>Stripe</h3>
@@ -175,11 +184,17 @@ final class PaymentsAdmin {
 					<tr>
 						<td><?php echo esc_html( wp_date( 'd.m.Y H:i', (int) strtotime( $p['created_at'] . ' UTC' ) ) ); ?></td>
 						<td><?php echo esc_html( $b ? ( '' !== $b['name'] ? $b['name'] : $b['email'] ) . ' · ' . $b['service_name'] : '#' . $p['booking_id'] ); ?></td>
-						<td><?php echo esc_html( Payments::money( (float) $p['amount'], (string) $p['currency'] ) . ( 'deposit' === $p['kind'] ? ' (' . __( 'deposit', 'bookora-pro' ) . ')' : '' ) ); ?><?php echo (float) $p['refunded'] > 0 ? '<br><small>' . esc_html( sprintf( /* translators: %s: amount. */ __( 'refunded %s', 'bookora-pro' ), Payments::money( (float) $p['refunded'], (string) $p['currency'] ) ) ) . '</small>' : ''; ?></td>
-						<td><?php echo esc_html( ucfirst( (string) $p['provider'] ) ); ?></td>
+						<td><?php echo esc_html( 'onsite' === $p['status'] ? Payments::money( (float) $p['total'], (string) $p['currency'] ) : Payments::money( (float) $p['amount'], (string) $p['currency'] ) . ( 'deposit' === $p['kind'] ? ' (' . __( 'deposit', 'bookora-pro' ) . ')' : '' ) ); ?><?php echo (float) $p['refunded'] > 0 ? '<br><small>' . esc_html( sprintf( /* translators: %s: amount. */ __( 'refunded %s', 'bookora-pro' ), Payments::money( (float) $p['refunded'], (string) $p['currency'] ) ) ) . '</small>' : ''; ?></td>
+						<td><?php echo esc_html( 'onsite' === $p['provider'] || 'onsite' === $p['status'] ? __( 'on site', 'bookora-pro' ) : ( 'paypal' === $p['provider'] ? 'PayPal' : ucfirst( (string) $p['provider'] ) ) ); ?></td>
 						<td><?php echo esc_html( self::status_label( (string) $p['status'] ) ); ?></td>
 						<td>
-							<?php if ( in_array( $p['status'], array( 'paid', 'partially_refunded' ), true ) ) : ?>
+							<?php if ( 'onsite' === $p['status'] ) : ?>
+								<form method="post" action="<?php echo $post; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>">
+									<?php self::fields( 'received' ); ?>
+									<input type="hidden" name="id" value="<?php echo esc_attr( (string) $p['id'] ); ?>">
+									<button class="button button-small"><?php echo esc_html( sprintf( /* translators: %s: amount. */ __( 'Received (%s)', 'bookora-pro' ), Payments::money( (float) $p['total'], (string) $p['currency'] ) ) ); ?></button>
+								</form>
+							<?php elseif ( in_array( $p['status'], array( 'paid', 'partially_refunded' ), true ) && 'onsite' !== $p['provider'] ) : ?>
 								<form method="post" action="<?php echo $post; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>" style="display:flex;gap:6px">
 									<?php self::fields( 'refund' ); ?>
 									<input type="hidden" name="id" value="<?php echo esc_attr( (string) $p['id'] ); ?>">

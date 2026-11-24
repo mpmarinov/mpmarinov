@@ -102,6 +102,9 @@ msgstr "Ereignisse"
 msgid "Secret"
 msgstr "Geheimnis"
 
+msgid "Actions"
+msgstr "Aktionen"
+
 msgid "Send test"
 msgstr "Test senden"
 
@@ -195,8 +198,17 @@ msgstr "Die Zahlung ist noch nicht abgeschlossen."
 msgid "The paid amount does not match. Please contact us."
 msgstr "Der gezahlte Betrag stimmt nicht überein. Bitte kontaktieren Sie uns."
 
+msgid "This amount was paid on site. Please refund it directly to the customer."
+msgstr "Dieser Betrag wurde vor Ort bezahlt. Bitte erstatten Sie ihn dem Kunden direkt."
+
+msgid "Pays on site: %s"
+msgstr "Zahlt vor Ort: %s"
+
 msgid "Payment open: %s"
 msgstr "Zahlung offen: %s"
+
+msgid "Paid on site: %s"
+msgstr "Vor Ort bezahlt: %s"
 
 msgid "Deposit paid: %s"
 msgstr "Anzahlung bezahlt: %s"
@@ -228,6 +240,18 @@ msgstr "Betrag"
 msgid "of %s"
 msgstr "von %s"
 
+msgid "Thank you for your booking"
+msgstr "Vielen Dank für Ihre Buchung"
+
+msgid "To pay on site"
+msgstr "Vor Ort zu zahlen"
+
+msgid "Your appointment is booked. You pay on site, in cash or as offered there. You will receive a confirmation by email."
+msgstr "Ihr Termin ist gebucht. Sie bezahlen vor Ort, bar oder wie dort angeboten. Sie erhalten eine Bestätigung per E-Mail."
+
+msgid "Your booking request has been received. You pay on site, in cash or as offered there. You will receive an email from us."
+msgstr "Ihre Buchungsanfrage ist eingegangen. Sie bezahlen vor Ort, bar oder wie dort angeboten. Sie erhalten eine E-Mail von uns."
+
 msgid "Thank you for your payment"
 msgstr "Vielen Dank für Ihre Zahlung"
 
@@ -255,6 +279,9 @@ msgstr "Mit Karte, Apple Pay oder Google Pay bezahlen"
 msgid "Pay with PayPal"
 msgstr "Mit PayPal bezahlen"
 
+msgid "Pay on site instead (%s)"
+msgstr "Lieber vor Ort bezahlen (%s)"
+
 msgid "Pay to confirm your appointment"
 msgstr "Bezahlen Sie, um Ihren Termin zu bestätigen"
 
@@ -262,6 +289,12 @@ msgid "The appointment is reserved for you for %d more minute. You pay on the se
 msgid_plural "The appointment is reserved for you for %d more minutes. You pay on the secure page of the payment provider."
 msgstr[0] "Der Termin ist noch %d Minute für Sie reserviert. Sie bezahlen auf der sicheren Seite des Zahlungsanbieters."
 msgstr[1] "Der Termin ist noch %d Minuten für Sie reserviert. Sie bezahlen auf der sicheren Seite des Zahlungsanbieters."
+
+msgid "Marked as paid on site."
+msgstr "Als vor Ort bezahlt markiert."
+
+msgid "This payment cannot be marked as paid."
+msgstr "Diese Zahlung kann nicht als bezahlt markiert werden."
 
 msgid "This payment cannot be refunded."
 msgstr "Diese Zahlung kann nicht erstattet werden."
@@ -280,6 +313,9 @@ msgstr "entfernen"
 
 msgid "waiting for payment"
 msgstr "wartet auf Zahlung"
+
+msgid "pays on site"
+msgstr "zahlt vor Ort"
 
 msgid "paid"
 msgstr "bezahlt"
@@ -341,6 +377,15 @@ msgstr "Erstattungen"
 msgid "Refund automatically when an appointment is cancelled (customer cancellations minus the cancellation fee, if any)."
 msgstr "Bei Stornierung eines Termins automatisch erstatten (bei Stornierungen durch Kunden abzüglich einer etwaigen Stornogebühr)."
 
+msgid "Pay on site"
+msgstr "Bezahlung vor Ort"
+
+msgid "Customers may also choose to pay on site (cash or card at your location)."
+msgstr "Kunden dürfen auch vor Ort bezahlen (bar oder mit Karte bei Ihnen)."
+
+msgid "The booking is then handled like one without online payment (confirmed automatically or by you, as set under Settings). When the customer has paid, click “Received” in the list below."
+msgstr "Die Buchung läuft dann wie ohne Online-Zahlung (automatisch oder von Ihnen bestätigt, je nach Einstellung). Hat der Kunde bezahlt, klicken Sie in der Liste unten auf „Erhalten“."
+
 msgid "Secret key"
 msgstr "Geheimer Schlüssel"
 
@@ -382,6 +427,12 @@ msgstr "Anzahlung"
 
 msgid "refunded %s"
 msgstr "%s erstattet"
+
+msgid "on site"
+msgstr "vor Ort"
+
+msgid "Received (%s)"
+msgstr "Erhalten (%s)"
 
 msgid "Amount to refund"
 msgstr "Zu erstattender Betrag"

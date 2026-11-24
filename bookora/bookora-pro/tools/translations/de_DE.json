@@ -134,5 +134,22 @@
 "Stripe could not be reached. Please try again in a moment.": "Stripe ist nicht erreichbar. Bitte versuchen Sie es gleich noch einmal.",
 "Stripe: %s": "Stripe: %s",
 "Please enter a public https:// address.": "Bitte geben Sie eine öffentliche https://-Adresse ein.",
-"Please choose at least one event.": "Bitte wählen Sie mindestens ein Ereignis."
+"Please choose at least one event.": "Bitte wählen Sie mindestens ein Ereignis.",
+"Actions": "Aktionen",
+"Customers may also choose to pay on site (cash or card at your location).": "Kunden dürfen auch vor Ort bezahlen (bar oder mit Karte bei Ihnen).",
+"Marked as paid on site.": "Als vor Ort bezahlt markiert.",
+"Paid on site: %s": "Vor Ort bezahlt: %s",
+"Pay on site": "Bezahlung vor Ort",
+"Pay on site instead (%s)": "Lieber vor Ort bezahlen (%s)",
+"Pays on site: %s": "Zahlt vor Ort: %s",
+"Received (%s)": "Erhalten (%s)",
+"Thank you for your booking": "Vielen Dank für Ihre Buchung",
+"The booking is then handled like one without online payment (confirmed automatically or by you, as set under Settings). When the customer has paid, click “Received” in the list below.": "Die Buchung läuft dann wie ohne Online-Zahlung (automatisch oder von Ihnen bestätigt, je nach Einstellung). Hat der Kunde bezahlt, klicken Sie in der Liste unten auf „Erhalten“.",
+"This amount was paid on site. Please refund it directly to the customer.": "Dieser Betrag wurde vor Ort bezahlt. Bitte erstatten Sie ihn dem Kunden direkt.",
+"This payment cannot be marked as paid.": "Diese Zahlung kann nicht als bezahlt markiert werden.",
+"To pay on site": "Vor Ort zu zahlen",
+"Your appointment is booked. You pay on site, in cash or as offered there. You will receive a confirmation by email.": "Ihr Termin ist gebucht. Sie bezahlen vor Ort, bar oder wie dort angeboten. Sie erhalten eine Bestätigung per E-Mail.",
+"Your booking request has been received. You pay on site, in cash or as offered there. You will receive an email from us.": "Ihre Buchungsanfrage ist eingegangen. Sie bezahlen vor Ort, bar oder wie dort angeboten. Sie erhalten eine E-Mail von uns.",
+"on site": "vor Ort",
+"pays on site": "zahlt vor Ort"
 }

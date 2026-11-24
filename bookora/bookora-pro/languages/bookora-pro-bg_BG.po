@@ -102,6 +102,9 @@ msgstr "Събития"
 msgid "Secret"
 msgstr "Таен ключ"
 
+msgid "Actions"
+msgstr "Действия"
+
 msgid "Send test"
 msgstr "Изпрати тест"
 
@@ -195,8 +198,17 @@ msgstr "Плащането все още не е завършено."
 msgid "The paid amount does not match. Please contact us."
 msgstr "Платената сума не съвпада. Моля, свържете се с нас."
 
+msgid "This amount was paid on site. Please refund it directly to the customer."
+msgstr "Тази сума е платена на място. Моля, възстановете я директно на клиента."
+
+msgid "Pays on site: %s"
+msgstr "Плаща на място: %s"
+
 msgid "Payment open: %s"
 msgstr "Очаква плащане: %s"
+
+msgid "Paid on site: %s"
+msgstr "Платено на място: %s"
 
 msgid "Deposit paid: %s"
 msgstr "Платено капаро: %s"
@@ -228,6 +240,18 @@ msgstr "Сума"
 msgid "of %s"
 msgstr "от %s"
 
+msgid "Thank you for your booking"
+msgstr "Благодарим ви за резервацията"
+
+msgid "To pay on site"
+msgstr "За плащане на място"
+
+msgid "Your appointment is booked. You pay on site, in cash or as offered there. You will receive a confirmation by email."
+msgstr "Часът ви е запазен. Плащате на място – в брой или по предлагания там начин. Ще получите потвърждение по имейл."
+
+msgid "Your booking request has been received. You pay on site, in cash or as offered there. You will receive an email from us."
+msgstr "Заявката ви за резервация е получена. Плащате на място – в брой или по предлагания там начин. Ще получите имейл от нас."
+
 msgid "Thank you for your payment"
 msgstr "Благодарим Ви за плащането"
 
@@ -255,6 +279,9 @@ msgstr "Платете с карта, Apple Pay или Google Pay"
 msgid "Pay with PayPal"
 msgstr "Платете с PayPal"
 
+msgid "Pay on site instead (%s)"
+msgstr "Ще платя на място (%s)"
+
 msgid "Pay to confirm your appointment"
 msgstr "Платете, за да потвърдите Вашия час"
 
@@ -262,6 +289,12 @@ msgid "The appointment is reserved for you for %d more minute. You pay on the se
 msgid_plural "The appointment is reserved for you for %d more minutes. You pay on the secure page of the payment provider."
 msgstr[0] "Часът е запазен за Вас още %d минута. Плащате на защитената страница на доставчика на плащания."
 msgstr[1] "Часът е запазен за Вас още %d минути. Плащате на защитената страница на доставчика на плащания."
+
+msgid "Marked as paid on site."
+msgstr "Отбелязано като платено на място."
+
+msgid "This payment cannot be marked as paid."
+msgstr "Това плащане не може да бъде отбелязано като платено."
 
 msgid "This payment cannot be refunded."
 msgstr "Това плащане не може да бъде възстановено."
@@ -280,6 +313,9 @@ msgstr "премахни"
 
 msgid "waiting for payment"
 msgstr "очаква плащане"
+
+msgid "pays on site"
+msgstr "плаща на място"
 
 msgid "paid"
 msgstr "платено"
@@ -341,6 +377,15 @@ msgstr "Възстановявания"
 msgid "Refund automatically when an appointment is cancelled (customer cancellations minus the cancellation fee, if any)."
 msgstr "Автоматично възстановяване при отменен час (при отказ от клиента – минус таксата за отказ, ако има такава)."
 
+msgid "Pay on site"
+msgstr "Плащане на място"
+
+msgid "Customers may also choose to pay on site (cash or card at your location)."
+msgstr "Клиентите могат да изберат и плащане на място (в брой или с карта при вас)."
+
+msgid "The booking is then handled like one without online payment (confirmed automatically or by you, as set under Settings). When the customer has paid, click “Received” in the list below."
+msgstr "Тогава резервацията се обработва като такава без онлайн плащане (потвърждава се автоматично или от вас, според настройките). Когато клиентът плати, натиснете „Получено“ в списъка по-долу."
+
 msgid "Secret key"
 msgstr "Таен ключ"
 
@@ -382,6 +427,12 @@ msgstr "капаро"
 
 msgid "refunded %s"
 msgstr "възстановени %s"
+
+msgid "on site"
+msgstr "на място"
+
+msgid "Received (%s)"
+msgstr "Получено (%s)"
 
 msgid "Amount to refund"
 msgstr "Сума за възстановяване"

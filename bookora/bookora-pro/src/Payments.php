@@ -6,6 +6,8 @@
  * → pays on the provider's page → the booking is confirmed (emails go out only now).
  * Not paid within the time limit → the booking is cancelled and the time is free again.
  * Free cancellations are refunded automatically (minus a cancellation fee, if any).
+ * Optional: the visitor chooses "pay on site" (cash / card at the location) instead – the booking
+ * then follows the normal confirmation rules and the business marks it as paid later.
  *
  * @package BookoraPro
  */
@@ -123,6 +125,7 @@ final class Payments {
 			'services'       => array(),
 			'minutes'        => 30,
 			'refund_cancel'  => true,
+			'onsite'         => true,
 			'stripe_secret'  => '',
 			'stripe_webhook' => '',
 			'paypal_client'  => '',
@@ -161,6 +164,7 @@ final class Payments {
 			'services'       => array_values( array_filter( array_map( 'absint', (array) ( $input['services'] ?? array() ) ) ) ),
 			'minutes'        => max( 30, min( 240, absint( $input['minutes'] ?? 30 ) ) ),
 			'refund_cancel'  => ! empty( $input['refund_cancel'] ),
+			'onsite'         => ! empty( $input['onsite'] ),
 			'paypal_client'  => mb_substr( sanitize_text_field( (string) ( $input['paypal_client'] ?? '' ) ), 0, 200 ),
 			'paypal_sandbox' => ! empty( $input['paypal_sandbox'] ),
 		);
@@ -377,7 +381,10 @@ final class Payments {
 		$notice = '';
 		if ( 'open' === $payment['status'] ) {
 			$s = self::settings();
-			if ( isset( $_GET['go'] ) ) {
+			if ( isset( $_POST['onsite'] ) && self::onsite_allowed( $payment, $s ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- authenticated by the HMAC token.
+				$this->choose_onsite( (int) $payment['id'] );
+				$payment = self::find( (int) $payment['id'] );
+			} elseif ( isset( $_GET['go'] ) ) {
 				$this->start( $payment, sanitize_key( wp_unslash( $_GET['go'] ) ), $s );
 				$payment = self::find( (int) $payment['id'] );
 				$notice  = __( 'The payment page could not be opened. Please try again or choose another payment method.', 'bookora-pro' );
@@ -511,13 +518,19 @@ final class Payments {
 	 */
 	public function mark_paid( int $id, string $reference ): void {
 		global $wpdb;
-		// Atomic: only the first caller (return page or webhook) continues.
-		$changed = $wpdb->query( $wpdb->prepare( 'UPDATE ' . self::table() . " SET status = 'paid', reference = %s, paid_at = %s, updated_at = %s WHERE id = %d AND status IN ('open','expired')", $reference, current_time( 'mysql', true ), current_time( 'mysql', true ), $id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.NotPrepared
+		$before = self::find( $id );
+		// Atomic: only the first caller (return page or webhook) continues. "onsite": the visitor chose
+		// to pay on site but completed an online payment started before – the money counts.
+		$changed = $wpdb->query( $wpdb->prepare( 'UPDATE ' . self::table() . " SET status = 'paid', reference = %s, paid_at = %s, updated_at = %s WHERE id = %d AND status IN ('open','expired','onsite')", $reference, current_time( 'mysql', true ), current_time( 'mysql', true ), $id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.NotPrepared
 		if ( ! $changed ) {
 			return;
 		}
 		self::$cache = array();
 		$payment     = self::find( $id );
+		if ( $before && 'onsite' === $before['status'] ) {
+			do_action( 'bookora_pro_payment_paid', $payment );
+			return; // Booking and emails were already handled when "on site" was chosen.
+		}
 		$entries     = Bookora::instance()->container()->get( EntryRepository::class );
 		$booking     = $entries->booking( (int) $payment['booking_id'] );
 		if ( ! $booking ) {
@@ -549,6 +562,86 @@ final class Payments {
 		 * @param array<string, mixed> $payment Payment.
 		 */
 		do_action( 'bookora_pro_payment_paid', $payment );
+	}
+
+	/**
+	 * May this payment be settled on site instead?
+	 *
+	 * @param array<string, mixed>      $payment Payment.
+	 * @param array<string, mixed>|null $s       Settings.
+	 */
+	public static function onsite_allowed( array $payment, ?array $s = null ): bool {
+		$s = $s ?? self::settings();
+		/**
+		 * Offer "pay on site" for this payment (setting "onsite" by default).
+		 *
+		 * @param bool                 $allowed Allowed.
+		 * @param array<string, mixed> $payment Payment.
+		 */
+		return (bool) apply_filters( 'bookora_pro_onsite_allowed', ! empty( $s['onsite'] ), $payment );
+	}
+
+	/**
+	 * Visitor pays on site: the booking continues like one without online payment.
+	 *
+	 * @param int $id Payment id.
+	 */
+	public function choose_onsite( int $id ): void {
+		global $wpdb;
+		$changed = $wpdb->query( $wpdb->prepare( 'UPDATE ' . self::table() . " SET status = 'onsite', updated_at = %s WHERE id = %d AND status = 'open'", current_time( 'mysql', true ), $id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.NotPrepared
+		if ( ! $changed ) {
+			return;
+		}
+		wp_clear_scheduled_hook( self::CRON, array( $id ) );
+		self::$cache = array();
+		$payment     = self::find( $id );
+		$entries     = Bookora::instance()->container()->get( EntryRepository::class );
+		$booking     = $entries->booking( (int) $payment['booking_id'] );
+		if ( ! $booking ) {
+			return;
+		}
+		$mailer = Bookora::instance()->container()->get( Mailer::class );
+		$target = (string) Bookora::instance()->container()->get( Settings::class )->get( 'default_status', 'pending' );
+		/**
+		 * Status of a booking paid on site (default: the normal status of new bookings).
+		 *
+		 * @param string               $status  pending|confirmed.
+		 * @param array<string, mixed> $booking Booking.
+		 */
+		$target = (string) apply_filters( 'bookora_pro_onsite_status', $target, $booking );
+		if ( 'pending' === $booking['status'] && 'confirmed' === $target ) {
+			$entries->set_booking_status( (int) $booking['id'], 'confirmed' ); // Sends the confirmation.
+		} elseif ( 'pending' === $booking['status'] ) {
+			$ctx = $mailer->booking_context( (int) $booking['id'] );
+			if ( $ctx ) {
+				$mailer->send( 'booking_received', $ctx );
+			}
+		}
+		$ctx = $mailer->booking_context( (int) $booking['id'] );
+		if ( $ctx ) {
+			$mailer->send( 'admin_new_booking', $ctx );
+		}
+		/**
+		 * The visitor chose to pay on site.
+		 *
+		 * @param array<string, mixed> $payment Payment.
+		 */
+		do_action( 'bookora_pro_payment_onsite', $payment );
+	}
+
+	/**
+	 * The business received the money on site (cash, card terminal).
+	 *
+	 * @param int $id Payment id.
+	 */
+	public function mark_received( int $id ): bool {
+		global $wpdb;
+		$changed = (bool) $wpdb->query( $wpdb->prepare( 'UPDATE ' . self::table() . " SET status = 'paid', provider = 'onsite', reference = 'onsite', amount = total, kind = 'full', paid_at = %s, updated_at = %s WHERE id = %d AND status = 'onsite'", current_time( 'mysql', true ), current_time( 'mysql', true ), $id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.NotPrepared
+		self::$cache = array();
+		if ( $changed ) {
+			do_action( 'bookora_pro_payment_paid', self::find( $id ) );
+		}
+		return $changed;
 	}
 
 	/**
@@ -596,7 +689,7 @@ final class Payments {
 			return;
 		}
 		$payment = self::for_booking( $booking_id );
-		if ( $payment && 'paid' === $payment['status'] ) {
+		if ( $payment && 'paid' === $payment['status'] && 'onsite' !== $payment['provider'] ) {
 			$this->refund( $payment, max( 0.0, (float) $payment['amount'] - (float) $fee ) );
 		}
 	}
@@ -618,7 +711,7 @@ final class Payments {
 			return; // Customer cancellations are handled with the fee in customer_cancelled().
 		}
 		$payment = self::for_booking( $booking_id );
-		if ( $payment && 'paid' === $payment['status'] ) {
+		if ( $payment && 'paid' === $payment['status'] && 'onsite' !== $payment['provider'] ) {
 			$this->refund( $payment, (float) $payment['amount'] );
 		}
 	}
@@ -634,6 +727,9 @@ final class Payments {
 		$amount = round( min( $amount, (float) $payment['amount'] - (float) $payment['refunded'] ), 2 );
 		if ( $amount <= 0 ) {
 			return true;
+		}
+		if ( 'onsite' === $payment['provider'] ) {
+			return new \WP_Error( 'bookora_pro_onsite_refund', __( 'This amount was paid on site. Please refund it directly to the customer.', 'bookora-pro' ) );
 		}
 		$s      = self::settings();
 		$result = 'stripe' === $payment['provider']
@@ -760,11 +856,14 @@ final class Payments {
 			return $booking;
 		}
 		$money = self::money( (float) $p['amount'], (string) $p['currency'] );
+		$total = self::money( (float) $p['total'], (string) $p['currency'] );
 		$map   = array(
+			/* translators: %s: amount. */
+			'onsite'             => array( sprintf( __( 'Pays on site: %s', 'bookora-pro' ), $total ), 'warning' ),
 			/* translators: %s: amount. */
 			'open'               => array( sprintf( __( 'Payment open: %s', 'bookora-pro' ), $money ), 'warning' ),
 			/* translators: %s: amount. */
-			'paid'               => array( sprintf( 'deposit' === $p['kind'] ? __( 'Deposit paid: %s', 'bookora-pro' ) : __( 'Paid online: %s', 'bookora-pro' ), $money ), 'success' ),
+			'paid'               => array( sprintf( 'onsite' === $p['provider'] ? __( 'Paid on site: %s', 'bookora-pro' ) : ( 'deposit' === $p['kind'] ? __( 'Deposit paid: %s', 'bookora-pro' ) : __( 'Paid online: %s', 'bookora-pro' ) ), $money ), 'success' ),
 			'expired'            => array( __( 'Not paid in time', 'bookora-pro' ), 'neutral' ),
 			/* translators: %s: amount. */
 			'refunded'           => array( sprintf( __( 'Refunded: %s', 'bookora-pro' ), self::money( (float) $p['refunded'], (string) $p['currency'] ) ), 'neutral' ),
@@ -799,6 +898,15 @@ final class Payments {
 		$note    = '' !== $notice ? '<p class="notice">' . esc_html( $notice ) . '</p>' : '';
 
 		switch ( $payment['status'] ) {
+			case 'onsite':
+				$total = self::money( (float) $payment['total'], (string) $payment['currency'] );
+				$this->output(
+					__( 'Thank you for your booking', 'bookora-pro' ),
+					'<dl><dt>' . esc_html__( 'Service', 'bookora-pro' ) . '</dt><dd>' . esc_html( $booking['service_name'] ?? '' ) . '</dd><dt>' . esc_html__( 'Appointment', 'bookora-pro' ) . '</dt><dd>' . esc_html( $when ) . '</dd><dt>' . esc_html__( 'To pay on site', 'bookora-pro' ) . '</dt><dd><strong>' . esc_html( $total ) . '</strong></dd></dl>'
+						. '<p class="ok">' . esc_html( $booking && 'confirmed' === $booking['status'] ? __( 'Your appointment is booked. You pay on site, in cash or as offered there. You will receive a confirmation by email.', 'bookora-pro' ) : __( 'Your booking request has been received. You pay on site, in cash or as offered there. You will receive an email from us.', 'bookora-pro' ) ) . '</p>',
+					'success'
+				);
+				break;
 			case 'paid':
 				$this->output( __( 'Thank you for your payment', 'bookora-pro' ), $summary . '<p class="ok">' . esc_html__( 'Your payment has been received and your appointment is confirmed. You will receive a confirmation by email.', 'bookora-pro' ) . '</p>', 'success' );
 				break;
@@ -815,6 +923,11 @@ final class Payments {
 				foreach ( self::providers() as $provider ) {
 					$label    = 'stripe' === $provider ? __( 'Pay by card, Apple Pay or Google Pay', 'bookora-pro' ) : __( 'Pay with PayPal', 'bookora-pro' );
 					$buttons .= '<p><a class="btn' . ( 'paypal' === $provider ? ' btn-secondary' : '' ) . '" href="' . esc_url( self::url( $payment, array( 'go' => $provider ) ) ) . '">' . esc_html( $label ) . '</a></p>';
+				}
+				if ( self::onsite_allowed( $payment ) ) {
+					$buttons .= '<form method="post" action="' . esc_url( self::url( $payment ) ) . '"><p><button type="submit" name="onsite" value="1" class="btn btn-secondary">'
+						/* translators: %s: total price. */
+						. esc_html( sprintf( __( 'Pay on site instead (%s)', 'bookora-pro' ), self::money( (float) $payment['total'], (string) $payment['currency'] ) ) ) . '</button></p></form>';
 				}
 				$this->output(
 					__( 'Pay to confirm your appointment', 'bookora-pro' ),

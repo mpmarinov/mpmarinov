@@ -134,5 +134,22 @@
 "Stripe could not be reached. Please try again in a moment.": "Stripe не може да бъде достигнат. Моля, опитайте отново след малко.",
 "Stripe: %s": "Stripe: %s",
 "Please enter a public https:// address.": "Моля, въведете публичен https:// адрес.",
-"Please choose at least one event.": "Моля, изберете поне едно събитие."
+"Please choose at least one event.": "Моля, изберете поне едно събитие.",
+"Actions": "Действия",
+"Customers may also choose to pay on site (cash or card at your location).": "Клиентите могат да изберат и плащане на място (в брой или с карта при вас).",
+"Marked as paid on site.": "Отбелязано като платено на място.",
+"Paid on site: %s": "Платено на място: %s",
+"Pay on site": "Плащане на място",
+"Pay on site instead (%s)": "Ще платя на място (%s)",
+"Pays on site: %s": "Плаща на място: %s",
+"Received (%s)": "Получено (%s)",
+"Thank you for your booking": "Благодарим ви за резервацията",
+"The booking is then handled like one without online payment (confirmed automatically or by you, as set under Settings). When the customer has paid, click “Received” in the list below.": "Тогава резервацията се обработва като такава без онлайн плащане (потвърждава се автоматично или от вас, според настройките). Когато клиентът плати, натиснете „Получено“ в списъка по-долу.",
+"This amount was paid on site. Please refund it directly to the customer.": "Тази сума е платена на място. Моля, възстановете я директно на клиента.",
+"This payment cannot be marked as paid.": "Това плащане не може да бъде отбелязано като платено.",
+"To pay on site": "За плащане на място",
+"Your appointment is booked. You pay on site, in cash or as offered there. You will receive a confirmation by email.": "Часът ви е запазен. Плащате на място – в брой или по предлагания там начин. Ще получите потвърждение по имейл.",
+"Your booking request has been received. You pay on site, in cash or as offered there. You will receive an email from us.": "Заявката ви за резервация е получена. Плащате на място – в брой или по предлагания там начин. Ще получите имейл от нас.",
+"on site": "на място",
+"pays on site": "плаща на място"
 }
