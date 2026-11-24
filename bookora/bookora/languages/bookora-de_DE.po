@@ -1931,6 +1931,199 @@ msgid_plural "%d busy times"
 msgstr[0] "%d belegte Zeit"
 msgstr[1] "%d belegte Zeiten"
 
+msgid "Mon"
+msgstr "Mo"
+
+msgid "Tue"
+msgstr "Di"
+
+msgid "Wed"
+msgstr "Mi"
+
+msgid "Thu"
+msgstr "Do"
+
+msgid "Fri"
+msgstr "Fr"
+
+msgid "Sat"
+msgstr "Sa"
+
+msgid "Sun"
+msgstr "So"
+
+msgid "Your business"
+msgstr "Ihr Betrieb"
+
+msgid "Opening hours"
+msgstr "Öffnungszeiten"
+
+msgid "First service"
+msgstr "Erste Leistung"
+
+msgid "Done"
+msgstr "Fertig"
+
+msgid "Welcome to Bookora"
+msgstr "Willkommen bei Bookora"
+
+msgid "Five short steps and your first booking form is online. Everything can be changed later."
+msgstr "Fünf kurze Schritte, dann ist Ihr erstes Buchungsformular online. Alles lässt sich später ändern."
+
+msgid "Email for new bookings"
+msgstr "E-Mail für neue Buchungen"
+
+msgid "Shown to customers who can no longer cancel online at short notice."
+msgstr "Wird Kunden angezeigt, die kurzfristig nicht mehr online absagen können."
+
+msgid "New bookings are"
+msgstr "Neue Buchungen sind"
+
+msgid "Requests – I confirm each one"
+msgstr "Anfragen – ich bestätige jede selbst"
+
+msgid "Confirmed immediately"
+msgstr "Sofort bestätigt"
+
+msgid "Your site uses a UTC offset instead of a city as time zone. Please choose your city (e.g. Berlin) so that appointments stay correct when the clocks change."
+msgstr "Ihre Webseite verwendet als Zeitzone eine UTC-Abweichung statt einer Stadt. Bitte wählen Sie Ihre Stadt (z. B. Berlin), damit Termine bei der Zeitumstellung stimmen."
+
+msgid "Open time zone settings"
+msgstr "Zeitzone einstellen"
+
+msgid "When are you open?"
+msgstr "Wann haben Sie geöffnet?"
+
+msgid "Opening days"
+msgstr "Öffnungstage"
+
+msgid "From"
+msgstr "Von"
+
+msgid "To"
+msgstr "Bis"
+
+msgid "Lunch break"
+msgstr "Mittagspause"
+
+msgid "Break from"
+msgstr "Pause von"
+
+msgid "Break until"
+msgstr "Pause bis"
+
+msgid "Different hours per day, holidays and vacation: Bookora → Opening Hours."
+msgstr "Unterschiedliche Zeiten je Tag, Feiertage und Urlaub: Bookora → Öffnungszeiten."
+
+msgid "What can customers book?"
+msgstr "Was können Kunden buchen?"
+
+msgid "e.g. Classic massage"
+msgstr "z. B. Klassische Massage"
+
+msgid "Price in € (optional)"
+msgstr "Preis in € (optional)"
+
+msgid "More services, buffers, staff and places for courses: Bookora → Services."
+msgstr "Weitere Leistungen, Puffer, Mitarbeiter und Plätze für Kurse: Bookora → Leistungen."
+
+msgid "Choose a form"
+msgstr "Formular wählen"
+
+msgid "Create “%s”"
+msgstr "„%s“ erstellen"
+
+msgid "Your form is ready"
+msgstr "Ihr Formular ist fertig"
+
+msgid "Put it on any page of your website:"
+msgstr "Fügen Sie es auf einer beliebigen Seite Ihrer Webseite ein:"
+
+msgid "Block editor:"
+msgstr "Block-Editor:"
+
+msgid "add the block “Bookora” and choose the form."
+msgstr "Block „Bookora“ einfügen und das Formular wählen."
+
+msgid "Other page builders:"
+msgstr "Andere Page-Builder:"
+
+msgid "paste this shortcode"
+msgstr "diesen Shortcode einfügen"
+
+msgid "Create a page with this form (draft)"
+msgstr "Seite mit diesem Formular anlegen (Entwurf)"
+
+msgid "The page was created as a draft. Check it and publish it when you are ready."
+msgstr "Die Seite wurde als Entwurf angelegt. Prüfen Sie sie und veröffentlichen Sie sie, wenn alles passt."
+
+msgid "Preview"
+msgstr "Vorschau"
+
+msgid "Edit page"
+msgstr "Seite bearbeiten"
+
+msgid "Recommended next steps"
+msgstr "Empfohlene nächste Schritte"
+
+msgid "Check the emails and send yourself a test email"
+msgstr "E-Mails prüfen und sich eine Test-E-Mail schicken"
+
+msgid "Put your appointments on your phone"
+msgstr "Termine aufs Handy holen"
+
+msgid "Cancellation deadline and optional cancellation fee"
+msgstr "Absagefrist und optionale Ausfallgebühr"
+
+msgid "Adjust the form"
+msgstr "Formular anpassen"
+
+msgid "Go to the overview"
+msgstr "Zur Übersicht"
+
+msgid "Skip setup"
+msgstr "Einrichtung überspringen"
+
+msgid "Next appointments"
+msgstr "Nächste Termine"
+
+msgid "No upcoming appointments."
+msgstr "Keine anstehenden Termine."
+
+msgid "All bookings"
+msgstr "Alle Buchungen"
+
+msgid "Run the setup wizard again"
+msgstr "Einrichtungsassistent erneut starten"
+
+msgid "Help & guide"
+msgstr "Hilfe & Anleitung"
+
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d Minute"
+msgstr[1] "%d Minuten"
+
+msgid "appointment today"
+msgid_plural "appointments today"
+msgstr[0] "Termin heute"
+msgstr[1] "Termine heute"
+
+msgid "open request"
+msgid_plural "open requests"
+msgstr[0] "offene Anfrage"
+msgstr[1] "offene Anfragen"
+
+msgid "new entry"
+msgid_plural "new entries"
+msgstr[0] "neuer Eintrag"
+msgstr[1] "neue Einträge"
+
+msgid "open fee"
+msgid_plural "open fees"
+msgstr[0] "offene Gebühr"
+msgstr[1] "offene Gebühren"
+
 msgid "To your customers"
 msgstr "An Ihre Kunden"
 
@@ -2112,32 +2305,17 @@ msgid_plural "%d selected"
 msgstr[0] "%d ausgewählt"
 msgstr[1] "%d ausgewählt"
 
-msgid "Booking form"
-msgstr "Buchungsformular"
+msgid "With appointment booking"
+msgstr "Mit Terminbuchung"
 
-msgid "Customers choose a service, date and time. Booked times are blocked automatically."
-msgstr "Kunden wählen Leistung, Datum und Uhrzeit. Gebuchte Zeiten werden automatisch blockiert."
-
-msgid "Standard form"
-msgstr "Standardformular"
-
-msgid "Contact form, request, survey, application – any form without a calendar."
-msgstr "Kontaktformular, Anfrage, Umfrage, Bewerbung – jedes Formular ohne Kalender."
-
-msgid "Contact form"
-msgstr "Kontaktformular"
+msgid "Without appointment"
+msgstr "Ohne Termin"
 
 msgid "New form"
 msgstr "Neues Formular"
 
-msgid "e.g. Book an appointment"
-msgstr "z. B. Termin buchen"
-
-msgid "e.g. Contact"
-msgstr "z. B. Kontakt"
-
-msgid "We start you with the most common fields – you can change everything in the next step."
-msgstr "Wir legen die üblichen Felder für Sie an – im nächsten Schritt können Sie alles ändern."
+msgid "The template is only a start – you can change, add or remove every field in the next step."
+msgstr "Die Vorlage ist nur der Anfang – im nächsten Schritt können Sie jedes Feld ändern, hinzufügen oder entfernen."
 
 msgid "Create form"
 msgstr "Formular erstellen"
@@ -2150,6 +2328,12 @@ msgstr "Noch keine Formulare. Ihr erstes Formular steht in unter einer Minute."
 
 msgid "Create your first form"
 msgstr "Erstes Formular erstellen"
+
+msgid "Booking form"
+msgstr "Buchungsformular"
+
+msgid "Standard form"
+msgstr "Standardformular"
 
 msgid "Copy shortcode"
 msgstr "Shortcode kopieren"
@@ -2184,12 +2368,6 @@ msgstr "Dieser Mitarbeiter verwendet die allgemeinen Öffnungszeiten. Ändern un
 
 msgid "Closed"
 msgstr "Geschlossen"
-
-msgid "From"
-msgstr "Von"
-
-msgid "To"
-msgstr "Bis"
 
 msgid "Remove time range"
 msgstr "Zeitbereich entfernen"
@@ -2515,9 +2693,6 @@ msgstr "Zeitraster für Datumsfelder ohne Leistung"
 msgid "Booking forms use the start times defined per service."
 msgstr "Buchungsformulare verwenden die Startzeiten der jeweiligen Leistung."
 
-msgid "New bookings are"
-msgstr "Neue Buchungen sind"
-
 msgid "Pending – confirm with one click"
 msgstr "Offen – mit einem Klick bestätigen"
 
@@ -2652,6 +2827,201 @@ msgstr "Termine ziehen, um sie zu verschieben (15-Minuten-Schritte)."
 
 msgid "Move appointment?"
 msgstr "Termin verschieben?"
+
+msgid "No"
+msgstr "Nein"
+
+msgid "Simple booking"
+msgstr "Einfache Terminbuchung"
+
+msgid "Service, date and time, contact details – suits almost every business."
+msgstr "Leistung, Datum und Uhrzeit, Kontaktdaten – passt für fast jeden Betrieb."
+
+msgid "Hair & beauty salon"
+msgstr "Friseur & Kosmetik"
+
+msgid "With choice of staff member and a question about previous visits."
+msgstr "Mit Wahl des Mitarbeiters und Frage nach früheren Besuchen."
+
+msgid "Treatment"
+msgstr "Behandlung"
+
+msgid "With whom?"
+msgstr "Bei wem?"
+
+msgid "Have you been with us before?"
+msgstr "Waren Sie schon einmal bei uns?"
+
+msgid "Wishes or notes"
+msgstr "Wünsche oder Hinweise"
+
+msgid "Medical practice & therapy"
+msgstr "Arztpraxis & Therapie"
+
+msgid "Two steps, insurance, new patient, upload of a referral, consent for health data."
+msgstr "Zwei Schritte, Versicherung, Neupatient, Upload der Überweisung, Einwilligung für Gesundheitsdaten."
+
+msgid "Reason for the appointment"
+msgstr "Grund des Termins"
+
+msgid "Your details"
+msgstr "Ihre Angaben"
+
+msgid "Date of birth"
+msgstr "Geburtsdatum"
+
+msgid "Insurance"
+msgstr "Versicherung"
+
+msgid "Statutory"
+msgstr "Gesetzlich"
+
+msgid "Private"
+msgstr "Privat"
+
+msgid "Self-payer"
+msgstr "Selbstzahler"
+
+msgid "Are you a new patient?"
+msgstr "Sind Sie Neupatient?"
+
+msgid "Referral or prescription (optional)"
+msgstr "Überweisung oder Rezept (optional)"
+
+msgid "Symptoms or questions (optional)"
+msgstr "Beschwerden oder Fragen (optional)"
+
+msgid "I agree that my details, including health information, are processed to arrange and prepare the appointment."
+msgstr "Ich willige ein, dass meine Angaben einschließlich Gesundheitsdaten zur Vereinbarung und Vorbereitung des Termins verarbeitet werden."
+
+msgid "Consulting & coaching"
+msgstr "Beratung & Coaching"
+
+msgid "Company, meeting type (on site, video, phone) and topic."
+msgstr "Firma, Art des Termins (vor Ort, Video, Telefon) und Thema."
+
+msgid "Topic"
+msgstr "Thema"
+
+msgid "Company"
+msgstr "Firma"
+
+msgid "How would you like to meet?"
+msgstr "Wie möchten Sie sich treffen?"
+
+msgid "On site"
+msgstr "Vor Ort"
+
+msgid "Video call"
+msgstr "Videoanruf"
+
+msgid "What is it about?"
+msgstr "Worum geht es?"
+
+msgid "Garage & workshop"
+msgstr "Werkstatt"
+
+msgid "Vehicle, licence plate, mileage and a description of the problem."
+msgstr "Fahrzeug, Kennzeichen, Kilometerstand und Beschreibung des Problems."
+
+msgid "Make and model"
+msgstr "Marke und Modell"
+
+msgid "Licence plate"
+msgstr "Kennzeichen"
+
+msgid "Mileage (km)"
+msgstr "Kilometerstand (km)"
+
+msgid "During the repair"
+msgstr "Während der Reparatur"
+
+msgid "I will wait"
+msgstr "Ich warte vor Ort"
+
+msgid "I will leave the vehicle"
+msgstr "Ich lasse das Fahrzeug da"
+
+msgid "Describe the problem"
+msgstr "Beschreiben Sie das Problem"
+
+msgid "Course & class"
+msgstr "Kurs & Gruppe"
+
+msgid "For services with several places, e.g. yoga, workshops, training."
+msgstr "Für Leistungen mit mehreren Plätzen, z. B. Yoga, Workshops, Schulungen."
+
+msgid "Course"
+msgstr "Kurs"
+
+msgid "Experience"
+msgstr "Erfahrung"
+
+msgid "Beginner"
+msgstr "Anfänger"
+
+msgid "Anything we should know?"
+msgstr "Sollen wir noch etwas wissen?"
+
+msgid "Contact form"
+msgstr "Kontaktformular"
+
+msgid "Name, email, phone and message."
+msgstr "Name, E-Mail, Telefon und Nachricht."
+
+msgid "Quote request"
+msgstr "Angebotsanfrage"
+
+msgid "Description, desired date and upload of photos or plans."
+msgstr "Beschreibung, Wunschtermin und Upload von Fotos oder Plänen."
+
+msgid "Desired date"
+msgstr "Wunschtermin"
+
+msgid "What can we do for you?"
+msgstr "Was können wir für Sie tun?"
+
+msgid "Photos or plans (optional)"
+msgstr "Fotos oder Pläne (optional)"
+
+msgid "Callback request"
+msgstr "Rückrufbitte"
+
+msgid "Phone number and the best time to call."
+msgstr "Telefonnummer und die beste Zeit für den Rückruf."
+
+msgid "Best time to call"
+msgstr "Beste Zeit für den Rückruf"
+
+msgid "Morning"
+msgstr "Vormittags"
+
+msgid "Midday"
+msgstr "Mittags"
+
+msgid "Afternoon"
+msgstr "Nachmittags"
+
+msgid "Feedback"
+msgstr "Feedback"
+
+msgid "Rating, recommendation and comments."
+msgstr "Bewertung, Weiterempfehlung und Anmerkungen."
+
+msgid "How satisfied were you?"
+msgstr "Wie zufrieden waren Sie?"
+
+msgid "Would you recommend us?"
+msgstr "Würden Sie uns weiterempfehlen?"
+
+msgid "Maybe"
+msgstr "Vielleicht"
+
+msgid "Comments"
+msgstr "Anmerkungen"
+
+msgid "Email (optional, if you would like an answer)"
+msgstr "E-Mail (optional, falls Sie eine Antwort möchten)"
 
 msgid "Month"
 msgstr "Monat"

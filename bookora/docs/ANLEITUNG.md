@@ -14,6 +14,12 @@ Alle Menüpunkte finden Sie im WordPress-Admin unter **Bookora**.
 
 > **Tipp:** Prüfen Sie unter **Einstellungen → Allgemein** (WordPress), ob die **Zeitzone** stimmt, z. B. „Berlin“. Alle Termine richten sich danach.
 
+## 1a. Einrichtungsassistent
+
+Beim ersten Öffnen von **Bookora → Übersicht** startet ein Assistent mit fünf Schritten: Betrieb, Öffnungszeiten, erste Leistung, Formularvorlage, fertig. Auf Wunsch legt er gleich eine **Seite mit dem Formular als Entwurf** an. Sie können ihn jederzeit überspringen und später über „Einrichtungsassistent erneut starten“ wieder aufrufen.
+
+Danach zeigt die Übersicht die Termine von heute, offene Anfragen, neue Einträge, offene Gebühren und die nächsten Termine.
+
 ## 2. Grundeinstellungen (Bookora → Einstellungen)
 
 | Bereich | Was Sie hier einstellen |
@@ -51,7 +57,11 @@ Für jede Behandlung bzw. Dienstleistung:
 
 ## 6. Buchungsformular erstellen (Bookora → Formulare)
 
-1. **Neues Formular → Buchungsformular.** Die Pflichtbausteine (Leistung, Termin, Name, E-Mail) sind schon enthalten.
+1. **Neues Formular** → Vorlage wählen:
+   - *Mit Terminbuchung:* Einfache Terminbuchung, Friseur & Kosmetik, Arztpraxis & Therapie (zweistufig, Versicherung, Überweisung hochladen, Einwilligung für Gesundheitsdaten), Beratung & Coaching, Werkstatt, Kurs & Gruppe
+   - *Ohne Termin:* Kontaktformular, Angebotsanfrage (mit Foto-Upload), Rückrufbitte, Feedback
+
+   Jede Vorlage ist nur ein Startpunkt – alle Felder lassen sich ändern.
 2. Weitere Felder links anklicken oder auf die Fläche ziehen: Telefon, Nachricht, Auswahl, Datum, **Datei-Upload** (z. B. Überweisung, Fotos), **Unterschrift** u. v. m.
 3. Feld anklicken (oder mit der Tastatur auf „bearbeiten“) → rechts Beschriftung, Pflichtfeld, Breite, Bedingungen.
 4. Reihenfolge: mit der Maus ziehen oder per Tastatur – Griff fokussieren, Leertaste, Pfeiltasten, Leertaste.

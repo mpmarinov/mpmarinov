@@ -14,11 +14,13 @@ import EntriesScreen from './screens/EntriesScreen';
 import EmailsScreen from './screens/EmailsScreen';
 import TimelineScreen from './screens/TimelineScreen';
 import CalendarsScreen from './screens/CalendarsScreen';
+import DashboardScreen from './screens/DashboardScreen';
 import './builder/builder.scss';
 import Placeholder from './screens/Placeholder';
 import './style.scss';
 
 const SCREENS = {
+	dashboard: DashboardScreen,
 	settings: SettingsScreen,
 	services: ServicesScreen,
 	resources: ResourcesScreen,

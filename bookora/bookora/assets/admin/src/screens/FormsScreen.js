@@ -15,6 +15,7 @@ import { errorMessage, post } from '../api';
 import ConfirmButton from '../components/ConfirmButton';
 import useCollection from '../components/useCollection';
 import Builder from '../builder/Builder';
+import { TEMPLATES, templateById } from '../templates';
 
 function currentFormId() {
 	const id = Number(
@@ -34,98 +35,70 @@ function navigate( id ) {
 	window.dispatchEvent( new window.PopStateEvent( 'popstate' ) );
 }
 
-const TYPES = [
-	{
-		value: 'booking',
-		icon: 'calendar-alt',
-		title: __( 'Booking form', 'bookora' ),
-		text: __(
-			'Customers choose a service, date and time. Booked times are blocked automatically.',
-			'bookora'
-		),
-	},
-	{
-		value: 'standard',
-		icon: 'feedback',
-		title: __( 'Standard form', 'bookora' ),
-		text: __(
-			'Contact form, request, survey, application – any form without a calendar.',
-			'bookora'
-		),
-	},
-];
+/**
+ * Grid of templates, grouped by "with appointment" / "without appointment".
+ *
+ * @param {Object}   props
+ * @param {string}   props.value    Selected template id.
+ * @param {Function} props.onChange Called with the template id.
+ */
+export function TemplatePicker( { value, onChange } ) {
+	const groups = [
+		{
+			type: 'booking',
+			title: __( 'With appointment booking', 'bookora' ),
+		},
+		{
+			type: 'standard',
+			title: __( 'Without appointment', 'bookora' ),
+		},
+	];
+	return groups.map( ( g ) => (
+		<fieldset key={ g.type } className="bookora-templates">
+			<legend>{ g.title }</legend>
+			<div className="bookora-type-picker">
+				{ TEMPLATES.filter( ( t ) => t.type === g.type ).map( ( t ) => (
+					<label
+						key={ t.id }
+						htmlFor={ `bookora-template-${ t.id }` }
+						className={ `bookora-type-picker__option${
+							value === t.id ? ' is-selected' : ''
+						}` }
+					>
+						<input
+							id={ `bookora-template-${ t.id }` }
+							type="radio"
+							name="bookora-template"
+							className="screen-reader-text"
+							value={ t.id }
+							checked={ value === t.id }
+							onChange={ () => onChange( t.id ) }
+						/>
+						<Dashicon icon={ t.icon } />
+						<strong>{ t.title }</strong>
+						<span>{ t.text }</span>
+					</label>
+				) ) }
+			</div>
+		</fieldset>
+	) );
+}
 
 function NewFormModal( { onClose } ) {
 	const [ title, setTitle ] = useState( '' );
-	const [ type, setType ] = useState( 'booking' );
+	const [ template, setTemplate ] = useState( 'booking' );
 	const [ error, setError ] = useState( null );
 	const [ busy, setBusy ] = useState( false );
-
-	const starter =
-		type === 'booking'
-			? [
-					{
-						type: 'service',
-						label: __( 'Service', 'bookora' ),
-						required: true,
-					},
-					{
-						type: 'appointment',
-						label: __( 'Choose a date and time', 'bookora' ),
-						required: true,
-					},
-					{
-						type: 'name',
-						label: __( 'Name', 'bookora' ),
-						required: true,
-						format: 'first_last',
-					},
-					{
-						type: 'email',
-						key: 'email',
-						label: __( 'Email', 'bookora' ),
-						required: true,
-					},
-					{ type: 'phone', label: __( 'Phone', 'bookora' ) },
-					{
-						type: 'textarea',
-						label: __( 'Message', 'bookora' ),
-						rows: 3,
-					},
-			  ]
-			: [
-					{
-						type: 'name',
-						label: __( 'Name', 'bookora' ),
-						required: true,
-						format: 'first_last',
-					},
-					{
-						type: 'email',
-						key: 'email',
-						label: __( 'Email', 'bookora' ),
-						required: true,
-					},
-					{
-						type: 'textarea',
-						label: __( 'Message', 'bookora' ),
-						required: true,
-						rows: 5,
-					},
-			  ];
+	const chosen = templateById( template );
 
 	const submit = ( event ) => {
 		event.preventDefault();
 		setBusy( true );
 		setError( null );
 		post( '/forms', {
-			title:
-				title ||
-				( type === 'booking'
-					? __( 'Booking form', 'bookora' )
-					: __( 'Contact form', 'bookora' ) ),
-			type,
-			fields: starter,
+			title: title || chosen.title,
+			type: chosen.type,
+			fields: chosen.fields(),
 		} )
 			.then( ( form ) => navigate( form.id ) )
 			.catch( ( e ) => {
@@ -138,7 +111,7 @@ function NewFormModal( { onClose } ) {
 		<Modal
 			title={ __( 'New form', 'bookora' ) }
 			onRequestClose={ onClose }
-			className="bookora-modal"
+			className="bookora-modal bookora-modal--wide"
 		>
 			<form onSubmit={ submit } className="bookora-form">
 				{ error && (
@@ -146,42 +119,17 @@ function NewFormModal( { onClose } ) {
 						{ error }
 					</Notice>
 				) }
-				<div
-					className="bookora-type-picker"
-					role="radiogroup"
-					aria-label={ __( 'Form type', 'bookora' ) }
-				>
-					{ TYPES.map( ( t ) => (
-						<button
-							type="button"
-							role="radio"
-							aria-checked={ type === t.value }
-							key={ t.value }
-							className={ `bookora-type-picker__option${
-								type === t.value ? ' is-selected' : ''
-							}` }
-							onClick={ () => setType( t.value ) }
-						>
-							<Dashicon icon={ t.icon } />
-							<strong>{ t.title }</strong>
-							<span>{ t.text }</span>
-						</button>
-					) ) }
-				</div>
+				<TemplatePicker value={ template } onChange={ setTemplate } />
 				<TextControl
 					__nextHasNoMarginBottom
 					label={ __( 'Form title', 'bookora' ) }
-					placeholder={
-						type === 'booking'
-							? __( 'e.g. Book an appointment', 'bookora' )
-							: __( 'e.g. Contact', 'bookora' )
-					}
+					placeholder={ chosen.title }
 					value={ title }
 					onChange={ setTitle }
 				/>
 				<p className="bookora-muted">
 					{ __(
-						'We start you with the most common fields – you can change everything in the next step.',
+						'The template is only a start – you can change, add or remove every field in the next step.',
 						'bookora'
 					) }
 				</p>

@@ -710,10 +710,26 @@
 	color: #2563eb;
 }
 
-/* New form modal */
+/* New form modal / setup wizard: templates */
+.bookora-modal--wide {
+	width: min(900px, 100%);
+}
+
+.bookora-templates {
+	margin: 0 0 20px;
+	padding: 0;
+	border: 0;
+
+	legend {
+		margin-bottom: 8px;
+		padding: 0;
+		font-weight: 600;
+	}
+}
+
 .bookora-type-picker {
 	display: grid;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
 	gap: 12px;
 
 	&__option {
@@ -746,8 +762,10 @@
 			background: #eff4ff;
 		}
 
-		&:focus-visible {
+		&:focus-visible,
+		&:focus-within {
 			outline: 2px solid #2563eb;
+			outline-offset: 2px;
 		}
 	}
 }

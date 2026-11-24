@@ -1929,6 +1929,199 @@ msgid_plural "%d busy times"
 msgstr[0] ""
 msgstr[1] ""
 
+msgid "Mon"
+msgstr ""
+
+msgid "Tue"
+msgstr ""
+
+msgid "Wed"
+msgstr ""
+
+msgid "Thu"
+msgstr ""
+
+msgid "Fri"
+msgstr ""
+
+msgid "Sat"
+msgstr ""
+
+msgid "Sun"
+msgstr ""
+
+msgid "Your business"
+msgstr ""
+
+msgid "Opening hours"
+msgstr ""
+
+msgid "First service"
+msgstr ""
+
+msgid "Done"
+msgstr ""
+
+msgid "Welcome to Bookora"
+msgstr ""
+
+msgid "Five short steps and your first booking form is online. Everything can be changed later."
+msgstr ""
+
+msgid "Email for new bookings"
+msgstr ""
+
+msgid "Shown to customers who can no longer cancel online at short notice."
+msgstr ""
+
+msgid "New bookings are"
+msgstr ""
+
+msgid "Requests – I confirm each one"
+msgstr ""
+
+msgid "Confirmed immediately"
+msgstr ""
+
+msgid "Your site uses a UTC offset instead of a city as time zone. Please choose your city (e.g. Berlin) so that appointments stay correct when the clocks change."
+msgstr ""
+
+msgid "Open time zone settings"
+msgstr ""
+
+msgid "When are you open?"
+msgstr ""
+
+msgid "Opening days"
+msgstr ""
+
+msgid "From"
+msgstr ""
+
+msgid "To"
+msgstr ""
+
+msgid "Lunch break"
+msgstr ""
+
+msgid "Break from"
+msgstr ""
+
+msgid "Break until"
+msgstr ""
+
+msgid "Different hours per day, holidays and vacation: Bookora → Opening Hours."
+msgstr ""
+
+msgid "What can customers book?"
+msgstr ""
+
+msgid "e.g. Classic massage"
+msgstr ""
+
+msgid "Price in € (optional)"
+msgstr ""
+
+msgid "More services, buffers, staff and places for courses: Bookora → Services."
+msgstr ""
+
+msgid "Choose a form"
+msgstr ""
+
+msgid "Create “%s”"
+msgstr ""
+
+msgid "Your form is ready"
+msgstr ""
+
+msgid "Put it on any page of your website:"
+msgstr ""
+
+msgid "Block editor:"
+msgstr ""
+
+msgid "add the block “Bookora” and choose the form."
+msgstr ""
+
+msgid "Other page builders:"
+msgstr ""
+
+msgid "paste this shortcode"
+msgstr ""
+
+msgid "Create a page with this form (draft)"
+msgstr ""
+
+msgid "The page was created as a draft. Check it and publish it when you are ready."
+msgstr ""
+
+msgid "Preview"
+msgstr ""
+
+msgid "Edit page"
+msgstr ""
+
+msgid "Recommended next steps"
+msgstr ""
+
+msgid "Check the emails and send yourself a test email"
+msgstr ""
+
+msgid "Put your appointments on your phone"
+msgstr ""
+
+msgid "Cancellation deadline and optional cancellation fee"
+msgstr ""
+
+msgid "Adjust the form"
+msgstr ""
+
+msgid "Go to the overview"
+msgstr ""
+
+msgid "Skip setup"
+msgstr ""
+
+msgid "Next appointments"
+msgstr ""
+
+msgid "No upcoming appointments."
+msgstr ""
+
+msgid "All bookings"
+msgstr ""
+
+msgid "Run the setup wizard again"
+msgstr ""
+
+msgid "Help & guide"
+msgstr ""
+
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "appointment today"
+msgid_plural "appointments today"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "open request"
+msgid_plural "open requests"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "new entry"
+msgid_plural "new entries"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "open fee"
+msgid_plural "open fees"
+msgstr[0] ""
+msgstr[1] ""
+
 msgid "To your customers"
 msgstr ""
 
@@ -2110,31 +2303,16 @@ msgid_plural "%d selected"
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "Booking form"
+msgid "With appointment booking"
 msgstr ""
 
-msgid "Customers choose a service, date and time. Booked times are blocked automatically."
-msgstr ""
-
-msgid "Standard form"
-msgstr ""
-
-msgid "Contact form, request, survey, application – any form without a calendar."
-msgstr ""
-
-msgid "Contact form"
+msgid "Without appointment"
 msgstr ""
 
 msgid "New form"
 msgstr ""
 
-msgid "e.g. Book an appointment"
-msgstr ""
-
-msgid "e.g. Contact"
-msgstr ""
-
-msgid "We start you with the most common fields – you can change everything in the next step."
+msgid "The template is only a start – you can change, add or remove every field in the next step."
 msgstr ""
 
 msgid "Create form"
@@ -2147,6 +2325,12 @@ msgid "No forms yet. Create your first form in under a minute."
 msgstr ""
 
 msgid "Create your first form"
+msgstr ""
+
+msgid "Booking form"
+msgstr ""
+
+msgid "Standard form"
 msgstr ""
 
 msgid "Copy shortcode"
@@ -2181,12 +2365,6 @@ msgid "This staff member uses the general opening hours. Change and save the hou
 msgstr ""
 
 msgid "Closed"
-msgstr ""
-
-msgid "From"
-msgstr ""
-
-msgid "To"
 msgstr ""
 
 msgid "Remove time range"
@@ -2513,9 +2691,6 @@ msgstr ""
 msgid "Booking forms use the start times defined per service."
 msgstr ""
 
-msgid "New bookings are"
-msgstr ""
-
 msgid "Pending – confirm with one click"
 msgstr ""
 
@@ -2649,6 +2824,201 @@ msgid "Drag appointments to move them (15-minute steps)."
 msgstr ""
 
 msgid "Move appointment?"
+msgstr ""
+
+msgid "No"
+msgstr ""
+
+msgid "Simple booking"
+msgstr ""
+
+msgid "Service, date and time, contact details – suits almost every business."
+msgstr ""
+
+msgid "Hair & beauty salon"
+msgstr ""
+
+msgid "With choice of staff member and a question about previous visits."
+msgstr ""
+
+msgid "Treatment"
+msgstr ""
+
+msgid "With whom?"
+msgstr ""
+
+msgid "Have you been with us before?"
+msgstr ""
+
+msgid "Wishes or notes"
+msgstr ""
+
+msgid "Medical practice & therapy"
+msgstr ""
+
+msgid "Two steps, insurance, new patient, upload of a referral, consent for health data."
+msgstr ""
+
+msgid "Reason for the appointment"
+msgstr ""
+
+msgid "Your details"
+msgstr ""
+
+msgid "Date of birth"
+msgstr ""
+
+msgid "Insurance"
+msgstr ""
+
+msgid "Statutory"
+msgstr ""
+
+msgid "Private"
+msgstr ""
+
+msgid "Self-payer"
+msgstr ""
+
+msgid "Are you a new patient?"
+msgstr ""
+
+msgid "Referral or prescription (optional)"
+msgstr ""
+
+msgid "Symptoms or questions (optional)"
+msgstr ""
+
+msgid "I agree that my details, including health information, are processed to arrange and prepare the appointment."
+msgstr ""
+
+msgid "Consulting & coaching"
+msgstr ""
+
+msgid "Company, meeting type (on site, video, phone) and topic."
+msgstr ""
+
+msgid "Topic"
+msgstr ""
+
+msgid "Company"
+msgstr ""
+
+msgid "How would you like to meet?"
+msgstr ""
+
+msgid "On site"
+msgstr ""
+
+msgid "Video call"
+msgstr ""
+
+msgid "What is it about?"
+msgstr ""
+
+msgid "Garage & workshop"
+msgstr ""
+
+msgid "Vehicle, licence plate, mileage and a description of the problem."
+msgstr ""
+
+msgid "Make and model"
+msgstr ""
+
+msgid "Licence plate"
+msgstr ""
+
+msgid "Mileage (km)"
+msgstr ""
+
+msgid "During the repair"
+msgstr ""
+
+msgid "I will wait"
+msgstr ""
+
+msgid "I will leave the vehicle"
+msgstr ""
+
+msgid "Describe the problem"
+msgstr ""
+
+msgid "Course & class"
+msgstr ""
+
+msgid "For services with several places, e.g. yoga, workshops, training."
+msgstr ""
+
+msgid "Course"
+msgstr ""
+
+msgid "Experience"
+msgstr ""
+
+msgid "Beginner"
+msgstr ""
+
+msgid "Anything we should know?"
+msgstr ""
+
+msgid "Contact form"
+msgstr ""
+
+msgid "Name, email, phone and message."
+msgstr ""
+
+msgid "Quote request"
+msgstr ""
+
+msgid "Description, desired date and upload of photos or plans."
+msgstr ""
+
+msgid "Desired date"
+msgstr ""
+
+msgid "What can we do for you?"
+msgstr ""
+
+msgid "Photos or plans (optional)"
+msgstr ""
+
+msgid "Callback request"
+msgstr ""
+
+msgid "Phone number and the best time to call."
+msgstr ""
+
+msgid "Best time to call"
+msgstr ""
+
+msgid "Morning"
+msgstr ""
+
+msgid "Midday"
+msgstr ""
+
+msgid "Afternoon"
+msgstr ""
+
+msgid "Feedback"
+msgstr ""
+
+msgid "Rating, recommendation and comments."
+msgstr ""
+
+msgid "How satisfied were you?"
+msgstr ""
+
+msgid "Would you recommend us?"
+msgstr ""
+
+msgid "Maybe"
+msgstr ""
+
+msgid "Comments"
+msgstr ""
+
+msgid "Email (optional, if you would like an answer)"
 msgstr ""
 
 msgid "Month"

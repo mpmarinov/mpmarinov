@@ -191,6 +191,11 @@ final class AdminMenu {
 				'currency'      => (string) apply_filters( 'bookora_currency', 'EUR' ),
 				'resourceLimit' => (int) apply_filters( 'bookora_resource_limit', \Bookora\Repository\ResourceRepository::FREE_LIMIT ),
 				'adminUrl'      => admin_url( 'admin.php' ),
+				'siteName'      => get_bloginfo( 'name' ),
+				'adminEmail'    => (string) get_option( 'admin_email' ),
+				'canEditPages'  => current_user_can( 'edit_pages' ),
+				'timezoneSet'   => '' !== (string) get_option( 'timezone_string' ),
+				'generalUrl'    => admin_url( 'options-general.php' ),
 				'locale'        => str_replace( '_', '-', get_user_locale() ),
 				'exportUrl'     => wp_nonce_url( admin_url( 'admin-post.php?action=' . Export::ACTION ), Export::ACTION ),
 			)

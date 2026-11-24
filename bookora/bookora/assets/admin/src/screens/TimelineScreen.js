@@ -453,7 +453,14 @@ export default function TimelineScreen() {
 					className={ `bookora-tl bookora-tl--${ view }` }
 					ref={ trackRef }
 				>
-					<div className="bookora-tl__scroll">
+					{ /* Focusable so keyboard users can scroll the wide timeline, also on days without appointments. */ }
+					{ /* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */ }
+					<div
+						className="bookora-tl__scroll"
+						tabIndex={ 0 }
+						role="region"
+						aria-label={ __( 'Timeline', 'bookora' ) }
+					>
 						<div
 							className="bookora-tl__inner"
 							style={ { '--tl-width': `${ width }px` } }
