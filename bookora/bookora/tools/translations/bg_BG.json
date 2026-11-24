@@ -1081,5 +1081,19 @@
 "Please upload at most %d file(s).": "Моля, качете най-много %d файл(а).",
 "Uploading %s": "Качване на %s",
 "Remove %s": "Премахни %s",
-"Sign by hand instead": "Подпишете се на ръка"
+"Sign by hand instead": "Подпишете се на ръка",
+"After the number": "След числото",
+"Before the number": "Преди числото",
+"Calculation": "Изчисление",
+"Decimal places": "Знаци след десетичната запетая",
+"Formula": "Формула",
+"Insert a value:": "Вмъкване на стойност:",
+"Service duration (min)": "Продължителност на услугата (мин)",
+"Service price": "Цена на услугата",
+"The formula cannot be calculated. Check brackets and operators.": "Формулата не може да бъде изчислена. Проверете скобите и операторите.",
+"The number next to each option is used in calculations (e.g. the price of an extra).": "Числото до всяка опция се използва в изчисленията (напр. цената на допълнителна услуга).",
+"Total": "Общо",
+"Unknown field: %s": "Непознато поле: %s",
+"Use + - * / ( ), numbers and the fields below, e.g. {persons} * {service_price}. Functions: round(x, 2), min(a, b), max(a, b), ceil(x), floor(x).": "Използвайте + - * / ( ), числа и полетата по-долу, напр. {persons} * {service_price}. Функции: round(x, 2), min(a, b), max(a, b), ceil(x), floor(x).",
+"Value for calculations": "Стойност за изчисления"
 }

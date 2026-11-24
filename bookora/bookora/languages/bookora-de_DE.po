@@ -1244,6 +1244,36 @@ msgstr "JavaScript für dieses Formular"
 msgid "Runs when the form is ready. Example: bookora.on( \"slot\", ( slot ) => { … } ); – see the developer documentation."
 msgstr "Läuft, sobald das Formular bereit ist. Beispiel: bookora.on( \"slot\", ( slot ) => { … } ); – siehe Entwickler-Dokumentation."
 
+msgid "Service price"
+msgstr "Preis der Leistung"
+
+msgid "Service duration (min)"
+msgstr "Dauer der Leistung (Min.)"
+
+msgid "Formula"
+msgstr "Formel"
+
+msgid "Use + - * / ( ), numbers and the fields below, e.g. {persons} * {service_price}. Functions: round(x, 2), min(a, b), max(a, b), ceil(x), floor(x)."
+msgstr "Verwenden Sie + - * / ( ), Zahlen und die Felder unten, z. B. {persons} * {service_price}. Funktionen: round(x, 2), min(a, b), max(a, b), ceil(x), floor(x)."
+
+msgid "Unknown field: %s"
+msgstr "Unbekanntes Feld: %s"
+
+msgid "The formula cannot be calculated. Check brackets and operators."
+msgstr "Die Formel kann nicht berechnet werden. Bitte Klammern und Rechenzeichen prüfen."
+
+msgid "Insert a value:"
+msgstr "Wert einfügen:"
+
+msgid "Decimal places"
+msgstr "Nachkommastellen"
+
+msgid "Before the number"
+msgstr "Vor der Zahl"
+
+msgid "After the number"
+msgstr "Nach der Zahl"
+
 msgid "is"
 msgstr "ist"
 
@@ -1270,6 +1300,9 @@ msgstr "ist kleiner als"
 
 msgid "Option label"
 msgstr "Beschriftung der Option"
+
+msgid "Value for calculations"
+msgstr "Wert für Berechnungen"
 
 msgid "Move up"
 msgstr "Nach oben"
@@ -1363,6 +1396,9 @@ msgstr "Pflichtfeld"
 
 msgid "Options"
 msgstr "Optionen"
+
+msgid "The number next to each option is used in calculations (e.g. the price of an extra)."
+msgstr "Die Zahl neben jeder Option wird in Berechnungen verwendet (z. B. der Preis eines Extras)."
 
 msgid "Format"
 msgstr "Format"
@@ -1561,6 +1597,12 @@ msgstr "Datei hochladen"
 
 msgid "Signature"
 msgstr "Unterschrift"
+
+msgid "Calculation"
+msgstr "Berechnung"
+
+msgid "Total"
+msgstr "Gesamt"
 
 msgid "Hidden field"
 msgstr "Verstecktes Feld"

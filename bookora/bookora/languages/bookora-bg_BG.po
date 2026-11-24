@@ -1244,6 +1244,36 @@ msgstr "JavaScript за този формуляр"
 msgid "Runs when the form is ready. Example: bookora.on( \"slot\", ( slot ) => { … } ); – see the developer documentation."
 msgstr "Изпълнява се, когато формулярът е готов. Пример: bookora.on( \"slot\", ( slot ) => { … } ); – вижте документацията за разработчици."
 
+msgid "Service price"
+msgstr "Цена на услугата"
+
+msgid "Service duration (min)"
+msgstr "Продължителност на услугата (мин)"
+
+msgid "Formula"
+msgstr "Формула"
+
+msgid "Use + - * / ( ), numbers and the fields below, e.g. {persons} * {service_price}. Functions: round(x, 2), min(a, b), max(a, b), ceil(x), floor(x)."
+msgstr "Използвайте + - * / ( ), числа и полетата по-долу, напр. {persons} * {service_price}. Функции: round(x, 2), min(a, b), max(a, b), ceil(x), floor(x)."
+
+msgid "Unknown field: %s"
+msgstr "Непознато поле: %s"
+
+msgid "The formula cannot be calculated. Check brackets and operators."
+msgstr "Формулата не може да бъде изчислена. Проверете скобите и операторите."
+
+msgid "Insert a value:"
+msgstr "Вмъкване на стойност:"
+
+msgid "Decimal places"
+msgstr "Знаци след десетичната запетая"
+
+msgid "Before the number"
+msgstr "Преди числото"
+
+msgid "After the number"
+msgstr "След числото"
+
 msgid "is"
 msgstr "е"
 
@@ -1270,6 +1300,9 @@ msgstr "е по-малко от"
 
 msgid "Option label"
 msgstr "Етикет на опцията"
+
+msgid "Value for calculations"
+msgstr "Стойност за изчисления"
 
 msgid "Move up"
 msgstr "Премести нагоре"
@@ -1363,6 +1396,9 @@ msgstr "Задължително"
 
 msgid "Options"
 msgstr "Опции"
+
+msgid "The number next to each option is used in calculations (e.g. the price of an extra)."
+msgstr "Числото до всяка опция се използва в изчисленията (напр. цената на допълнителна услуга)."
 
 msgid "Format"
 msgstr "Формат"
@@ -1561,6 +1597,12 @@ msgstr "Качи файл"
 
 msgid "Signature"
 msgstr "Подпис"
+
+msgid "Calculation"
+msgstr "Изчисление"
+
+msgid "Total"
+msgstr "Общо"
 
 msgid "Hidden field"
 msgstr "Скрито поле"

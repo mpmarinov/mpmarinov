@@ -5,6 +5,7 @@ import { __ } from '@wordpress/i18n';
 import { AppointmentPicker, DatePicker } from './pickers';
 import apiUrl from './api';
 import { FileUpload, SignaturePad } from './uploads';
+import { evaluate, format, round } from './formula';
 import './style.scss';
 
 /**
@@ -482,6 +483,79 @@ class BookoraForm {
 						input.disabled = ! show;
 					} );
 			} );
+		this.calculate( values );
+	}
+
+	/**
+	 * Live result of calculated fields (the server computes the stored value again).
+	 *
+	 * @param {Object} values Serialized form values.
+	 */
+	calculate( values ) {
+		const calcs = this.config.fields.filter(
+			( f ) => f.type === 'calculation'
+		);
+		if ( ! calcs.length ) {
+			return;
+		}
+		const vars = {};
+		const service = this.config.services?.[ this.serviceId() ];
+		if ( service ) {
+			vars.service_price = service[ 0 ];
+			vars.service_duration = service[ 1 ];
+		}
+		this.config.fields.forEach( ( def ) => {
+			if ( ! def.key || def.type === 'calculation' ) {
+				return;
+			}
+			if ( this.visible?.[ def.key ] === false ) {
+				return;
+			}
+			const raw = values[ def.key ];
+			if ( def.numbers ) {
+				vars[ def.key ] = (
+					Array.isArray( raw ) ? raw : [ raw ]
+				).reduce(
+					( sum, v ) => sum + ( Number( def.numbers[ v ] ) || 0 ),
+					0
+				);
+			} else if ( def.type === 'consent' ) {
+				vars[ def.key ] = raw ? 1 : 0;
+			} else {
+				vars[ def.key ] = Number( raw ) || 0;
+			}
+		} );
+		calcs.forEach( ( def ) => {
+			const value = round(
+				evaluate( def.formula, vars ),
+				Math.max( 0, Math.min( 4, def.decimals ?? 2 ) )
+			);
+			vars[ def.key ] = value;
+			const field = this.form.querySelector(
+				`.bookora__field[data-key="${ def.key }"]`
+			);
+			const output = field?.querySelector( '.bookora-calc' );
+			const text = format( def, value, this.config );
+			if ( output && output.textContent !== text ) {
+				output.textContent = text;
+			}
+			const hidden = field?.querySelector( 'input[type="hidden"]' );
+			if ( hidden ) {
+				hidden.value = String( value );
+			}
+		} );
+	}
+
+	/** Currently selected service id (service field or the form's only service). */
+	serviceId() {
+		const select = this.form.querySelector( '[data-role="service"]' );
+		if ( select?.tagName === 'SELECT' ) {
+			return select.value;
+		}
+		const checked = this.form.querySelector(
+			'[data-role="service"] input:checked, input[data-role="service"]:checked'
+		);
+		return checked ? checked.value : this.config.service;
 	}
 
 	validateField( field ) {

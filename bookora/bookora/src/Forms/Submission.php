@@ -114,12 +114,19 @@ final class Submission {
 		$clean  = array();
 		$errors = array();
 		$attach = array();
+		// Keys of visible calculated fields.
+		$calculated = array();
 
 		foreach ( $fields as $field ) {
 			if ( empty( $field['key'] ) || ! self::is_visible( $field, $values, $fields ) ) {
 				continue;
 			}
 			if ( in_array( $field['type'], array( 'service', 'resource', 'appointment' ), true ) ) {
+				continue;
+			}
+			if ( 'calculation' === $field['type'] ) {
+				// Never trust the browser: computed below from the other values.
+				$calculated[ $field['key'] ] = true;
 				continue;
 			}
 			if ( in_array( $field['type'], array( 'file', 'signature' ), true ) ) {
@@ -147,6 +154,21 @@ final class Submission {
 		$booking_input = null;
 		if ( 'booking' === $form['type'] ) {
 			$booking_input = $this->booking_input( $form, $values, $errors );
+		}
+
+		if ( $calculated ) {
+			$extra   = array();
+			$service = $booking_input ? $this->services->find( (int) $booking_input['service_id'] ) : null;
+			if ( $service ) {
+				$extra['service_price']    = (float) $service['price'];
+				$extra['service_duration'] = (float) $service['duration'];
+				$extra['seats']            = (float) ( $booking_input['seats'] ?? 1 );
+			}
+			$by_key  = array_column( $fields, null, 'key' );
+			$results = Formula::compute( $fields, $clean + $calculated, $extra );
+			foreach ( $results as $key => $number ) {
+				$clean[ $key ] = Formula::format( $by_key[ $key ], $number );
+			}
 		}
 
 		/**

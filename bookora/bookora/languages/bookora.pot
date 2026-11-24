@@ -1242,6 +1242,36 @@ msgstr ""
 msgid "Runs when the form is ready. Example: bookora.on( \"slot\", ( slot ) => { … } ); – see the developer documentation."
 msgstr ""
 
+msgid "Service price"
+msgstr ""
+
+msgid "Service duration (min)"
+msgstr ""
+
+msgid "Formula"
+msgstr ""
+
+msgid "Use + - * / ( ), numbers and the fields below, e.g. {persons} * {service_price}. Functions: round(x, 2), min(a, b), max(a, b), ceil(x), floor(x)."
+msgstr ""
+
+msgid "Unknown field: %s"
+msgstr ""
+
+msgid "The formula cannot be calculated. Check brackets and operators."
+msgstr ""
+
+msgid "Insert a value:"
+msgstr ""
+
+msgid "Decimal places"
+msgstr ""
+
+msgid "Before the number"
+msgstr ""
+
+msgid "After the number"
+msgstr ""
+
 msgid "is"
 msgstr ""
 
@@ -1267,6 +1297,9 @@ msgid "is less than"
 msgstr ""
 
 msgid "Option label"
+msgstr ""
+
+msgid "Value for calculations"
 msgstr ""
 
 msgid "Move up"
@@ -1360,6 +1393,9 @@ msgid "Required"
 msgstr ""
 
 msgid "Options"
+msgstr ""
+
+msgid "The number next to each option is used in calculations (e.g. the price of an extra)."
 msgstr ""
 
 msgid "Format"
@@ -1558,6 +1594,12 @@ msgid "Upload file"
 msgstr ""
 
 msgid "Signature"
+msgstr ""
+
+msgid "Calculation"
+msgstr ""
+
+msgid "Total"
 msgstr ""
 
 msgid "Hidden field"

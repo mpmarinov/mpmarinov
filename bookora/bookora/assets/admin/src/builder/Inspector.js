@@ -14,6 +14,121 @@ import {
 
 import { FIELD_TYPES, INPUT_TYPES } from './fieldTypes';
 import { config } from '../api';
+import { isValid } from '../../../frontend/src/formula';
+
+// Field types that give a number to formulas.
+const NUMERIC = [
+	'number',
+	'range',
+	'rating',
+	'select',
+	'radio',
+	'checkboxes',
+	'consent',
+	'calculation',
+];
+
+function FormulaEditor( { field, fields, formType, onChange } ) {
+	const own = fields.indexOf( field );
+	const vars = fields
+		.filter(
+			( f, i ) =>
+				f.key &&
+				NUMERIC.includes( f.type ) &&
+				( f.type !== 'calculation' || i < own )
+		)
+		.map( ( f ) => ( { key: f.key, label: f.label || f.key } ) );
+	if ( formType === 'booking' ) {
+		vars.unshift(
+			{ key: 'service_price', label: __( 'Service price', 'bookora' ) },
+			{
+				key: 'service_duration',
+				label: __( 'Service duration (min)', 'bookora' ),
+			}
+		);
+	}
+	const formula = field.formula || '';
+	const unknown = ( formula.match( /\{([a-z0-9_]+)\}/g ) || [] )
+		.map( ( v ) => v.slice( 1, -1 ) )
+		.filter( ( k ) => ! vars.some( ( v ) => v.key === k ) );
+	const valid = formula.trim() === '' || isValid( formula );
+	const insert = ( key ) =>
+		onChange( { ...field, formula: `${ formula }{${ key }}` } );
+
+	return (
+		<>
+			<TextareaControl
+				__nextHasNoMarginBottom
+				label={ __( 'Formula', 'bookora' ) }
+				help={ __(
+					'Use + - * / ( ), numbers and the fields below, e.g. {persons} * {service_price}. Functions: round(x, 2), min(a, b), max(a, b), ceil(x), floor(x).',
+					'bookora'
+				) }
+				value={ formula }
+				onChange={ ( v ) => onChange( { ...field, formula: v } ) }
+				rows={ 3 }
+			/>
+			{ unknown.length > 0 && (
+				<p className="bookora-inspector__warning" role="alert">
+					{ sprintf(
+						/* translators: %s: list of names. */
+						__( 'Unknown field: %s', 'bookora' ),
+						unknown.join( ', ' )
+					) }
+				</p>
+			) }
+			{ ! valid && (
+				<p className="bookora-inspector__warning" role="alert">
+					{ __(
+						'The formula cannot be calculated. Check brackets and operators.',
+						'bookora'
+					) }
+				</p>
+			) }
+			<p className="bookora-muted">
+				{ __( 'Insert a value:', 'bookora' ) }
+			</p>
+			<div className="bookora-formula__vars">
+				{ vars.map( ( v ) => (
+					<Button
+						key={ v.key }
+						variant="secondary"
+						size="small"
+						onClick={ () => insert( v.key ) }
+					>
+						{ v.label }
+					</Button>
+				) ) }
+			</div>
+			<SelectControl
+				__nextHasNoMarginBottom
+				label={ __( 'Decimal places', 'bookora' ) }
+				value={ String( field.decimals ?? 2 ) }
+				options={ [ 0, 1, 2, 3, 4 ].map( ( n ) => ( {
+					value: String( n ),
+					label: String( n ),
+				} ) ) }
+				onChange={ ( v ) =>
+					onChange( { ...field, decimals: Number( v ) } )
+				}
+			/>
+			<div className="bookora-inspector__row">
+				<TextControl
+					__nextHasNoMarginBottom
+					label={ __( 'Before the number', 'bookora' ) }
+					value={ field.prefix || '' }
+					onChange={ ( v ) => onChange( { ...field, prefix: v } ) }
+				/>
+				<TextControl
+					__nextHasNoMarginBottom
+					label={ __( 'After the number', 'bookora' ) }
+					value={ field.suffix || '' }
+					onChange={ ( v ) => onChange( { ...field, suffix: v } ) }
+				/>
+			</div>
+		</>
+	);
+}
 
 const OPERATORS = [
 	{ value: 'is', label: __( 'is', 'bookora' ) },
@@ -35,7 +150,7 @@ const slug = ( text ) =>
 		.replace( /^_|_$/g, '' )
 		.slice( 0, 50 );
 
-function OptionsEditor( { options = [], onChange } ) {
+function OptionsEditor( { options = [], onChange, showNumbers = false } ) {
 	const update = ( index, patch ) =>
 		onChange(
 			options.map( ( o, i ) => ( i === index ? { ...o, ...patch } : o ) )
@@ -71,6 +186,18 @@ function OptionsEditor( { options = [], onChange } ) {
 							} )
 						}
 					/>
+					{ showNumbers && (
+						<TextControl
+							__nextHasNoMarginBottom
+							hideLabelFromVision
+							className="bookora-options__number"
+							label={ __( 'Value for calculations', 'bookora' ) }
+							placeholder="0"
+							inputMode="decimal"
+							value={ option.price ?? '' }
+							onChange={ ( price ) => update( index, { price } ) }
+						/>
+					) }
 					<Button
 						icon="arrow-up-alt2"
 						size="small"
@@ -304,7 +431,13 @@ function LogicEditor( { field, fields, onChange } ) {
 	);
 }
 
-export default function Inspector( { field, fields, services, onChange } ) {
+export default function Inspector( {
+	field,
+	fields,
+	services,
+	formType,
+	onChange,
+} ) {
 	const type = FIELD_TYPES[ field.type ];
 	const isInput = INPUT_TYPES.includes( field.type );
 	const set = ( key ) => ( value ) =>
@@ -395,6 +528,7 @@ export default function Inspector( { field, fields, services, onChange } ) {
 						'radio',
 						'file',
 						'signature',
+						'calculation',
 					].includes( field.type ) && (
 						<TextControl
 							__nextHasNoMarginBottom
@@ -413,14 +547,15 @@ export default function Inspector( { field, fields, services, onChange } ) {
 					/>
 				) }
 
-				{ isInput && field.type !== 'hidden' && (
-					<ToggleControl
-						__nextHasNoMarginBottom
-						label={ __( 'Required', 'bookora' ) }
-						checked={ !! field.required }
-						onChange={ set( 'required' ) }
-					/>
-				) }
+				{ isInput &&
+					! [ 'hidden', 'calculation' ].includes( field.type ) && (
+						<ToggleControl
+							__nextHasNoMarginBottom
+							label={ __( 'Required', 'bookora' ) }
+							checked={ !! field.required }
+							onChange={ set( 'required' ) }
+						/>
+					) }
 
 				{ [ 'select', 'radio', 'checkboxes' ].includes(
 					field.type
@@ -430,8 +565,28 @@ export default function Inspector( { field, fields, services, onChange } ) {
 						<OptionsEditor
 							options={ field.options }
 							onChange={ set( 'options' ) }
+							showNumbers={ fields.some(
+								( f ) => f.type === 'calculation'
+							) }
 						/>
+						{ fields.some( ( f ) => f.type === 'calculation' ) && (
+							<p className="bookora-muted">
+								{ __(
+									'The number next to each option is used in calculations (e.g. the price of an extra).',
+									'bookora'
+								) }
+							</p>
+						) }
 					</fieldset>
+				) }
+
+				{ field.type === 'calculation' && (
+					<FormulaEditor
+						field={ field }
+						fields={ fields }
+						formType={ formType }
+						onChange={ onChange }
+					/>
 				) }
 
 				{ field.type === 'name' && (

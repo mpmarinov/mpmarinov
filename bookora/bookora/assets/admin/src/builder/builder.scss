@@ -826,3 +826,34 @@
 		}
 	}
 }
+
+/* Calculated fields */
+.bookora-formula__vars {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin-bottom: 12px;
+}
+
+.bookora-inspector__warning {
+	margin: 4px 0 8px;
+	color: #b32d2e;
+}
+
+.bookora-inspector__row {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
+}
+
+.bookora-options__number {
+	width: 72px;
+	flex: none;
+}
+
+.bookora-pv__calc {
+	display: inline-block;
+	padding: 6px 0;
+	font-size: 18px;
+	font-weight: 600;
+}

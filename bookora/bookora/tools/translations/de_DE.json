@@ -1086,5 +1086,19 @@
 "Open the camera app on the phone and point it at the code.": "Kamera-App auf dem Handy öffnen und auf den Code richten.",
 "Tap the link that appears. iPhones open the calendar directly, Android phones show buttons for Google Calendar and Outlook.": "Auf den eingeblendeten Link tippen. iPhones öffnen direkt den Kalender, Android-Handys zeigen Knöpfe für Google Kalender und Outlook.",
 "Confirm the subscription – done. New, moved and cancelled appointments appear automatically.": "Abo bestätigen – fertig. Neue, verschobene und abgesagte Termine erscheinen automatisch.",
-"The code contains the private address of this calendar. Only show it to the person it belongs to. If in doubt: “Reset address”.": "Der Code enthält die private Adresse dieses Kalenders. Zeigen Sie ihn nur der Person, der er gehört. Im Zweifel: „Adresse zurücksetzen“."
+"The code contains the private address of this calendar. Only show it to the person it belongs to. If in doubt: “Reset address”.": "Der Code enthält die private Adresse dieses Kalenders. Zeigen Sie ihn nur der Person, der er gehört. Im Zweifel: „Adresse zurücksetzen“.",
+"After the number": "Nach der Zahl",
+"Before the number": "Vor der Zahl",
+"Calculation": "Berechnung",
+"Decimal places": "Nachkommastellen",
+"Formula": "Formel",
+"Insert a value:": "Wert einfügen:",
+"Service duration (min)": "Dauer der Leistung (Min.)",
+"Service price": "Preis der Leistung",
+"The formula cannot be calculated. Check brackets and operators.": "Die Formel kann nicht berechnet werden. Bitte Klammern und Rechenzeichen prüfen.",
+"The number next to each option is used in calculations (e.g. the price of an extra).": "Die Zahl neben jeder Option wird in Berechnungen verwendet (z. B. der Preis eines Extras).",
+"Total": "Gesamt",
+"Unknown field: %s": "Unbekanntes Feld: %s",
+"Use + - * / ( ), numbers and the fields below, e.g. {persons} * {service_price}. Functions: round(x, 2), min(a, b), max(a, b), ceil(x), floor(x).": "Verwenden Sie + - * / ( ), Zahlen und die Felder unten, z. B. {persons} * {service_price}. Funktionen: round(x, 2), min(a, b), max(a, b), ceil(x), floor(x).",
+"Value for calculations": "Wert für Berechnungen"
 }

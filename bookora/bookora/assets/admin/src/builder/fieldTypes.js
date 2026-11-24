@@ -196,6 +196,17 @@ export const FIELD_TYPES = {
 		label: __( 'Signature', 'bookora' ),
 		defaults: () => ( { label: __( 'Signature', 'bookora' ) } ),
 	},
+	calculation: {
+		group: 'advanced',
+		icon: 'calculator',
+		label: __( 'Calculation', 'bookora' ),
+		defaults: () => ( {
+			label: __( 'Total', 'bookora' ),
+			formula: '',
+			decimals: 2,
+			suffix: '€',
+		} ),
+	},
 	hidden: {
 		group: 'advanced',
 		icon: 'hidden',

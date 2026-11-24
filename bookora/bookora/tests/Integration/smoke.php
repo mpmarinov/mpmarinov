@@ -1193,6 +1193,36 @@ remove_filter( 'bookora_allow_local_upload', '__return_true' );
 array_map( 'wp_delete_file', glob( $tmpdir . '/*' ) ?: array() );
 @rmdir( $tmpdir );
 
+echo "Calculated fields\n";
+wp_set_current_user( 1 );
+$calc_form = api(
+	'POST',
+	'/forms',
+	array(
+		'title'  => 'Angebot',
+		'status' => 'published',
+		'fields' => array(
+			array( 'type' => 'email', 'key' => 'email', 'label' => 'E-Mail', 'required' => true ),
+			array( 'type' => 'number', 'key' => 'personen', 'label' => 'Personen' ),
+			array( 'type' => 'checkboxes', 'key' => 'extras', 'label' => 'Extras', 'options' => array( array( 'label' => 'Getränke', 'value' => 'drinks', 'price' => '4,50' ), array( 'label' => 'Snacks', 'value' => 'snacks', 'price' => 6 ), array( 'label' => 'Gratis', 'value' => 'free' ) ) ),
+			array( 'type' => 'calculation', 'key' => 'netto', 'label' => 'Netto', 'formula' => '{personen} * (20 + {extras})', 'decimals' => 2, 'suffix' => '€' ),
+			array( 'type' => 'calculation', 'key' => 'brutto', 'label' => 'Brutto', 'formula' => 'round({netto} * 1.19, 2)', 'decimals' => 2, 'suffix' => '€' ),
+			array( 'type' => 'calculation', 'key' => 'kaputt', 'label' => 'Kaputt', 'formula' => 'system("ls")' ),
+		),
+	)
+)->get_data();
+$by_key = array_column( (array) $calc_form['fields'], null, 'key' );
+check( '{personen} * (20 + {extras})' === $by_key['netto']['formula'] && '' === $by_key['kaputt']['formula'], 'formulas are stored, invalid ones are emptied', $by_key['kaputt'] );
+check( 4.5 === $by_key['extras']['options'][0]['price'] && ! isset( $by_key['extras']['options'][2]['price'] ), 'option values for calculations are stored (comma decimal accepted)', $by_key['extras']['options'] );
+wp_set_current_user( 0 );
+$calc_res = api( 'POST', '/public/forms/' . $calc_form['id'] . '/submit', array( '_bk_t' => $old_token( 10, (int) $calc_form['id'] ), 'fields' => array( 'email' => 'calc@example.com', 'personen' => '3', 'extras' => array( 'drinks', 'snacks' ), 'netto' => '0.01', 'brutto' => '1' ) ) );
+wp_set_current_user( 1 );
+$calc_entry = $calc_res->get_status() < 300 ? \Bookora\Core\Plugin::instance()->container()->get( \Bookora\Repository\EntryRepository::class )->entry( (int) $wpdb->get_var( $wpdb->prepare( "SELECT MAX(id) FROM {$wpdb->prefix}bookora_entries WHERE form_id = %d", $calc_form['id'] ) ) ) : null;
+$calc_vals  = $calc_entry ? array_column( (array) $calc_entry['values'], 'value', 'key' ) : array();
+check( isset( $calc_vals['netto'], $calc_vals['brutto'] ) && preg_match( '/^91[.,]50 €$/', (string) $calc_vals['netto'] ) && preg_match( '/^108[.,]89 €$/', (string) $calc_vals['brutto'] ), 'server recomputes the totals and ignores the values sent by the browser', array( $calc_res->get_data(), $calc_vals ) );
+$calc_html = do_shortcode( '[bookora id="' . $calc_form['id'] . '"]' );
+check( str_contains( $calc_html, 'class="bookora-calc"' ) && str_contains( $calc_html, '&quot;numbers&quot;' ) && ! str_contains( $calc_html, 'system(' ), 'form shows the result field and passes option values to the browser' );
+
 echo "Customer time zone\n";
 $tz_start = ( new DateTimeImmutable( '2026-11-25 09:00', wp_timezone() ) )->getTimestamp();
 $tz_note  = \Bookora\Notifications\Mailer::local_time( 'America/New_York', $tz_start, $tz_start + 2700 );

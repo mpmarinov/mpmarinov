@@ -276,6 +276,17 @@ export default function FieldPreview( { field } ) {
 					</span>
 				</>
 			);
+		case 'calculation':
+			return (
+				<>
+					<Label field={ field } />
+					<span className="bookora-pv__calc">
+						{ [ field.prefix, '0,00', field.suffix ]
+							.filter( Boolean )
+							.join( ' ' ) }
+					</span>
+				</>
+			);
 		case 'hidden':
 			return (
 				<span className="bookora-pv__hidden">

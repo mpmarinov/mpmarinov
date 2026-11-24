@@ -108,6 +108,10 @@ final class FieldRegistry {
 				'group' => 'advanced',
 				'input' => true,
 			),
+			'calculation' => array(
+				'group' => 'advanced',
+				'input' => true,
+			),
 			// Layout.
 			'heading'     => array(
 				'group'  => 'layout',
@@ -295,6 +299,13 @@ final class FieldRegistry {
 				return array( 'level' => in_array( (int) ( $raw['level'] ?? 3 ), array( 2, 3, 4 ), true ) ? (int) $raw['level'] : 3 );
 			case 'paragraph':
 				return array( 'content' => wp_kses( (string) ( $raw['content'] ?? '' ), self::inline_html() + array( 'p' => array() ) ) );
+			case 'calculation':
+				return array(
+					'formula'  => Formula::sanitize( $raw['formula'] ?? '' ),
+					'decimals' => max( 0, min( 4, (int) ( $raw['decimals'] ?? 2 ) ) ),
+					'prefix'   => mb_substr( sanitize_text_field( (string) ( $raw['prefix'] ?? '' ) ), 0, 20 ),
+					'suffix'   => mb_substr( sanitize_text_field( (string) ( $raw['suffix'] ?? '' ) ), 0, 20 ),
+				);
 			case 'step':
 				return array( 'title' => mb_substr( sanitize_text_field( (string) ( $raw['title'] ?? '' ) ), 0, 100 ) );
 			case 'resource':
@@ -319,10 +330,16 @@ final class FieldRegistry {
 			$value = is_array( $option ) && isset( $option['value'] ) && '' !== $option['value'] ? (string) $option['value'] : $label;
 			$value = mb_substr( sanitize_text_field( $value ), 0, 255 );
 			if ( '' !== $label ) {
-				$out[] = array(
+				$item = array(
 					'label' => $label,
 					'value' => $value,
 				);
+				// Optional number for calculated fields (e.g. price of an extra).
+				$price = is_array( $option ) ? str_replace( ',', '.', (string) ( $option['price'] ?? '' ) ) : '';
+				if ( is_numeric( $price ) ) {
+					$item['price'] = round( (float) $price, 4 );
+				}
+				$out[] = $item;
 			}
 		}
 		return $out;

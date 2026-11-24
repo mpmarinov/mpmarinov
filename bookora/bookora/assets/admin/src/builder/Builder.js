@@ -659,6 +659,7 @@ export default function Builder( { formId, onBack } ) {
 									field={ selected }
 									fields={ fields }
 									services={ services }
+									formType={ form.type }
 									onChange={ updateField }
 								/>
 							) : (

@@ -347,9 +347,20 @@ final class Renderer {
 			}
 			$public_fields[] = array_intersect_key(
 				$field,
-				array_flip( array( 'key', 'type', 'required', 'logic', 'workingDaysOnly', 'withTime', 'minDate', 'maxDate', 'allowAny', 'serviceIds', 'label', 'maxFiles' ) )
+				array_flip( array( 'key', 'type', 'required', 'logic', 'workingDaysOnly', 'withTime', 'minDate', 'maxDate', 'allowAny', 'serviceIds', 'label', 'maxFiles', 'formula', 'decimals', 'prefix', 'suffix' ) )
 			);
+			// Numbers of choices for calculated fields: value => price (or numeric value).
+			if ( ! empty( $field['options'] ) ) {
+				$numbers = array();
+				foreach ( $field['options'] as $option ) {
+					$numbers[ $option['value'] ] = \Bookora\Forms\Formula::field_number( array( 'type' => 'radio' ) + $field, $option['value'] );
+				}
+				if ( array_filter( $numbers ) ) {
+					$public_fields[ count( $public_fields ) - 1 ]['numbers'] = (object) $numbers;
+				}
+			}
 		}
+		$numbers_of_services = array();
 
 		$resources       = array();
 		$default_service = 0;
@@ -364,8 +375,9 @@ final class Renderer {
 		if ( 'booking' === $form['type'] ) {
 			$active = array_column( $this->resources->all( array( 'status' => 'active' ) ), 'name', 'id' );
 			foreach ( $this->services->all( array( 'status' => 'active' ) ) as $service ) {
-				$default_service             = $default_service ? $default_service : (int) $service['id'];
-				$resources[ $service['id'] ] = array();
+				$numbers_of_services[ (int) $service['id'] ] = array( (float) $service['price'], (int) $service['duration'] );
+				$default_service                             = $default_service ? $default_service : (int) $service['id'];
+				$resources[ $service['id'] ]                 = array();
 				foreach ( $this->services->resource_ids( (int) $service['id'] ) as $rid ) {
 					if ( isset( $active[ $rid ] ) ) {
 						$resources[ $service['id'] ][] = array(
@@ -391,6 +403,9 @@ final class Renderer {
 			'locale'     => str_replace( '_', '-', determine_locale() ),
 			'timezone'   => wp_timezone_string(),
 			'tzMode'     => (string) $site['customer_timezone'],
+			'services'   => (object) $numbers_of_services,
+			'decimal'    => (string) ( $GLOBALS['wp_locale']->number_format['decimal_point'] ?? '.' ),
+			'thousands'  => (string) ( $GLOBALS['wp_locale']->number_format['thousands_sep'] ?? ',' ),
 		);
 
 		/**
@@ -695,6 +710,17 @@ final class Renderer {
 
 			case 'hidden':
 				printf( '<input type="hidden" name="%s" value="%s">', esc_attr( $name ), esc_attr( self::dynamic_value( $value ) ) );
+				break;
+
+			case 'calculation':
+				// Shown live in the browser; the server computes the stored value again.
+				printf(
+					'<output class="bookora-calc" id="%1$s" for="" aria-live="polite"%2$s>%3$s</output><input type="hidden" name="%4$s" value="0">',
+					esc_attr( $id ),
+					$help ? ' aria-describedby="' . esc_attr( $id . '-help' ) . '"' : '',
+					esc_html( \Bookora\Forms\Formula::format( $field, 0.0 ) ),
+					esc_attr( $name )
+				);
 				break;
 
 			default:

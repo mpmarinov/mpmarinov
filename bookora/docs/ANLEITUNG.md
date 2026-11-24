@@ -75,6 +75,10 @@ Für jede Behandlung bzw. Dienstleistung:
 
 Für reine Anfragen ohne Termin gibt es das **Kontaktformular** – die Einträge landen unter **Bookora → Einträge**.
 
+### Berechnete Felder (z. B. Gesamtpreis)
+
+Feld **Berechnung** einfügen und eine Formel eintragen, z. B. `{personen} * {service_price}` oder `round({netto} * 1.19, 2)`. Die Knöpfe unter der Formel fügen Felder ein. Bei Auswahlfeldern (Liste, Optionsfelder, Kontrollkästchen) steht neben jeder Option eine Zahl, die in die Berechnung eingeht, etwa der Preis eines Extras. Der Kunde sieht das Ergebnis sofort. Gespeichert wird immer der Wert, den der Server selbst berechnet – ein manipulierter Browser kann den Preis nicht ändern.
+
 ## 7. Buchungen bearbeiten
 
 ### Bookora → Buchungen

@@ -991,3 +991,11 @@
 		}
 	}
 }
+
+/* Calculated field (e.g. total price) */
+.bookora-calc {
+	display: block;
+	font-size: 1.4em;
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+}
