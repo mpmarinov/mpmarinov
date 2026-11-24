@@ -42,6 +42,13 @@ Google: [Terms](https://policies.google.com/terms), [Privacy](https://policies.g
 
 **Subscribing with Google Calendar or Outlook.** The buttons "Google Calendar" and "Outlook" open calendar.google.com or outlook.live.com in your browser and pass your private Bookora calendar address, so that the service can subscribe to it. The service then downloads your appointments from your website regularly (including customer names and contact details, unless you switch this off in Calendar Sync). This only happens when you click one of these buttons. Links: see Google and Microsoft above.
 
+== Third-party libraries ==
+
+* [qrcode-generator](https://github.com/kazuhikoarase/qrcode-generator) by Kazuhiko Arase (MIT) – QR codes for the calendar subscription, generated in the browser
+* [dnd-kit](https://github.com/clauderic/dnd-kit) by Claudéric Demers (MIT) – drag & drop in the form builder
+
+License texts: THIRD-PARTY-LICENSES.txt. The source code of the admin app is in assets/admin/src (built with @wordpress/scripts).
+
 == Installation ==
 
 1. Upload the plugin to `/wp-content/plugins/bookora` or install it via Plugins → Add New.
@@ -56,7 +63,7 @@ No. Unlimited forms, services and bookings are included for free.
 
 = How do appointments get onto my phone? =
 
-Open Bookora → Calendar Sync and tap "Send link to phone". Open the email on your phone and tap the button – iPhone, Android (Google Calendar) and Outlook subscribe to your Bookora calendar. New, moved and cancelled appointments appear automatically. Google refreshes subscribed calendars every few hours, Apple and Outlook usually more often.
+Open Bookora → Calendar Sync and scan the QR code with your phone's camera, or tap "Send link to phone". Open the email on your phone and tap the button – iPhone, Android (Google Calendar) and Outlook subscribe to your Bookora calendar. New, moved and cancelled appointments appear automatically. Google refreshes subscribed calendars every few hours, Apple and Outlook usually more often.
 
 = Can my private appointments block booking times? =
 

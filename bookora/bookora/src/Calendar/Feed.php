@@ -85,22 +85,24 @@ final class Feed {
 	 * Feed addresses of a scope.
 	 *
 	 * @param string $scope Scope.
-	 * @return array{https:string, webcal:string, google:string, outlook:string}
+	 * @return array{https:string, webcal:string, google:string, outlook:string, subscribe:string}
 	 */
 	public function urls( string $scope ): array {
 		$https  = add_query_arg( self::QUERY_VAR, $this->token( $scope ), home_url( '/' ) );
 		$webcal = (string) preg_replace( '#^https?://#', 'webcal://', $https );
 		return array(
-			'https'   => $https,
-			'webcal'  => $webcal,
-			'google'  => 'https://calendar.google.com/calendar/r?cid=' . rawurlencode( $webcal ),
-			'outlook' => add_query_arg(
+			'https'     => $https,
+			'webcal'    => $webcal,
+			'google'    => 'https://calendar.google.com/calendar/r?cid=' . rawurlencode( $webcal ),
+			'outlook'   => add_query_arg(
 				array(
 					'url'  => rawurlencode( $https ),
 					'name' => rawurlencode( $this->calendar_name( $scope ) ),
 				),
 				'https://outlook.live.com/calendar/0/addfromweb'
 			),
+			// Page that picks the right calendar app on the phone (used for the QR code).
+			'subscribe' => $this->subscribe_url( $scope ),
 		);
 	}
 

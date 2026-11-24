@@ -536,6 +536,7 @@ check( 400 === api( 'POST', '/calendars/feeds/all/send', array( 'email' => 'nope
 check( 200 === api( 'POST', '/calendars/feeds/all/send', array( 'email' => 'owner@example.com' ) )->get_status(), 'link can be sent to any address' );
 $reset = api( 'POST', '/calendars/feeds/all/reset' )->get_data();
 check( $reset['https'] !== $all_url && (bool) preg_match( '/[a-f0-9]{40}$/', $reset['https'] ), 'feed address can be reset' );
+check( str_contains( (string) ( $reset['subscribe'] ?? '' ), 'subscribe=1' ) && str_contains( (string) $reset['subscribe'], substr( $reset['https'], -40 ) ), 'feed URLs include the device-independent subscribe link (QR code)', $reset );
 check( 404 === api( 'POST', '/calendars/feeds/r999999/reset' )->get_status(), 'reset of unknown staff feed is rejected' );
 check( 404 === api( 'POST', '/calendars/feeds/evil/reset' )->get_status(), 'invalid feed scope is rejected' );
 

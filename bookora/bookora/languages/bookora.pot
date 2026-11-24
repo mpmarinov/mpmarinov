@@ -1784,6 +1784,9 @@ msgstr ""
 msgid "Send link to phone"
 msgstr ""
 
+msgid "QR code"
+msgstr ""
+
 msgid "Apple Calendar"
 msgstr ""
 
@@ -1797,6 +1800,24 @@ msgid "Reset address"
 msgstr ""
 
 msgid "The current address stops working immediately. Everyone who subscribed must subscribe again with the new link."
+msgstr ""
+
+msgid "Scan with the phone: %s"
+msgstr ""
+
+msgid "QR code for subscribing to the calendar %s"
+msgstr ""
+
+msgid "Open the camera app on the phone and point it at the code."
+msgstr ""
+
+msgid "Tap the link that appears. iPhones open the calendar directly, Android phones show buttons for Google Calendar and Outlook."
+msgstr ""
+
+msgid "Confirm the subscription – done. New, moved and cancelled appointments appear automatically."
+msgstr ""
+
+msgid "The code contains the private address of this calendar. Only show it to the person it belongs to. If in doubt: “Reset address”."
 msgstr ""
 
 msgid "Open the email on the phone and tap the button – the calendar app starts the subscription."

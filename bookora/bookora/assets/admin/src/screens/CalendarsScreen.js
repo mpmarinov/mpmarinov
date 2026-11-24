@@ -19,6 +19,7 @@ import {
 
 import { config, del, errorMessage, get, post, put } from '../api';
 import ConfirmButton from '../components/ConfirmButton';
+import QrCode from '../components/QrCode';
 
 const STATUS = {
 	active: [ 'success', __( 'Active', 'bookora' ) ],
@@ -64,6 +65,7 @@ function copy( text ) {
 function FeedCard( { feed, onReset, onNotice } ) {
 	const [ copied, setCopied ] = useState( false );
 	const [ sendOpen, setSendOpen ] = useState( false );
+	const [ qrOpen, setQrOpen ] = useState( false );
 	const [ email, setEmail ] = useState( feed.email || '' );
 	const [ busy, setBusy ] = useState( false );
 
@@ -103,6 +105,13 @@ function FeedCard( { feed, onReset, onNotice } ) {
 					onClick={ () => setSendOpen( true ) }
 				>
 					{ __( 'Send link to phone', 'bookora' ) }
+				</Button>
+				<Button
+					variant="secondary"
+					icon="camera"
+					onClick={ () => setQrOpen( true ) }
+				>
+					{ __( 'QR code', 'bookora' ) }
 				</Button>
 				<Button variant="secondary" href={ feed.urls.webcal }>
 					{ __( 'Apple Calendar', 'bookora' ) }
@@ -146,6 +155,58 @@ function FeedCard( { feed, onReset, onNotice } ) {
 					onConfirm={ () => onReset( feed.scope ) }
 				/>
 			</div>
+
+			{ qrOpen && (
+				<Modal
+					title={ sprintf(
+						/* translators: %s: calendar name, e.g. "Laura". */
+						__( 'Scan with the phone: %s', 'bookora' ),
+						feed.label
+					) }
+					onRequestClose={ () => setQrOpen( false ) }
+					size="medium"
+				>
+					<div className="bookora-qr-box">
+						<QrCode
+							value={ feed.urls.subscribe || feed.urls.https }
+							label={ sprintf(
+								/* translators: %s: calendar name. */
+								__(
+									'QR code for subscribing to the calendar %s',
+									'bookora'
+								),
+								feed.label
+							) }
+						/>
+						<ol>
+							<li>
+								{ __(
+									'Open the camera app on the phone and point it at the code.',
+									'bookora'
+								) }
+							</li>
+							<li>
+								{ __(
+									'Tap the link that appears. iPhones open the calendar directly, Android phones show buttons for Google Calendar and Outlook.',
+									'bookora'
+								) }
+							</li>
+							<li>
+								{ __(
+									'Confirm the subscription – done. New, moved and cancelled appointments appear automatically.',
+									'bookora'
+								) }
+							</li>
+						</ol>
+					</div>
+					<p className="bookora-muted">
+						{ __(
+							'The code contains the private address of this calendar. Only show it to the person it belongs to. If in doubt: “Reset address”.',
+							'bookora'
+						) }
+					</p>
+				</Modal>
+			) }
 
 			{ sendOpen && (
 				<Modal

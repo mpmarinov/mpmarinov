@@ -1786,6 +1786,9 @@ msgstr "Link an %s gesendet."
 msgid "Send link to phone"
 msgstr "Link aufs Handy senden"
 
+msgid "QR code"
+msgstr "QR-Code"
+
 msgid "Apple Calendar"
 msgstr "Apple Kalender"
 
@@ -1800,6 +1803,24 @@ msgstr "Adresse zurücksetzen"
 
 msgid "The current address stops working immediately. Everyone who subscribed must subscribe again with the new link."
 msgstr "Die aktuelle Adresse funktioniert sofort nicht mehr. Alle, die den Kalender abonniert haben, müssen ihn mit dem neuen Link neu abonnieren."
+
+msgid "Scan with the phone: %s"
+msgstr "Mit dem Handy scannen: %s"
+
+msgid "QR code for subscribing to the calendar %s"
+msgstr "QR-Code zum Abonnieren des Kalenders %s"
+
+msgid "Open the camera app on the phone and point it at the code."
+msgstr "Kamera-App auf dem Handy öffnen und auf den Code richten."
+
+msgid "Tap the link that appears. iPhones open the calendar directly, Android phones show buttons for Google Calendar and Outlook."
+msgstr "Auf den eingeblendeten Link tippen. iPhones öffnen direkt den Kalender, Android-Handys zeigen Knöpfe für Google Kalender und Outlook."
+
+msgid "Confirm the subscription – done. New, moved and cancelled appointments appear automatically."
+msgstr "Abo bestätigen – fertig. Neue, verschobene und abgesagte Termine erscheinen automatisch."
+
+msgid "The code contains the private address of this calendar. Only show it to the person it belongs to. If in doubt: “Reset address”."
+msgstr "Der Code enthält die private Adresse dieses Kalenders. Zeigen Sie ihn nur der Person, der er gehört. Im Zweifel: „Adresse zurücksetzen“."
 
 msgid "Open the email on the phone and tap the button – the calendar app starts the subscription."
 msgstr "Öffnen Sie die E-Mail auf dem Handy und tippen Sie auf den Button – die Kalender-App startet das Abo."

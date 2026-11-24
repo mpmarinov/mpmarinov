@@ -230,7 +230,7 @@ Statt Merchant of Record (Freemius/Paddle/Lemon Squeezy) Verkauf im bestehenden 
 | Punkt | Stand | Einplanung |
 |---|---|---|
 | Kunden-Selbstservice (Umbuchen/Stornieren per Link) | ✅ umgesetzt: Platzhalter `{manage_button}` / `{manage_link}` | – |
-| QR-Code auf der Kalender-Abo-Seite (Bibliothek qrcode-generator, MIT, kostenlos) | wartet auf Freigabe | Phase 10 |
+| QR-Code auf der Kalender-Abo-Seite (Bibliothek qrcode-generator, MIT, kostenlos) | ✅ 24.11.2026 (freigegeben): im Browser als SVG erzeugt, enthält den geräteunabhängigen Abo-Link; Lizenz in THIRD-PARTY-LICENSES.txt | – |
 | Datei-Upload & Unterschrift | ✅ umgesetzt (siehe 10b.6) | – |
 | Kunden-Zeitzone (Slots in eigener Zeit anzeigen) | ✅ 24.11.2026: Umschalter Ortszeit Betrieb / eigene Zeit (nur bei abweichender Zeitzone), Standard einstellbar, Kundenmail mit `{local_time}` | – |
 | Berechnete Felder (z. B. Gesamtpreis) | fehlt | Phase 11 |

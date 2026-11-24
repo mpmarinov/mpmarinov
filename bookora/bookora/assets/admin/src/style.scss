@@ -1602,3 +1602,26 @@
 		}
 	}
 }
+
+/* QR code for calendar subscription */
+.bookora-qr-box {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+	align-items: flex-start;
+
+	ol {
+		flex: 1 1 220px;
+		margin: 0 0 0 1.2em;
+	}
+
+	li {
+		margin-bottom: 8px;
+	}
+}
+
+.bookora-qr {
+	flex: none;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+}

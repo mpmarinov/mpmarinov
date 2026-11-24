@@ -1079,5 +1079,12 @@
 "Show times in": "Zeiten anzeigen in",
 "local time of the business (%s)": "Ortszeit des Betriebs (%s)",
 "my time (%s)": "meiner Zeit (%s)",
-"(%1$s in %2$s)": "(%1$s in %2$s)"
+"(%1$s in %2$s)": "(%1$s in %2$s)",
+"QR code": "QR-Code",
+"Scan with the phone: %s": "Mit dem Handy scannen: %s",
+"QR code for subscribing to the calendar %s": "QR-Code zum Abonnieren des Kalenders %s",
+"Open the camera app on the phone and point it at the code.": "Kamera-App auf dem Handy öffnen und auf den Code richten.",
+"Tap the link that appears. iPhones open the calendar directly, Android phones show buttons for Google Calendar and Outlook.": "Auf den eingeblendeten Link tippen. iPhones öffnen direkt den Kalender, Android-Handys zeigen Knöpfe für Google Kalender und Outlook.",
+"Confirm the subscription – done. New, moved and cancelled appointments appear automatically.": "Abo bestätigen – fertig. Neue, verschobene und abgesagte Termine erscheinen automatisch.",
+"The code contains the private address of this calendar. Only show it to the person it belongs to. If in doubt: “Reset address”.": "Der Code enthält die private Adresse dieses Kalenders. Zeigen Sie ihn nur der Person, der er gehört. Im Zweifel: „Adresse zurücksetzen“."
 }
