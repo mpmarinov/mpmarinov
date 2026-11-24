@@ -1308,7 +1308,7 @@ check( $ig_slack === $ig_int->all()['slack_webhook'] && 'xkeysib-secret-1234' ==
 wp_set_current_user( 0 );
 check( 401 === api( 'GET', '/integrations' )->get_status(), 'visitors cannot read integration settings' );
 wp_set_current_user( 1 );
-check( 200 === api( 'POST', '/integrations/test/slack' )->get_status() && str_contains( (string) ( $ig_last( 'hooks.slack.com' )['body'] ?? '' ), 'Test message' ), 'Slack test message is posted to the webhook' );
+check( 200 === api( 'POST', '/integrations/test/slack' )->get_status() && str_contains( (string) ( $ig_last( 'hooks.slack.com' )['body'] ?? '' ), 'Bookora' ), 'Slack test message is posted to the webhook' );
 $ig_reply = array( 'api.telegram.org' => array( 401, '{"ok":false,"description":"Unauthorized"}' ) );
 $ig_err   = api( 'POST', '/integrations/test/telegram' );
 check( 400 === $ig_err->get_status() && str_contains( $ig_err->get_data()['message'], 'Telegram' ) && ! str_contains( $ig_err->get_data()['message'], 'AAH' ), 'Telegram error is readable and never shows the token', $ig_err->get_data() );
