@@ -1,0 +1,3387 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Kalendora\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Kalendora requires PHP %1$s or higher. Your server runs PHP %2$s."
+msgstr "Kalendora benötigt PHP %1$s oder höher. Ihr Server verwendet PHP %2$s."
+
+msgid "Dashboard"
+msgstr "Übersicht"
+
+msgid "Timeline"
+msgstr "Zeitstrahl"
+
+msgid "Bookings"
+msgstr "Buchungen"
+
+msgid "Entries"
+msgstr "Einträge"
+
+msgid "Forms"
+msgstr "Formulare"
+
+msgid "Services"
+msgstr "Leistungen"
+
+msgid "Staff & Resources"
+msgstr "Mitarbeiter & Ressourcen"
+
+msgid "Opening Hours"
+msgstr "Öffnungszeiten"
+
+msgid "Emails"
+msgstr "E-Mails"
+
+msgid "Calendar Sync"
+msgstr "Kalender-Sync"
+
+msgid "Integrations"
+msgstr "Anbindungen"
+
+msgid "Settings"
+msgstr "Einstellungen"
+
+msgid "Kalendora"
+msgstr "Kalendora"
+
+msgid "Loading…"
+msgstr "Wird geladen …"
+
+msgid "You are not allowed to export entries."
+msgstr "Sie dürfen keine Einträge exportieren."
+
+msgid "Not found."
+msgstr "Nicht gefunden."
+
+msgid "This service is not available."
+msgstr "Diese Leistung ist nicht verfügbar."
+
+msgid "The selected staff member or resource is not available for this service."
+msgstr "Der gewählte Mitarbeiter bzw. die gewählte Ressource ist für diese Leistung nicht verfügbar."
+
+msgid "No staff member or resource is available for this service."
+msgstr "Für diese Leistung ist kein Mitarbeiter und keine Ressource verfügbar."
+
+msgid "Invalid date range."
+msgstr "Ungültiger Zeitraum."
+
+msgid "The requested date range is too long."
+msgstr "Der angefragte Zeitraum ist zu lang."
+
+msgid "Please enter a valid email address."
+msgstr "Bitte geben Sie eine gültige E-Mail-Adresse ein."
+
+msgid "Sorry, this time has just been booked. Please choose another time."
+msgstr "Diese Zeit wurde gerade gebucht. Bitte wählen Sie eine andere Zeit."
+
+msgid "Only pending or confirmed appointments can be moved."
+msgstr "Nur offene oder bestätigte Termine können verschoben werden."
+
+msgid "This staff member does not offer the service."
+msgstr "Diese Mitarbeiterin bzw. dieser Mitarbeiter bietet die Leistung nicht an."
+
+msgid "Please try again in a moment."
+msgstr "Bitte versuchen Sie es gleich noch einmal."
+
+msgid "This time overlaps with another appointment (including breaks)."
+msgstr "Diese Zeit überschneidet sich mit einem anderen Termin (inkl. Pausen)."
+
+msgid "This appointment can no longer be changed."
+msgstr "Dieser Termin kann nicht mehr geändert werden."
+
+msgid "Sorry, this time is no longer available. Please choose another time."
+msgstr "Diese Zeit ist leider nicht mehr frei. Bitte wählen Sie eine andere Zeit."
+
+msgid "The booking could not be saved. Please try again."
+msgstr "Die Buchung konnte nicht gespeichert werden. Bitte versuchen Sie es erneut."
+
+msgid "For later cancellations or if you do not attend, we charge a fee of %s."
+msgstr "Bei späterer Absage oder Nichterscheinen berechnen wir eine Ausfallgebühr von %s."
+
+msgid "For later cancellations we charge a fee of %s."
+msgstr "Bei späterer Absage berechnen wir eine Ausfallgebühr von %s."
+
+msgid "%1$s %% of the price (%2$s)"
+msgstr "%1$s %% vom Preis (%2$s)"
+
+msgid "%s %% of the price"
+msgstr "%s %% vom Preis"
+
+msgid "Free cancellation up to %d hour before the appointment."
+msgid_plural "Free cancellation up to %d hours before the appointment."
+msgstr[0] "Kostenlose Absage bis %d Stunde vor dem Termin."
+msgstr[1] "Kostenlose Absage bis %d Stunden vor dem Termin."
+
+msgid "Link not valid"
+msgstr "Link ungültig"
+
+msgid "This link is not valid. Please use the link from your most recent email."
+msgstr "Dieser Link ist ungültig. Bitte verwenden Sie den Link aus Ihrer letzten E-Mail."
+
+msgid "Appointment not found"
+msgstr "Termin nicht gefunden"
+
+msgid "This appointment no longer exists."
+msgstr "Diesen Termin gibt es nicht mehr."
+
+msgid "Please try again"
+msgstr "Bitte erneut versuchen"
+
+msgid "The page has expired. Please open the link from the email again."
+msgstr "Die Seite ist abgelaufen. Bitte öffnen Sie den Link aus der E-Mail erneut."
+
+msgid "Your appointment"
+msgstr "Ihr Termin"
+
+msgid "Move appointment"
+msgstr "Termin verschieben"
+
+msgid "Withdraw request"
+msgstr "Anfrage zurückziehen"
+
+msgid "Cancel appointment"
+msgstr "Termin stornieren"
+
+msgid "Online changes were possible until %s. For short-notice changes please contact us directly."
+msgstr "Online-Änderungen waren bis %s möglich. Für kurzfristige Änderungen wenden Sie sich bitte direkt an uns."
+
+msgid "To change this appointment, please contact us directly."
+msgstr "Um diesen Termin zu ändern, wenden Sie sich bitte direkt an uns."
+
+msgid "The free cancellation period ended on %1$s. If you cancel now, a fee of %2$s applies."
+msgstr "Die kostenlose Absagefrist ist am %1$s Uhr abgelaufen. Wenn Sie jetzt absagen, fällt eine Ausfallgebühr von %2$s an."
+
+msgid "A cancellation fee of %s applies."
+msgstr "Es fällt eine Ausfallgebühr von %s an."
+
+msgid "The free cancellation period has ended."
+msgstr "Die kostenlose Absagefrist ist abgelaufen."
+
+msgid "Cancel with fee (%s)"
+msgstr "Kostenpflichtig absagen (%s)"
+
+msgid "Reason (optional)"
+msgstr "Grund (optional)"
+
+msgid "Keep appointment"
+msgstr "Termin behalten"
+
+msgid "Withdraw request?"
+msgstr "Anfrage zurückziehen?"
+
+msgid "Cancel appointment?"
+msgstr "Termin absagen?"
+
+msgid "Current appointment: %1$s, %2$s"
+msgstr "Aktueller Termin: %1$s, %2$s Uhr"
+
+msgid "Unfortunately there are no free times in the coming weeks. Please contact us directly."
+msgstr "Leider gibt es in den nächsten Wochen keine freien Zeiten. Bitte wenden Sie sich direkt an uns."
+
+msgid "Choose a day"
+msgstr "Tag wählen"
+
+msgid "Free times on %s"
+msgstr "Freie Zeiten am %s"
+
+msgid "Tap a time to move your appointment. You will receive a confirmation by email."
+msgstr "Tippen Sie auf eine Uhrzeit, um Ihren Termin zu verschieben. Sie erhalten eine Bestätigung per E-Mail."
+
+msgid "Not possible"
+msgstr "Nicht möglich"
+
+msgid "This appointment can no longer be cancelled online. Please contact us directly."
+msgstr "Dieser Termin kann nicht mehr online abgesagt werden. Bitte wenden Sie sich direkt an uns."
+
+msgid "Reason given by the customer:"
+msgstr "Absagegrund des Kunden:"
+
+msgid "Your appointment has been cancelled. A cancellation fee of %s has been recorded."
+msgstr "Ihr Termin wurde abgesagt. Eine Ausfallgebühr von %s wurde erfasst."
+
+msgid "Your appointment has been cancelled. You will receive a confirmation by email."
+msgstr "Ihr Termin wurde abgesagt. Sie erhalten eine Bestätigung per E-Mail."
+
+msgid "Appointment cancelled"
+msgstr "Termin abgesagt"
+
+msgid "This appointment can no longer be moved online. Please contact us directly."
+msgstr "Dieser Termin kann nicht mehr online verschoben werden. Bitte wenden Sie sich direkt an uns."
+
+msgid "Choose another time"
+msgstr "Andere Zeit wählen"
+
+msgid "Appointment moved"
+msgstr "Termin verschoben"
+
+msgid "Your appointment has been moved. You will receive a confirmation with the new calendar file by email."
+msgstr "Ihr Termin wurde verschoben. Sie erhalten eine Bestätigung mit der neuen Kalenderdatei per E-Mail."
+
+msgid "Requested – not yet confirmed"
+msgstr "Angefragt – noch nicht bestätigt"
+
+msgid "Confirmed"
+msgstr "Bestätigt"
+
+msgid "Cancelled"
+msgstr "Storniert"
+
+msgid "Rejected"
+msgstr "Abgelehnt"
+
+msgid "Completed"
+msgstr "Erledigt"
+
+msgid "Not attended"
+msgstr "Nicht erschienen"
+
+msgid "Service"
+msgstr "Leistung"
+
+msgid "Date"
+msgstr "Datum"
+
+msgid "Time"
+msgstr "Uhrzeit"
+
+msgid "Staff member"
+msgstr "Mitarbeiter"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Cancellation fee"
+msgstr "Ausfallgebühr"
+
+msgid "This appointment has been cancelled."
+msgstr "Dieser Termin wurde abgesagt."
+
+msgid "Unfortunately this request could not be accepted."
+msgstr "Diese Anfrage konnte leider nicht angenommen werden."
+
+msgid "This appointment is in the past and can no longer be changed."
+msgstr "Dieser Termin liegt in der Vergangenheit und kann nicht mehr geändert werden."
+
+msgid "Phone:"
+msgstr "Telefon:"
+
+msgid "Email:"
+msgstr "E-Mail:"
+
+msgid "Back to the appointment"
+msgstr "Zurück zum Termin"
+
+msgid "Back to the website"
+msgstr "Zurück zur Webseite"
+
+msgid "Hello,"
+msgstr "Hallo,"
+
+msgid "with this link you can subscribe to the calendar \"%s\" on your phone or computer. New, moved and cancelled appointments then appear automatically."
+msgstr "mit diesem Link abonnieren Sie den Kalender „%s“ auf Ihrem Handy oder Computer. Neue, verschobene und abgesagte Termine erscheinen dann automatisch."
+
+msgid "Subscribe to calendar"
+msgstr "Kalender abonnieren"
+
+msgid "Open this email on the device where the calendar should appear. Keep the link private – anyone who has it can see the appointments."
+msgstr "Öffnen Sie diese E-Mail auf dem Gerät, auf dem der Kalender erscheinen soll. Geben Sie den Link nicht weiter – wer ihn hat, sieht die Termine."
+
+msgid "Your calendar subscription: %s"
+msgstr "Ihr Kalender-Abo: %s"
+
+msgid "Choose your calendar app. New appointments will then appear automatically."
+msgstr "Wählen Sie Ihre Kalender-App. Neue Termine erscheinen dann automatisch."
+
+msgid "iPhone, iPad, Mac (Apple Calendar)"
+msgstr "iPhone, iPad, Mac (Apple Kalender)"
+
+msgid "Android / Google Calendar"
+msgstr "Android / Google Kalender"
+
+msgid "Outlook"
+msgstr "Outlook"
+
+msgid "Other calendar apps: subscribe to this address"
+msgstr "Andere Kalender-Apps: diese Adresse abonnieren"
+
+msgid "Google updates subscribed calendars every few hours, Apple and Outlook usually more often."
+msgstr "Google aktualisiert abonnierte Kalender alle paar Stunden, Apple und Outlook meist häufiger."
+
+msgid "[Unconfirmed] %s"
+msgstr "[Unbestätigt] %s"
+
+msgid "Customer"
+msgstr "Kunde"
+
+msgid "Phone"
+msgstr "Telefon"
+
+msgid "Email"
+msgstr "E-Mail"
+
+msgid "Places"
+msgstr "Plätze"
+
+msgid "Notes"
+msgstr "Notizen"
+
+msgid "Please enter a valid, encrypted calendar address (starting with https:// or webcal://)."
+msgstr "Bitte geben Sie eine gültige, verschlüsselte Kalenderadresse ein (beginnt mit https:// oder webcal://)."
+
+msgid "This is a Kalendora feed of this website. Importing it would block your own appointments twice."
+msgstr "Das ist ein Kalendora-Kalender dieser Webseite. Ein Import würde Ihre eigenen Termine doppelt blockieren."
+
+msgid "A synchronization of this calendar is already running. Please try again in a minute."
+msgstr "Dieser Kalender wird gerade schon synchronisiert. Bitte versuchen Sie es in einer Minute erneut."
+
+msgid "The calendar file was incomplete (too large or interrupted). The previous busy times are kept."
+msgstr "Die Kalenderdatei war unvollständig (zu groß oder abgebrochen). Die bisherigen belegten Zeiten bleiben erhalten."
+
+msgid "The address does not return a calendar file. Please copy the private iCal/ICS address of your calendar."
+msgstr "Unter dieser Adresse liegt keine Kalenderdatei. Bitte kopieren Sie die private iCal-/ICS-Adresse Ihres Kalenders."
+
+msgid "The busy times could not be saved (database error). The previous busy times are kept."
+msgstr "Die belegten Zeiten konnten nicht gespeichert werden (Datenbankfehler). Die bisherigen belegten Zeiten bleiben erhalten."
+
+msgid "The calendar address could not be decrypted. Please enter it again."
+msgstr "Die Kalenderadresse konnte nicht entschlüsselt werden. Bitte geben Sie sie erneut ein."
+
+msgid "The calendar could not be loaded: %s"
+msgstr "Der Kalender konnte nicht geladen werden: %s"
+
+msgid "Access denied. Please use the private (secret) iCal address of the calendar."
+msgstr "Zugriff verweigert. Bitte verwenden Sie die private (geheime) iCal-Adresse des Kalenders."
+
+msgid "The calendar no longer exists at this address. Was the address reset?"
+msgstr "Unter dieser Adresse gibt es den Kalender nicht mehr. Wurde die Adresse zurückgesetzt?"
+
+msgid "The calendar server answered with error %d. Kalendora will try again automatically."
+msgstr "Der Kalender-Server hat mit Fehler %d geantwortet. Kalendora versucht es automatisch erneut."
+
+msgid "The file could not be uploaded. Please try again."
+msgstr "Die Datei konnte nicht hochgeladen werden. Bitte versuchen Sie es erneut."
+
+msgid "The file is empty."
+msgstr "Die Datei ist leer."
+
+msgid "Please sign again."
+msgstr "Bitte unterschreiben Sie erneut."
+
+msgid "The file could not be saved. Please try again."
+msgstr "Die Datei konnte nicht gespeichert werden. Bitte versuchen Sie es erneut."
+
+msgid "An uploaded file has expired. Please upload it again."
+msgstr "Eine hochgeladene Datei ist abgelaufen. Bitte laden Sie sie erneut hoch."
+
+msgid "You are not allowed to open this file."
+msgstr "Sie dürfen diese Datei nicht öffnen."
+
+msgid "The file no longer exists."
+msgstr "Die Datei existiert nicht mehr."
+
+msgid "This file type is not allowed. Allowed: %s"
+msgstr "Dieser Dateityp ist nicht erlaubt. Erlaubt: %s"
+
+msgid "The file is too large. Maximum: %s"
+msgstr "Die Datei ist zu groß. Maximal: %s"
+
+msgid "Please upload at most %d file."
+msgid_plural "Please upload at most %d files."
+msgstr[0] "Bitte laden Sie höchstens %d Datei hoch."
+msgstr[1] "Bitte laden Sie höchstens %d Dateien hoch."
+
+msgid "Please check the highlighted fields."
+msgstr "Bitte prüfen Sie die markierten Felder."
+
+msgid "Thank you! Your booking request has been received. You will receive a confirmation by email."
+msgstr "Vielen Dank! Ihre Buchungsanfrage ist eingegangen. Sie erhalten eine Bestätigung per E-Mail."
+
+msgid "Thank you! We have received your message and will get back to you soon."
+msgstr "Vielen Dank! Wir haben Ihre Nachricht erhalten und melden uns in Kürze."
+
+msgid "An email address is required to book an appointment."
+msgstr "Für eine Buchung wird eine E-Mail-Adresse benötigt."
+
+msgid "Your message could not be saved. Please try again."
+msgstr "Ihre Nachricht konnte nicht gespeichert werden. Bitte versuchen Sie es erneut."
+
+msgid "Please upload a file."
+msgstr "Bitte laden Sie eine Datei hoch."
+
+msgid "Please sign."
+msgstr "Bitte unterschreiben Sie."
+
+msgid "Please type your full name."
+msgstr "Bitte geben Sie Ihren vollständigen Namen ein."
+
+msgid "%s (typed signature)"
+msgstr "%s (eingetippte Unterschrift)"
+
+msgid "Signed (image)"
+msgstr "Unterschrieben (Bild)"
+
+msgid "Please choose one of the available days."
+msgstr "Bitte wählen Sie einen der verfügbaren Tage."
+
+msgid "Please choose one of the available times."
+msgstr "Bitte wählen Sie eine der verfügbaren Uhrzeiten."
+
+msgid "This booking form is not configured yet."
+msgstr "Dieses Buchungsformular ist noch nicht eingerichtet."
+
+msgid "Please choose a service."
+msgstr "Bitte wählen Sie eine Leistung."
+
+msgid "Please choose a staff member."
+msgstr "Bitte wählen Sie einen Mitarbeiter."
+
+msgid "Please choose a date and time."
+msgstr "Bitte wählen Sie Datum und Uhrzeit."
+
+msgid "Please accept the cancellation terms."
+msgstr "Bitte akzeptieren Sie die Stornobedingungen."
+
+msgid "This field is required."
+msgstr "Dies ist ein Pflichtfeld."
+
+msgid "Please choose one of the options."
+msgstr "Bitte wählen Sie eine der Optionen."
+
+msgid "Please confirm to continue."
+msgstr "Bitte bestätigen Sie, um fortzufahren."
+
+msgid "Please enter a valid web address."
+msgstr "Bitte geben Sie eine gültige Webadresse ein."
+
+msgid "Please enter a valid phone number."
+msgstr "Bitte geben Sie eine gültige Telefonnummer ein."
+
+msgid "Please enter a number."
+msgstr "Bitte geben Sie eine Zahl ein."
+
+msgid "Please enter a value between %1$s and %2$s."
+msgstr "Bitte geben Sie einen Wert zwischen %1$s und %2$s ein."
+
+msgid "Please enter a value in steps of %s."
+msgstr "Bitte geben Sie einen Wert in Schritten von %s ein."
+
+msgid "Please choose a valid date."
+msgstr "Bitte wählen Sie ein gültiges Datum."
+
+msgid "This date cannot be chosen."
+msgstr "Dieses Datum kann nicht gewählt werden."
+
+msgid "Please enter a valid time."
+msgstr "Bitte geben Sie eine gültige Uhrzeit ein."
+
+msgid "Please use at most %d characters."
+msgstr "Bitte verwenden Sie höchstens %d Zeichen."
+
+msgid "Your submission could not be processed."
+msgstr "Ihre Eingabe konnte nicht verarbeitet werden."
+
+msgid "The form has expired. Please reload the page and try again."
+msgstr "Das Formular ist abgelaufen. Bitte laden Sie die Seite neu und versuchen Sie es erneut."
+
+msgid "That was a bit too fast. Please wait a moment and submit again."
+msgstr "Das ging etwas zu schnell. Bitte warten Sie einen Moment und senden Sie erneut."
+
+msgid "Too many submissions. Please try again in a few minutes."
+msgstr "Zu viele Anfragen. Bitte versuchen Sie es in einigen Minuten erneut."
+
+msgid "You already have several open requests. Please wait for our confirmation or contact us directly."
+msgstr "Sie haben bereits mehrere offene Anfragen. Bitte warten Sie auf unsere Bestätigung oder melden Sie sich direkt bei uns."
+
+msgid "Kalendora: this form does not exist or is not published."
+msgstr "Kalendora: Dieses Formular existiert nicht oder ist nicht veröffentlicht."
+
+msgid "Preview: this form is a draft and only visible to you."
+msgstr "Vorschau: Dieses Formular ist ein Entwurf und nur für Sie sichtbar."
+
+msgid "Step %d"
+msgstr "Schritt %d"
+
+msgid "Leave this field empty"
+msgstr "Dieses Feld leer lassen"
+
+msgid "Back"
+msgstr "Zurück"
+
+msgid "Next"
+msgstr "Weiter"
+
+msgid "Book now"
+msgstr "Jetzt buchen"
+
+msgid "Send"
+msgstr "Senden"
+
+msgid "Please enable JavaScript to use this form."
+msgstr "Bitte aktivieren Sie JavaScript, um dieses Formular zu nutzen."
+
+msgid "I accept the cancellation terms."
+msgstr "Ich akzeptiere die Stornobedingungen."
+
+msgid "— Please choose —"
+msgstr "— Bitte wählen —"
+
+msgid "First name"
+msgstr "Vorname"
+
+msgid "Last name"
+msgstr "Nachname"
+
+msgid "Street and number"
+msgstr "Straße und Hausnummer"
+
+msgid "ZIP"
+msgstr "PLZ"
+
+msgid "City"
+msgstr "Ort"
+
+msgid "Country"
+msgstr "Land"
+
+msgid "Please choose a date and time"
+msgstr "Bitte Datum und Uhrzeit wählen"
+
+msgid "Please choose a date"
+msgstr "Bitte Datum wählen"
+
+msgid "Any available"
+msgstr "Beliebig (erster freier)"
+
+msgid "%1$s · max. %2$s per file"
+msgstr "%1$s · max. %2$s pro Datei"
+
+msgid "up to %d files"
+msgstr "bis zu %d Dateien"
+
+msgid "Choose files or drop them here"
+msgstr "Dateien auswählen oder hierher ziehen"
+
+msgid "Choose a file or drop it here"
+msgstr "Datei auswählen oder hierher ziehen"
+
+msgid "Sign with your mouse, finger or pen."
+msgstr "Unterschreiben Sie mit Maus, Finger oder Stift."
+
+msgid "Clear"
+msgstr "Löschen"
+
+msgid "Type my name instead"
+msgstr "Stattdessen Namen eintippen"
+
+msgid "Your full name as signature"
+msgstr "Ihr vollständiger Name als Unterschrift"
+
+msgid "%d min"
+msgstr "%d Min."
+
+msgid "Please enter a Slack webhook address (starts with https://hooks.slack.com/)."
+msgstr "Bitte eine Slack-Webhook-Adresse eingeben (beginnt mit https://hooks.slack.com/)."
+
+msgid "The Telegram bot token looks wrong. It has the form 123456789:ABC… and is shown by @BotFather."
+msgstr "Das Telegram-Bot-Token sieht falsch aus. Es hat die Form 123456789:ABC… und wird von @BotFather angezeigt."
+
+msgid "The Mailchimp API key looks wrong. It ends with the data center, e.g. …-us21."
+msgstr "Der Mailchimp-API-Schlüssel sieht falsch aus. Er endet mit dem Rechenzentrum, z. B. …-us21."
+
+msgid "Spam protection needs both the site key and the secret key."
+msgstr "Für den Spam-Schutz werden Website-Schlüssel und geheimer Schlüssel benötigt."
+
+msgid "Test message from Kalendora on %s – the connection works."
+msgstr "Testnachricht von Kalendora auf %s – die Verbindung funktioniert."
+
+msgid "Please confirm that you are not a robot."
+msgstr "Bitte bestätigen Sie, dass Sie kein Roboter sind."
+
+msgid "New booking: %1$s – %2$s on %3$s at %4$s"
+msgstr "Neue Buchung: %1$s – %2$s am %3$s um %4$s"
+
+msgid "Cancelled by the customer: %1$s – %2$s on %3$s at %4$s"
+msgstr "Vom Kunden abgesagt: %1$s – %2$s am %3$s um %4$s"
+
+msgid "Moved by the customer: %1$s – %2$s now on %3$s at %4$s"
+msgstr "Vom Kunden verschoben: %1$s – %2$s jetzt am %3$s um %4$s"
+
+msgid "New entry: %s"
+msgstr "Neuer Eintrag: %s"
+
+msgid "Please save a Slack webhook address first."
+msgstr "Bitte zuerst eine Slack-Webhook-Adresse speichern."
+
+msgid "Please save the bot token and the chat ID first."
+msgstr "Bitte zuerst Bot-Token und Chat-ID speichern."
+
+msgid "Mailchimp is not configured."
+msgstr "Mailchimp ist nicht eingerichtet."
+
+msgid "Please save the API key and the audience ID first."
+msgstr "Bitte zuerst API-Schlüssel und Audience-ID speichern."
+
+msgid "Brevo is not configured."
+msgstr "Brevo ist nicht eingerichtet."
+
+msgid "Please save the API key and the list ID first."
+msgstr "Bitte zuerst API-Schlüssel und Listen-ID speichern."
+
+msgid "%s could not be reached. Please try again later."
+msgstr "%s ist nicht erreichbar. Bitte später erneut versuchen."
+
+msgid "%s rejected the access data. Please check the key or token."
+msgstr "%s hat die Zugangsdaten abgelehnt. Bitte Schlüssel oder Token prüfen."
+
+msgid "%s does not know this list, chat or address. Please check the ID."
+msgstr "%s kennt diese Liste, diesen Chat oder diese Adresse nicht. Bitte die ID prüfen."
+
+msgid "%1$s returned an error (%2$d)."
+msgstr "%1$s hat einen Fehler gemeldet (%2$d)."
+
+msgid "Link no longer valid"
+msgstr "Link nicht mehr gültig"
+
+msgid "This link has already been used, has expired or the booking was changed in the meantime. Please open the booking in WordPress."
+msgstr "Dieser Link wurde bereits verwendet, ist abgelaufen oder die Buchung wurde inzwischen geändert. Bitte öffnen Sie die Buchung in WordPress."
+
+msgid "Booking not found"
+msgstr "Buchung nicht gefunden"
+
+msgid "Booking confirmed"
+msgstr "Buchung bestätigt"
+
+msgid "Booking rejected"
+msgstr "Buchung abgelehnt"
+
+msgid "The customer has been informed by email."
+msgstr "Der Kunde wurde per E-Mail informiert."
+
+msgid "The customer has been informed by email. The time is free again."
+msgstr "Der Kunde wurde per E-Mail informiert. Die Zeit ist wieder frei."
+
+msgid "Already processed"
+msgstr "Bereits bearbeitet"
+
+msgid "This booking has already been processed."
+msgstr "Diese Buchung wurde bereits bearbeitet."
+
+msgid "Confirm booking"
+msgstr "Buchung bestätigen"
+
+msgid "Reject booking"
+msgstr "Buchung ablehnen"
+
+msgid "Confirm booking?"
+msgstr "Buchung bestätigen?"
+
+msgid "Reject booking?"
+msgstr "Buchung ablehnen?"
+
+msgid "The customer will be informed automatically by email."
+msgstr "Der Kunde wird automatisch per E-Mail informiert."
+
+msgid "Open bookings in WordPress"
+msgstr "Buchungen in WordPress öffnen"
+
+msgid "(%1$s – %2$s your time, %3$s)"
+msgstr "(%1$s – %2$s Ihre Zeit, %3$s)"
+
+msgid "today"
+msgstr "heute"
+
+msgid "tomorrow"
+msgstr "morgen"
+
+msgid "Attempt %1$d failed, next try in %2$d minutes: %3$s"
+msgstr "Versuch %1$d fehlgeschlagen, nächster Versuch in %2$d Minuten: %3$s"
+
+msgid "wp_mail() returned false. Please check the mail configuration (e.g. an SMTP plugin)."
+msgstr "wp_mail() meldet einen Fehler. Bitte prüfen Sie den E-Mail-Versand (z. B. mit einem SMTP-Plugin)."
+
+msgid "Add to Google Calendar"
+msgstr "Zu Google Kalender hinzufügen"
+
+msgid "Move or cancel appointment"
+msgstr "Termin verschieben oder absagen"
+
+msgid "customer"
+msgstr "Kunde"
+
+msgid "As you did not attend the appointment, we charge a fee of %s according to our cancellation terms."
+msgstr "Da Sie den Termin nicht wahrgenommen haben, berechnen wir gemäß unseren Stornobedingungen eine Ausfallgebühr von %s."
+
+msgid "As the cancellation was made after the free cancellation period, we charge a fee of %s according to our cancellation terms."
+msgstr "Da die Absage nach Ablauf der kostenlosen Frist erfolgt ist, berechnen wir gemäß unseren Stornobedingungen eine Ausfallgebühr von %s."
+
+msgid "Cancellation fee recorded: %s (open)"
+msgstr "Ausfallgebühr erfasst: %s (offen)"
+
+msgid "Sample service"
+msgstr "Beispiel-Leistung"
+
+msgid "Message"
+msgstr "Nachricht"
+
+msgid "This is a sample message."
+msgstr "Das ist eine Beispielnachricht."
+
+msgid "Contact"
+msgstr "Kontakt"
+
+msgid "Sample reason"
+msgstr "Beispielgrund"
+
+msgid "Confirm"
+msgstr "Bestätigen"
+
+msgid "Reject"
+msgstr "Ablehnen"
+
+msgid "You will see the booking details once more before anything is changed."
+msgstr "Sie sehen die Buchungsdetails noch einmal, bevor etwas geändert wird."
+
+msgid "Add to calendar"
+msgstr "Zum Kalender hinzufügen"
+
+msgid "Works with iPhone, Android and Outlook."
+msgstr "Funktioniert mit iPhone, Android und Outlook."
+
+msgid "Google Calendar"
+msgstr "Google Kalender"
+
+msgid "Open in WordPress"
+msgstr "In WordPress öffnen"
+
+msgid "in %d hour"
+msgid_plural "in %d hours"
+msgstr[0] "in %d Stunde"
+msgstr[1] "in %d Stunden"
+
+msgid "in %d day"
+msgid_plural "in %d days"
+msgstr[0] "in %d Tag"
+msgstr[1] "in %d Tagen"
+
+msgid "Booking received"
+msgstr "Buchung eingegangen"
+
+msgid "To the customer right after booking, while the request is still pending."
+msgstr "An den Kunden direkt nach der Buchung, solange die Anfrage noch offen ist."
+
+msgid "To the customer when you confirm the booking. Includes a calendar file."
+msgstr "An den Kunden, wenn Sie die Buchung bestätigen. Mit Kalenderdatei."
+
+msgid "To the customer when you reject the request."
+msgstr "An den Kunden, wenn Sie die Anfrage ablehnen."
+
+msgid "Booking cancelled"
+msgstr "Buchung storniert"
+
+msgid "To the customer when the appointment is cancelled."
+msgstr "An den Kunden, wenn der Termin storniert wird."
+
+msgid "Appointment reminder"
+msgstr "Terminerinnerung"
+
+msgid "To the customer before the appointment (time set in the settings)."
+msgstr "An den Kunden vor dem Termin (Zeitpunkt in den Einstellungen)."
+
+msgid "To the customer when you move the appointment in the timeline. Includes the new calendar file."
+msgstr "An den Kunden, wenn Sie den Termin im Zeitstrahl verschieben. Enthält die neue Kalenderdatei."
+
+msgid "New booking (to you)"
+msgstr "Neue Buchung (an Sie)"
+
+msgid "To you with buttons to confirm or reject with one click."
+msgstr "An Sie, mit Buttons zum Bestätigen oder Ablehnen per Klick."
+
+msgid "Cancelled by the customer (to you)"
+msgstr "Vom Kunden abgesagt (an Sie)"
+
+msgid "To you when a customer cancels online, with reason and fee (if any)."
+msgstr "An Sie, wenn ein Kunde online absagt – mit Grund und ggf. Gebühr."
+
+msgid "Moved by the customer (to you)"
+msgstr "Vom Kunden verschoben (an Sie)"
+
+msgid "To you when a customer moves the appointment online."
+msgstr "An Sie, wenn ein Kunde den Termin online verschiebt."
+
+msgid "Message received (auto-reply)"
+msgstr "Nachricht erhalten (automatische Antwort)"
+
+msgid "To the sender of a contact or request form."
+msgstr "An den Absender eines Kontakt- oder Anfrageformulars."
+
+msgid "New message (to you)"
+msgstr "Neue Nachricht (an Sie)"
+
+msgid "To you when someone submits a contact or request form."
+msgstr "An Sie, wenn jemand ein Kontakt- oder Anfrageformular absendet."
+
+msgid "We have received your booking request"
+msgstr "Wir haben Ihre Buchungsanfrage erhalten"
+
+msgid "Hello {customer_name},\n\nthank you for your request. We have received the following booking:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} {local_time}\n\nWe will check the appointment and confirm it shortly by email.\n\n{manage_button}\n\nKind regards\n{business_name}"
+msgstr "Hallo {customer_name},\n\nvielen Dank für Ihre Anfrage. Wir haben folgende Buchung erhalten:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} Uhr {local_time}\n\nWir prüfen den Termin und bestätigen ihn in Kürze per E-Mail.\n\n{manage_button}\n\nViele Grüße\n{business_name}"
+
+msgid "Your appointment on {date} is confirmed"
+msgstr "Ihr Termin am {date} ist bestätigt"
+
+msgid "Hello {customer_name},\n\nyour appointment is confirmed:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} {local_time}\n{staff}\n\n{calendar_button}\n\nIf you cannot make it, please let us know in good time.\n{manage_button}\n{cancellation_policy}\n\nWe look forward to seeing you!\n{business_name}"
+msgstr "Hallo {customer_name},\n\nIhr Termin ist bestätigt:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} Uhr {local_time}\n{staff}\n\n{calendar_button}\n\nFalls Sie verhindert sind, sagen Sie bitte rechtzeitig Bescheid.\n{manage_button}\n{cancellation_policy}\n\nWir freuen uns auf Sie!\n{business_name}"
+
+msgid "Your booking request for {date}"
+msgstr "Ihre Buchungsanfrage für {date}"
+
+msgid "Hello {customer_name},\n\nunfortunately we cannot offer you the requested appointment ({service}, {date} at {time}).\n\nPlease choose another time on our website: {site_url}\n\nKind regards\n{business_name}"
+msgstr "Hallo {customer_name},\n\nleider können wir Ihnen den gewünschten Termin ({service}, {date} um {time} Uhr) nicht anbieten.\n\nBitte wählen Sie auf unserer Webseite eine andere Zeit: {site_url}\n\nViele Grüße\n{business_name}"
+
+msgid "Your appointment on {date} has been cancelled"
+msgstr "Ihr Termin am {date} wurde storniert"
+
+msgid "Hello {customer_name},\n\nyour appointment has been cancelled:\n\n{service}\n{date}, {time}\n\n{cancellation_fee_note}\n\nYou are welcome to book a new appointment at any time: {site_url}\n\nKind regards\n{business_name}"
+msgstr "Hallo {customer_name},\n\nIhr Termin wurde storniert:\n\n{service}\n{date}, {time} Uhr\n\n{cancellation_fee_note}\n\nSie können jederzeit gerne einen neuen Termin buchen: {site_url}\n\nViele Grüße\n{business_name}"
+
+msgid "Reminder: your appointment on {date} at {time}"
+msgstr "Erinnerung: Ihr Termin am {date} um {time} Uhr"
+
+msgid "Hello {customer_name},\n\nwe would like to remind you of your appointment {time_until}:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} {local_time}\n\n{calendar_button}\n\nIf you cannot make it, please let us know as soon as possible.\n{manage_button}\n{cancellation_policy}\n\nSee you soon!\n{business_name}"
+msgstr "Hallo {customer_name},\n\nwir möchten Sie an Ihren Termin {time_until} erinnern:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} Uhr {local_time}\n\n{calendar_button}\n\nFalls Sie verhindert sind, sagen Sie bitte so früh wie möglich Bescheid.\n{manage_button}\n{cancellation_policy}\n\nBis bald!\n{business_name}"
+
+msgid "Your appointment has been moved to {date} at {time}"
+msgstr "Ihr Termin wurde auf {date} um {time} Uhr verschoben"
+
+msgid "Hello {customer_name},\n\nyour appointment has been moved:\n\n<strong>{service}</strong>\nNew: {date}, {time} – {end_time} {local_time}\n<s>Previously: {previous_date}, {previous_time}</s>\n\n{calendar_button}\n\nIf the new time does not suit you, please let us know.\n{manage_button}\n\nKind regards\n{business_name}"
+msgstr "Hallo {customer_name},\n\nIhr Termin wurde verschoben:\n\n<strong>{service}</strong>\nNeu: {date}, {time} – {end_time} Uhr {local_time}\n<s>Bisher: {previous_date}, {previous_time} Uhr</s>\n\n{calendar_button}\n\nFalls Ihnen die neue Zeit nicht passt, melden Sie sich bitte bei uns.\n{manage_button}\n\nViele Grüße\n{business_name}"
+
+msgid "New booking: {service} on {date} at {time}"
+msgstr "Neue Buchung: {service} am {date} um {time} Uhr"
+
+msgid "New booking from <strong>{customer_name}</strong>\n\n{service}\n{date}, {time} – {end_time}\n{staff}\n\nEmail: {customer_email}\nPhone: {customer_phone}\n\n{all_fields}\n\n{action_buttons}"
+msgstr "Neue Buchung von <strong>{customer_name}</strong>\n\n{service}\n{date}, {time} – {end_time} Uhr\n{staff}\n\nE-Mail: {customer_email}\nTelefon: {customer_phone}\n\n{all_fields}\n\n{action_buttons}"
+
+msgid "Cancelled by the customer: {service} on {date} at {time}"
+msgstr "Vom Kunden abgesagt: {service} am {date} um {time} Uhr"
+
+msgid "<strong>{customer_name}</strong> has cancelled the appointment online. The time is free again.\n\n{service}\n{date}, {time} – {end_time}\n{staff}\n\nReason: {cancel_reason}\n{fee_info}\n\nEmail: {customer_email}\nPhone: {customer_phone}\n\n{admin_link}"
+msgstr "<strong>{customer_name}</strong> hat den Termin online abgesagt. Die Zeit ist wieder frei.\n\n{service}\n{date}, {time} – {end_time} Uhr\n{staff}\n\nGrund: {cancel_reason}\n{fee_info}\n\nE-Mail: {customer_email}\nTelefon: {customer_phone}\n\n{admin_link}"
+
+msgid "Moved by the customer: {service} now on {date} at {time}"
+msgstr "Vom Kunden verschoben: {service} jetzt am {date} um {time} Uhr"
+
+msgid "<strong>{customer_name}</strong> has moved the appointment online.\n\n{service}\nNew: {date}, {time} – {end_time}\n<s>Previously: {previous_date}, {previous_time}</s>\n{staff}\n\nEmail: {customer_email}\nPhone: {customer_phone}\n\n{admin_link}"
+msgstr "<strong>{customer_name}</strong> hat den Termin online verschoben.\n\n{service}\nNeu: {date}, {time} – {end_time} Uhr\n<s>Bisher: {previous_date}, {previous_time} Uhr</s>\n{staff}\n\nE-Mail: {customer_email}\nTelefon: {customer_phone}\n\n{admin_link}"
+
+msgid "Thank you for your message"
+msgstr "Vielen Dank für Ihre Nachricht"
+
+msgid "Hello {customer_name},\n\nthank you for your message. We will get back to you as soon as possible.\n\nKind regards\n{business_name}"
+msgstr "Hallo {customer_name},\n\nvielen Dank für Ihre Nachricht. Wir melden uns so schnell wie möglich bei Ihnen.\n\nViele Grüße\n{business_name}"
+
+msgid "New message via {form_title}"
+msgstr "Neue Nachricht über {form_title}"
+
+msgid "New message from <strong>{customer_name}</strong> ({customer_email})\n\n{all_fields}\n\n{admin_link}"
+msgstr "Neue Nachricht von <strong>{customer_name}</strong> ({customer_email})\n\n{all_fields}\n\n{admin_link}"
+
+msgid "Customer name"
+msgstr "Name des Kunden"
+
+msgid "Customer email"
+msgstr "E-Mail des Kunden"
+
+msgid "Customer phone"
+msgstr "Telefon des Kunden"
+
+msgid "Start time"
+msgstr "Startzeit"
+
+msgid "Time in the customer’s time zone, only if it differs (e.g. booked from abroad)"
+msgstr "Uhrzeit in der Zeitzone des Kunden, nur wenn sie abweicht (z. B. Buchung aus dem Ausland)"
+
+msgid "End time"
+msgstr "Endzeit"
+
+msgid "Previous date (when moved)"
+msgstr "Bisheriges Datum (beim Verschieben)"
+
+msgid "Previous time (when moved)"
+msgstr "Bisherige Uhrzeit (beim Verschieben)"
+
+msgid "Duration"
+msgstr "Dauer"
+
+msgid "Price"
+msgstr "Preis"
+
+msgid "Business name"
+msgstr "Name des Betriebs"
+
+msgid "Business address"
+msgstr "Adresse des Betriebs"
+
+msgid "Website address"
+msgstr "Webadresse"
+
+msgid "Form title"
+msgstr "Formulartitel"
+
+msgid "All form answers as a table"
+msgstr "Alle Formularangaben als Tabelle"
+
+msgid "A single answer, e.g. {field:message}"
+msgstr "Eine einzelne Angabe, z. B. {field:nachricht}"
+
+msgid "Button \"Add to calendar\" (iPhone, Android, Outlook)"
+msgstr "Button „Zum Kalender hinzufügen“ (iPhone, Android, Outlook)"
+
+msgid "Link \"Add to Google Calendar\""
+msgstr "Link „In Google Kalender eintragen“"
+
+msgid "Buttons confirm / reject (only in emails to you)"
+msgstr "Buttons Bestätigen / Ablehnen (nur in E-Mails an Sie)"
+
+msgid "Button \"Move or cancel appointment\" for the customer"
+msgstr "Schaltfläche „Termin verschieben oder absagen“ für den Kunden"
+
+msgid "Link \"Move or cancel appointment\""
+msgstr "Link „Termin verschieben oder absagen“"
+
+msgid "Cancellation terms (as agreed with the booking)"
+msgstr "Stornobedingungen (wie bei der Buchung vereinbart)"
+
+msgid "Date and time up to which cancelling is free"
+msgstr "Datum und Uhrzeit, bis zu der die Absage kostenlos ist"
+
+msgid "Recorded cancellation fee"
+msgstr "Erfasste Ausfallgebühr"
+
+msgid "Sentence about the fee (only if a fee was recorded)"
+msgstr "Satz zur Gebühr (nur wenn eine Gebühr erfasst wurde)"
+
+msgid "Reason given by the customer when cancelling"
+msgstr "Vom Kunden angegebener Absagegrund"
+
+msgid "Fee note for you (only if a fee was recorded)"
+msgstr "Gebührenhinweis für Sie (nur wenn eine Gebühr erfasst wurde)"
+
+msgid "Business phone"
+msgstr "Telefon des Betriebs"
+
+msgid "Link to the entry in WordPress"
+msgstr "Link zum Eintrag in WordPress"
+
+msgid "Kalendora entries and bookings"
+msgstr "Kalendora: Einträge und Buchungen"
+
+msgid "Submitted (UTC)"
+msgstr "Gesendet (UTC)"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Appointment (UTC)"
+msgstr "Termin (UTC)"
+
+msgid "Form entries and bookings"
+msgstr "Formulareinträge und Buchungen"
+
+msgid "Emails sent by Kalendora"
+msgstr "Von Kalendora gesendete E-Mails"
+
+msgid "Sent (UTC)"
+msgstr "Gesendet (UTC)"
+
+msgid "Type"
+msgstr "Art"
+
+msgid "When you submit a form or book an appointment, we store the data you enter in the form (such as name, email address, phone number and your message) together with the date and time of a booked appointment. We use this data to process your request, manage your appointment and send you confirmations and reminders."
+msgstr "Wenn Sie ein Formular absenden oder einen Termin buchen, speichern wir die eingegebenen Daten (z. B. Name, E-Mail-Adresse, Telefonnummer und Ihre Nachricht) zusammen mit Datum und Uhrzeit eines gebuchten Termins. Wir verwenden diese Daten, um Ihre Anfrage zu bearbeiten, Ihren Termin zu verwalten und Ihnen Bestätigungen und Erinnerungen zu senden."
+
+msgid "This status change is not possible."
+msgstr "Diese Statusänderung ist nicht möglich."
+
+msgid "ID"
+msgstr "ID"
+
+msgid "Submitted"
+msgstr "Gesendet"
+
+msgid "Appointment"
+msgstr "Termin"
+
+msgid "Booking status"
+msgstr "Buchungsstatus"
+
+msgid "Fee"
+msgstr "Gebühr"
+
+msgid "Fee status"
+msgstr "Gebührenstatus"
+
+msgid "Invalid fee status."
+msgstr "Ungültiger Gebührenstatus."
+
+msgid "Could not be saved."
+msgstr "Konnte nicht gespeichert werden."
+
+msgid "Yes"
+msgstr "Ja"
+
+msgid "%s (copy)"
+msgstr "%s (Kopie)"
+
+msgid "Please enter a valid date range."
+msgstr "Bitte geben Sie einen gültigen Zeitraum ein."
+
+msgid "Please enter a valid time range."
+msgstr "Bitte geben Sie einen gültigen Zeitbereich ein."
+
+msgid "Special opening hours need a start and end time."
+msgstr "Sonderöffnungszeiten benötigen eine Start- und Endzeit."
+
+msgid "The email could not be sent. Please check the mail configuration (e.g. an SMTP plugin)."
+msgstr "Die E-Mail konnte nicht gesendet werden. Bitte prüfen Sie den E-Mail-Versand (z. B. ein SMTP-Plugin)."
+
+msgid "All appointments"
+msgstr "Alle Termine"
+
+msgid "Unknown staff member."
+msgstr "Unbekannte Mitarbeiterin bzw. unbekannter Mitarbeiter."
+
+msgid "Please enter the calendar address."
+msgstr "Bitte geben Sie die Kalenderadresse ein."
+
+msgid "Invalid status."
+msgstr "Ungültiger Status."
+
+msgid "Too many calendars connected."
+msgstr "Zu viele Kalender verbunden."
+
+msgid "Could not save."
+msgstr "Speichern fehlgeschlagen."
+
+msgid "Please enter a name."
+msgstr "Bitte geben Sie einen Namen ein."
+
+msgid "Subject and text must not be empty."
+msgstr "Betreff und Text dürfen nicht leer sein."
+
+msgid "The test email could not be sent. Please check the mail configuration of your website (e.g. with an SMTP plugin)."
+msgstr "Die Test-E-Mail konnte nicht gesendet werden. Bitte prüfen Sie den E-Mail-Versand Ihrer Webseite (z. B. mit einem SMTP-Plugin)."
+
+msgid "Invalid action."
+msgstr "Ungültige Aktion."
+
+msgid "This time is no longer free. The booking cannot be reopened."
+msgstr "Diese Zeit ist nicht mehr frei. Die Buchung kann nicht wieder geöffnet werden."
+
+msgid "Please enter a form title."
+msgstr "Bitte geben Sie einen Formulartitel ein."
+
+msgid "Invalid form fields."
+msgstr "Ungültige Formularfelder."
+
+msgid "This form is not available."
+msgstr "Dieses Formular ist nicht verfügbar."
+
+msgid "Invalid field."
+msgstr "Ungültiges Feld."
+
+msgid "Too many uploads. Please try again later."
+msgstr "Zu viele Uploads. Bitte versuchen Sie es später erneut."
+
+msgid "The free version supports up to %d staff members or resources. Upgrade to Kalendora Pro for unlimited resources."
+msgstr "Die kostenlose Version unterstützt bis zu %d Mitarbeiter oder Ressourcen. Mit Kalendora Pro sind es unbegrenzt viele."
+
+msgid "Not assigned"
+msgstr "Nicht zugeordnet"
+
+msgid "Search fields"
+msgstr "Felder suchen"
+
+msgid "This field can only be used once."
+msgstr "Dieses Feld kann nur einmal verwendet werden."
+
+msgid "Want a calendar? Switch the form type to \"Booking form\" in the Form tab."
+msgstr "Sie möchten einen Kalender? Stellen Sie im Tab „Formular“ den Typ auf „Buchungsformular“."
+
+msgid "%1$s: %2$s"
+msgstr "%1$s: %2$s"
+
+msgid "Drag to reorder"
+msgstr "Ziehen zum Verschieben"
+
+msgid "Conditional logic"
+msgstr "Bedingte Logik"
+
+msgid "Edit %s"
+msgstr "%s bearbeiten"
+
+msgid "Duplicate"
+msgstr "Duplizieren"
+
+msgid "Delete"
+msgstr "Löschen"
+
+msgid "Form saved."
+msgstr "Formular gespeichert."
+
+msgid "Field"
+msgstr "Feld"
+
+msgid "To move a field, press Space or Enter, use the arrow keys to choose the new position and press Space or Enter again. Escape cancels."
+msgstr "Zum Verschieben eines Feldes Leertaste oder Eingabetaste drücken, mit den Pfeiltasten die neue Position wählen und erneut Leertaste oder Eingabetaste drücken. Escape bricht ab."
+
+msgid "Picked up %1$s at position %2$d."
+msgstr "%1$s an Position %2$d aufgenommen."
+
+msgid "%1$s is now at position %2$d."
+msgstr "%1$s ist jetzt an Position %2$d."
+
+msgid "%1$s was moved to position %2$d."
+msgstr "%1$s wurde an Position %2$d verschoben."
+
+msgid "Moving %s was cancelled."
+msgstr "Verschieben von %s abgebrochen."
+
+msgid "Discard unsaved changes?"
+msgstr "Ungespeicherte Änderungen verwerfen?"
+
+msgid "All forms"
+msgstr "Alle Formulare"
+
+msgid "Published"
+msgstr "Veröffentlicht"
+
+msgid "Draft"
+msgstr "Entwurf"
+
+msgid "Paste this shortcode into any page, or use the Kalendora block."
+msgstr "Fügen Sie diesen Shortcode in eine beliebige Seite ein oder verwenden Sie den Kalendora-Block."
+
+msgid "Preview size"
+msgstr "Vorschaugröße"
+
+msgid "Desktop"
+msgstr "Desktop"
+
+msgid "Mobile"
+msgstr "Handy"
+
+msgid "Save"
+msgstr "Speichern"
+
+msgid "Saved"
+msgstr "Gespeichert"
+
+msgid "Add fields"
+msgstr "Felder hinzufügen"
+
+msgid "Form preview"
+msgstr "Formularvorschau"
+
+msgid "A booking form needs a \"Date & time\" field."
+msgstr "Ein Buchungsformular braucht ein Feld „Datum & Uhrzeit“."
+
+msgid "Add it"
+msgstr "Hinzufügen"
+
+msgid "Add an email field so you can reply and send confirmations."
+msgstr "Fügen Sie ein E-Mail-Feld hinzu, damit Sie antworten und Bestätigungen senden können."
+
+msgid "Multi-step form with %d steps"
+msgstr "Mehrstufiges Formular mit %d Schritten"
+
+msgid "Click a field on the left to add it to your form."
+msgstr "Klicken Sie links auf ein Feld, um es hinzuzufügen."
+
+msgid "Form"
+msgstr "Formular"
+
+msgid "Select a field in the form to edit its settings."
+msgstr "Wählen Sie ein Feld im Formular, um es zu bearbeiten."
+
+msgid "Heading"
+msgstr "Überschrift"
+
+msgid "Page break"
+msgstr "Seitenumbruch"
+
+msgid "Drop files here or click to upload"
+msgstr "Dateien hierher ziehen oder klicken zum Hochladen"
+
+msgid "Sign here"
+msgstr "Hier unterschreiben"
+
+msgid "General"
+msgstr "Allgemein"
+
+msgid "Only visible to you."
+msgstr "Nur für Sie sichtbar."
+
+msgid "Form type"
+msgstr "Formulartyp"
+
+msgid "Standard form (contact, request, survey …)"
+msgstr "Standardformular (Kontakt, Anfrage, Umfrage …)"
+
+msgid "Booking form (with calendar)"
+msgstr "Buchungsformular (mit Kalender)"
+
+msgid "Booking fields are only available in booking forms."
+msgstr "Buchungsfelder gibt es nur in Buchungsformularen."
+
+msgid "Draft (not visible on the website)"
+msgstr "Entwurf (auf der Webseite nicht sichtbar)"
+
+msgid "After submitting"
+msgstr "Nach dem Absenden"
+
+msgid "Button text"
+msgstr "Button-Text"
+
+msgid "Success message"
+msgstr "Erfolgsmeldung"
+
+msgid "Thank you! We have received your message."
+msgstr "Vielen Dank! Wir haben Ihre Nachricht erhalten."
+
+msgid "Redirect to page (optional)"
+msgstr "Weiterleitung zu Seite (optional)"
+
+msgid "Notify me by email about new entries"
+msgstr "Mich per E-Mail über neue Einträge informieren"
+
+msgid "Store entries in the database"
+msgstr "Einträge in der Datenbank speichern"
+
+msgid "Booking forms always store entries."
+msgstr "Buchungsformulare speichern Einträge immer."
+
+msgid "Newsletter"
+msgstr "Newsletter"
+
+msgid "Sign up for the newsletter with"
+msgstr "Für den Newsletter anmelden bei"
+
+msgid "No newsletter"
+msgstr "Kein Newsletter"
+
+msgid "Only if this box is ticked"
+msgstr "Nur wenn dieses Feld angehakt ist"
+
+msgid "Add a consent field such as “Yes, I would like to receive the newsletter.” The visitor then gets a confirmation email from the newsletter service (double opt-in). Access data: Kalendora → Integrations."
+msgstr "Fügen Sie ein Zustimmungsfeld hinzu, z. B. „Ja, ich möchte den Newsletter erhalten.“ Der Besucher bekommt dann eine Bestätigungs-E-Mail vom Newsletter-Dienst (Double-Opt-in). Zugangsdaten: Kalendora → Anbindungen."
+
+msgid "– choose a field –"
+msgstr "– Feld wählen –"
+
+msgid "Without a consent field nobody is signed up."
+msgstr "Ohne Zustimmungsfeld wird niemand angemeldet."
+
+msgid "Appearance"
+msgstr "Darstellung"
+
+msgid "Labels"
+msgstr "Beschriftungen"
+
+msgid "Above the field"
+msgstr "Über dem Feld"
+
+msgid "Left of the field"
+msgstr "Links neben dem Feld"
+
+msgid "Hidden (placeholder only)"
+msgstr "Ausgeblendet (nur Platzhalter)"
+
+msgid "Progress for multi-step forms"
+msgstr "Fortschritt bei mehrstufigen Formularen"
+
+msgid "Progress bar"
+msgstr "Fortschrittsbalken"
+
+msgid "Step names"
+msgstr "Schrittnamen"
+
+msgid "None"
+msgstr "Keine"
+
+msgid "Custom CSS & JavaScript"
+msgstr "Eigenes CSS & JavaScript"
+
+msgid "Only administrators can edit custom code."
+msgstr "Nur Administratoren können eigenen Code bearbeiten."
+
+msgid "CSS for this form"
+msgstr "CSS für dieses Formular"
+
+msgid "Scope your rules with .kalendora-form-%d."
+msgstr "Beginnen Sie Ihre Regeln mit .kalendora-form-%d."
+
+msgid "JavaScript for this form"
+msgstr "JavaScript für dieses Formular"
+
+msgid "Runs when the form is ready. Example: kalendora.on( \"slot\", ( slot ) => { … } ); – see the developer documentation."
+msgstr "Läuft, sobald das Formular bereit ist. Beispiel: kalendora.on( \"slot\", ( slot ) => { … } ); – siehe Entwickler-Dokumentation."
+
+msgid "Service price"
+msgstr "Preis der Leistung"
+
+msgid "Service duration (min)"
+msgstr "Dauer der Leistung (Min.)"
+
+msgid "Formula"
+msgstr "Formel"
+
+msgid "Use + - * / ( ), numbers and the fields below, e.g. {persons} * {service_price}. Functions: round(x, 2), min(a, b), max(a, b), ceil(x), floor(x)."
+msgstr "Verwenden Sie + - * / ( ), Zahlen und die Felder unten, z. B. {persons} * {service_price}. Funktionen: round(x, 2), min(a, b), max(a, b), ceil(x), floor(x)."
+
+msgid "Unknown field: %s"
+msgstr "Unbekanntes Feld: %s"
+
+msgid "The formula cannot be calculated. Check brackets and operators."
+msgstr "Die Formel kann nicht berechnet werden. Bitte Klammern und Rechenzeichen prüfen."
+
+msgid "Insert a value:"
+msgstr "Wert einfügen:"
+
+msgid "Decimal places"
+msgstr "Nachkommastellen"
+
+msgid "Before the number"
+msgstr "Vor der Zahl"
+
+msgid "After the number"
+msgstr "Nach der Zahl"
+
+msgid "is"
+msgstr "ist"
+
+msgid "is not"
+msgstr "ist nicht"
+
+msgid "contains"
+msgstr "enthält"
+
+msgid "does not contain"
+msgstr "enthält nicht"
+
+msgid "is empty"
+msgstr "ist leer"
+
+msgid "is not empty"
+msgstr "ist nicht leer"
+
+msgid "is greater than"
+msgstr "ist größer als"
+
+msgid "is less than"
+msgstr "ist kleiner als"
+
+msgid "Option label"
+msgstr "Beschriftung der Option"
+
+msgid "Value for calculations"
+msgstr "Wert für Berechnungen"
+
+msgid "Move up"
+msgstr "Nach oben"
+
+msgid "Move down"
+msgstr "Nach unten"
+
+msgid "Remove option"
+msgstr "Option entfernen"
+
+msgid "Option %d"
+msgstr "Option %d"
+
+msgid "Add option"
+msgstr "Option hinzufügen"
+
+msgid "Show or hide this field depending on other answers."
+msgstr "Dieses Feld abhängig von anderen Antworten ein- oder ausblenden."
+
+msgid "Add condition"
+msgstr "Bedingung hinzufügen"
+
+msgid "Add other fields first."
+msgstr "Fügen Sie zuerst weitere Felder hinzu."
+
+msgid "Action"
+msgstr "Aktion"
+
+msgid "Show this field"
+msgstr "Feld anzeigen"
+
+msgid "Hide this field"
+msgstr "Feld ausblenden"
+
+msgid "Match"
+msgstr "Übereinstimmung"
+
+msgid "if all conditions match"
+msgstr "wenn alle Bedingungen zutreffen"
+
+msgid "if any condition matches"
+msgstr "wenn eine Bedingung zutrifft"
+
+msgid "Condition"
+msgstr "Bedingung"
+
+msgid "Value"
+msgstr "Wert"
+
+msgid "Remove condition"
+msgstr "Bedingung entfernen"
+
+msgid "Text"
+msgstr "Text"
+
+msgid "Label"
+msgstr "Beschriftung"
+
+msgid "Size"
+msgstr "Größe"
+
+msgid "Large"
+msgstr "Groß"
+
+msgid "Medium"
+msgstr "Mittel"
+
+msgid "Small"
+msgstr "Klein"
+
+msgid "Allowed: <strong>, <em>, <a>, <br>."
+msgstr "Erlaubt: <strong>, <em>, <a>, <br>."
+
+msgid "Title of the next step"
+msgstr "Titel des nächsten Schritts"
+
+msgid "Consent text"
+msgstr "Einwilligungstext"
+
+msgid "You can link your privacy policy with <a href=\"…\">…</a>."
+msgstr "Ihre Datenschutzerklärung können Sie mit <a href=\"…\">…</a> verlinken."
+
+msgid "Placeholder"
+msgstr "Platzhalter"
+
+msgid "Help text"
+msgstr "Hilfetext"
+
+msgid "Required"
+msgstr "Pflichtfeld"
+
+msgid "Options"
+msgstr "Optionen"
+
+msgid "The number next to each option is used in calculations (e.g. the price of an extra)."
+msgstr "Die Zahl neben jeder Option wird in Berechnungen verwendet (z. B. der Preis eines Extras)."
+
+msgid "Format"
+msgstr "Format"
+
+msgid "First and last name"
+msgstr "Vor- und Nachname"
+
+msgid "One field"
+msgstr "Ein Feld"
+
+msgid "Offer these services"
+msgstr "Diese Leistungen anbieten"
+
+msgid "None selected = all active services."
+msgstr "Keine ausgewählt = alle aktiven Leistungen."
+
+msgid "Offer \"any available staff member\""
+msgstr "„Beliebiger Mitarbeiter“ anbieten"
+
+msgid "Advanced"
+msgstr "Erweitert"
+
+msgid "Field key"
+msgstr "Feldschlüssel"
+
+msgid "Used in email placeholders, e.g. {key}. Leave empty to generate it from the label."
+msgstr "Wird in E-Mail-Platzhaltern verwendet, z. B. {key}. Leer lassen, um ihn aus der Beschriftung zu erzeugen."
+
+msgid "Default value"
+msgstr "Standardwert"
+
+msgid "Tip: use {url:param} or {user:email} for dynamic values."
+msgstr "Tipp: {url:param} oder {user:email} für dynamische Werte verwenden."
+
+msgid "Maximum characters (0 = unlimited)"
+msgstr "Maximale Zeichen (0 = unbegrenzt)"
+
+msgid "Rows"
+msgstr "Zeilen"
+
+msgid "Min"
+msgstr "Min."
+
+msgid "Max"
+msgstr "Max."
+
+msgid "Step"
+msgstr "Schrittweite"
+
+msgid "Number of stars"
+msgstr "Anzahl Sterne"
+
+msgid "Layout"
+msgstr "Layout"
+
+msgid "Below each other"
+msgstr "Untereinander"
+
+msgid "Side by side"
+msgstr "Nebeneinander"
+
+msgid "Ask for country"
+msgstr "Land abfragen"
+
+msgid "Only working days can be selected"
+msgstr "Nur Arbeitstage wählbar"
+
+msgid "Uses the general opening hours, holidays and vacation."
+msgstr "Verwendet die allgemeinen Öffnungszeiten, Feiertage und Urlaub."
+
+msgid "Also choose a time (within opening hours)"
+msgstr "Auch Uhrzeit wählen (innerhalb der Öffnungszeiten)"
+
+msgid "For requests without fixed booking. For real bookings with blocked times, use a booking form."
+msgstr "Für Anfragen ohne feste Buchung. Für echte Buchungen mit blockierten Zeiten ein Buchungsformular verwenden."
+
+msgid "Earliest date"
+msgstr "Frühestes Datum"
+
+msgid "e.g. today, +1 day, 2026–12–01"
+msgstr "z. B. today, +1 day, 2026-12-01"
+
+msgid "Latest date"
+msgstr "Spätestes Datum"
+
+msgid "e.g. +3 months"
+msgstr "z. B. +3 months"
+
+msgid "Allowed file types"
+msgstr "Erlaubte Dateitypen"
+
+msgid "Comma separated, e.g. jpg, png, pdf"
+msgstr "Kommagetrennt, z. B. jpg, png, pdf"
+
+msgid "Max. size (MB)"
+msgstr "Max. Größe (MB)"
+
+msgid "Your server allows only %d MB per file – this limit applies."
+msgstr "Ihr Server erlaubt nur %d MB pro Datei – diese Grenze gilt."
+
+msgid "Max. files"
+msgstr "Max. Dateien"
+
+msgid "Width"
+msgstr "Breite"
+
+msgid "Full width"
+msgstr "Volle Breite"
+
+msgid "Half width"
+msgstr "Halbe Breite"
+
+msgid "One third"
+msgstr "Ein Drittel"
+
+msgid "Conditional logic (active)"
+msgstr "Bedingte Logik (aktiv)"
+
+msgid "Booking"
+msgstr "Buchung"
+
+msgid "Basic fields"
+msgstr "Standardfelder"
+
+msgid "Choices"
+msgstr "Auswahlfelder"
+
+msgid "Option 1"
+msgstr "Option 1"
+
+msgid "Option 2"
+msgstr "Option 2"
+
+msgid "Option 3"
+msgstr "Option 3"
+
+msgid "Date & time"
+msgstr "Datum & Uhrzeit"
+
+msgid "Choose a date and time"
+msgstr "Datum und Uhrzeit wählen"
+
+msgid "Single line text"
+msgstr "Einzeiliger Text"
+
+msgid "Paragraph text"
+msgstr "Mehrzeiliger Text"
+
+msgid "Number"
+msgstr "Zahl"
+
+msgid "Website / URL"
+msgstr "Webseite / URL"
+
+msgid "Website"
+msgstr "Webseite"
+
+msgid "Dropdown"
+msgstr "Auswahlliste"
+
+msgid "Radio buttons"
+msgstr "Optionsfelder"
+
+msgid "Choose one"
+msgstr "Eine auswählen"
+
+msgid "Checkboxes"
+msgstr "Kontrollkästchen"
+
+msgid "Choose any"
+msgstr "Mehrere auswählen"
+
+msgid "Consent (GDPR)"
+msgstr "Einwilligung (DSGVO)"
+
+msgid "Privacy"
+msgstr "Datenschutz"
+
+msgid "I agree that my data will be processed to handle my request."
+msgstr "Ich stimme zu, dass meine Daten zur Bearbeitung meiner Anfrage verarbeitet werden."
+
+msgid "Rating"
+msgstr "Bewertung"
+
+msgid "Slider"
+msgstr "Schieberegler"
+
+msgid "Address"
+msgstr "Adresse"
+
+msgid "File upload"
+msgstr "Datei-Upload"
+
+msgid "Upload file"
+msgstr "Datei hochladen"
+
+msgid "Signature"
+msgstr "Unterschrift"
+
+msgid "Calculation"
+msgstr "Berechnung"
+
+msgid "Total"
+msgstr "Gesamt"
+
+msgid "Hidden field"
+msgstr "Verstecktes Feld"
+
+msgid "Hidden"
+msgstr "Versteckt"
+
+msgid "Text block"
+msgstr "Textblock"
+
+msgid "Add an explanation for your visitors here."
+msgstr "Fügen Sie hier eine Erklärung für Ihre Besucher ein."
+
+msgid "Divider"
+msgstr "Trennlinie"
+
+msgid "Page break (step)"
+msgstr "Seitenumbruch (Schritt)"
+
+msgid "Next step"
+msgstr "Nächster Schritt"
+
+msgid "Are you sure?"
+msgstr "Sind Sie sicher?"
+
+msgid "Cancel"
+msgstr "Abbrechen"
+
+msgid "Sunday"
+msgstr "Sonntag"
+
+msgid "Monday"
+msgstr "Montag"
+
+msgid "Tuesday"
+msgstr "Dienstag"
+
+msgid "Wednesday"
+msgstr "Mittwoch"
+
+msgid "Thursday"
+msgstr "Donnerstag"
+
+msgid "Friday"
+msgstr "Freitag"
+
+msgid "Saturday"
+msgstr "Samstag"
+
+msgid "Set your opening hours to see the daily schedule."
+msgstr "Legen Sie Ihre Öffnungszeiten fest, um das Tagesraster zu sehen."
+
+msgid "Daily schedule on %1$s (%2$s):"
+msgstr "Tagesraster am %1$s (%2$s):"
+
+msgid "%d min break after each appointment"
+msgstr "%d Min. Pause nach jedem Termin"
+
+msgid "= max. %d appointment per day"
+msgid_plural "= max. %d appointments per day"
+msgstr[0] "= max. %d Termin pro Tag"
+msgstr[1] "= max. %d Termine pro Tag"
+
+msgid "Pending"
+msgstr "Offen"
+
+msgid "Attended"
+msgstr "Erschienen"
+
+msgid "No-show"
+msgstr "Nicht erschienen"
+
+msgid "Reopen"
+msgstr "Wieder öffnen"
+
+msgid "Saved."
+msgstr "Gespeichert."
+
+msgid "Deleted."
+msgstr "Gelöscht."
+
+msgid "Upcoming"
+msgstr "Anstehend"
+
+msgid "Past"
+msgstr "Vergangen"
+
+msgid "Rejected & cancelled"
+msgstr "Abgelehnt & storniert"
+
+msgid "All"
+msgstr "Alle"
+
+msgid "Open fees"
+msgstr "Offene Gebühren"
+
+msgid "open"
+msgstr "offen"
+
+msgid "paid"
+msgstr "bezahlt"
+
+msgid "waived"
+msgstr "erlassen"
+
+msgid "Late cancellation"
+msgstr "Kurzfristige Absage"
+
+msgid "Did not attend"
+msgstr "Nicht erschienen"
+
+msgid "Entered manually"
+msgstr "Manuell erfasst"
+
+msgid "Fee %1$s · %2$s"
+msgstr "Gebühr %1$s · %2$s"
+
+msgid "Cancellation terms & fee"
+msgstr "Stornobedingungen & Gebühr"
+
+msgid "(accepted by the customer on %s)"
+msgstr "(vom Kunden akzeptiert am %s)"
+
+msgid "Cancelled online by the customer."
+msgstr "Vom Kunden online abgesagt."
+
+msgid "Mark as paid"
+msgstr "Als bezahlt markieren"
+
+msgid "Waive fee"
+msgstr "Gebühr erlassen"
+
+msgid "Mark as open again"
+msgstr "Wieder als offen markieren"
+
+msgid "Record a fee (€)"
+msgstr "Gebühr erfassen (€)"
+
+msgid "E.g. for a short-notice cancellation by phone."
+msgstr "Z. B. bei einer kurzfristigen telefonischen Absage."
+
+msgid "Record fee"
+msgstr "Gebühr erfassen"
+
+msgid "confirmed"
+msgstr "bestätigt"
+
+msgid "rejected"
+msgstr "abgelehnt"
+
+msgid "cancelled"
+msgstr "storniert"
+
+msgid "marked as attended"
+msgstr "als erschienen markiert"
+
+msgid "marked as no-show"
+msgstr "als nicht erschienen markiert"
+
+msgid "reopened"
+msgstr "wieder geöffnet"
+
+msgid "%d places"
+msgstr "%d Plätze"
+
+msgid "Booked on"
+msgstr "Gebucht am"
+
+msgid "Form details"
+msgstr "Angaben im Formular"
+
+msgid "No further details."
+msgstr "Keine weiteren Angaben."
+
+msgid "Internal notes"
+msgstr "Interne Notizen"
+
+msgid "Only visible to you and your team."
+msgstr "Nur für Sie und Ihr Team sichtbar."
+
+msgid "Save notes"
+msgstr "Notizen speichern"
+
+msgid "Search name, email or phone"
+msgstr "Name, E-Mail oder Telefon suchen"
+
+msgid "All services"
+msgstr "Alle Leistungen"
+
+msgid "No open requests – everything is done."
+msgstr "Keine offenen Anfragen – alles erledigt."
+
+msgid "No bookings found."
+msgstr "Keine Buchungen gefunden."
+
+msgid "Show details for %s"
+msgstr "Details zu %s anzeigen"
+
+msgid "Load more"
+msgstr "Mehr laden"
+
+msgid "Active"
+msgstr "Aktiv"
+
+msgid "Error"
+msgstr "Fehler"
+
+msgid "Paused"
+msgstr "Pausiert"
+
+msgid "never"
+msgstr "noch nie"
+
+msgid "just now"
+msgstr "gerade eben"
+
+msgid "%d min. ago"
+msgstr "vor %d Min."
+
+msgid "Link sent to %s."
+msgstr "Link an %s gesendet."
+
+msgid "Send link to phone"
+msgstr "Link aufs Handy senden"
+
+msgid "QR code"
+msgstr "QR-Code"
+
+msgid "Apple Calendar"
+msgstr "Apple Kalender"
+
+msgid "Copied"
+msgstr "Kopiert"
+
+msgid "Copy address"
+msgstr "Adresse kopieren"
+
+msgid "Reset address"
+msgstr "Adresse zurücksetzen"
+
+msgid "The current address stops working immediately. Everyone who subscribed must subscribe again with the new link."
+msgstr "Die aktuelle Adresse funktioniert sofort nicht mehr. Alle, die den Kalender abonniert haben, müssen ihn mit dem neuen Link neu abonnieren."
+
+msgid "Scan with the phone: %s"
+msgstr "Mit dem Handy scannen: %s"
+
+msgid "QR code for subscribing to the calendar %s"
+msgstr "QR-Code zum Abonnieren des Kalenders %s"
+
+msgid "Open the camera app on the phone and point it at the code."
+msgstr "Kamera-App auf dem Handy öffnen und auf den Code richten."
+
+msgid "Tap the link that appears. iPhones open the calendar directly, Android phones show buttons for Google Calendar and Outlook."
+msgstr "Auf den eingeblendeten Link tippen. iPhones öffnen direkt den Kalender, Android-Handys zeigen Knöpfe für Google Kalender und Outlook."
+
+msgid "Confirm the subscription – done. New, moved and cancelled appointments appear automatically."
+msgstr "Abo bestätigen – fertig. Neue, verschobene und abgesagte Termine erscheinen automatisch."
+
+msgid "The code contains the private address of this calendar. Only show it to the person it belongs to. If in doubt: “Reset address”."
+msgstr "Der Code enthält die private Adresse dieses Kalenders. Zeigen Sie ihn nur der Person, der er gehört. Im Zweifel: „Adresse zurücksetzen“."
+
+msgid "Open the email on the phone and tap the button – the calendar app starts the subscription."
+msgstr "Öffnen Sie die E-Mail auf dem Handy und tippen Sie auf den Button – die Kalender-App startet das Abo."
+
+msgid "Email address"
+msgstr "E-Mail-Adresse"
+
+msgid "Whole business (blocks everyone)"
+msgstr "Ganzer Betrieb (blockiert alle)"
+
+msgid "Private calendar address (iCal / ICS)"
+msgstr "Private Kalenderadresse (iCal / ICS)"
+
+msgid "Leave empty to keep the current address."
+msgstr "Leer lassen, um die bisherige Adresse zu behalten."
+
+msgid "Starts with https:// or webcal://. It is stored encrypted."
+msgstr "Beginnt mit https:// oder webcal://. Sie wird verschlüsselt gespeichert."
+
+msgid "e.g. Private calendar Laura"
+msgstr "z. B. Privatkalender Laura"
+
+msgid "Blocks the times of"
+msgstr "Blockiert die Zeiten von"
+
+msgid "All-day entries (e.g. vacation) block the whole day"
+msgstr "Ganztägige Einträge (z. B. Urlaub) blockieren den ganzen Tag"
+
+msgid "Connect calendar"
+msgstr "Kalender verbinden"
+
+msgid "Where do I find the private calendar address?"
+msgstr "Wo finde ich die private Kalenderadresse?"
+
+msgid "Google Calendar (Android)"
+msgstr "Google Kalender (Android)"
+
+msgid "calendar.google.com on the computer → ⚙ Settings → choose your calendar under \"Settings for my calendars\" → \"Integrate calendar\" → copy \"Secret address in iCal format\"."
+msgstr "calendar.google.com am Computer → ⚙ Einstellungen → links unter „Einstellungen für meine Kalender“ den Kalender wählen → „Kalender integrieren“ → „Privatadresse im iCal-Format“ kopieren."
+
+msgid "iCloud (iPhone)"
+msgstr "iCloud (iPhone)"
+
+msgid "Calendar app on the Mac or icloud.com → share the calendar → switch on \"Public calendar\" → copy the link (webcal://…)."
+msgstr "Kalender-App am Mac oder icloud.com → Kalender teilen → „Öffentlicher Kalender“ einschalten → Link kopieren (webcal://…)."
+
+msgid "Outlook / Microsoft 365"
+msgstr "Outlook / Microsoft 365"
+
+msgid "Outlook on the web → ⚙ Settings → Calendar → Shared calendars → \"Publish a calendar\" → choose \"Can view when I'm busy\" → copy the ICS link."
+msgstr "Outlook im Web → ⚙ Einstellungen → Kalender → Freigegebene Kalender → „Kalender veröffentlichen“ → „Kann sehen, wann ich beschäftigt bin“ wählen → ICS-Link kopieren."
+
+msgid "Only start and end times are stored – titles and details of your private appointments stay in your calendar."
+msgstr "Gespeichert werden nur Beginn und Ende – Titel und Details Ihrer privaten Termine bleiben in Ihrem Kalender."
+
+msgid "Calendar connected."
+msgstr "Kalender verbunden."
+
+msgid "Synchronized."
+msgstr "Synchronisiert."
+
+msgid "Calendar removed."
+msgstr "Kalender entfernt."
+
+msgid "New address created. The old one no longer works."
+msgstr "Neue Adresse erstellt. Die alte funktioniert nicht mehr."
+
+msgid "Whole business"
+msgstr "Ganzer Betrieb"
+
+msgid "WP-Cron is disabled on this site. Please make sure a server cron job calls wp-cron.php regularly, otherwise calendars are only updated when you click \"Sync now\"."
+msgstr "WP-Cron ist auf dieser Seite abgeschaltet. Bitte sorgen Sie dafür, dass ein Server-Cronjob wp-cron.php regelmäßig aufruft – sonst werden Kalender nur beim Klick auf „Jetzt synchronisieren“ aktualisiert."
+
+msgid "1. Kalendora appointments in your calendar app"
+msgstr "1. Kalendora-Termine in Ihrer Kalender-App"
+
+msgid "Subscribe once – new, moved and cancelled appointments then appear automatically on the phone (iPhone, Android, Outlook)."
+msgstr "Einmal abonnieren – neue, verschobene und abgesagte Termine erscheinen dann automatisch auf dem Handy (iPhone, Android, Outlook)."
+
+msgid "Show customer name, phone and email in the calendar"
+msgstr "Name, Telefon und E-Mail der Kunden im Kalender anzeigen"
+
+msgid "Switch off if other people can see your phone calendar."
+msgstr "Ausschalten, wenn andere Personen Ihren Handykalender sehen können."
+
+msgid "Also show unconfirmed requests (marked as \"Unconfirmed\")"
+msgstr "Auch unbestätigte Anfragen anzeigen (markiert als „Unbestätigt“)"
+
+msgid "Note: Google updates subscribed calendars only every few hours. Apple and Outlook are usually faster."
+msgstr "Hinweis: Google aktualisiert abonnierte Kalender nur alle paar Stunden. Apple und Outlook sind meist schneller."
+
+msgid "2. Block private appointments automatically"
+msgstr "2. Private Termine automatisch blockieren"
+
+msgid "Connect your private calendars. Times in which you already have something planned are no longer offered to customers. Updated every 15 minutes."
+msgstr "Verbinden Sie Ihre privaten Kalender. Zeiten, in denen Sie schon etwas vorhaben, werden Kunden nicht mehr angeboten. Aktualisierung alle 15 Minuten."
+
+msgid "No calendar connected yet."
+msgstr "Noch kein Kalender verbunden."
+
+msgid "Last sync: %s"
+msgstr "Letzter Abgleich: %s"
+
+msgid "Sync now"
+msgstr "Jetzt synchronisieren"
+
+msgid "Calendar resumed."
+msgstr "Kalender wieder aktiv."
+
+msgid "Calendar paused – it no longer blocks times."
+msgstr "Kalender pausiert – er blockiert keine Zeiten mehr."
+
+msgid "Resume"
+msgstr "Fortsetzen"
+
+msgid "Pause"
+msgstr "Pausieren"
+
+msgid "Edit"
+msgstr "Bearbeiten"
+
+msgid "Remove"
+msgstr "Entfernen"
+
+msgid "The calendar is disconnected and its busy times are released."
+msgstr "Der Kalender wird getrennt und seine belegten Zeiten werden freigegeben."
+
+msgid "%1$s %2$d busy time imported."
+msgid_plural "%1$s %2$d busy times imported."
+msgstr[0] "%1$s %2$d belegte Zeit übernommen."
+msgstr[1] "%1$s %2$d belegte Zeiten übernommen."
+
+msgid "%d busy time"
+msgid_plural "%d busy times"
+msgstr[0] "%d belegte Zeit"
+msgstr[1] "%d belegte Zeiten"
+
+msgid "Mon"
+msgstr "Mo"
+
+msgid "Tue"
+msgstr "Di"
+
+msgid "Wed"
+msgstr "Mi"
+
+msgid "Thu"
+msgstr "Do"
+
+msgid "Fri"
+msgstr "Fr"
+
+msgid "Sat"
+msgstr "Sa"
+
+msgid "Sun"
+msgstr "So"
+
+msgid "Your business"
+msgstr "Ihr Betrieb"
+
+msgid "Opening hours"
+msgstr "Öffnungszeiten"
+
+msgid "First service"
+msgstr "Erste Leistung"
+
+msgid "Done"
+msgstr "Fertig"
+
+msgid "Welcome to Kalendora"
+msgstr "Willkommen bei Kalendora"
+
+msgid "Five short steps and your first booking form is online. Everything can be changed later."
+msgstr "Fünf kurze Schritte, dann ist Ihr erstes Buchungsformular online. Alles lässt sich später ändern."
+
+msgid "Email for new bookings"
+msgstr "E-Mail für neue Buchungen"
+
+msgid "Shown to customers who can no longer cancel online at short notice."
+msgstr "Wird Kunden angezeigt, die kurzfristig nicht mehr online absagen können."
+
+msgid "New bookings are"
+msgstr "Neue Buchungen sind"
+
+msgid "Requests – I confirm each one"
+msgstr "Anfragen – ich bestätige jede selbst"
+
+msgid "Confirmed immediately"
+msgstr "Sofort bestätigt"
+
+msgid "Your site uses a UTC offset instead of a city as time zone. Please choose your city (e.g. Berlin) so that appointments stay correct when the clocks change."
+msgstr "Ihre Webseite verwendet als Zeitzone eine UTC-Abweichung statt einer Stadt. Bitte wählen Sie Ihre Stadt (z. B. Berlin), damit Termine bei der Zeitumstellung stimmen."
+
+msgid "Open time zone settings"
+msgstr "Zeitzone einstellen"
+
+msgid "When are you open?"
+msgstr "Wann haben Sie geöffnet?"
+
+msgid "Opening days"
+msgstr "Öffnungstage"
+
+msgid "From"
+msgstr "Von"
+
+msgid "To"
+msgstr "Bis"
+
+msgid "Lunch break"
+msgstr "Mittagspause"
+
+msgid "Break from"
+msgstr "Pause von"
+
+msgid "Break until"
+msgstr "Pause bis"
+
+msgid "Different hours per day, holidays and vacation: Kalendora → Opening Hours."
+msgstr "Unterschiedliche Zeiten je Tag, Feiertage und Urlaub: Kalendora → Öffnungszeiten."
+
+msgid "What can customers book?"
+msgstr "Was können Kunden buchen?"
+
+msgid "e.g. Classic massage"
+msgstr "z. B. Klassische Massage"
+
+msgid "Price in € (optional)"
+msgstr "Preis in € (optional)"
+
+msgid "More services, buffers, staff and places for courses: Kalendora → Services."
+msgstr "Weitere Leistungen, Puffer, Mitarbeiter und Plätze für Kurse: Kalendora → Leistungen."
+
+msgid "Choose a form"
+msgstr "Formular wählen"
+
+msgid "Create “%s”"
+msgstr "„%s“ erstellen"
+
+msgid "Your form is ready"
+msgstr "Ihr Formular ist fertig"
+
+msgid "Put it on any page of your website:"
+msgstr "Fügen Sie es auf einer beliebigen Seite Ihrer Webseite ein:"
+
+msgid "Block editor:"
+msgstr "Block-Editor:"
+
+msgid "add the block “Kalendora” and choose the form."
+msgstr "Block „Kalendora“ einfügen und das Formular wählen."
+
+msgid "Other page builders:"
+msgstr "Andere Page-Builder:"
+
+msgid "paste this shortcode"
+msgstr "diesen Shortcode einfügen"
+
+msgid "Create a page with this form (draft)"
+msgstr "Seite mit diesem Formular anlegen (Entwurf)"
+
+msgid "The page was created as a draft. Check it and publish it when you are ready."
+msgstr "Die Seite wurde als Entwurf angelegt. Prüfen Sie sie und veröffentlichen Sie sie, wenn alles passt."
+
+msgid "Preview"
+msgstr "Vorschau"
+
+msgid "Edit page"
+msgstr "Seite bearbeiten"
+
+msgid "Recommended next steps"
+msgstr "Empfohlene nächste Schritte"
+
+msgid "Check the emails and send yourself a test email"
+msgstr "E-Mails prüfen und sich eine Test-E-Mail schicken"
+
+msgid "Put your appointments on your phone"
+msgstr "Termine aufs Handy holen"
+
+msgid "Cancellation deadline and optional cancellation fee"
+msgstr "Absagefrist und optionale Ausfallgebühr"
+
+msgid "Adjust the form"
+msgstr "Formular anpassen"
+
+msgid "Go to the overview"
+msgstr "Zur Übersicht"
+
+msgid "Skip setup"
+msgstr "Einrichtung überspringen"
+
+msgid "Next appointments"
+msgstr "Nächste Termine"
+
+msgid "No upcoming appointments."
+msgstr "Keine anstehenden Termine."
+
+msgid "All bookings"
+msgstr "Alle Buchungen"
+
+msgid "Run the setup wizard again"
+msgstr "Einrichtungsassistent erneut starten"
+
+msgid "Help & guide"
+msgstr "Hilfe & Anleitung"
+
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d Minute"
+msgstr[1] "%d Minuten"
+
+msgid "appointment today"
+msgid_plural "appointments today"
+msgstr[0] "Termin heute"
+msgstr[1] "Termine heute"
+
+msgid "open request"
+msgid_plural "open requests"
+msgstr[0] "offene Anfrage"
+msgstr[1] "offene Anfragen"
+
+msgid "new entry"
+msgid_plural "new entries"
+msgstr[0] "neuer Eintrag"
+msgstr[1] "neue Einträge"
+
+msgid "open fee"
+msgid_plural "open fees"
+msgstr[0] "offene Gebühr"
+msgstr[1] "offene Gebühren"
+
+msgid "To your customers"
+msgstr "An Ihre Kunden"
+
+msgid "To you"
+msgstr "An Sie"
+
+msgid "Contact & request forms"
+msgstr "Kontakt- & Anfrageformulare"
+
+msgid "Reminders before the appointment"
+msgstr "Erinnerungen vor dem Termin"
+
+msgid "No reminders."
+msgstr "Keine Erinnerungen."
+
+msgid "Time before the appointment"
+msgstr "Zeit vor dem Termin"
+
+msgid "Unit"
+msgstr "Einheit"
+
+msgid "days before"
+msgstr "Tage vorher"
+
+msgid "hours before"
+msgstr "Stunden vorher"
+
+msgid "Add reminder"
+msgstr "Erinnerung hinzufügen"
+
+msgid "Recommended: 7 days and 24 hours before. A reminder is skipped if the appointment was confirmed only shortly before. Placeholder {time_until} writes e.g. \"in 7 days\" or \"tomorrow\"."
+msgstr "Empfohlen: 7 Tage und 24 Stunden vorher. Eine Erinnerung entfällt, wenn der Termin erst kurz vorher bestätigt wurde. Der Platzhalter {time_until} schreibt z. B. „in 7 Tagen“ oder „morgen“."
+
+msgid "Settings saved."
+msgstr "Einstellungen gespeichert."
+
+msgid "Sender & notifications"
+msgstr "Absender & Benachrichtigungen"
+
+msgid "Business name (sender name)"
+msgstr "Name des Betriebs (Absendername)"
+
+msgid "Notifications go to"
+msgstr "Benachrichtigungen an"
+
+msgid "Empty = admin email of the website."
+msgstr "Leer = Admin-E-Mail der Webseite."
+
+msgid "Sender address (optional)"
+msgstr "Absenderadresse (optional)"
+
+msgid "Should belong to your domain, otherwise emails may land in spam."
+msgstr "Sollte zu Ihrer Domain gehören, sonst landen E-Mails eventuell im Spam."
+
+msgid "Address (for calendar entries)"
+msgstr "Adresse (für Kalendereinträge)"
+
+msgid "One-click links valid for (hours)"
+msgstr "Ein-Klick-Links gültig für (Stunden)"
+
+msgid "Test email sent to %s."
+msgstr "Test-E-Mail an %s gesendet."
+
+msgid "Default text restored."
+msgstr "Standardtext wiederhergestellt."
+
+msgid "Send this email"
+msgstr "Diese E-Mail senden"
+
+msgid "Subject"
+msgstr "Betreff"
+
+msgid "Line breaks are kept. Allowed: <strong>, <em>, <a>."
+msgstr "Zeilenumbrüche bleiben erhalten. Erlaubt: <strong>, <em>, <a>."
+
+msgid "Insert placeholder:"
+msgstr "Platzhalter einfügen:"
+
+msgid "Restore default"
+msgstr "Standard wiederherstellen"
+
+msgid "Send test email to me"
+msgstr "Test-E-Mail an mich senden"
+
+msgid "Preview with sample data"
+msgstr "Vorschau mit Beispieldaten"
+
+msgid "Email preview"
+msgstr "E-Mail-Vorschau"
+
+msgid "Recently sent"
+msgstr "Zuletzt gesendet"
+
+msgid "No emails sent yet."
+msgstr "Noch keine E-Mails gesendet."
+
+msgid "Sent"
+msgstr "Gesendet"
+
+msgid "Waiting"
+msgstr "Wartet"
+
+msgid "Failed"
+msgstr "Fehlgeschlagen"
+
+msgid "customized"
+msgstr "angepasst"
+
+msgid "Unread"
+msgstr "Ungelesen"
+
+msgid "Starred"
+msgstr "Markiert"
+
+msgid "Spam"
+msgstr "Spam"
+
+msgid "Trash"
+msgstr "Papierkorb"
+
+msgid "Entry"
+msgstr "Eintrag"
+
+msgid "Sent from:"
+msgstr "Gesendet von:"
+
+msgid "Reply"
+msgstr "Antworten"
+
+msgid "Unstar"
+msgstr "Markierung entfernen"
+
+msgid "Star"
+msgstr "Markieren"
+
+msgid "Move to trash"
+msgstr "In den Papierkorb"
+
+msgid "Restore"
+msgstr "Wiederherstellen"
+
+msgid "Delete permanently"
+msgstr "Endgültig löschen"
+
+msgid "Not spam"
+msgstr "Kein Spam"
+
+msgid "Mark as read"
+msgstr "Als gelesen markieren"
+
+msgid "Mark as unread"
+msgstr "Als ungelesen markieren"
+
+msgid "Messages from your contact and request forms. Bookings with an appointment are under \"Bookings\"."
+msgstr "Nachrichten aus Ihren Kontakt- und Anfrageformularen. Buchungen mit Termin finden Sie unter „Buchungen“."
+
+msgid "Search entries"
+msgstr "Einträge durchsuchen"
+
+msgid "Export CSV"
+msgstr "CSV exportieren"
+
+msgid "No entries found."
+msgstr "Keine Einträge gefunden."
+
+msgid "Select all"
+msgstr "Alle auswählen"
+
+msgid "Select %s"
+msgstr "%s auswählen"
+
+msgid "(no name)"
+msgstr "(ohne Namen)"
+
+msgid "%d entry updated."
+msgid_plural "%d entries updated."
+msgstr[0] "%d Eintrag aktualisiert."
+msgstr[1] "%d Einträge aktualisiert."
+
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "%d ausgewählt"
+msgstr[1] "%d ausgewählt"
+
+msgid "With appointment booking"
+msgstr "Mit Terminbuchung"
+
+msgid "Without appointment"
+msgstr "Ohne Termin"
+
+msgid "New form"
+msgstr "Neues Formular"
+
+msgid "The template is only a start – you can change, add or remove every field in the next step."
+msgstr "Die Vorlage ist nur der Anfang – im nächsten Schritt können Sie jedes Feld ändern, hinzufügen oder entfernen."
+
+msgid "Create form"
+msgstr "Formular erstellen"
+
+msgid "Create booking forms with a calendar or any other form – contact, request, survey."
+msgstr "Erstellen Sie Buchungsformulare mit Kalender oder jedes andere Formular – Kontakt, Anfrage, Umfrage."
+
+msgid "No forms yet. Create your first form in under a minute."
+msgstr "Noch keine Formulare. Ihr erstes Formular steht in unter einer Minute."
+
+msgid "Create your first form"
+msgstr "Erstes Formular erstellen"
+
+msgid "Booking form"
+msgstr "Buchungsformular"
+
+msgid "Standard form"
+msgstr "Standardformular"
+
+msgid "Copy shortcode"
+msgstr "Shortcode kopieren"
+
+msgid "Delete the form \"%s\"? Entries are kept."
+msgstr "Formular „%s“ löschen? Einträge bleiben erhalten."
+
+msgid "%d field"
+msgid_plural "%d fields"
+msgstr[0] "%d Feld"
+msgstr[1] "%d Felder"
+
+msgid "%d entry"
+msgid_plural "%d entries"
+msgstr[0] "%d Eintrag"
+msgstr[1] "%d Einträge"
+
+msgid "End time must be after start time."
+msgstr "Die Endzeit muss nach der Startzeit liegen."
+
+msgid "Time ranges overlap."
+msgstr "Die Zeitbereiche überschneiden sich."
+
+msgid "Opening hours saved."
+msgstr "Öffnungszeiten gespeichert."
+
+msgid "Weekly hours"
+msgstr "Wochenplan"
+
+msgid "This staff member uses the general opening hours. Change and save the hours below to give them their own schedule."
+msgstr "Dieser Mitarbeiter verwendet die allgemeinen Öffnungszeiten. Ändern und speichern Sie die Zeiten unten, um eigene Arbeitszeiten festzulegen."
+
+msgid "Closed"
+msgstr "Geschlossen"
+
+msgid "Remove time range"
+msgstr "Zeitbereich entfernen"
+
+msgid "+ Add break / range"
+msgstr "+ Pause / Zeitbereich hinzufügen"
+
+msgid "Copy to Mon–Fri"
+msgstr "Auf Mo–Fr übertragen"
+
+msgid "Save opening hours"
+msgstr "Öffnungszeiten speichern"
+
+msgid "Use general opening hours"
+msgstr "Allgemeine Öffnungszeiten verwenden"
+
+msgid "Holidays, vacation & special opening hours"
+msgstr "Feiertage, Urlaub & Sonderöffnungszeiten"
+
+msgid "Closed (holiday, vacation, break)"
+msgstr "Geschlossen (Feiertag, Urlaub, Pause)"
+
+msgid "Special opening hours"
+msgstr "Sonderöffnungszeiten"
+
+msgid "To (optional)"
+msgstr "Bis (optional)"
+
+msgid "All day"
+msgstr "Ganztägig"
+
+msgid "Note (internal)"
+msgstr "Notiz (intern)"
+
+msgid "e.g. Christmas"
+msgstr "z. B. Weihnachten"
+
+msgid "Add"
+msgstr "Hinzufügen"
+
+msgid "No upcoming holidays or special opening hours."
+msgstr "Keine anstehenden Feiertage oder Sonderöffnungszeiten."
+
+msgid "Open"
+msgstr "Geöffnet"
+
+msgid "(applies to everyone)"
+msgstr "(gilt für alle)"
+
+msgid "Delete the entry for %s?"
+msgstr "Eintrag für %s löschen?"
+
+msgid "General opening hours (business)"
+msgstr "Allgemeine Öffnungszeiten (Betrieb)"
+
+msgid "Show hours for"
+msgstr "Zeiten anzeigen für"
+
+msgid "New booking"
+msgstr "Neue Buchung"
+
+msgid "New entry (forms without appointment)"
+msgstr "Neuer Eintrag (Formulare ohne Termin)"
+
+msgid "Cancelled by the customer"
+msgstr "Vom Kunden abgesagt"
+
+msgid "Moved by the customer"
+msgstr "Vom Kunden verschoben"
+
+msgid "All connections are optional. Kalendora only contacts a service once you have entered its access data. Keys are stored encrypted."
+msgstr "Alle Anbindungen sind optional. Kalendora kontaktiert einen Dienst erst, wenn Sie dessen Zugangsdaten eingetragen haben. Schlüssel werden verschlüsselt gespeichert."
+
+msgid "Spam protection"
+msgstr "Spam-Schutz"
+
+msgid "Kalendora already blocks most spam without any service (hidden field, time check, limits per IP). An additional check helps against targeted bots. Note: the provider’s script is loaded on pages with a form – mention it in your privacy policy."
+msgstr "Kalendora blockt den meisten Spam bereits ohne fremden Dienst (verstecktes Feld, Zeitprüfung, Limits pro IP). Eine zusätzliche Prüfung hilft gegen gezielte Bots. Hinweis: Das Skript des Anbieters wird auf Seiten mit Formular geladen – nennen Sie es in Ihrer Datenschutzerklärung."
+
+msgid "Additional check"
+msgstr "Zusätzliche Prüfung"
+
+msgid "Cloudflare Turnstile (recommended, usually without puzzle)"
+msgstr "Cloudflare Turnstile (empfohlen, meist ohne Rätsel)"
+
+msgid "Site key"
+msgstr "Website-Schlüssel"
+
+msgid "Secret key"
+msgstr "Geheimer Schlüssel"
+
+msgid "Messages to Slack and Telegram"
+msgstr "Nachrichten an Slack und Telegram"
+
+msgid "Short message with customer name, service, date and a link to the admin – no form contents of bookings."
+msgstr "Kurze Nachricht mit Kundenname, Leistung, Datum und Link ins Admin – keine Formularinhalte von Buchungen."
+
+msgid "Send a message for"
+msgstr "Nachricht senden bei"
+
+msgid "Webhook address"
+msgstr "Webhook-Adresse"
+
+msgid "In Slack: Apps → Incoming Webhooks → add to a channel → copy the address."
+msgstr "In Slack: Apps → Incoming Webhooks → zu einem Kanal hinzufügen → Adresse kopieren."
+
+msgid "Guide"
+msgstr "Anleitung"
+
+msgid "Test message sent to Slack."
+msgstr "Testnachricht an Slack gesendet."
+
+msgid "Send test message"
+msgstr "Testnachricht senden"
+
+msgid "Bot token"
+msgstr "Bot-Token"
+
+msgid "Create a bot with @BotFather and copy the token."
+msgstr "Bot mit @BotFather anlegen und das Token kopieren."
+
+msgid "Chat ID"
+msgstr "Chat-ID"
+
+msgid "Your user or group ID, or @channelname. Send the bot a message first."
+msgstr "Ihre Benutzer- oder Gruppen-ID oder @kanalname. Schreiben Sie dem Bot vorher eine Nachricht."
+
+msgid "Test message sent to Telegram."
+msgstr "Testnachricht an Telegram gesendet."
+
+msgid "Visitors are only signed up if they tick a consent box in the form, and they always receive a confirmation email (double opt-in). Choose the form and the box in the form builder → Form → Newsletter."
+msgstr "Besucher werden nur angemeldet, wenn sie im Formular ein Zustimmungsfeld anhaken, und erhalten immer eine Bestätigungs-E-Mail (Double-Opt-in). Formular und Feld wählen Sie im Formular-Builder → Formular → Newsletter."
+
+msgid "API key"
+msgstr "API-Schlüssel"
+
+msgid "Profile → Extras → API keys. Ends with e.g. -us21."
+msgstr "Profil → Extras → API keys. Endet z. B. auf -us21."
+
+msgid "Audience ID"
+msgstr "Audience-ID (Zielgruppe)"
+
+msgid "Audience → Settings → Audience name and defaults."
+msgstr "Audience → Settings → Audience name and defaults."
+
+msgid "Connection to Mailchimp works."
+msgstr "Die Verbindung zu Mailchimp funktioniert."
+
+msgid "Check connection"
+msgstr "Verbindung prüfen"
+
+msgid "List ID"
+msgstr "Listen-ID"
+
+msgid "Template ID of the confirmation email"
+msgstr "Vorlagen-ID der Bestätigungs-E-Mail"
+
+msgid "A Brevo template of the type “double opt-in” with the confirmation link."
+msgstr "Eine Brevo-Vorlage vom Typ „Double-Opt-in“ mit dem Bestätigungslink."
+
+msgid "Page after confirming"
+msgstr "Seite nach der Bestätigung"
+
+msgid "e.g. %s"
+msgstr "z. B. %s"
+
+msgid "Connection to Brevo works."
+msgstr "Die Verbindung zu Brevo funktioniert."
+
+msgid "This section is being built and will be available in an upcoming version."
+msgstr "Dieser Bereich ist in Arbeit und in einer kommenden Version verfügbar."
+
+msgid "Room"
+msgstr "Raum"
+
+msgid "Equipment"
+msgstr "Gerät"
+
+msgid "Website timezone (%s)"
+msgstr "Zeitzone der Webseite (%s)"
+
+msgid "Edit staff member / resource"
+msgstr "Mitarbeiter / Ressource bearbeiten"
+
+msgid "New staff member / resource"
+msgstr "Neuer Mitarbeiter / neue Ressource"
+
+msgid "Receives notifications about own bookings."
+msgstr "Erhält Benachrichtigungen zu eigenen Buchungen."
+
+msgid "Timezone"
+msgstr "Zeitzone"
+
+msgid "Color"
+msgstr "Farbe"
+
+msgid "Inactive (not bookable)"
+msgstr "Inaktiv (nicht buchbar)"
+
+msgid "%1$d of %2$d staff members/resources used in the free version."
+msgstr "%1$d von %2$d Mitarbeitern/Ressourcen in der kostenlosen Version genutzt."
+
+msgid "Add staff member / resource"
+msgstr "Mitarbeiter / Ressource hinzufügen"
+
+msgid "Need more staff members or rooms? Kalendora Pro supports unlimited resources."
+msgstr "Mehr Mitarbeiter oder Räume nötig? Kalendora Pro unterstützt unbegrenzt viele Ressourcen."
+
+msgid "Working alone? Then you do not need any staff members – Kalendora uses the general opening hours."
+msgstr "Sie arbeiten allein? Dann brauchen Sie keine Mitarbeiter – Kalendora verwendet die allgemeinen Öffnungszeiten."
+
+msgid "Inactive"
+msgstr "Inaktiv"
+
+msgid "Working hours"
+msgstr "Arbeitszeiten"
+
+msgid "Delete \"%s\" including working hours? Existing bookings are kept."
+msgstr "„%s“ inklusive Arbeitszeiten löschen? Bestehende Buchungen bleiben erhalten."
+
+msgid "Free"
+msgstr "Kostenlos"
+
+msgid "Cancellation & reminders"
+msgstr "Absage & Erinnerungen"
+
+msgid "Send reminders for this service"
+msgstr "Erinnerungen für diese Leistung senden"
+
+msgid "Free cancellation up to (hours before)"
+msgstr "Kostenlos absagen bis (Stunden vorher)"
+
+msgid "Empty = use the global setting."
+msgstr "Leer = globale Einstellung verwenden."
+
+msgid "As in the settings"
+msgstr "Wie in den Einstellungen"
+
+msgid "No fee for this service"
+msgstr "Keine Gebühr für diese Leistung"
+
+msgid "Own fee for this service"
+msgstr "Eigene Gebühr für diese Leistung"
+
+msgid "Fee type"
+msgstr "Art der Gebühr"
+
+msgid "Percent of the service price"
+msgstr "Prozent vom Leistungspreis"
+
+msgid "Fixed amount (€)"
+msgstr "Fester Betrag (€)"
+
+msgid "Fee in €"
+msgstr "Gebühr in €"
+
+msgid "Fee in %"
+msgstr "Gebühr in %"
+
+msgid "Edit service"
+msgstr "Leistung bearbeiten"
+
+msgid "New service"
+msgstr "Neue Leistung"
+
+msgid "Description"
+msgstr "Beschreibung"
+
+msgid "Duration (minutes)"
+msgstr "Dauer (Minuten)"
+
+msgid "Price (%s)"
+msgstr "Preis (%s)"
+
+msgid "Preparation before (minutes)"
+msgstr "Vorbereitung vorher (Minuten)"
+
+msgid "Break after the appointment (minutes)"
+msgstr "Pause nach der Behandlung (Minuten)"
+
+msgid "e.g. cleaning, preparing the room"
+msgstr "z. B. Reinigung, Raum vorbereiten"
+
+msgid "Max. appointments per day"
+msgstr "Max. Termine pro Tag"
+
+msgid "0 = as many as fit into the working hours."
+msgstr "0 = so viele, wie in die Arbeitszeit passen."
+
+msgid "Places per appointment"
+msgstr "Plätze pro Termin"
+
+msgid "1 = individual appointment, more = group or class."
+msgstr "1 = Einzeltermin, mehr = Gruppe oder Kurs."
+
+msgid "Minimum notice (minutes)"
+msgstr "Mindestvorlauf (Minuten)"
+
+msgid "0 = use the global setting."
+msgstr "0 = globale Einstellung verwenden."
+
+msgid "Bookable up to (days ahead)"
+msgstr "Buchbar bis (Tage im Voraus)"
+
+msgid "Start times"
+msgstr "Startzeiten"
+
+msgid "Appointments are always placed within the working hours and end before closing time."
+msgstr "Termine liegen immer innerhalb der Arbeitszeit und enden vor Feierabend."
+
+msgid "One after another – every %d min (duration + preparation + break)"
+msgstr "Nacheinander – alle %d Min. (Dauer + Vorbereitung + Pause)"
+
+msgid "Fixed grid – every %d min"
+msgstr "Festes Raster – alle %d Min."
+
+msgid "Inactive (hidden)"
+msgstr "Inaktiv (ausgeblendet)"
+
+msgid "Who provides this service?"
+msgstr "Wer bietet diese Leistung an?"
+
+msgid "No staff members yet. Without assignment, the service uses the general opening hours."
+msgstr "Noch keine Mitarbeiter. Ohne Zuordnung gelten die allgemeinen Öffnungszeiten."
+
+msgid "Services are what customers can book – e.g. a haircut, a consultation or a course."
+msgstr "Leistungen sind das, was Kunden buchen können – z. B. ein Haarschnitt, eine Beratung oder ein Kurs."
+
+msgid "Add service"
+msgstr "Leistung hinzufügen"
+
+msgid "No services yet."
+msgstr "Noch keine Leistungen."
+
+msgid "Create your first service"
+msgstr "Erste Leistung anlegen"
+
+msgid "Delete the service \"%s\"? Existing bookings are kept."
+msgstr "Leistung „%s“ löschen? Bestehende Buchungen bleiben erhalten."
+
+msgid "Blue"
+msgstr "Blau"
+
+msgid "Green"
+msgstr "Grün"
+
+msgid "Teal"
+msgstr "Petrol"
+
+msgid "Violet"
+msgstr "Violett"
+
+msgid "Rose"
+msgstr "Rosé"
+
+msgid "Orange"
+msgstr "Orange"
+
+msgid "Anthracite"
+msgstr "Anthrazit"
+
+msgid "Your name"
+msgstr "Ihr Name"
+
+msgid "Cancelling & moving by customers"
+msgstr "Absagen & Verschieben durch Kunden"
+
+msgid "Every booking email contains a personal link. With it, customers can move or cancel their appointment themselves – you are informed by email and the time becomes free automatically."
+msgstr "Jede Buchungs-E-Mail enthält einen persönlichen Link. Damit können Kunden ihren Termin selbst verschieben oder absagen – Sie werden per E-Mail informiert und die Zeit wird automatisch wieder frei."
+
+msgid "Customers can cancel online"
+msgstr "Kunden können online absagen"
+
+msgid "Customers can move online"
+msgstr "Kunden können online verschieben"
+
+msgid "Only to free times of the same staff member."
+msgstr "Nur auf freie Zeiten desselben Mitarbeiters."
+
+msgid "Free of charge up to (hours before the appointment)"
+msgstr "Kostenlos bis (Stunden vor dem Termin)"
+
+msgid "After this, online changes are no longer possible – unless you use a cancellation fee (below). 0 = until the start."
+msgstr "Danach sind Online-Änderungen nicht mehr möglich – außer Sie verwenden eine Ausfallgebühr (unten). 0 = bis zum Beginn."
+
+msgid "Use a cancellation fee"
+msgstr "Ausfallgebühr verwenden"
+
+msgid "Common in practices: \"Cancel up to 24 hours before, otherwise a fee applies.\" Customers must accept the terms when booking. Can be changed per service."
+msgstr "Üblich in Praxen: „Absage bis 24 Stunden vorher, sonst fällt eine Gebühr an.“ Kunden müssen die Bedingungen bei der Buchung akzeptieren. Pro Leistung änderbar."
+
+msgid "Also charge if the customer does not attend"
+msgstr "Auch bei Nichterscheinen berechnen"
+
+msgid "Recorded automatically when you mark the booking as \"Not attended\"."
+msgstr "Wird automatisch erfasst, wenn Sie die Buchung als „Nicht erschienen“ markieren."
+
+msgid "Cancelling online after the deadline"
+msgstr "Online-Absage nach Ablauf der Frist"
+
+msgid "Allowed – the fee is shown beforehand and recorded"
+msgstr "Möglich – die Gebühr wird vorher angezeigt und erfasst"
+
+msgid "Not possible – customers have to call"
+msgstr "Nicht möglich – Kunden müssen anrufen"
+
+msgid "Own wording (optional)"
+msgstr "Eigener Text (optional)"
+
+msgid "Leave empty for the automatic text. Placeholders: {hours}, {fee}."
+msgstr "Leer lassen für den automatischen Text. Platzhalter: {hours}, {fee}."
+
+msgid "The free version records the fee and shows it in the bookings – you invoice it yourself. Note: In Germany a fee is only enforceable if it was agreed before; Kalendora stores the customer's consent with the booking. This is not legal advice."
+msgstr "Die kostenlose Version erfasst die Gebühr und zeigt sie in den Buchungen an – die Rechnung stellen Sie selbst. Hinweis: In Deutschland ist eine Ausfallgebühr nur durchsetzbar, wenn sie vorher vereinbart wurde; Kalendora speichert die Zustimmung des Kunden zur Buchung. Dies ist keine Rechtsberatung."
+
+msgid "Shown to customers when a short-notice change is only possible by phone. Placeholder {business_phone} in emails."
+msgstr "Wird Kunden angezeigt, wenn eine kurzfristige Änderung nur telefonisch möglich ist. Platzhalter {business_phone} in E-Mails."
+
+msgid "Notification email"
+msgstr "E-Mail für Benachrichtigungen"
+
+msgid "New bookings are sent here. Leave empty to use the site admin email."
+msgstr "Neue Buchungen werden hierher gesendet. Leer lassen, um die Admin-E-Mail der Webseite zu verwenden."
+
+msgid "Time format"
+msgstr "Zeitformat"
+
+msgid "Booking rules"
+msgstr "Buchungsregeln"
+
+msgid "Time grid for date fields without a service"
+msgstr "Zeitraster für Datumsfelder ohne Leistung"
+
+msgid "Booking forms use the start times defined per service."
+msgstr "Buchungsformulare verwenden die Startzeiten der jeweiligen Leistung."
+
+msgid "Pending – confirm with one click"
+msgstr "Offen – mit einem Klick bestätigen"
+
+msgid "Confirmed automatically"
+msgstr "Automatisch bestätigt"
+
+msgid "Visitors from another time zone see times in"
+msgstr "Besucher aus einer anderen Zeitzone sehen die Zeiten in"
+
+msgid "Visitors in another time zone can always switch. Choose \"their own time\" for online appointments (video, phone)."
+msgstr "Besucher in einer anderen Zeitzone können jederzeit umschalten. Wählen Sie „ihrer eigenen Zeit“ für Online-Termine (Video, Telefon)."
+
+msgid "the local time of the business"
+msgstr "Ortszeit des Betriebs"
+
+msgid "their own time"
+msgstr "ihrer eigenen Zeit"
+
+msgid "Fill gaps between appointments"
+msgstr "Lücken zwischen Terminen füllen"
+
+msgid "Also offers a start time directly after an existing appointment (incl. break). Less idle time, but start times are less regular."
+msgstr "Bietet zusätzlich einen Start direkt nach einem bestehenden Termin an (inkl. Pause). Weniger Leerlauf, aber weniger gleichmäßige Startzeiten."
+
+msgid "Max. appointments per day (all services)"
+msgstr "Max. Termine pro Tag (alle Leistungen)"
+
+msgid "0 = no limit. Limits per service can be set in the service."
+msgstr "0 = kein Limit. Limits pro Leistung legen Sie in der Leistung fest."
+
+msgid "Design & own code"
+msgstr "Design & eigener Code"
+
+msgid "Main color"
+msgstr "Hauptfarbe"
+
+msgid "Corner radius"
+msgstr "Eckenradius"
+
+msgid "Spacing"
+msgstr "Abstände"
+
+msgid "Compact"
+msgstr "Kompakt"
+
+msgid "Normal"
+msgstr "Normal"
+
+msgid "Spacious"
+msgstr "Großzügig"
+
+msgid "Color scheme"
+msgstr "Farbschema"
+
+msgid "\"Dark\" for websites with a dark background. \"Automatic\" follows the visitor's device setting."
+msgstr "„Dunkel“ für Webseiten mit dunklem Hintergrund. „Automatisch“ folgt der Einstellung des Geräts der Besucher."
+
+msgid "Light"
+msgstr "Hell"
+
+msgid "Dark"
+msgstr "Dunkel"
+
+msgid "Automatic"
+msgstr "Automatisch"
+
+msgid "Font"
+msgstr "Schrift"
+
+msgid "Like the website (theme)"
+msgstr "Wie die Webseite (Theme)"
+
+msgid "System font (like apps)"
+msgstr "Systemschrift (wie in Apps)"
+
+msgid "Only administrators may add own CSS and JavaScript."
+msgstr "Eigenes CSS und JavaScript dürfen nur Administratoren hinzufügen."
+
+msgid "CSS for all forms"
+msgstr "CSS für alle Formulare"
+
+msgid "Example: .kalendora { --kalendora-gap: 24px; } – all CSS variables are listed in the developer documentation."
+msgstr "Beispiel: .kalendora { --kalendora-gap: 24px; } – alle CSS-Variablen stehen in der Entwickler-Dokumentation."
+
+msgid "JavaScript for all forms"
+msgstr "JavaScript für alle Formulare"
+
+msgid "Runs once on every page with a Kalendora form. Example: kalendora.on( \"success\", ( data, form ) => { … } );"
+msgstr "Läuft einmal auf jeder Seite mit einem Kalendora-Formular. Beispiel: kalendora.on( \"success\", ( data, form ) => { … } );"
+
+msgid "Security & privacy"
+msgstr "Sicherheit & Datenschutz"
+
+msgid "Spam protection is always active and invisible for your customers: hidden trap field, minimum fill-in time, limits per sender and per IP address, and at most 3 open requests per email address."
+msgstr "Der Spam-Schutz ist immer aktiv und für Ihre Kunden unsichtbar: verstecktes Fallen-Feld, Mindest-Ausfüllzeit, Begrenzung pro Absender und IP-Adresse sowie höchstens 3 offene Anfragen pro E-Mail-Adresse."
+
+msgid "Delete all Kalendora data when the plugin is uninstalled"
+msgstr "Alle Kalendora-Daten beim Deinstallieren löschen"
+
+msgid "Save settings"
+msgstr "Einstellungen speichern"
+
+msgid "Inform the customer by email"
+msgstr "Kunden per E-Mail informieren"
+
+msgid "Move"
+msgstr "Verschieben"
+
+msgid "%1$s moved to %2$s, %3$s."
+msgstr "%1$s verschoben auf %2$s, %3$s."
+
+msgid "The customer has been informed."
+msgstr "Der Kunde wurde informiert."
+
+msgid "Note: the new time is outside the opening hours."
+msgstr "Hinweis: Die neue Zeit liegt außerhalb der Öffnungszeiten."
+
+msgid "Previous"
+msgstr "Zurück"
+
+msgid "Today"
+msgstr "Heute"
+
+msgid "View"
+msgstr "Ansicht"
+
+msgid "Day"
+msgstr "Tag"
+
+msgid "Week"
+msgstr "Woche"
+
+msgid "No staff members."
+msgstr "Keine Mitarbeitenden."
+
+msgid "%d appt."
+msgstr "%d Term."
+
+msgid "Busy (own calendar)"
+msgstr "Belegt (eigener Kalender)"
+
+msgid "Drag appointments to move them (15-minute steps)."
+msgstr "Termine ziehen, um sie zu verschieben (15-Minuten-Schritte)."
+
+msgid "Move appointment?"
+msgstr "Termin verschieben?"
+
+msgid "No"
+msgstr "Nein"
+
+msgid "Simple booking"
+msgstr "Einfache Terminbuchung"
+
+msgid "Service, date and time, contact details – suits almost every business."
+msgstr "Leistung, Datum und Uhrzeit, Kontaktdaten – passt für fast jeden Betrieb."
+
+msgid "Hair & beauty salon"
+msgstr "Friseur & Kosmetik"
+
+msgid "With choice of staff member and a question about previous visits."
+msgstr "Mit Wahl des Mitarbeiters und Frage nach früheren Besuchen."
+
+msgid "Treatment"
+msgstr "Behandlung"
+
+msgid "With whom?"
+msgstr "Bei wem?"
+
+msgid "Have you been with us before?"
+msgstr "Waren Sie schon einmal bei uns?"
+
+msgid "Wishes or notes"
+msgstr "Wünsche oder Hinweise"
+
+msgid "Medical practice & therapy"
+msgstr "Arztpraxis & Therapie"
+
+msgid "Two steps, insurance, new patient, upload of a referral, consent for health data."
+msgstr "Zwei Schritte, Versicherung, Neupatient, Upload der Überweisung, Einwilligung für Gesundheitsdaten."
+
+msgid "Reason for the appointment"
+msgstr "Grund des Termins"
+
+msgid "Your details"
+msgstr "Ihre Angaben"
+
+msgid "Date of birth"
+msgstr "Geburtsdatum"
+
+msgid "Insurance"
+msgstr "Versicherung"
+
+msgid "Statutory"
+msgstr "Gesetzlich"
+
+msgid "Private"
+msgstr "Privat"
+
+msgid "Self-payer"
+msgstr "Selbstzahler"
+
+msgid "Are you a new patient?"
+msgstr "Sind Sie Neupatient?"
+
+msgid "Referral or prescription (optional)"
+msgstr "Überweisung oder Rezept (optional)"
+
+msgid "Symptoms or questions (optional)"
+msgstr "Beschwerden oder Fragen (optional)"
+
+msgid "I agree that my details, including health information, are processed to arrange and prepare the appointment."
+msgstr "Ich willige ein, dass meine Angaben einschließlich Gesundheitsdaten zur Vereinbarung und Vorbereitung des Termins verarbeitet werden."
+
+msgid "Consulting & coaching"
+msgstr "Beratung & Coaching"
+
+msgid "Company, meeting type (on site, video, phone) and topic."
+msgstr "Firma, Art des Termins (vor Ort, Video, Telefon) und Thema."
+
+msgid "Topic"
+msgstr "Thema"
+
+msgid "Company"
+msgstr "Firma"
+
+msgid "How would you like to meet?"
+msgstr "Wie möchten Sie sich treffen?"
+
+msgid "On site"
+msgstr "Vor Ort"
+
+msgid "Video call"
+msgstr "Videoanruf"
+
+msgid "What is it about?"
+msgstr "Worum geht es?"
+
+msgid "Garage & workshop"
+msgstr "Werkstatt"
+
+msgid "Vehicle, licence plate, mileage and a description of the problem."
+msgstr "Fahrzeug, Kennzeichen, Kilometerstand und Beschreibung des Problems."
+
+msgid "Make and model"
+msgstr "Marke und Modell"
+
+msgid "Licence plate"
+msgstr "Kennzeichen"
+
+msgid "Mileage (km)"
+msgstr "Kilometerstand (km)"
+
+msgid "During the repair"
+msgstr "Während der Reparatur"
+
+msgid "I will wait"
+msgstr "Ich warte vor Ort"
+
+msgid "I will leave the vehicle"
+msgstr "Ich lasse das Fahrzeug da"
+
+msgid "Describe the problem"
+msgstr "Beschreiben Sie das Problem"
+
+msgid "Course & class"
+msgstr "Kurs & Gruppe"
+
+msgid "For services with several places, e.g. yoga, workshops, training."
+msgstr "Für Leistungen mit mehreren Plätzen, z. B. Yoga, Workshops, Schulungen."
+
+msgid "Course"
+msgstr "Kurs"
+
+msgid "Experience"
+msgstr "Erfahrung"
+
+msgid "Beginner"
+msgstr "Anfänger"
+
+msgid "Anything we should know?"
+msgstr "Sollen wir noch etwas wissen?"
+
+msgid "Contact form"
+msgstr "Kontaktformular"
+
+msgid "Name, email, phone and message."
+msgstr "Name, E-Mail, Telefon und Nachricht."
+
+msgid "Quote request"
+msgstr "Angebotsanfrage"
+
+msgid "Description, desired date and upload of photos or plans."
+msgstr "Beschreibung, Wunschtermin und Upload von Fotos oder Plänen."
+
+msgid "Desired date"
+msgstr "Wunschtermin"
+
+msgid "What can we do for you?"
+msgstr "Was können wir für Sie tun?"
+
+msgid "Photos or plans (optional)"
+msgstr "Fotos oder Pläne (optional)"
+
+msgid "Callback request"
+msgstr "Rückrufbitte"
+
+msgid "Phone number and the best time to call."
+msgstr "Telefonnummer und die beste Zeit für den Rückruf."
+
+msgid "Best time to call"
+msgstr "Beste Zeit für den Rückruf"
+
+msgid "Morning"
+msgstr "Vormittags"
+
+msgid "Midday"
+msgstr "Mittags"
+
+msgid "Afternoon"
+msgstr "Nachmittags"
+
+msgid "Feedback"
+msgstr "Feedback"
+
+msgid "Rating, recommendation and comments."
+msgstr "Bewertung, Weiterempfehlung und Anmerkungen."
+
+msgid "How satisfied were you?"
+msgstr "Wie zufrieden waren Sie?"
+
+msgid "Would you recommend us?"
+msgstr "Würden Sie uns weiterempfehlen?"
+
+msgid "Maybe"
+msgstr "Vielleicht"
+
+msgid "Comments"
+msgstr "Anmerkungen"
+
+msgid "Email (optional, if you would like an answer)"
+msgstr "E-Mail (optional, falls Sie eine Antwort möchten)"
+
+msgid "Month"
+msgstr "Monat"
+
+msgid "Year"
+msgstr "Jahr"
+
+msgid "Previous month"
+msgstr "Vorheriger Monat"
+
+msgid "Next month"
+msgstr "Nächster Monat"
+
+msgid "Loading available days…"
+msgstr "Verfügbare Tage werden geladen …"
+
+msgid "No free days in this month. Please choose another month."
+msgstr "In diesem Monat sind keine Tage frei. Bitte wählen Sie einen anderen Monat."
+
+msgid "Availability could not be loaded. Please try again."
+msgstr "Die Verfügbarkeit konnte nicht geladen werden. Bitte versuchen Sie es erneut."
+
+msgid "Please enter your first and last name."
+msgstr "Bitte geben Sie Vor- und Nachnamen ein."
+
+msgid "Please wait until all files have been uploaded."
+msgstr "Bitte warten Sie, bis alle Dateien hochgeladen sind."
+
+msgid "Something went wrong. Please try again."
+msgstr "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
+
+msgid "Connection problem. Please check your internet connection and try again."
+msgstr "Verbindungsproblem. Bitte prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut."
+
+msgid "Please choose a service first."
+msgstr "Bitte wählen Sie zuerst eine Leistung."
+
+msgid "Show times in"
+msgstr "Zeiten anzeigen in"
+
+msgid "local time of the business (%s)"
+msgstr "Ortszeit des Betriebs (%s)"
+
+msgid "my time (%s)"
+msgstr "meiner Zeit (%s)"
+
+msgid "Choose a day to see the free times."
+msgstr "Wählen Sie einen Tag, um die freien Zeiten zu sehen."
+
+msgid "Available times"
+msgstr "Freie Zeiten"
+
+msgid "until %s"
+msgstr "bis %s"
+
+msgid "%d free"
+msgstr "%d frei"
+
+msgid "No free times on this day."
+msgstr "An diesem Tag sind keine Zeiten frei."
+
+msgid "(%1$s in %2$s)"
+msgstr "(%1$s in %2$s)"
+
+msgid "Selected: %1$s, %2$s"
+msgstr "Gewählt: %1$s, %2$s"
+
+msgid "%1$s at %2$s"
+msgstr "%1$s um %2$s"
+
+msgid "Please upload at most %d file(s)."
+msgstr "Bitte laden Sie höchstens %d Datei(en) hoch."
+
+msgid "Uploading %s"
+msgstr "%s wird hochgeladen"
+
+msgid "Remove %s"
+msgstr "%s entfernen"
+
+msgid "Sign by hand instead"
+msgstr "Stattdessen von Hand unterschreiben"

@@ -1,0 +1,3387 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Kalendora\n"
+"Language: bg_BG\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Kalendora requires PHP %1$s or higher. Your server runs PHP %2$s."
+msgstr "Kalendora изисква PHP %1$s или по-нова версия. Вашият сървър използва PHP %2$s."
+
+msgid "Dashboard"
+msgstr "Табло"
+
+msgid "Timeline"
+msgstr "Времева линия"
+
+msgid "Bookings"
+msgstr "Резервации"
+
+msgid "Entries"
+msgstr "Записи"
+
+msgid "Forms"
+msgstr "Формуляри"
+
+msgid "Services"
+msgstr "Услуги"
+
+msgid "Staff & Resources"
+msgstr "Служители и ресурси"
+
+msgid "Opening Hours"
+msgstr "Работно време"
+
+msgid "Emails"
+msgstr "Имейли"
+
+msgid "Calendar Sync"
+msgstr "Синхронизация на календари"
+
+msgid "Integrations"
+msgstr "Интеграции"
+
+msgid "Settings"
+msgstr "Настройки"
+
+msgid "Kalendora"
+msgstr "Kalendora"
+
+msgid "Loading…"
+msgstr "Зареждане…"
+
+msgid "You are not allowed to export entries."
+msgstr "Нямате права да експортирате записи."
+
+msgid "Not found."
+msgstr "Не е намерено."
+
+msgid "This service is not available."
+msgstr "Тази услуга не е налична."
+
+msgid "The selected staff member or resource is not available for this service."
+msgstr "Избраният служител или ресурс не е наличен за тази услуга."
+
+msgid "No staff member or resource is available for this service."
+msgstr "Няма наличен служител или ресурс за тази услуга."
+
+msgid "Invalid date range."
+msgstr "Невалиден период."
+
+msgid "The requested date range is too long."
+msgstr "Заявеният период е твърде дълъг."
+
+msgid "Please enter a valid email address."
+msgstr "Моля, въведете валиден имейл адрес."
+
+msgid "Sorry, this time has just been booked. Please choose another time."
+msgstr "За съжаление този час току-що беше запазен. Моля, изберете друг час."
+
+msgid "Only pending or confirmed appointments can be moved."
+msgstr "Могат да се преместват само чакащи или потвърдени часове."
+
+msgid "This staff member does not offer the service."
+msgstr "Този служител не предлага услугата."
+
+msgid "Please try again in a moment."
+msgstr "Моля, опитайте отново след малко."
+
+msgid "This time overlaps with another appointment (including breaks)."
+msgstr "Този час се припокрива с друг запазен час (включително почивки)."
+
+msgid "This appointment can no longer be changed."
+msgstr "Този час вече не може да бъде променян."
+
+msgid "Sorry, this time is no longer available. Please choose another time."
+msgstr "За съжаление този час вече не е свободен. Моля, изберете друг час."
+
+msgid "The booking could not be saved. Please try again."
+msgstr "Резервацията не можа да бъде запазена. Моля, опитайте отново."
+
+msgid "For later cancellations or if you do not attend, we charge a fee of %s."
+msgstr "При по-късен отказ или ако не се явите, начисляваме такса от %s."
+
+msgid "For later cancellations we charge a fee of %s."
+msgstr "При по-късен отказ начисляваме такса от %s."
+
+msgid "%1$s %% of the price (%2$s)"
+msgstr "%1$s %% от цената (%2$s)"
+
+msgid "%s %% of the price"
+msgstr "%s %% от цената"
+
+msgid "Free cancellation up to %d hour before the appointment."
+msgid_plural "Free cancellation up to %d hours before the appointment."
+msgstr[0] "Безплатен отказ до %d час преди часа."
+msgstr[1] "Безплатен отказ до %d часа преди часа."
+
+msgid "Link not valid"
+msgstr "Невалиден линк"
+
+msgid "This link is not valid. Please use the link from your most recent email."
+msgstr "Този линк не е валиден. Моля, използвайте линка от последния си имейл."
+
+msgid "Appointment not found"
+msgstr "Часът не е намерен"
+
+msgid "This appointment no longer exists."
+msgstr "Този час вече не съществува."
+
+msgid "Please try again"
+msgstr "Моля, опитайте отново"
+
+msgid "The page has expired. Please open the link from the email again."
+msgstr "Страницата е изтекла. Моля, отворете отново линка от имейла."
+
+msgid "Your appointment"
+msgstr "Вашият час"
+
+msgid "Move appointment"
+msgstr "Преместване на часа"
+
+msgid "Withdraw request"
+msgstr "Оттегляне на заявката"
+
+msgid "Cancel appointment"
+msgstr "Отмяна на часа"
+
+msgid "Online changes were possible until %s. For short-notice changes please contact us directly."
+msgstr "Онлайн промени бяха възможни до %s. За промени в кратък срок, моля, свържете се директно с нас."
+
+msgid "To change this appointment, please contact us directly."
+msgstr "За да промените този час, моля, свържете се директно с нас."
+
+msgid "The free cancellation period ended on %1$s. If you cancel now, a fee of %2$s applies."
+msgstr "Срокът за безплатен отказ изтече на %1$s. Ако отмените сега, се начислява такса от %2$s."
+
+msgid "A cancellation fee of %s applies."
+msgstr "Начислява се такса за отказ от %s."
+
+msgid "The free cancellation period has ended."
+msgstr "Срокът за безплатен отказ изтече."
+
+msgid "Cancel with fee (%s)"
+msgstr "Отмяна с такса (%s)"
+
+msgid "Reason (optional)"
+msgstr "Причина (по избор)"
+
+msgid "Keep appointment"
+msgstr "Запазване на часа"
+
+msgid "Withdraw request?"
+msgstr "Оттегляне на заявката?"
+
+msgid "Cancel appointment?"
+msgstr "Отмяна на часа?"
+
+msgid "Current appointment: %1$s, %2$s"
+msgstr "Текущ час: %1$s, %2$s"
+
+msgid "Unfortunately there are no free times in the coming weeks. Please contact us directly."
+msgstr "За съжаление през следващите седмици няма свободни часове. Моля, свържете се директно с нас."
+
+msgid "Choose a day"
+msgstr "Изберете ден"
+
+msgid "Free times on %s"
+msgstr "Свободни часове на %s"
+
+msgid "Tap a time to move your appointment. You will receive a confirmation by email."
+msgstr "Докоснете час, за да преместите Вашия час. Ще получите потвърждение по имейл."
+
+msgid "Not possible"
+msgstr "Не е възможно"
+
+msgid "This appointment can no longer be cancelled online. Please contact us directly."
+msgstr "Този час вече не може да бъде отменен онлайн. Моля, свържете се директно с нас."
+
+msgid "Reason given by the customer:"
+msgstr "Причина, посочена от клиента:"
+
+msgid "Your appointment has been cancelled. A cancellation fee of %s has been recorded."
+msgstr "Вашият час е отменен. Записана е такса за отказ от %s."
+
+msgid "Your appointment has been cancelled. You will receive a confirmation by email."
+msgstr "Вашият час е отменен. Ще получите потвърждение по имейл."
+
+msgid "Appointment cancelled"
+msgstr "Часът е отменен"
+
+msgid "This appointment can no longer be moved online. Please contact us directly."
+msgstr "Този час вече не може да бъде преместен онлайн. Моля, свържете се директно с нас."
+
+msgid "Choose another time"
+msgstr "Изберете друг час"
+
+msgid "Appointment moved"
+msgstr "Часът е преместен"
+
+msgid "Your appointment has been moved. You will receive a confirmation with the new calendar file by email."
+msgstr "Вашият час е преместен. Ще получите потвърждение с новия календарен файл по имейл."
+
+msgid "Requested – not yet confirmed"
+msgstr "Заявен – все още не е потвърден"
+
+msgid "Confirmed"
+msgstr "Потвърдена"
+
+msgid "Cancelled"
+msgstr "Отменена"
+
+msgid "Rejected"
+msgstr "Отхвърлена"
+
+msgid "Completed"
+msgstr "Явил се"
+
+msgid "Not attended"
+msgstr "Не се яви"
+
+msgid "Service"
+msgstr "Услуга"
+
+msgid "Date"
+msgstr "Дата"
+
+msgid "Time"
+msgstr "Час"
+
+msgid "Staff member"
+msgstr "Служител"
+
+msgid "Status"
+msgstr "Статус"
+
+msgid "Cancellation fee"
+msgstr "Такса за отказ"
+
+msgid "This appointment has been cancelled."
+msgstr "Този час е отменен."
+
+msgid "Unfortunately this request could not be accepted."
+msgstr "За съжаление тази заявка не можа да бъде приета."
+
+msgid "This appointment is in the past and can no longer be changed."
+msgstr "Този час е в миналото и вече не може да бъде променян."
+
+msgid "Phone:"
+msgstr "Телефон:"
+
+msgid "Email:"
+msgstr "Имейл:"
+
+msgid "Back to the appointment"
+msgstr "Обратно към часа"
+
+msgid "Back to the website"
+msgstr "Обратно към уебсайта"
+
+msgid "Hello,"
+msgstr "Здравейте,"
+
+msgid "with this link you can subscribe to the calendar \"%s\" on your phone or computer. New, moved and cancelled appointments then appear automatically."
+msgstr "с този линк можете да се абонирате за календара „%s“ на Вашия телефон или компютър. Новите, преместените и отменените часове ще се показват автоматично."
+
+msgid "Subscribe to calendar"
+msgstr "Абонирайте се за календара"
+
+msgid "Open this email on the device where the calendar should appear. Keep the link private – anyone who has it can see the appointments."
+msgstr "Отворете този имейл на устройството, на което трябва да се показва календарът. Пазете линка поверителен – всеки, който го има, може да вижда часовете."
+
+msgid "Your calendar subscription: %s"
+msgstr "Вашият абонамент за календар: %s"
+
+msgid "Choose your calendar app. New appointments will then appear automatically."
+msgstr "Изберете Вашето приложение за календар. Новите часове ще се показват автоматично."
+
+msgid "iPhone, iPad, Mac (Apple Calendar)"
+msgstr "iPhone, iPad, Mac (Apple Календар)"
+
+msgid "Android / Google Calendar"
+msgstr "Android / Google Календар"
+
+msgid "Outlook"
+msgstr "Outlook"
+
+msgid "Other calendar apps: subscribe to this address"
+msgstr "Други приложения за календар: абонирайте се за този адрес"
+
+msgid "Google updates subscribed calendars every few hours, Apple and Outlook usually more often."
+msgstr "Google обновява абонираните календари на всеки няколко часа, Apple и Outlook обикновено по-често."
+
+msgid "[Unconfirmed] %s"
+msgstr "[Непотвърдена] %s"
+
+msgid "Customer"
+msgstr "Клиент"
+
+msgid "Phone"
+msgstr "Телефон"
+
+msgid "Email"
+msgstr "Имейл"
+
+msgid "Places"
+msgstr "Места"
+
+msgid "Notes"
+msgstr "Бележки"
+
+msgid "Please enter a valid, encrypted calendar address (starting with https:// or webcal://)."
+msgstr "Моля, въведете валиден, криптиран адрес на календар (започващ с https:// или webcal://)."
+
+msgid "This is a Kalendora feed of this website. Importing it would block your own appointments twice."
+msgstr "Това е Kalendora емисия на този уебсайт. Импортирането ѝ би блокирало собствените Ви часове двойно."
+
+msgid "A synchronization of this calendar is already running. Please try again in a minute."
+msgstr "Синхронизация на този календар вече се изпълнява. Моля, опитайте отново след минута."
+
+msgid "The calendar file was incomplete (too large or interrupted). The previous busy times are kept."
+msgstr "Календарният файл беше непълен (твърде голям или прекъснат). Предишните заети часове се запазват."
+
+msgid "The address does not return a calendar file. Please copy the private iCal/ICS address of your calendar."
+msgstr "Адресът не връща календарен файл. Моля, копирайте частния iCal/ICS адрес на календара си."
+
+msgid "The busy times could not be saved (database error). The previous busy times are kept."
+msgstr "Заетите часове не можаха да бъдат запазени (грешка в базата данни). Предишните заети часове се запазват."
+
+msgid "The calendar address could not be decrypted. Please enter it again."
+msgstr "Адресът на календара не можа да бъде декриптиран. Моля, въведете го отново."
+
+msgid "The calendar could not be loaded: %s"
+msgstr "Календарът не можа да бъде зареден: %s"
+
+msgid "Access denied. Please use the private (secret) iCal address of the calendar."
+msgstr "Достъпът е отказан. Моля, използвайте частния (секретен) iCal адрес на календара."
+
+msgid "The calendar no longer exists at this address. Was the address reset?"
+msgstr "Календарът вече не съществува на този адрес. Адресът нулиран ли е?"
+
+msgid "The calendar server answered with error %d. Kalendora will try again automatically."
+msgstr "Сървърът на календара отговори с грешка %d. Kalendora ще опита отново автоматично."
+
+msgid "The file could not be uploaded. Please try again."
+msgstr "Файлът не можа да бъде качен. Моля, опитайте отново."
+
+msgid "The file is empty."
+msgstr "Файлът е празен."
+
+msgid "Please sign again."
+msgstr "Моля, подпишете се отново."
+
+msgid "The file could not be saved. Please try again."
+msgstr "Файлът не можа да бъде запазен. Моля, опитайте отново."
+
+msgid "An uploaded file has expired. Please upload it again."
+msgstr "Качен файл е изтекъл. Моля, качете го отново."
+
+msgid "You are not allowed to open this file."
+msgstr "Нямате права да отваряте този файл."
+
+msgid "The file no longer exists."
+msgstr "Файлът вече не съществува."
+
+msgid "This file type is not allowed. Allowed: %s"
+msgstr "Този тип файл не е разрешен. Разрешени: %s"
+
+msgid "The file is too large. Maximum: %s"
+msgstr "Файлът е твърде голям. Максимум: %s"
+
+msgid "Please upload at most %d file."
+msgid_plural "Please upload at most %d files."
+msgstr[0] "Моля, качете най-много %d файл."
+msgstr[1] "Моля, качете най-много %d файла."
+
+msgid "Please check the highlighted fields."
+msgstr "Моля, проверете маркираните полета."
+
+msgid "Thank you! Your booking request has been received. You will receive a confirmation by email."
+msgstr "Благодарим Ви! Вашата заявка за резервация е получена. Ще получите потвърждение по имейл."
+
+msgid "Thank you! We have received your message and will get back to you soon."
+msgstr "Благодарим Ви! Получихме Вашето съобщение и скоро ще се свържем с Вас."
+
+msgid "An email address is required to book an appointment."
+msgstr "За запазване на час е необходим имейл адрес."
+
+msgid "Your message could not be saved. Please try again."
+msgstr "Вашето съобщение не можа да бъде запазено. Моля, опитайте отново."
+
+msgid "Please upload a file."
+msgstr "Моля, качете файл."
+
+msgid "Please sign."
+msgstr "Моля, подпишете се."
+
+msgid "Please type your full name."
+msgstr "Моля, въведете пълното си име."
+
+msgid "%s (typed signature)"
+msgstr "%s (въведен подпис)"
+
+msgid "Signed (image)"
+msgstr "Подписано (изображение)"
+
+msgid "Please choose one of the available days."
+msgstr "Моля, изберете един от наличните дни."
+
+msgid "Please choose one of the available times."
+msgstr "Моля, изберете един от наличните часове."
+
+msgid "This booking form is not configured yet."
+msgstr "Този формуляр за резервация все още не е конфигуриран."
+
+msgid "Please choose a service."
+msgstr "Моля, изберете услуга."
+
+msgid "Please choose a staff member."
+msgstr "Моля, изберете служител."
+
+msgid "Please choose a date and time."
+msgstr "Моля, изберете дата и час."
+
+msgid "Please accept the cancellation terms."
+msgstr "Моля, приемете условията за отказ."
+
+msgid "This field is required."
+msgstr "Това поле е задължително."
+
+msgid "Please choose one of the options."
+msgstr "Моля, изберете една от опциите."
+
+msgid "Please confirm to continue."
+msgstr "Моля, потвърдете, за да продължите."
+
+msgid "Please enter a valid web address."
+msgstr "Моля, въведете валиден уеб адрес."
+
+msgid "Please enter a valid phone number."
+msgstr "Моля, въведете валиден телефонен номер."
+
+msgid "Please enter a number."
+msgstr "Моля, въведете число."
+
+msgid "Please enter a value between %1$s and %2$s."
+msgstr "Моля, въведете стойност между %1$s и %2$s."
+
+msgid "Please enter a value in steps of %s."
+msgstr "Моля, въведете стойност на стъпки от %s."
+
+msgid "Please choose a valid date."
+msgstr "Моля, изберете валидна дата."
+
+msgid "This date cannot be chosen."
+msgstr "Тази дата не може да бъде избрана."
+
+msgid "Please enter a valid time."
+msgstr "Моля, въведете валиден час."
+
+msgid "Please use at most %d characters."
+msgstr "Моля, използвайте най-много %d знака."
+
+msgid "Your submission could not be processed."
+msgstr "Вашето изпращане не можа да бъде обработено."
+
+msgid "The form has expired. Please reload the page and try again."
+msgstr "Формулярът е изтекъл. Моля, презаредете страницата и опитайте отново."
+
+msgid "That was a bit too fast. Please wait a moment and submit again."
+msgstr "Това беше малко твърде бързо. Моля, изчакайте малко и изпратете отново."
+
+msgid "Too many submissions. Please try again in a few minutes."
+msgstr "Твърде много изпращания. Моля, опитайте отново след няколко минути."
+
+msgid "You already have several open requests. Please wait for our confirmation or contact us directly."
+msgstr "Вече имате няколко отворени заявки. Моля, изчакайте нашето потвърждение или се свържете директно с нас."
+
+msgid "Kalendora: this form does not exist or is not published."
+msgstr "Kalendora: този формуляр не съществува или не е публикуван."
+
+msgid "Preview: this form is a draft and only visible to you."
+msgstr "Преглед: този формуляр е чернова и е видим само за Вас."
+
+msgid "Step %d"
+msgstr "Стъпка %d"
+
+msgid "Leave this field empty"
+msgstr "Оставете това поле празно"
+
+msgid "Back"
+msgstr "Назад"
+
+msgid "Next"
+msgstr "Напред"
+
+msgid "Book now"
+msgstr "Запазете час"
+
+msgid "Send"
+msgstr "Изпрати"
+
+msgid "Please enable JavaScript to use this form."
+msgstr "Моля, активирайте JavaScript, за да използвате този формуляр."
+
+msgid "I accept the cancellation terms."
+msgstr "Приемам условията за отказ."
+
+msgid "— Please choose —"
+msgstr "— Моля, изберете —"
+
+msgid "First name"
+msgstr "Име"
+
+msgid "Last name"
+msgstr "Фамилия"
+
+msgid "Street and number"
+msgstr "Улица и номер"
+
+msgid "ZIP"
+msgstr "Пощенски код"
+
+msgid "City"
+msgstr "Град"
+
+msgid "Country"
+msgstr "Държава"
+
+msgid "Please choose a date and time"
+msgstr "Моля, изберете дата и час"
+
+msgid "Please choose a date"
+msgstr "Моля, изберете дата"
+
+msgid "Any available"
+msgstr "Без значение"
+
+msgid "%1$s · max. %2$s per file"
+msgstr "%1$s · макс. %2$s на файл"
+
+msgid "up to %d files"
+msgstr "до %d файла"
+
+msgid "Choose files or drop them here"
+msgstr "Изберете файлове или ги пуснете тук"
+
+msgid "Choose a file or drop it here"
+msgstr "Изберете файл или го пуснете тук"
+
+msgid "Sign with your mouse, finger or pen."
+msgstr "Подпишете се с мишката, пръста или писалка."
+
+msgid "Clear"
+msgstr "Изчисти"
+
+msgid "Type my name instead"
+msgstr "Вместо това въведи името ми"
+
+msgid "Your full name as signature"
+msgstr "Вашето пълно име като подпис"
+
+msgid "%d min"
+msgstr "%d мин"
+
+msgid "Please enter a Slack webhook address (starts with https://hooks.slack.com/)."
+msgstr "Моля, въведете адрес на Slack webhook (започва с https://hooks.slack.com/)."
+
+msgid "The Telegram bot token looks wrong. It has the form 123456789:ABC… and is shown by @BotFather."
+msgstr "Токенът на Telegram бота изглежда грешен. Има формата 123456789:ABC… и се показва от @BotFather."
+
+msgid "The Mailchimp API key looks wrong. It ends with the data center, e.g. …-us21."
+msgstr "API ключът на Mailchimp изглежда грешен. Завършва с центъра за данни, напр. …-us21."
+
+msgid "Spam protection needs both the site key and the secret key."
+msgstr "Защитата от спам изисква и ключа за сайта, и тайния ключ."
+
+msgid "Test message from Kalendora on %s – the connection works."
+msgstr "Тестово съобщение от Kalendora на %s – връзката работи."
+
+msgid "Please confirm that you are not a robot."
+msgstr "Моля, потвърдете, че не сте робот."
+
+msgid "New booking: %1$s – %2$s on %3$s at %4$s"
+msgstr "Нова резервация: %1$s – %2$s на %3$s в %4$s"
+
+msgid "Cancelled by the customer: %1$s – %2$s on %3$s at %4$s"
+msgstr "Отменена от клиента: %1$s – %2$s на %3$s в %4$s"
+
+msgid "Moved by the customer: %1$s – %2$s now on %3$s at %4$s"
+msgstr "Преместена от клиента: %1$s – %2$s вече на %3$s в %4$s"
+
+msgid "New entry: %s"
+msgstr "Нов запис: %s"
+
+msgid "Please save a Slack webhook address first."
+msgstr "Моля, първо запазете адрес на Slack webhook."
+
+msgid "Please save the bot token and the chat ID first."
+msgstr "Моля, първо запазете токена на бота и ID на чата."
+
+msgid "Mailchimp is not configured."
+msgstr "Mailchimp не е настроен."
+
+msgid "Please save the API key and the audience ID first."
+msgstr "Моля, първо запазете API ключа и ID на аудиторията."
+
+msgid "Brevo is not configured."
+msgstr "Brevo не е настроен."
+
+msgid "Please save the API key and the list ID first."
+msgstr "Моля, първо запазете API ключа и ID на списъка."
+
+msgid "%s could not be reached. Please try again later."
+msgstr "%s не е достъпен. Моля, опитайте отново по-късно."
+
+msgid "%s rejected the access data. Please check the key or token."
+msgstr "%s отхвърли данните за достъп. Моля, проверете ключа или токена."
+
+msgid "%s does not know this list, chat or address. Please check the ID."
+msgstr "%s не разпознава този списък, чат или адрес. Моля, проверете ID-то."
+
+msgid "%1$s returned an error (%2$d)."
+msgstr "%1$s върна грешка (%2$d)."
+
+msgid "Link no longer valid"
+msgstr "Линкът вече не е валиден"
+
+msgid "This link has already been used, has expired or the booking was changed in the meantime. Please open the booking in WordPress."
+msgstr "Този линк вече е използван, изтекъл е или резервацията междувременно е променена. Моля, отворете резервацията в WordPress."
+
+msgid "Booking not found"
+msgstr "Резервацията не е намерена"
+
+msgid "Booking confirmed"
+msgstr "Резервацията е потвърдена"
+
+msgid "Booking rejected"
+msgstr "Резервацията е отхвърлена"
+
+msgid "The customer has been informed by email."
+msgstr "Клиентът е уведомен по имейл."
+
+msgid "The customer has been informed by email. The time is free again."
+msgstr "Клиентът е уведомен по имейл. Часът отново е свободен."
+
+msgid "Already processed"
+msgstr "Вече е обработена"
+
+msgid "This booking has already been processed."
+msgstr "Тази резервация вече е обработена."
+
+msgid "Confirm booking"
+msgstr "Потвърди резервацията"
+
+msgid "Reject booking"
+msgstr "Отхвърли резервацията"
+
+msgid "Confirm booking?"
+msgstr "Потвърждаване на резервацията?"
+
+msgid "Reject booking?"
+msgstr "Отхвърляне на резервацията?"
+
+msgid "The customer will be informed automatically by email."
+msgstr "Клиентът ще бъде уведомен автоматично по имейл."
+
+msgid "Open bookings in WordPress"
+msgstr "Отвори резервациите в WordPress"
+
+msgid "(%1$s – %2$s your time, %3$s)"
+msgstr "(%1$s – %2$s Ваше време, %3$s)"
+
+msgid "today"
+msgstr "днес"
+
+msgid "tomorrow"
+msgstr "утре"
+
+msgid "Attempt %1$d failed, next try in %2$d minutes: %3$s"
+msgstr "Опит %1$d неуспешен, следващ опит след %2$d минути: %3$s"
+
+msgid "wp_mail() returned false. Please check the mail configuration (e.g. an SMTP plugin)."
+msgstr "wp_mail() върна false. Моля, проверете конфигурацията на пощата (напр. SMTP плъгин)."
+
+msgid "Add to Google Calendar"
+msgstr "Добавяне в Google Календар"
+
+msgid "Move or cancel appointment"
+msgstr "Преместване или отмяна на часа"
+
+msgid "customer"
+msgstr "клиент"
+
+msgid "As you did not attend the appointment, we charge a fee of %s according to our cancellation terms."
+msgstr "Тъй като не се явихте на часа, начисляваме такса от %s съгласно нашите условия за отказ."
+
+msgid "As the cancellation was made after the free cancellation period, we charge a fee of %s according to our cancellation terms."
+msgstr "Тъй като отказът е направен след срока за безплатен отказ, начисляваме такса от %s съгласно нашите условия за отказ."
+
+msgid "Cancellation fee recorded: %s (open)"
+msgstr "Записана такса за отказ: %s (неплатена)"
+
+msgid "Sample service"
+msgstr "Примерна услуга"
+
+msgid "Message"
+msgstr "Съобщение"
+
+msgid "This is a sample message."
+msgstr "Това е примерно съобщение."
+
+msgid "Contact"
+msgstr "Контакт"
+
+msgid "Sample reason"
+msgstr "Примерна причина"
+
+msgid "Confirm"
+msgstr "Потвърди"
+
+msgid "Reject"
+msgstr "Отхвърли"
+
+msgid "You will see the booking details once more before anything is changed."
+msgstr "Ще видите данните за резервацията още веднъж, преди нещо да бъде променено."
+
+msgid "Add to calendar"
+msgstr "Добавяне в календар"
+
+msgid "Works with iPhone, Android and Outlook."
+msgstr "Работи с iPhone, Android и Outlook."
+
+msgid "Google Calendar"
+msgstr "Google Календар"
+
+msgid "Open in WordPress"
+msgstr "Отвори в WordPress"
+
+msgid "in %d hour"
+msgid_plural "in %d hours"
+msgstr[0] "след %d час"
+msgstr[1] "след %d часа"
+
+msgid "in %d day"
+msgid_plural "in %d days"
+msgstr[0] "след %d ден"
+msgstr[1] "след %d дни"
+
+msgid "Booking received"
+msgstr "Резервацията е получена"
+
+msgid "To the customer right after booking, while the request is still pending."
+msgstr "До клиента веднага след резервацията, докато заявката все още е в очакване."
+
+msgid "To the customer when you confirm the booking. Includes a calendar file."
+msgstr "До клиента, когато потвърдите резервацията. Включва календарен файл."
+
+msgid "To the customer when you reject the request."
+msgstr "До клиента, когато отхвърлите заявката."
+
+msgid "Booking cancelled"
+msgstr "Резервацията е отменена"
+
+msgid "To the customer when the appointment is cancelled."
+msgstr "До клиента, когато часът бъде отменен."
+
+msgid "Appointment reminder"
+msgstr "Напомняне за час"
+
+msgid "To the customer before the appointment (time set in the settings)."
+msgstr "До клиента преди часа (времето се задава в настройките)."
+
+msgid "To the customer when you move the appointment in the timeline. Includes the new calendar file."
+msgstr "До клиента, когато преместите часа във времевата линия. Включва новия календарен файл."
+
+msgid "New booking (to you)"
+msgstr "Нова резервация (до Вас)"
+
+msgid "To you with buttons to confirm or reject with one click."
+msgstr "До Вас с бутони за потвърждаване или отхвърляне с едно кликване."
+
+msgid "Cancelled by the customer (to you)"
+msgstr "Отменена от клиента (до Вас)"
+
+msgid "To you when a customer cancels online, with reason and fee (if any)."
+msgstr "До Вас, когато клиент отмени онлайн, с причина и такса (ако има)."
+
+msgid "Moved by the customer (to you)"
+msgstr "Преместена от клиента (до Вас)"
+
+msgid "To you when a customer moves the appointment online."
+msgstr "До Вас, когато клиент премести часа онлайн."
+
+msgid "Message received (auto-reply)"
+msgstr "Получено съобщение (автоматичен отговор)"
+
+msgid "To the sender of a contact or request form."
+msgstr "До подателя на формуляр за контакт или запитване."
+
+msgid "New message (to you)"
+msgstr "Ново съобщение (до Вас)"
+
+msgid "To you when someone submits a contact or request form."
+msgstr "До Вас, когато някой изпрати формуляр за контакт или запитване."
+
+msgid "We have received your booking request"
+msgstr "Получихме Вашата заявка за резервация"
+
+msgid "Hello {customer_name},\n\nthank you for your request. We have received the following booking:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} {local_time}\n\nWe will check the appointment and confirm it shortly by email.\n\n{manage_button}\n\nKind regards\n{business_name}"
+msgstr "Здравейте, {customer_name},\n\nблагодарим Ви за заявката. Получихме следната резервация:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} {local_time}\n\nЩе проверим часа и скоро ще го потвърдим по имейл.\n\n{manage_button}\n\nПоздрави\n{business_name}"
+
+msgid "Your appointment on {date} is confirmed"
+msgstr "Вашият час на {date} е потвърден"
+
+msgid "Hello {customer_name},\n\nyour appointment is confirmed:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} {local_time}\n{staff}\n\n{calendar_button}\n\nIf you cannot make it, please let us know in good time.\n{manage_button}\n{cancellation_policy}\n\nWe look forward to seeing you!\n{business_name}"
+msgstr "Здравейте, {customer_name},\n\nВашият час е потвърден:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} {local_time}\n{staff}\n\n{calendar_button}\n\nАко не можете да дойдете, моля, уведомете ни своевременно.\n{manage_button}\n{cancellation_policy}\n\nОчакваме Ви с нетърпение!\n{business_name}"
+
+msgid "Your booking request for {date}"
+msgstr "Вашата заявка за резервация за {date}"
+
+msgid "Hello {customer_name},\n\nunfortunately we cannot offer you the requested appointment ({service}, {date} at {time}).\n\nPlease choose another time on our website: {site_url}\n\nKind regards\n{business_name}"
+msgstr "Здравейте, {customer_name},\n\nза съжаление не можем да Ви предложим заявения час ({service}, {date} в {time}).\n\nМоля, изберете друг час на нашия уебсайт: {site_url}\n\nПоздрави\n{business_name}"
+
+msgid "Your appointment on {date} has been cancelled"
+msgstr "Вашият час на {date} е отменен"
+
+msgid "Hello {customer_name},\n\nyour appointment has been cancelled:\n\n{service}\n{date}, {time}\n\n{cancellation_fee_note}\n\nYou are welcome to book a new appointment at any time: {site_url}\n\nKind regards\n{business_name}"
+msgstr "Здравейте, {customer_name},\n\nВашият час е отменен:\n\n{service}\n{date}, {time}\n\n{cancellation_fee_note}\n\nМожете по всяко време да запазите нов час: {site_url}\n\nПоздрави\n{business_name}"
+
+msgid "Reminder: your appointment on {date} at {time}"
+msgstr "Напомняне: Вашият час на {date} в {time}"
+
+msgid "Hello {customer_name},\n\nwe would like to remind you of your appointment {time_until}:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} {local_time}\n\n{calendar_button}\n\nIf you cannot make it, please let us know as soon as possible.\n{manage_button}\n{cancellation_policy}\n\nSee you soon!\n{business_name}"
+msgstr "Здравейте, {customer_name},\n\nбихме искали да Ви напомним за Вашия час {time_until}:\n\n<strong>{service}</strong>\n{date}, {time} – {end_time} {local_time}\n\n{calendar_button}\n\nАко не можете да дойдете, моля, уведомете ни възможно най-скоро.\n{manage_button}\n{cancellation_policy}\n\nДо скоро!\n{business_name}"
+
+msgid "Your appointment has been moved to {date} at {time}"
+msgstr "Вашият час е преместен на {date} в {time}"
+
+msgid "Hello {customer_name},\n\nyour appointment has been moved:\n\n<strong>{service}</strong>\nNew: {date}, {time} – {end_time} {local_time}\n<s>Previously: {previous_date}, {previous_time}</s>\n\n{calendar_button}\n\nIf the new time does not suit you, please let us know.\n{manage_button}\n\nKind regards\n{business_name}"
+msgstr "Здравейте, {customer_name},\n\nВашият час беше преместен:\n\n<strong>{service}</strong>\nНов: {date}, {time} – {end_time} {local_time}\n<s>Предишен: {previous_date}, {previous_time}</s>\n\n{calendar_button}\n\nАко новият час не Ви е удобен, моля, уведомете ни.\n{manage_button}\n\nПоздрави,\n{business_name}"
+
+msgid "New booking: {service} on {date} at {time}"
+msgstr "Нова резервация: {service} на {date} в {time}"
+
+msgid "New booking from <strong>{customer_name}</strong>\n\n{service}\n{date}, {time} – {end_time}\n{staff}\n\nEmail: {customer_email}\nPhone: {customer_phone}\n\n{all_fields}\n\n{action_buttons}"
+msgstr "Нова резервация от <strong>{customer_name}</strong>\n\n{service}\n{date}, {time} – {end_time}\n{staff}\n\nИмейл: {customer_email}\nТелефон: {customer_phone}\n\n{all_fields}\n\n{action_buttons}"
+
+msgid "Cancelled by the customer: {service} on {date} at {time}"
+msgstr "Отменена от клиента: {service} на {date} в {time}"
+
+msgid "<strong>{customer_name}</strong> has cancelled the appointment online. The time is free again.\n\n{service}\n{date}, {time} – {end_time}\n{staff}\n\nReason: {cancel_reason}\n{fee_info}\n\nEmail: {customer_email}\nPhone: {customer_phone}\n\n{admin_link}"
+msgstr "<strong>{customer_name}</strong> отмени часа онлайн. Часът отново е свободен.\n\n{service}\n{date}, {time} – {end_time}\n{staff}\n\nПричина: {cancel_reason}\n{fee_info}\n\nИмейл: {customer_email}\nТелефон: {customer_phone}\n\n{admin_link}"
+
+msgid "Moved by the customer: {service} now on {date} at {time}"
+msgstr "Преместена от клиента: {service} вече на {date} в {time}"
+
+msgid "<strong>{customer_name}</strong> has moved the appointment online.\n\n{service}\nNew: {date}, {time} – {end_time}\n<s>Previously: {previous_date}, {previous_time}</s>\n{staff}\n\nEmail: {customer_email}\nPhone: {customer_phone}\n\n{admin_link}"
+msgstr "<strong>{customer_name}</strong> премести часа онлайн.\n\n{service}\nНов: {date}, {time} – {end_time}\n<s>Предишен: {previous_date}, {previous_time}</s>\n{staff}\n\nИмейл: {customer_email}\nТелефон: {customer_phone}\n\n{admin_link}"
+
+msgid "Thank you for your message"
+msgstr "Благодарим Ви за съобщението"
+
+msgid "Hello {customer_name},\n\nthank you for your message. We will get back to you as soon as possible.\n\nKind regards\n{business_name}"
+msgstr "Здравейте, {customer_name},\n\nблагодарим Ви за съобщението. Ще се свържем с Вас възможно най-скоро.\n\nПоздрави,\n{business_name}"
+
+msgid "New message via {form_title}"
+msgstr "Ново съобщение чрез {form_title}"
+
+msgid "New message from <strong>{customer_name}</strong> ({customer_email})\n\n{all_fields}\n\n{admin_link}"
+msgstr "Ново съобщение от <strong>{customer_name}</strong> ({customer_email})\n\n{all_fields}\n\n{admin_link}"
+
+msgid "Customer name"
+msgstr "Име на клиента"
+
+msgid "Customer email"
+msgstr "Имейл на клиента"
+
+msgid "Customer phone"
+msgstr "Телефон на клиента"
+
+msgid "Start time"
+msgstr "Начален час"
+
+msgid "Time in the customer’s time zone, only if it differs (e.g. booked from abroad)"
+msgstr "Час в часовата зона на клиента, само ако се различава (напр. при резервация от чужбина)"
+
+msgid "End time"
+msgstr "Краен час"
+
+msgid "Previous date (when moved)"
+msgstr "Предишна дата (при преместване)"
+
+msgid "Previous time (when moved)"
+msgstr "Предишен час (при преместване)"
+
+msgid "Duration"
+msgstr "Продължителност"
+
+msgid "Price"
+msgstr "Цена"
+
+msgid "Business name"
+msgstr "Име на фирмата"
+
+msgid "Business address"
+msgstr "Адрес на фирмата"
+
+msgid "Website address"
+msgstr "Адрес на уебсайта"
+
+msgid "Form title"
+msgstr "Заглавие на формуляра"
+
+msgid "All form answers as a table"
+msgstr "Всички отговори от формуляра като таблица"
+
+msgid "A single answer, e.g. {field:message}"
+msgstr "Отделен отговор, напр. {field:message}"
+
+msgid "Button \"Add to calendar\" (iPhone, Android, Outlook)"
+msgstr "Бутон „Добави в календара“ (iPhone, Android, Outlook)"
+
+msgid "Link \"Add to Google Calendar\""
+msgstr "Връзка „Добави в Google Календар“"
+
+msgid "Buttons confirm / reject (only in emails to you)"
+msgstr "Бутони потвърждаване / отхвърляне (само в имейлите до Вас)"
+
+msgid "Button \"Move or cancel appointment\" for the customer"
+msgstr "Бутон „Преместване или отмяна на часа“ за клиента"
+
+msgid "Link \"Move or cancel appointment\""
+msgstr "Връзка „Преместване или отмяна на часа“"
+
+msgid "Cancellation terms (as agreed with the booking)"
+msgstr "Условия за отказ (както са договорени при резервацията)"
+
+msgid "Date and time up to which cancelling is free"
+msgstr "Дата и час, до които отказът е безплатен"
+
+msgid "Recorded cancellation fee"
+msgstr "Записана такса за отказ"
+
+msgid "Sentence about the fee (only if a fee was recorded)"
+msgstr "Изречение за таксата (само ако е записана такса)"
+
+msgid "Reason given by the customer when cancelling"
+msgstr "Причина, посочена от клиента при отмяната"
+
+msgid "Fee note for you (only if a fee was recorded)"
+msgstr "Бележка за таксата за Вас (само ако е записана такса)"
+
+msgid "Business phone"
+msgstr "Телефон на фирмата"
+
+msgid "Link to the entry in WordPress"
+msgstr "Връзка към записа в WordPress"
+
+msgid "Kalendora entries and bookings"
+msgstr "Записи и резервации в Kalendora"
+
+msgid "Submitted (UTC)"
+msgstr "Подаден (UTC)"
+
+msgid "Name"
+msgstr "Име"
+
+msgid "Appointment (UTC)"
+msgstr "Час (UTC)"
+
+msgid "Form entries and bookings"
+msgstr "Записи от формуляри и резервации"
+
+msgid "Emails sent by Kalendora"
+msgstr "Имейли, изпратени от Kalendora"
+
+msgid "Sent (UTC)"
+msgstr "Изпратен (UTC)"
+
+msgid "Type"
+msgstr "Тип"
+
+msgid "When you submit a form or book an appointment, we store the data you enter in the form (such as name, email address, phone number and your message) together with the date and time of a booked appointment. We use this data to process your request, manage your appointment and send you confirmations and reminders."
+msgstr "Когато изпратите формуляр или запазите час, ние съхраняваме данните, които въвеждате във формуляра (като име, имейл адрес, телефонен номер и Вашето съобщение), заедно с датата и часа на запазения час. Използваме тези данни, за да обработим Вашата заявка, да управляваме Вашия час и да Ви изпращаме потвърждения и напомняния."
+
+msgid "This status change is not possible."
+msgstr "Тази промяна на статуса не е възможна."
+
+msgid "ID"
+msgstr "ID"
+
+msgid "Submitted"
+msgstr "Подаден"
+
+msgid "Appointment"
+msgstr "Час"
+
+msgid "Booking status"
+msgstr "Статус на резервацията"
+
+msgid "Fee"
+msgstr "Такса"
+
+msgid "Fee status"
+msgstr "Статус на таксата"
+
+msgid "Invalid fee status."
+msgstr "Невалиден статус на таксата."
+
+msgid "Could not be saved."
+msgstr "Не можа да бъде запазено."
+
+msgid "Yes"
+msgstr "Да"
+
+msgid "%s (copy)"
+msgstr "%s (копие)"
+
+msgid "Please enter a valid date range."
+msgstr "Моля, въведете валиден период от дати."
+
+msgid "Please enter a valid time range."
+msgstr "Моля, въведете валиден времеви интервал."
+
+msgid "Special opening hours need a start and end time."
+msgstr "Специалното работно време изисква начален и краен час."
+
+msgid "The email could not be sent. Please check the mail configuration (e.g. an SMTP plugin)."
+msgstr "Имейлът не можа да бъде изпратен. Моля, проверете настройките за поща (напр. SMTP плъгин)."
+
+msgid "All appointments"
+msgstr "Всички часове"
+
+msgid "Unknown staff member."
+msgstr "Неизвестен служител."
+
+msgid "Please enter the calendar address."
+msgstr "Моля, въведете адреса на календара."
+
+msgid "Invalid status."
+msgstr "Невалиден статус."
+
+msgid "Too many calendars connected."
+msgstr "Свързани са твърде много календари."
+
+msgid "Could not save."
+msgstr "Неуспешно запазване."
+
+msgid "Please enter a name."
+msgstr "Моля, въведете име."
+
+msgid "Subject and text must not be empty."
+msgstr "Темата и текстът не могат да бъдат празни."
+
+msgid "The test email could not be sent. Please check the mail configuration of your website (e.g. with an SMTP plugin)."
+msgstr "Тестовият имейл не можа да бъде изпратен. Моля, проверете настройките за поща на уебсайта (напр. със SMTP плъгин)."
+
+msgid "Invalid action."
+msgstr "Невалидно действие."
+
+msgid "This time is no longer free. The booking cannot be reopened."
+msgstr "Този час вече не е свободен. Резервацията не може да бъде възстановена."
+
+msgid "Please enter a form title."
+msgstr "Моля, въведете заглавие на формуляра."
+
+msgid "Invalid form fields."
+msgstr "Невалидни полета на формуляра."
+
+msgid "This form is not available."
+msgstr "Този формуляр не е наличен."
+
+msgid "Invalid field."
+msgstr "Невалидно поле."
+
+msgid "Too many uploads. Please try again later."
+msgstr "Твърде много качвания. Моля, опитайте отново по-късно."
+
+msgid "The free version supports up to %d staff members or resources. Upgrade to Kalendora Pro for unlimited resources."
+msgstr "Безплатната версия поддържа до %d служители или ресурси. Преминете към Kalendora Pro за неограничен брой ресурси."
+
+msgid "Not assigned"
+msgstr "Неразпределен"
+
+msgid "Search fields"
+msgstr "Търсене на полета"
+
+msgid "This field can only be used once."
+msgstr "Това поле може да се използва само веднъж."
+
+msgid "Want a calendar? Switch the form type to \"Booking form\" in the Form tab."
+msgstr "Искате календар? Сменете типа на формуляра на „Формуляр за резервация“ в раздела „Формуляр“."
+
+msgid "%1$s: %2$s"
+msgstr "%1$s: %2$s"
+
+msgid "Drag to reorder"
+msgstr "Плъзнете за пренареждане"
+
+msgid "Conditional logic"
+msgstr "Условна логика"
+
+msgid "Edit %s"
+msgstr "Редактиране на %s"
+
+msgid "Duplicate"
+msgstr "Дублирай"
+
+msgid "Delete"
+msgstr "Изтрий"
+
+msgid "Form saved."
+msgstr "Формулярът е запазен."
+
+msgid "Field"
+msgstr "Поле"
+
+msgid "To move a field, press Space or Enter, use the arrow keys to choose the new position and press Space or Enter again. Escape cancels."
+msgstr "За да преместите поле, натиснете интервал или Enter, изберете новата позиция със стрелките и натиснете отново интервал или Enter. Escape отменя."
+
+msgid "Picked up %1$s at position %2$d."
+msgstr "%1$s е взето на позиция %2$d."
+
+msgid "%1$s is now at position %2$d."
+msgstr "%1$s вече е на позиция %2$d."
+
+msgid "%1$s was moved to position %2$d."
+msgstr "%1$s беше преместено на позиция %2$d."
+
+msgid "Moving %s was cancelled."
+msgstr "Преместването на %s беше отменено."
+
+msgid "Discard unsaved changes?"
+msgstr "Да се отхвърлят ли незапазените промени?"
+
+msgid "All forms"
+msgstr "Всички формуляри"
+
+msgid "Published"
+msgstr "Публикуван"
+
+msgid "Draft"
+msgstr "Чернова"
+
+msgid "Paste this shortcode into any page, or use the Kalendora block."
+msgstr "Поставете този шорткод на произволна страница или използвайте блока Kalendora."
+
+msgid "Preview size"
+msgstr "Размер на прегледа"
+
+msgid "Desktop"
+msgstr "Настолен"
+
+msgid "Mobile"
+msgstr "Мобилен"
+
+msgid "Save"
+msgstr "Запази"
+
+msgid "Saved"
+msgstr "Запазено"
+
+msgid "Add fields"
+msgstr "Добавяне на полета"
+
+msgid "Form preview"
+msgstr "Преглед на формуляра"
+
+msgid "A booking form needs a \"Date & time\" field."
+msgstr "Формулярът за резервация се нуждае от поле „Дата и час“."
+
+msgid "Add it"
+msgstr "Добави го"
+
+msgid "Add an email field so you can reply and send confirmations."
+msgstr "Добавете поле за имейл, за да можете да отговаряте и да изпращате потвърждения."
+
+msgid "Multi-step form with %d steps"
+msgstr "Многостъпков формуляр с %d стъпки"
+
+msgid "Click a field on the left to add it to your form."
+msgstr "Щракнете върху поле вляво, за да го добавите към формуляра."
+
+msgid "Form"
+msgstr "Формуляр"
+
+msgid "Select a field in the form to edit its settings."
+msgstr "Изберете поле във формуляра, за да редактирате настройките му."
+
+msgid "Heading"
+msgstr "Заглавие"
+
+msgid "Page break"
+msgstr "Нова страница"
+
+msgid "Drop files here or click to upload"
+msgstr "Пуснете файловете тук или щракнете, за да качите"
+
+msgid "Sign here"
+msgstr "Подпишете тук"
+
+msgid "General"
+msgstr "Общи"
+
+msgid "Only visible to you."
+msgstr "Видимо само за Вас."
+
+msgid "Form type"
+msgstr "Тип формуляр"
+
+msgid "Standard form (contact, request, survey …)"
+msgstr "Стандартен формуляр (контакт, запитване, анкета …)"
+
+msgid "Booking form (with calendar)"
+msgstr "Формуляр за резервация (с календар)"
+
+msgid "Booking fields are only available in booking forms."
+msgstr "Полетата за резервация са налични само във формуляри за резервация."
+
+msgid "Draft (not visible on the website)"
+msgstr "Чернова (не се вижда на уебсайта)"
+
+msgid "After submitting"
+msgstr "След изпращане"
+
+msgid "Button text"
+msgstr "Текст на бутона"
+
+msgid "Success message"
+msgstr "Съобщение при успех"
+
+msgid "Thank you! We have received your message."
+msgstr "Благодарим Ви! Получихме Вашето съобщение."
+
+msgid "Redirect to page (optional)"
+msgstr "Пренасочване към страница (по избор)"
+
+msgid "Notify me by email about new entries"
+msgstr "Уведомявай ме по имейл за нови записи"
+
+msgid "Store entries in the database"
+msgstr "Съхранявай записите в базата данни"
+
+msgid "Booking forms always store entries."
+msgstr "Формулярите за резервация винаги съхраняват записите."
+
+msgid "Newsletter"
+msgstr "Бюлетин"
+
+msgid "Sign up for the newsletter with"
+msgstr "Абониране за бюлетин чрез"
+
+msgid "No newsletter"
+msgstr "Без бюлетин"
+
+msgid "Only if this box is ticked"
+msgstr "Само ако това поле е отметнато"
+
+msgid "Add a consent field such as “Yes, I would like to receive the newsletter.” The visitor then gets a confirmation email from the newsletter service (double opt-in). Access data: Kalendora → Integrations."
+msgstr "Добавете поле за съгласие, напр. „Да, искам да получавам бюлетина.“ Посетителят получава имейл за потвърждение от услугата за бюлетини (double opt-in). Данни за достъп: Kalendora → Интеграции."
+
+msgid "– choose a field –"
+msgstr "– изберете поле –"
+
+msgid "Without a consent field nobody is signed up."
+msgstr "Без поле за съгласие никой не се абонира."
+
+msgid "Appearance"
+msgstr "Външен вид"
+
+msgid "Labels"
+msgstr "Етикети"
+
+msgid "Above the field"
+msgstr "Над полето"
+
+msgid "Left of the field"
+msgstr "Вляво от полето"
+
+msgid "Hidden (placeholder only)"
+msgstr "Скрити (само заместващ текст)"
+
+msgid "Progress for multi-step forms"
+msgstr "Напредък при многостъпкови формуляри"
+
+msgid "Progress bar"
+msgstr "Лента за напредък"
+
+msgid "Step names"
+msgstr "Имена на стъпките"
+
+msgid "None"
+msgstr "Няма"
+
+msgid "Custom CSS & JavaScript"
+msgstr "Персонализиран CSS и JavaScript"
+
+msgid "Only administrators can edit custom code."
+msgstr "Само администратори могат да редактират персонализиран код."
+
+msgid "CSS for this form"
+msgstr "CSS за този формуляр"
+
+msgid "Scope your rules with .kalendora-form-%d."
+msgstr "Ограничете правилата си с .kalendora-form-%d."
+
+msgid "JavaScript for this form"
+msgstr "JavaScript за този формуляр"
+
+msgid "Runs when the form is ready. Example: kalendora.on( \"slot\", ( slot ) => { … } ); – see the developer documentation."
+msgstr "Изпълнява се, когато формулярът е готов. Пример: kalendora.on( \"slot\", ( slot ) => { … } ); – вижте документацията за разработчици."
+
+msgid "Service price"
+msgstr "Цена на услугата"
+
+msgid "Service duration (min)"
+msgstr "Продължителност на услугата (мин)"
+
+msgid "Formula"
+msgstr "Формула"
+
+msgid "Use + - * / ( ), numbers and the fields below, e.g. {persons} * {service_price}. Functions: round(x, 2), min(a, b), max(a, b), ceil(x), floor(x)."
+msgstr "Използвайте + - * / ( ), числа и полетата по-долу, напр. {persons} * {service_price}. Функции: round(x, 2), min(a, b), max(a, b), ceil(x), floor(x)."
+
+msgid "Unknown field: %s"
+msgstr "Непознато поле: %s"
+
+msgid "The formula cannot be calculated. Check brackets and operators."
+msgstr "Формулата не може да бъде изчислена. Проверете скобите и операторите."
+
+msgid "Insert a value:"
+msgstr "Вмъкване на стойност:"
+
+msgid "Decimal places"
+msgstr "Знаци след десетичната запетая"
+
+msgid "Before the number"
+msgstr "Преди числото"
+
+msgid "After the number"
+msgstr "След числото"
+
+msgid "is"
+msgstr "е"
+
+msgid "is not"
+msgstr "не е"
+
+msgid "contains"
+msgstr "съдържа"
+
+msgid "does not contain"
+msgstr "не съдържа"
+
+msgid "is empty"
+msgstr "е празно"
+
+msgid "is not empty"
+msgstr "не е празно"
+
+msgid "is greater than"
+msgstr "е по-голямо от"
+
+msgid "is less than"
+msgstr "е по-малко от"
+
+msgid "Option label"
+msgstr "Етикет на опцията"
+
+msgid "Value for calculations"
+msgstr "Стойност за изчисления"
+
+msgid "Move up"
+msgstr "Премести нагоре"
+
+msgid "Move down"
+msgstr "Премести надолу"
+
+msgid "Remove option"
+msgstr "Премахни опцията"
+
+msgid "Option %d"
+msgstr "Опция %d"
+
+msgid "Add option"
+msgstr "Добави опция"
+
+msgid "Show or hide this field depending on other answers."
+msgstr "Показване или скриване на това поле в зависимост от други отговори."
+
+msgid "Add condition"
+msgstr "Добави условие"
+
+msgid "Add other fields first."
+msgstr "Първо добавете други полета."
+
+msgid "Action"
+msgstr "Действие"
+
+msgid "Show this field"
+msgstr "Покажи това поле"
+
+msgid "Hide this field"
+msgstr "Скрий това поле"
+
+msgid "Match"
+msgstr "Съвпадение"
+
+msgid "if all conditions match"
+msgstr "ако всички условия съвпадат"
+
+msgid "if any condition matches"
+msgstr "ако някое условие съвпада"
+
+msgid "Condition"
+msgstr "Условие"
+
+msgid "Value"
+msgstr "Стойност"
+
+msgid "Remove condition"
+msgstr "Премахни условието"
+
+msgid "Text"
+msgstr "Текст"
+
+msgid "Label"
+msgstr "Етикет"
+
+msgid "Size"
+msgstr "Размер"
+
+msgid "Large"
+msgstr "Голям"
+
+msgid "Medium"
+msgstr "Среден"
+
+msgid "Small"
+msgstr "Малък"
+
+msgid "Allowed: <strong>, <em>, <a>, <br>."
+msgstr "Разрешени: <strong>, <em>, <a>, <br>."
+
+msgid "Title of the next step"
+msgstr "Заглавие на следващата стъпка"
+
+msgid "Consent text"
+msgstr "Текст на съгласието"
+
+msgid "You can link your privacy policy with <a href=\"…\">…</a>."
+msgstr "Можете да добавите връзка към политиката за поверителност с <a href=\"…\">…</a>."
+
+msgid "Placeholder"
+msgstr "Заместващ текст"
+
+msgid "Help text"
+msgstr "Помощен текст"
+
+msgid "Required"
+msgstr "Задължително"
+
+msgid "Options"
+msgstr "Опции"
+
+msgid "The number next to each option is used in calculations (e.g. the price of an extra)."
+msgstr "Числото до всяка опция се използва в изчисленията (напр. цената на допълнителна услуга)."
+
+msgid "Format"
+msgstr "Формат"
+
+msgid "First and last name"
+msgstr "Име и фамилия"
+
+msgid "One field"
+msgstr "Едно поле"
+
+msgid "Offer these services"
+msgstr "Предлагай тези услуги"
+
+msgid "None selected = all active services."
+msgstr "Нищо избрано = всички активни услуги."
+
+msgid "Offer \"any available staff member\""
+msgstr "Предлагай „всеки свободен служител“"
+
+msgid "Advanced"
+msgstr "Разширени"
+
+msgid "Field key"
+msgstr "Ключ на полето"
+
+msgid "Used in email placeholders, e.g. {key}. Leave empty to generate it from the label."
+msgstr "Използва се в заместителите в имейлите, напр. {key}. Оставете празно, за да се генерира от етикета."
+
+msgid "Default value"
+msgstr "Стойност по подразбиране"
+
+msgid "Tip: use {url:param} or {user:email} for dynamic values."
+msgstr "Съвет: използвайте {url:param} или {user:email} за динамични стойности."
+
+msgid "Maximum characters (0 = unlimited)"
+msgstr "Максимален брой знаци (0 = неограничено)"
+
+msgid "Rows"
+msgstr "Редове"
+
+msgid "Min"
+msgstr "Мин."
+
+msgid "Max"
+msgstr "Макс."
+
+msgid "Step"
+msgstr "Стъпка"
+
+msgid "Number of stars"
+msgstr "Брой звезди"
+
+msgid "Layout"
+msgstr "Подредба"
+
+msgid "Below each other"
+msgstr "Един под друг"
+
+msgid "Side by side"
+msgstr "Един до друг"
+
+msgid "Ask for country"
+msgstr "Питай за държава"
+
+msgid "Only working days can be selected"
+msgstr "Могат да се избират само работни дни"
+
+msgid "Uses the general opening hours, holidays and vacation."
+msgstr "Използва общото работно време, празниците и отпуските."
+
+msgid "Also choose a time (within opening hours)"
+msgstr "Избор и на час (в рамките на работното време)"
+
+msgid "For requests without fixed booking. For real bookings with blocked times, use a booking form."
+msgstr "За запитвания без фиксирана резервация. За реални резервации с блокирани часове използвайте формуляр за резервация."
+
+msgid "Earliest date"
+msgstr "Най-ранна дата"
+
+msgid "e.g. today, +1 day, 2026–12–01"
+msgstr "напр. today, +1 day, 2026–12–01"
+
+msgid "Latest date"
+msgstr "Най-късна дата"
+
+msgid "e.g. +3 months"
+msgstr "напр. +3 months"
+
+msgid "Allowed file types"
+msgstr "Разрешени типове файлове"
+
+msgid "Comma separated, e.g. jpg, png, pdf"
+msgstr "Разделени със запетая, напр. jpg, png, pdf"
+
+msgid "Max. size (MB)"
+msgstr "Макс. размер (MB)"
+
+msgid "Your server allows only %d MB per file – this limit applies."
+msgstr "Вашият сървър позволява само %d MB на файл – прилага се това ограничение."
+
+msgid "Max. files"
+msgstr "Макс. брой файлове"
+
+msgid "Width"
+msgstr "Ширина"
+
+msgid "Full width"
+msgstr "Цяла ширина"
+
+msgid "Half width"
+msgstr "Половин ширина"
+
+msgid "One third"
+msgstr "Една трета"
+
+msgid "Conditional logic (active)"
+msgstr "Условна логика (активна)"
+
+msgid "Booking"
+msgstr "Резервация"
+
+msgid "Basic fields"
+msgstr "Основни полета"
+
+msgid "Choices"
+msgstr "Избор"
+
+msgid "Option 1"
+msgstr "Опция 1"
+
+msgid "Option 2"
+msgstr "Опция 2"
+
+msgid "Option 3"
+msgstr "Опция 3"
+
+msgid "Date & time"
+msgstr "Дата и час"
+
+msgid "Choose a date and time"
+msgstr "Изберете дата и час"
+
+msgid "Single line text"
+msgstr "Едноредов текст"
+
+msgid "Paragraph text"
+msgstr "Текст в абзац"
+
+msgid "Number"
+msgstr "Число"
+
+msgid "Website / URL"
+msgstr "Уебсайт / URL"
+
+msgid "Website"
+msgstr "Уебсайт"
+
+msgid "Dropdown"
+msgstr "Падащо меню"
+
+msgid "Radio buttons"
+msgstr "Радио бутони"
+
+msgid "Choose one"
+msgstr "Изберете едно"
+
+msgid "Checkboxes"
+msgstr "Отметки"
+
+msgid "Choose any"
+msgstr "Изберете произволни"
+
+msgid "Consent (GDPR)"
+msgstr "Съгласие (GDPR)"
+
+msgid "Privacy"
+msgstr "Поверителност"
+
+msgid "I agree that my data will be processed to handle my request."
+msgstr "Съгласен/съгласна съм данните ми да бъдат обработени за изпълнение на моето запитване."
+
+msgid "Rating"
+msgstr "Оценка"
+
+msgid "Slider"
+msgstr "Плъзгач"
+
+msgid "Address"
+msgstr "Адрес"
+
+msgid "File upload"
+msgstr "Качване на файл"
+
+msgid "Upload file"
+msgstr "Качи файл"
+
+msgid "Signature"
+msgstr "Подпис"
+
+msgid "Calculation"
+msgstr "Изчисление"
+
+msgid "Total"
+msgstr "Общо"
+
+msgid "Hidden field"
+msgstr "Скрито поле"
+
+msgid "Hidden"
+msgstr "Скрито"
+
+msgid "Text block"
+msgstr "Текстов блок"
+
+msgid "Add an explanation for your visitors here."
+msgstr "Добавете тук пояснение за посетителите."
+
+msgid "Divider"
+msgstr "Разделител"
+
+msgid "Page break (step)"
+msgstr "Нова страница (стъпка)"
+
+msgid "Next step"
+msgstr "Следваща стъпка"
+
+msgid "Are you sure?"
+msgstr "Сигурни ли сте?"
+
+msgid "Cancel"
+msgstr "Отказ"
+
+msgid "Sunday"
+msgstr "Неделя"
+
+msgid "Monday"
+msgstr "Понеделник"
+
+msgid "Tuesday"
+msgstr "Вторник"
+
+msgid "Wednesday"
+msgstr "Сряда"
+
+msgid "Thursday"
+msgstr "Четвъртък"
+
+msgid "Friday"
+msgstr "Петък"
+
+msgid "Saturday"
+msgstr "Събота"
+
+msgid "Set your opening hours to see the daily schedule."
+msgstr "Задайте работното време, за да видите дневния график."
+
+msgid "Daily schedule on %1$s (%2$s):"
+msgstr "Дневен график на %1$s (%2$s):"
+
+msgid "%d min break after each appointment"
+msgstr "%d мин. почивка след всеки час"
+
+msgid "= max. %d appointment per day"
+msgid_plural "= max. %d appointments per day"
+msgstr[0] "= макс. %d час на ден"
+msgstr[1] "= макс. %d часа на ден"
+
+msgid "Pending"
+msgstr "Чакаща"
+
+msgid "Attended"
+msgstr "Явил се"
+
+msgid "No-show"
+msgstr "Неявяване"
+
+msgid "Reopen"
+msgstr "Отвори отново"
+
+msgid "Saved."
+msgstr "Запазено."
+
+msgid "Deleted."
+msgstr "Изтрито."
+
+msgid "Upcoming"
+msgstr "Предстоящи"
+
+msgid "Past"
+msgstr "Минали"
+
+msgid "Rejected & cancelled"
+msgstr "Отхвърлени и отменени"
+
+msgid "All"
+msgstr "Всички"
+
+msgid "Open fees"
+msgstr "Неплатени такси"
+
+msgid "open"
+msgstr "неплатена"
+
+msgid "paid"
+msgstr "платена"
+
+msgid "waived"
+msgstr "опростена"
+
+msgid "Late cancellation"
+msgstr "Късен отказ"
+
+msgid "Did not attend"
+msgstr "Не се яви"
+
+msgid "Entered manually"
+msgstr "Въведена ръчно"
+
+msgid "Fee %1$s · %2$s"
+msgstr "Такса %1$s · %2$s"
+
+msgid "Cancellation terms & fee"
+msgstr "Условия за отказ и такса"
+
+msgid "(accepted by the customer on %s)"
+msgstr "(приети от клиента на %s)"
+
+msgid "Cancelled online by the customer."
+msgstr "Отменена онлайн от клиента."
+
+msgid "Mark as paid"
+msgstr "Отбележи като платена"
+
+msgid "Waive fee"
+msgstr "Опрости таксата"
+
+msgid "Mark as open again"
+msgstr "Отбележи отново като неплатена"
+
+msgid "Record a fee (€)"
+msgstr "Въведи такса (€)"
+
+msgid "E.g. for a short-notice cancellation by phone."
+msgstr "Напр. при отказ по телефона в кратък срок."
+
+msgid "Record fee"
+msgstr "Въведи такса"
+
+msgid "confirmed"
+msgstr "потвърдена"
+
+msgid "rejected"
+msgstr "отхвърлена"
+
+msgid "cancelled"
+msgstr "отменена"
+
+msgid "marked as attended"
+msgstr "отбелязана като „Явил се“"
+
+msgid "marked as no-show"
+msgstr "отбелязана като „Неявяване“"
+
+msgid "reopened"
+msgstr "отворена отново"
+
+msgid "%d places"
+msgstr "%d места"
+
+msgid "Booked on"
+msgstr "Резервирано на"
+
+msgid "Form details"
+msgstr "Данни от формуляра"
+
+msgid "No further details."
+msgstr "Няма допълнителни данни."
+
+msgid "Internal notes"
+msgstr "Вътрешни бележки"
+
+msgid "Only visible to you and your team."
+msgstr "Видими само за Вас и Вашия екип."
+
+msgid "Save notes"
+msgstr "Запази бележките"
+
+msgid "Search name, email or phone"
+msgstr "Търсене по име, имейл или телефон"
+
+msgid "All services"
+msgstr "Всички услуги"
+
+msgid "No open requests – everything is done."
+msgstr "Няма отворени заявки – всичко е обработено."
+
+msgid "No bookings found."
+msgstr "Няма намерени резервации."
+
+msgid "Show details for %s"
+msgstr "Покажи подробности за %s"
+
+msgid "Load more"
+msgstr "Зареди още"
+
+msgid "Active"
+msgstr "Активен"
+
+msgid "Error"
+msgstr "Грешка"
+
+msgid "Paused"
+msgstr "На пауза"
+
+msgid "never"
+msgstr "никога"
+
+msgid "just now"
+msgstr "току-що"
+
+msgid "%d min. ago"
+msgstr "преди %d мин."
+
+msgid "Link sent to %s."
+msgstr "Връзката е изпратена до %s."
+
+msgid "Send link to phone"
+msgstr "Изпрати връзката на телефона"
+
+msgid "QR code"
+msgstr "QR код"
+
+msgid "Apple Calendar"
+msgstr "Apple Calendar"
+
+msgid "Copied"
+msgstr "Копирано"
+
+msgid "Copy address"
+msgstr "Копирай адреса"
+
+msgid "Reset address"
+msgstr "Нулирай адреса"
+
+msgid "The current address stops working immediately. Everyone who subscribed must subscribe again with the new link."
+msgstr "Текущият адрес спира да работи веднага. Всички абонирани трябва да се абонират отново с новата връзка."
+
+msgid "Scan with the phone: %s"
+msgstr "Сканирайте с телефона: %s"
+
+msgid "QR code for subscribing to the calendar %s"
+msgstr "QR код за абониране за календара %s"
+
+msgid "Open the camera app on the phone and point it at the code."
+msgstr "Отворете приложението за камера на телефона и го насочете към кода."
+
+msgid "Tap the link that appears. iPhones open the calendar directly, Android phones show buttons for Google Calendar and Outlook."
+msgstr "Докоснете показаната връзка. iPhone отваря директно календара, а телефоните с Android показват бутони за Google Calendar и Outlook."
+
+msgid "Confirm the subscription – done. New, moved and cancelled appointments appear automatically."
+msgstr "Потвърдете абонамента – готово. Новите, преместените и отменените часове се появяват автоматично."
+
+msgid "The code contains the private address of this calendar. Only show it to the person it belongs to. If in doubt: “Reset address”."
+msgstr "Кодът съдържа частния адрес на този календар. Показвайте го само на човека, на когото принадлежи. При съмнение: „Нулирай адреса“."
+
+msgid "Open the email on the phone and tap the button – the calendar app starts the subscription."
+msgstr "Отворете имейла на телефона и докоснете бутона – приложението за календар започва абонамента."
+
+msgid "Email address"
+msgstr "Имейл адрес"
+
+msgid "Whole business (blocks everyone)"
+msgstr "Целият бизнес (блокира всички)"
+
+msgid "Private calendar address (iCal / ICS)"
+msgstr "Частен адрес на календара (iCal / ICS)"
+
+msgid "Leave empty to keep the current address."
+msgstr "Оставете празно, за да запазите текущия адрес."
+
+msgid "Starts with https:// or webcal://. It is stored encrypted."
+msgstr "Започва с https:// или webcal://. Съхранява се криптиран."
+
+msgid "e.g. Private calendar Laura"
+msgstr "напр. Личен календар Лаура"
+
+msgid "Blocks the times of"
+msgstr "Блокира времето на"
+
+msgid "All-day entries (e.g. vacation) block the whole day"
+msgstr "Целодневните записи (напр. отпуск) блокират целия ден"
+
+msgid "Connect calendar"
+msgstr "Свържи календар"
+
+msgid "Where do I find the private calendar address?"
+msgstr "Къде да намеря частния адрес на календара?"
+
+msgid "Google Calendar (Android)"
+msgstr "Google Calendar (Android)"
+
+msgid "calendar.google.com on the computer → ⚙ Settings → choose your calendar under \"Settings for my calendars\" → \"Integrate calendar\" → copy \"Secret address in iCal format\"."
+msgstr "calendar.google.com на компютъра → ⚙ Настройки → изберете календара си под „Настройки за моите календари“ → „Интегриране на календара“ → копирайте „Таен адрес във формат iCal“."
+
+msgid "iCloud (iPhone)"
+msgstr "iCloud (iPhone)"
+
+msgid "Calendar app on the Mac or icloud.com → share the calendar → switch on \"Public calendar\" → copy the link (webcal://…)."
+msgstr "Приложението Календар на Mac или icloud.com → споделете календара → включете „Публичен календар“ → копирайте връзката (webcal://…)."
+
+msgid "Outlook / Microsoft 365"
+msgstr "Outlook / Microsoft 365"
+
+msgid "Outlook on the web → ⚙ Settings → Calendar → Shared calendars → \"Publish a calendar\" → choose \"Can view when I'm busy\" → copy the ICS link."
+msgstr "Outlook в уеб → ⚙ Настройки → Календар → Споделени календари → „Публикуване на календар“ → изберете „Може да вижда кога съм зает“ → копирайте ICS връзката."
+
+msgid "Only start and end times are stored – titles and details of your private appointments stay in your calendar."
+msgstr "Съхраняват се само началните и крайните часове – заглавията и подробностите на личните Ви ангажименти остават в календара Ви."
+
+msgid "Calendar connected."
+msgstr "Календарът е свързан."
+
+msgid "Synchronized."
+msgstr "Синхронизирано."
+
+msgid "Calendar removed."
+msgstr "Календарът е премахнат."
+
+msgid "New address created. The old one no longer works."
+msgstr "Създаден е нов адрес. Старият вече не работи."
+
+msgid "Whole business"
+msgstr "Целият бизнес"
+
+msgid "WP-Cron is disabled on this site. Please make sure a server cron job calls wp-cron.php regularly, otherwise calendars are only updated when you click \"Sync now\"."
+msgstr "WP-Cron е изключен на този сайт. Уверете се, че сървърен cron job извиква редовно wp-cron.php, иначе календарите се обновяват само когато натиснете „Синхронизирай сега“."
+
+msgid "1. Kalendora appointments in your calendar app"
+msgstr "1. Часовете от Kalendora в приложението Ви за календар"
+
+msgid "Subscribe once – new, moved and cancelled appointments then appear automatically on the phone (iPhone, Android, Outlook)."
+msgstr "Абонирайте се веднъж – новите, преместените и отменените часове след това се появяват автоматично на телефона (iPhone, Android, Outlook)."
+
+msgid "Show customer name, phone and email in the calendar"
+msgstr "Показвай името, телефона и имейла на клиента в календара"
+
+msgid "Switch off if other people can see your phone calendar."
+msgstr "Изключете, ако други хора виждат календара на телефона Ви."
+
+msgid "Also show unconfirmed requests (marked as \"Unconfirmed\")"
+msgstr "Показвай и непотвърдените заявки (отбелязани като „Непотвърдена“)"
+
+msgid "Note: Google updates subscribed calendars only every few hours. Apple and Outlook are usually faster."
+msgstr "Забележка: Google обновява абонираните календари само на всеки няколко часа. Apple и Outlook обикновено са по-бързи."
+
+msgid "2. Block private appointments automatically"
+msgstr "2. Автоматично блокиране на лични ангажименти"
+
+msgid "Connect your private calendars. Times in which you already have something planned are no longer offered to customers. Updated every 15 minutes."
+msgstr "Свържете личните си календари. Времената, в които вече имате планирано нещо, вече не се предлагат на клиентите. Обновява се на всеки 15 минути."
+
+msgid "No calendar connected yet."
+msgstr "Все още няма свързан календар."
+
+msgid "Last sync: %s"
+msgstr "Последна синхронизация: %s"
+
+msgid "Sync now"
+msgstr "Синхронизирай сега"
+
+msgid "Calendar resumed."
+msgstr "Календарът е възобновен."
+
+msgid "Calendar paused – it no longer blocks times."
+msgstr "Календарът е на пауза – вече не блокира времена."
+
+msgid "Resume"
+msgstr "Възобнови"
+
+msgid "Pause"
+msgstr "Пауза"
+
+msgid "Edit"
+msgstr "Редактирай"
+
+msgid "Remove"
+msgstr "Премахни"
+
+msgid "The calendar is disconnected and its busy times are released."
+msgstr "Календарът е изключен и заетите му времена са освободени."
+
+msgid "%1$s %2$d busy time imported."
+msgid_plural "%1$s %2$d busy times imported."
+msgstr[0] "%1$s %2$d заето време е импортирано."
+msgstr[1] "%1$s %2$d заети времена са импортирани."
+
+msgid "%d busy time"
+msgid_plural "%d busy times"
+msgstr[0] "%d заето време"
+msgstr[1] "%d заети времена"
+
+msgid "Mon"
+msgstr "Пн"
+
+msgid "Tue"
+msgstr "Вт"
+
+msgid "Wed"
+msgstr "Ср"
+
+msgid "Thu"
+msgstr "Чт"
+
+msgid "Fri"
+msgstr "Пт"
+
+msgid "Sat"
+msgstr "Сб"
+
+msgid "Sun"
+msgstr "Нд"
+
+msgid "Your business"
+msgstr "Вашият бизнес"
+
+msgid "Opening hours"
+msgstr "Работно време"
+
+msgid "First service"
+msgstr "Първа услуга"
+
+msgid "Done"
+msgstr "Готово"
+
+msgid "Welcome to Kalendora"
+msgstr "Добре дошли в Kalendora"
+
+msgid "Five short steps and your first booking form is online. Everything can be changed later."
+msgstr "Пет кратки стъпки и първият Ви формуляр за резервация е онлайн. Всичко може да се промени по-късно."
+
+msgid "Email for new bookings"
+msgstr "Имейл за нови резервации"
+
+msgid "Shown to customers who can no longer cancel online at short notice."
+msgstr "Показва се на клиенти, които вече не могат да откажат онлайн в кратък срок."
+
+msgid "New bookings are"
+msgstr "Новите резервации са"
+
+msgid "Requests – I confirm each one"
+msgstr "Заявки – потвърждавам всяка лично"
+
+msgid "Confirmed immediately"
+msgstr "Потвърдени веднага"
+
+msgid "Your site uses a UTC offset instead of a city as time zone. Please choose your city (e.g. Berlin) so that appointments stay correct when the clocks change."
+msgstr "Сайтът Ви използва UTC отместване вместо град като часова зона. Моля, изберете своя град (напр. София), за да остават часовете правилни при смяна на часовото време."
+
+msgid "Open time zone settings"
+msgstr "Отвори настройките за часова зона"
+
+msgid "When are you open?"
+msgstr "Кога работите?"
+
+msgid "Opening days"
+msgstr "Работни дни"
+
+msgid "From"
+msgstr "От"
+
+msgid "To"
+msgstr "До"
+
+msgid "Lunch break"
+msgstr "Обедна почивка"
+
+msgid "Break from"
+msgstr "Почивка от"
+
+msgid "Break until"
+msgstr "Почивка до"
+
+msgid "Different hours per day, holidays and vacation: Kalendora → Opening Hours."
+msgstr "Различно работно време по дни, празници и отпуск: Kalendora → Работно време."
+
+msgid "What can customers book?"
+msgstr "Какво могат да резервират клиентите?"
+
+msgid "e.g. Classic massage"
+msgstr "напр. Класически масаж"
+
+msgid "Price in € (optional)"
+msgstr "Цена в € (по избор)"
+
+msgid "More services, buffers, staff and places for courses: Kalendora → Services."
+msgstr "Още услуги, буфери, служители и места за курсове: Kalendora → Услуги."
+
+msgid "Choose a form"
+msgstr "Изберете формуляр"
+
+msgid "Create “%s”"
+msgstr "Създай „%s“"
+
+msgid "Your form is ready"
+msgstr "Формулярът Ви е готов"
+
+msgid "Put it on any page of your website:"
+msgstr "Поставете го на която и да е страница от сайта си:"
+
+msgid "Block editor:"
+msgstr "Редактор с блокове:"
+
+msgid "add the block “Kalendora” and choose the form."
+msgstr "добавете блока „Kalendora“ и изберете формуляра."
+
+msgid "Other page builders:"
+msgstr "Други конструктори на страници:"
+
+msgid "paste this shortcode"
+msgstr "поставете този шорткод"
+
+msgid "Create a page with this form (draft)"
+msgstr "Създай страница с този формуляр (чернова)"
+
+msgid "The page was created as a draft. Check it and publish it when you are ready."
+msgstr "Страницата е създадена като чернова. Проверете я и я публикувайте, когато сте готови."
+
+msgid "Preview"
+msgstr "Преглед"
+
+msgid "Edit page"
+msgstr "Редактирай страницата"
+
+msgid "Recommended next steps"
+msgstr "Препоръчани следващи стъпки"
+
+msgid "Check the emails and send yourself a test email"
+msgstr "Проверете имейлите и си изпратете тестов имейл"
+
+msgid "Put your appointments on your phone"
+msgstr "Пренесете часовете си на телефона"
+
+msgid "Cancellation deadline and optional cancellation fee"
+msgstr "Срок за безплатен отказ и такса за отказ по избор"
+
+msgid "Adjust the form"
+msgstr "Настройте формуляра"
+
+msgid "Go to the overview"
+msgstr "Към общия преглед"
+
+msgid "Skip setup"
+msgstr "Пропусни настройката"
+
+msgid "Next appointments"
+msgstr "Следващи часове"
+
+msgid "No upcoming appointments."
+msgstr "Няма предстоящи часове."
+
+msgid "All bookings"
+msgstr "Всички резервации"
+
+msgid "Run the setup wizard again"
+msgstr "Стартирай отново съветника за настройка"
+
+msgid "Help & guide"
+msgstr "Помощ и ръководство"
+
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] "%d минута"
+msgstr[1] "%d минути"
+
+msgid "appointment today"
+msgid_plural "appointments today"
+msgstr[0] "час днес"
+msgstr[1] "часа днес"
+
+msgid "open request"
+msgid_plural "open requests"
+msgstr[0] "отворена заявка"
+msgstr[1] "отворени заявки"
+
+msgid "new entry"
+msgid_plural "new entries"
+msgstr[0] "нов запис"
+msgstr[1] "нови записи"
+
+msgid "open fee"
+msgid_plural "open fees"
+msgstr[0] "неплатена такса"
+msgstr[1] "неплатени такси"
+
+msgid "To your customers"
+msgstr "До Вашите клиенти"
+
+msgid "To you"
+msgstr "До Вас"
+
+msgid "Contact & request forms"
+msgstr "Формуляри за контакт и запитване"
+
+msgid "Reminders before the appointment"
+msgstr "Напомняния преди часа"
+
+msgid "No reminders."
+msgstr "Няма напомняния."
+
+msgid "Time before the appointment"
+msgstr "Време преди часа"
+
+msgid "Unit"
+msgstr "Единица"
+
+msgid "days before"
+msgstr "дни преди"
+
+msgid "hours before"
+msgstr "часа преди"
+
+msgid "Add reminder"
+msgstr "Добави напомняне"
+
+msgid "Recommended: 7 days and 24 hours before. A reminder is skipped if the appointment was confirmed only shortly before. Placeholder {time_until} writes e.g. \"in 7 days\" or \"tomorrow\"."
+msgstr "Препоръчително: 7 дни и 24 часа преди. Напомнянето се пропуска, ако часът е потвърден малко преди това. Заместителят {time_until} извежда напр. „след 7 дни“ или „утре“."
+
+msgid "Settings saved."
+msgstr "Настройките са запазени."
+
+msgid "Sender & notifications"
+msgstr "Подател и известия"
+
+msgid "Business name (sender name)"
+msgstr "Име на бизнеса (име на подателя)"
+
+msgid "Notifications go to"
+msgstr "Известията се изпращат до"
+
+msgid "Empty = admin email of the website."
+msgstr "Празно = имейлът на администратора на сайта."
+
+msgid "Sender address (optional)"
+msgstr "Адрес на подателя (по избор)"
+
+msgid "Should belong to your domain, otherwise emails may land in spam."
+msgstr "Трябва да е от Вашия домейн, иначе имейлите може да попаднат в спам."
+
+msgid "Address (for calendar entries)"
+msgstr "Адрес (за записите в календара)"
+
+msgid "One-click links valid for (hours)"
+msgstr "Връзките с едно кликване са валидни (часове)"
+
+msgid "Test email sent to %s."
+msgstr "Тестовият имейл е изпратен до %s."
+
+msgid "Default text restored."
+msgstr "Текстът по подразбиране е възстановен."
+
+msgid "Send this email"
+msgstr "Изпращай този имейл"
+
+msgid "Subject"
+msgstr "Тема"
+
+msgid "Line breaks are kept. Allowed: <strong>, <em>, <a>."
+msgstr "Преходите на нов ред се запазват. Разрешени: <strong>, <em>, <a>."
+
+msgid "Insert placeholder:"
+msgstr "Вмъкни заместител:"
+
+msgid "Restore default"
+msgstr "Възстанови по подразбиране"
+
+msgid "Send test email to me"
+msgstr "Изпрати тестов имейл до мен"
+
+msgid "Preview with sample data"
+msgstr "Преглед с примерни данни"
+
+msgid "Email preview"
+msgstr "Преглед на имейла"
+
+msgid "Recently sent"
+msgstr "Последно изпратени"
+
+msgid "No emails sent yet."
+msgstr "Все още няма изпратени имейли."
+
+msgid "Sent"
+msgstr "Изпратен"
+
+msgid "Waiting"
+msgstr "Изчаква"
+
+msgid "Failed"
+msgstr "Неуспешен"
+
+msgid "customized"
+msgstr "персонализиран"
+
+msgid "Unread"
+msgstr "Непрочетени"
+
+msgid "Starred"
+msgstr "Със звезда"
+
+msgid "Spam"
+msgstr "Спам"
+
+msgid "Trash"
+msgstr "Кошче"
+
+msgid "Entry"
+msgstr "Запис"
+
+msgid "Sent from:"
+msgstr "Изпратено от:"
+
+msgid "Reply"
+msgstr "Отговори"
+
+msgid "Unstar"
+msgstr "Премахни звездата"
+
+msgid "Star"
+msgstr "Отбележи със звезда"
+
+msgid "Move to trash"
+msgstr "Премести в кошчето"
+
+msgid "Restore"
+msgstr "Възстанови"
+
+msgid "Delete permanently"
+msgstr "Изтрий окончателно"
+
+msgid "Not spam"
+msgstr "Не е спам"
+
+msgid "Mark as read"
+msgstr "Отбележи като прочетено"
+
+msgid "Mark as unread"
+msgstr "Отбележи като непрочетено"
+
+msgid "Messages from your contact and request forms. Bookings with an appointment are under \"Bookings\"."
+msgstr "Съобщения от формулярите Ви за контакт и запитване. Резервациите с час са в „Резервации“."
+
+msgid "Search entries"
+msgstr "Търсене в записите"
+
+msgid "Export CSV"
+msgstr "Експорт в CSV"
+
+msgid "No entries found."
+msgstr "Няма намерени записи."
+
+msgid "Select all"
+msgstr "Избери всички"
+
+msgid "Select %s"
+msgstr "Избери %s"
+
+msgid "(no name)"
+msgstr "(без име)"
+
+msgid "%d entry updated."
+msgid_plural "%d entries updated."
+msgstr[0] "%d запис е обновен."
+msgstr[1] "%d записа са обновени."
+
+msgid "%d selected"
+msgid_plural "%d selected"
+msgstr[0] "%d избран"
+msgstr[1] "%d избрани"
+
+msgid "With appointment booking"
+msgstr "С резервация на час"
+
+msgid "Without appointment"
+msgstr "Без час"
+
+msgid "New form"
+msgstr "Нов формуляр"
+
+msgid "The template is only a start – you can change, add or remove every field in the next step."
+msgstr "Шаблонът е само начало – в следващата стъпка можете да промените, добавите или премахнете всяко поле."
+
+msgid "Create form"
+msgstr "Създай формуляр"
+
+msgid "Create booking forms with a calendar or any other form – contact, request, survey."
+msgstr "Създавайте формуляри за резервация с календар или всякакви други формуляри – за контакт, запитване, анкета."
+
+msgid "No forms yet. Create your first form in under a minute."
+msgstr "Все още няма формуляри. Създайте първия си формуляр за по-малко от минута."
+
+msgid "Create your first form"
+msgstr "Създайте първия си формуляр"
+
+msgid "Booking form"
+msgstr "Формуляр за резервация"
+
+msgid "Standard form"
+msgstr "Стандартен формуляр"
+
+msgid "Copy shortcode"
+msgstr "Копирай шорткода"
+
+msgid "Delete the form \"%s\"? Entries are kept."
+msgstr "Да се изтрие ли формулярът „%s“? Записите се запазват."
+
+msgid "%d field"
+msgid_plural "%d fields"
+msgstr[0] "%d поле"
+msgstr[1] "%d полета"
+
+msgid "%d entry"
+msgid_plural "%d entries"
+msgstr[0] "%d запис"
+msgstr[1] "%d записа"
+
+msgid "End time must be after start time."
+msgstr "Крайният час трябва да е след началния."
+
+msgid "Time ranges overlap."
+msgstr "Времевите интервали се припокриват."
+
+msgid "Opening hours saved."
+msgstr "Работното време е запазено."
+
+msgid "Weekly hours"
+msgstr "Седмично работно време"
+
+msgid "This staff member uses the general opening hours. Change and save the hours below to give them their own schedule."
+msgstr "Този служител използва общото работно време. Променете и запазете часовете по-долу, за да му зададете собствен график."
+
+msgid "Closed"
+msgstr "Затворено"
+
+msgid "Remove time range"
+msgstr "Премахни интервала"
+
+msgid "+ Add break / range"
+msgstr "+ Добави почивка / интервал"
+
+msgid "Copy to Mon–Fri"
+msgstr "Копирай за Пн–Пт"
+
+msgid "Save opening hours"
+msgstr "Запази работното време"
+
+msgid "Use general opening hours"
+msgstr "Използвай общото работно време"
+
+msgid "Holidays, vacation & special opening hours"
+msgstr "Празници, отпуск и специално работно време"
+
+msgid "Closed (holiday, vacation, break)"
+msgstr "Затворено (празник, отпуск, почивка)"
+
+msgid "Special opening hours"
+msgstr "Специално работно време"
+
+msgid "To (optional)"
+msgstr "До (по избор)"
+
+msgid "All day"
+msgstr "Цял ден"
+
+msgid "Note (internal)"
+msgstr "Бележка (вътрешна)"
+
+msgid "e.g. Christmas"
+msgstr "напр. Коледа"
+
+msgid "Add"
+msgstr "Добави"
+
+msgid "No upcoming holidays or special opening hours."
+msgstr "Няма предстоящи празници или специално работно време."
+
+msgid "Open"
+msgstr "Отворено"
+
+msgid "(applies to everyone)"
+msgstr "(важи за всички)"
+
+msgid "Delete the entry for %s?"
+msgstr "Да се изтрие ли записът за %s?"
+
+msgid "General opening hours (business)"
+msgstr "Общо работно време (на бизнеса)"
+
+msgid "Show hours for"
+msgstr "Покажи работното време за"
+
+msgid "New booking"
+msgstr "Нова резервация"
+
+msgid "New entry (forms without appointment)"
+msgstr "Нов запис (формуляри без час)"
+
+msgid "Cancelled by the customer"
+msgstr "Отменена от клиента"
+
+msgid "Moved by the customer"
+msgstr "Преместена от клиента"
+
+msgid "All connections are optional. Kalendora only contacts a service once you have entered its access data. Keys are stored encrypted."
+msgstr "Всички интеграции са по избор. Kalendora се свързва с услуга едва след като въведете данните ѝ за достъп. Ключовете се съхраняват криптирани."
+
+msgid "Spam protection"
+msgstr "Защита от спам"
+
+msgid "Kalendora already blocks most spam without any service (hidden field, time check, limits per IP). An additional check helps against targeted bots. Note: the provider’s script is loaded on pages with a form – mention it in your privacy policy."
+msgstr "Kalendora вече спира повечето спам без външна услуга (скрито поле, проверка на времето, ограничения по IP). Допълнителната проверка помага срещу целенасочени ботове. Забележка: скриптът на доставчика се зарежда на страници с формуляр – посочете го в политиката си за поверителност."
+
+msgid "Additional check"
+msgstr "Допълнителна проверка"
+
+msgid "Cloudflare Turnstile (recommended, usually without puzzle)"
+msgstr "Cloudflare Turnstile (препоръчително, обикновено без пъзел)"
+
+msgid "Site key"
+msgstr "Ключ за сайта"
+
+msgid "Secret key"
+msgstr "Таен ключ"
+
+msgid "Messages to Slack and Telegram"
+msgstr "Съобщения към Slack и Telegram"
+
+msgid "Short message with customer name, service, date and a link to the admin – no form contents of bookings."
+msgstr "Кратко съобщение с име на клиента, услуга, дата и линк към администрацията – без съдържание на формуляра при резервации."
+
+msgid "Send a message for"
+msgstr "Изпращане на съобщение при"
+
+msgid "Webhook address"
+msgstr "Адрес на webhook"
+
+msgid "In Slack: Apps → Incoming Webhooks → add to a channel → copy the address."
+msgstr "В Slack: Apps → Incoming Webhooks → добавяне към канал → копиране на адреса."
+
+msgid "Guide"
+msgstr "Ръководство"
+
+msgid "Test message sent to Slack."
+msgstr "Тестовото съобщение е изпратено към Slack."
+
+msgid "Send test message"
+msgstr "Изпрати тестово съобщение"
+
+msgid "Bot token"
+msgstr "Токен на бота"
+
+msgid "Create a bot with @BotFather and copy the token."
+msgstr "Създайте бот с @BotFather и копирайте токена."
+
+msgid "Chat ID"
+msgstr "ID на чата"
+
+msgid "Your user or group ID, or @channelname. Send the bot a message first."
+msgstr "Вашият потребителски или групов ID, или @имеканал. Първо изпратете съобщение на бота."
+
+msgid "Test message sent to Telegram."
+msgstr "Тестовото съобщение е изпратено към Telegram."
+
+msgid "Visitors are only signed up if they tick a consent box in the form, and they always receive a confirmation email (double opt-in). Choose the form and the box in the form builder → Form → Newsletter."
+msgstr "Посетителите се абонират само ако отметнат поле за съгласие във формуляра и винаги получават имейл за потвърждение (double opt-in). Формулярът и полето се избират в редактора → Формуляр → Бюлетин."
+
+msgid "API key"
+msgstr "API ключ"
+
+msgid "Profile → Extras → API keys. Ends with e.g. -us21."
+msgstr "Профил → Extras → API keys. Завършва напр. на -us21."
+
+msgid "Audience ID"
+msgstr "ID на аудиторията"
+
+msgid "Audience → Settings → Audience name and defaults."
+msgstr "Audience → Settings → Audience name and defaults."
+
+msgid "Connection to Mailchimp works."
+msgstr "Връзката с Mailchimp работи."
+
+msgid "Check connection"
+msgstr "Проверка на връзката"
+
+msgid "List ID"
+msgstr "ID на списъка"
+
+msgid "Template ID of the confirmation email"
+msgstr "ID на шаблона на имейла за потвърждение"
+
+msgid "A Brevo template of the type “double opt-in” with the confirmation link."
+msgstr "Шаблон в Brevo от тип „double opt-in“ с линк за потвърждение."
+
+msgid "Page after confirming"
+msgstr "Страница след потвърждение"
+
+msgid "e.g. %s"
+msgstr "напр. %s"
+
+msgid "Connection to Brevo works."
+msgstr "Връзката с Brevo работи."
+
+msgid "This section is being built and will be available in an upcoming version."
+msgstr "Този раздел е в процес на разработка и ще бъде наличен в предстояща версия."
+
+msgid "Room"
+msgstr "Помещение"
+
+msgid "Equipment"
+msgstr "Оборудване"
+
+msgid "Website timezone (%s)"
+msgstr "Часова зона на уебсайта (%s)"
+
+msgid "Edit staff member / resource"
+msgstr "Редактиране на служител / ресурс"
+
+msgid "New staff member / resource"
+msgstr "Нов служител / ресурс"
+
+msgid "Receives notifications about own bookings."
+msgstr "Получава известия за собствените си резервации."
+
+msgid "Timezone"
+msgstr "Часова зона"
+
+msgid "Color"
+msgstr "Цвят"
+
+msgid "Inactive (not bookable)"
+msgstr "Неактивен (не може да се резервира)"
+
+msgid "%1$d of %2$d staff members/resources used in the free version."
+msgstr "Използвани са %1$d от %2$d служители/ресурси в безплатната версия."
+
+msgid "Add staff member / resource"
+msgstr "Добави служител / ресурс"
+
+msgid "Need more staff members or rooms? Kalendora Pro supports unlimited resources."
+msgstr "Нуждаете се от повече служители или помещения? Kalendora Pro поддържа неограничен брой ресурси."
+
+msgid "Working alone? Then you do not need any staff members – Kalendora uses the general opening hours."
+msgstr "Работите сами? Тогава не се нуждаете от служители – Kalendora използва общото работно време."
+
+msgid "Inactive"
+msgstr "Неактивен"
+
+msgid "Working hours"
+msgstr "Работно време"
+
+msgid "Delete \"%s\" including working hours? Existing bookings are kept."
+msgstr "Да се изтрие ли „%s“ заедно с работното време? Съществуващите резервации се запазват."
+
+msgid "Free"
+msgstr "Безплатно"
+
+msgid "Cancellation & reminders"
+msgstr "Отказ и напомняния"
+
+msgid "Send reminders for this service"
+msgstr "Изпращай напомняния за тази услуга"
+
+msgid "Free cancellation up to (hours before)"
+msgstr "Безплатен отказ до (часа преди)"
+
+msgid "Empty = use the global setting."
+msgstr "Празно = използва се глобалната настройка."
+
+msgid "As in the settings"
+msgstr "Както в настройките"
+
+msgid "No fee for this service"
+msgstr "Без такса за тази услуга"
+
+msgid "Own fee for this service"
+msgstr "Собствена такса за тази услуга"
+
+msgid "Fee type"
+msgstr "Вид такса"
+
+msgid "Percent of the service price"
+msgstr "Процент от цената на услугата"
+
+msgid "Fixed amount (€)"
+msgstr "Фиксирана сума (€)"
+
+msgid "Fee in €"
+msgstr "Такса в €"
+
+msgid "Fee in %"
+msgstr "Такса в %"
+
+msgid "Edit service"
+msgstr "Редактиране на услуга"
+
+msgid "New service"
+msgstr "Нова услуга"
+
+msgid "Description"
+msgstr "Описание"
+
+msgid "Duration (minutes)"
+msgstr "Продължителност (минути)"
+
+msgid "Price (%s)"
+msgstr "Цена (%s)"
+
+msgid "Preparation before (minutes)"
+msgstr "Подготовка преди (минути)"
+
+msgid "Break after the appointment (minutes)"
+msgstr "Почивка след часа (минути)"
+
+msgid "e.g. cleaning, preparing the room"
+msgstr "напр. почистване, подготовка на помещението"
+
+msgid "Max. appointments per day"
+msgstr "Макс. часове на ден"
+
+msgid "0 = as many as fit into the working hours."
+msgstr "0 = толкова, колкото се побират в работното време."
+
+msgid "Places per appointment"
+msgstr "Места на час"
+
+msgid "1 = individual appointment, more = group or class."
+msgstr "1 = индивидуален час, повече = група или курс."
+
+msgid "Minimum notice (minutes)"
+msgstr "Минимално предизвестие (минути)"
+
+msgid "0 = use the global setting."
+msgstr "0 = използва се глобалната настройка."
+
+msgid "Bookable up to (days ahead)"
+msgstr "Може да се резервира до (дни напред)"
+
+msgid "Start times"
+msgstr "Начални часове"
+
+msgid "Appointments are always placed within the working hours and end before closing time."
+msgstr "Часовете винаги се разполагат в рамките на работното време и приключват преди края му."
+
+msgid "One after another – every %d min (duration + preparation + break)"
+msgstr "Един след друг – на всеки %d мин (продължителност + подготовка + почивка)"
+
+msgid "Fixed grid – every %d min"
+msgstr "Фиксирана мрежа – на всеки %d мин"
+
+msgid "Inactive (hidden)"
+msgstr "Неактивна (скрита)"
+
+msgid "Who provides this service?"
+msgstr "Кой предоставя тази услуга?"
+
+msgid "No staff members yet. Without assignment, the service uses the general opening hours."
+msgstr "Все още няма служители. Без разпределение услугата използва общото работно време."
+
+msgid "Services are what customers can book – e.g. a haircut, a consultation or a course."
+msgstr "Услугите са това, което клиентите могат да резервират – напр. подстригване, консултация или курс."
+
+msgid "Add service"
+msgstr "Добави услуга"
+
+msgid "No services yet."
+msgstr "Все още няма услуги."
+
+msgid "Create your first service"
+msgstr "Създайте първата си услуга"
+
+msgid "Delete the service \"%s\"? Existing bookings are kept."
+msgstr "Да се изтрие ли услугата „%s“? Съществуващите резервации се запазват."
+
+msgid "Blue"
+msgstr "Син"
+
+msgid "Green"
+msgstr "Зелен"
+
+msgid "Teal"
+msgstr "Синьозелен"
+
+msgid "Violet"
+msgstr "Виолетов"
+
+msgid "Rose"
+msgstr "Розов"
+
+msgid "Orange"
+msgstr "Оранжев"
+
+msgid "Anthracite"
+msgstr "Антрацит"
+
+msgid "Your name"
+msgstr "Вашето име"
+
+msgid "Cancelling & moving by customers"
+msgstr "Отказ и преместване от клиенти"
+
+msgid "Every booking email contains a personal link. With it, customers can move or cancel their appointment themselves – you are informed by email and the time becomes free automatically."
+msgstr "Всеки имейл за резервация съдържа персонален линк. С него клиентите могат сами да преместят или отменят часа си – Вие получавате известие по имейл, а часът се освобождава автоматично."
+
+msgid "Customers can cancel online"
+msgstr "Клиентите могат да отказват онлайн"
+
+msgid "Customers can move online"
+msgstr "Клиентите могат да преместват онлайн"
+
+msgid "Only to free times of the same staff member."
+msgstr "Само към свободни часове на същия служител."
+
+msgid "Free of charge up to (hours before the appointment)"
+msgstr "Безплатно до (часа преди часа)"
+
+msgid "After this, online changes are no longer possible – unless you use a cancellation fee (below). 0 = until the start."
+msgstr "След това промени онлайн вече не са възможни – освен ако не използвате такса за отказ (по-долу). 0 = до началото."
+
+msgid "Use a cancellation fee"
+msgstr "Използвай такса за отказ"
+
+msgid "Common in practices: \"Cancel up to 24 hours before, otherwise a fee applies.\" Customers must accept the terms when booking. Can be changed per service."
+msgstr "Обичайно в практиките: „Отказ до 24 часа преди, в противен случай се дължи такса.“ Клиентите трябва да приемат условията при резервацията. Може да се променя за всяка услуга."
+
+msgid "Also charge if the customer does not attend"
+msgstr "Таксувай и ако клиентът не се яви"
+
+msgid "Recorded automatically when you mark the booking as \"Not attended\"."
+msgstr "Записва се автоматично, когато маркирате резервацията като „Не се яви“."
+
+msgid "Cancelling online after the deadline"
+msgstr "Онлайн отказ след срока"
+
+msgid "Allowed – the fee is shown beforehand and recorded"
+msgstr "Разрешен – таксата се показва предварително и се записва"
+
+msgid "Not possible – customers have to call"
+msgstr "Не е възможен – клиентите трябва да се обадят"
+
+msgid "Own wording (optional)"
+msgstr "Собствен текст (по избор)"
+
+msgid "Leave empty for the automatic text. Placeholders: {hours}, {fee}."
+msgstr "Оставете празно за автоматичния текст. Заместители: {hours}, {fee}."
+
+msgid "The free version records the fee and shows it in the bookings – you invoice it yourself. Note: In Germany a fee is only enforceable if it was agreed before; Kalendora stores the customer's consent with the booking. This is not legal advice."
+msgstr "Безплатната версия записва таксата и я показва в резервациите – фактурирате я сами. Забележка: В Германия такса може да се изиска само ако е била договорена предварително; Kalendora съхранява съгласието на клиента заедно с резервацията. Това не е правна консултация."
+
+msgid "Shown to customers when a short-notice change is only possible by phone. Placeholder {business_phone} in emails."
+msgstr "Показва се на клиентите, когато промяна в кратък срок е възможна само по телефона. Заместител {business_phone} в имейлите."
+
+msgid "Notification email"
+msgstr "Имейл за известия"
+
+msgid "New bookings are sent here. Leave empty to use the site admin email."
+msgstr "Новите резервации се изпращат тук. Оставете празно, за да се използва имейлът на администратора на сайта."
+
+msgid "Time format"
+msgstr "Формат на часа"
+
+msgid "Booking rules"
+msgstr "Правила за резервация"
+
+msgid "Time grid for date fields without a service"
+msgstr "Времева мрежа за полета за дата без услуга"
+
+msgid "Booking forms use the start times defined per service."
+msgstr "Формулярите за резервация използват началните часове, зададени за всяка услуга."
+
+msgid "Pending – confirm with one click"
+msgstr "Чакаща – потвърждаване с едно щракване"
+
+msgid "Confirmed automatically"
+msgstr "Потвърждава се автоматично"
+
+msgid "Visitors from another time zone see times in"
+msgstr "Посетителите от друга часова зона виждат часовете в"
+
+msgid "Visitors in another time zone can always switch. Choose \"their own time\" for online appointments (video, phone)."
+msgstr "Посетителите в друга часова зона винаги могат да превключат. Изберете „тяхното собствено време“ за онлайн срещи (видео, телефон)."
+
+msgid "the local time of the business"
+msgstr "местното време на бизнеса"
+
+msgid "their own time"
+msgstr "тяхното собствено време"
+
+msgid "Fill gaps between appointments"
+msgstr "Запълване на празнините между часовете"
+
+msgid "Also offers a start time directly after an existing appointment (incl. break). Less idle time, but start times are less regular."
+msgstr "Предлага и начален час непосредствено след съществуващ час (вкл. почивка). По-малко престой, но началните часове са по-нередовни."
+
+msgid "Max. appointments per day (all services)"
+msgstr "Макс. часове на ден (всички услуги)"
+
+msgid "0 = no limit. Limits per service can be set in the service."
+msgstr "0 = без ограничение. Ограничения за отделна услуга могат да се зададат в услугата."
+
+msgid "Design & own code"
+msgstr "Дизайн и собствен код"
+
+msgid "Main color"
+msgstr "Основен цвят"
+
+msgid "Corner radius"
+msgstr "Радиус на ъглите"
+
+msgid "Spacing"
+msgstr "Разстояние"
+
+msgid "Compact"
+msgstr "Компактно"
+
+msgid "Normal"
+msgstr "Нормално"
+
+msgid "Spacious"
+msgstr "Просторно"
+
+msgid "Color scheme"
+msgstr "Цветова схема"
+
+msgid "\"Dark\" for websites with a dark background. \"Automatic\" follows the visitor's device setting."
+msgstr "„Тъмна“ за уебсайтове с тъмен фон. „Автоматична“ следва настройката на устройството на посетителя."
+
+msgid "Light"
+msgstr "Светла"
+
+msgid "Dark"
+msgstr "Тъмна"
+
+msgid "Automatic"
+msgstr "Автоматична"
+
+msgid "Font"
+msgstr "Шрифт"
+
+msgid "Like the website (theme)"
+msgstr "Като уебсайта (тема)"
+
+msgid "System font (like apps)"
+msgstr "Системен шрифт (като в приложенията)"
+
+msgid "Only administrators may add own CSS and JavaScript."
+msgstr "Само администраторите могат да добавят собствен CSS и JavaScript."
+
+msgid "CSS for all forms"
+msgstr "CSS за всички формуляри"
+
+msgid "Example: .kalendora { --kalendora-gap: 24px; } – all CSS variables are listed in the developer documentation."
+msgstr "Пример: .kalendora { --kalendora-gap: 24px; } – всички CSS променливи са описани в документацията за разработчици."
+
+msgid "JavaScript for all forms"
+msgstr "JavaScript за всички формуляри"
+
+msgid "Runs once on every page with a Kalendora form. Example: kalendora.on( \"success\", ( data, form ) => { … } );"
+msgstr "Изпълнява се веднъж на всяка страница с формуляр на Kalendora. Пример: kalendora.on( \"success\", ( data, form ) => { … } );"
+
+msgid "Security & privacy"
+msgstr "Сигурност и поверителност"
+
+msgid "Spam protection is always active and invisible for your customers: hidden trap field, minimum fill-in time, limits per sender and per IP address, and at most 3 open requests per email address."
+msgstr "Защитата от спам е винаги активна и невидима за Вашите клиенти: скрито поле капан, минимално време за попълване, ограничения за подател и за IP адрес и най-много 3 отворени заявки на имейл адрес."
+
+msgid "Delete all Kalendora data when the plugin is uninstalled"
+msgstr "Изтрий всички данни на Kalendora при деинсталиране на плъгина"
+
+msgid "Save settings"
+msgstr "Запази настройките"
+
+msgid "Inform the customer by email"
+msgstr "Уведоми клиента по имейл"
+
+msgid "Move"
+msgstr "Премести"
+
+msgid "%1$s moved to %2$s, %3$s."
+msgstr "%1$s е преместен(а) на %2$s, %3$s."
+
+msgid "The customer has been informed."
+msgstr "Клиентът е уведомен."
+
+msgid "Note: the new time is outside the opening hours."
+msgstr "Внимание: новият час е извън работното време."
+
+msgid "Previous"
+msgstr "Назад"
+
+msgid "Today"
+msgstr "Днес"
+
+msgid "View"
+msgstr "Изглед"
+
+msgid "Day"
+msgstr "Ден"
+
+msgid "Week"
+msgstr "Седмица"
+
+msgid "No staff members."
+msgstr "Няма служители."
+
+msgid "%d appt."
+msgstr "%d ч."
+
+msgid "Busy (own calendar)"
+msgstr "Зает (собствен календар)"
+
+msgid "Drag appointments to move them (15-minute steps)."
+msgstr "Плъзнете часовете, за да ги преместите (стъпки по 15 минути)."
+
+msgid "Move appointment?"
+msgstr "Да се премести ли часът?"
+
+msgid "No"
+msgstr "Не"
+
+msgid "Simple booking"
+msgstr "Обикновена резервация"
+
+msgid "Service, date and time, contact details – suits almost every business."
+msgstr "Услуга, дата и час, данни за контакт – подходящо за почти всеки бизнес."
+
+msgid "Hair & beauty salon"
+msgstr "Фризьорски и козметичен салон"
+
+msgid "With choice of staff member and a question about previous visits."
+msgstr "С избор на служител и въпрос за предишни посещения."
+
+msgid "Treatment"
+msgstr "Процедура"
+
+msgid "With whom?"
+msgstr "При кого?"
+
+msgid "Have you been with us before?"
+msgstr "Били ли сте при нас преди?"
+
+msgid "Wishes or notes"
+msgstr "Желания или бележки"
+
+msgid "Medical practice & therapy"
+msgstr "Медицинска практика и терапия"
+
+msgid "Two steps, insurance, new patient, upload of a referral, consent for health data."
+msgstr "Две стъпки, застраховка, нов пациент, качване на направление, съгласие за здравни данни."
+
+msgid "Reason for the appointment"
+msgstr "Причина за посещението"
+
+msgid "Your details"
+msgstr "Вашите данни"
+
+msgid "Date of birth"
+msgstr "Дата на раждане"
+
+msgid "Insurance"
+msgstr "Застраховка"
+
+msgid "Statutory"
+msgstr "Здравна каса (НЗОК)"
+
+msgid "Private"
+msgstr "Частна застраховка"
+
+msgid "Self-payer"
+msgstr "Самоплащащ"
+
+msgid "Are you a new patient?"
+msgstr "Нов пациент ли сте?"
+
+msgid "Referral or prescription (optional)"
+msgstr "Направление или рецепта (по избор)"
+
+msgid "Symptoms or questions (optional)"
+msgstr "Симптоми или въпроси (по избор)"
+
+msgid "I agree that my details, including health information, are processed to arrange and prepare the appointment."
+msgstr "Съгласен/съгласна съм данните ми, включително информацията за здравето ми, да бъдат обработвани за уговаряне и подготовка на посещението."
+
+msgid "Consulting & coaching"
+msgstr "Консултиране и коучинг"
+
+msgid "Company, meeting type (on site, video, phone) and topic."
+msgstr "Фирма, вид среща (на място, видео, телефон) и тема."
+
+msgid "Topic"
+msgstr "Тема"
+
+msgid "Company"
+msgstr "Фирма"
+
+msgid "How would you like to meet?"
+msgstr "Как бихте искали да се срещнем?"
+
+msgid "On site"
+msgstr "На място"
+
+msgid "Video call"
+msgstr "Видеоразговор"
+
+msgid "What is it about?"
+msgstr "За какво става дума?"
+
+msgid "Garage & workshop"
+msgstr "Автосервиз и работилница"
+
+msgid "Vehicle, licence plate, mileage and a description of the problem."
+msgstr "Превозно средство, регистрационен номер, пробег и описание на проблема."
+
+msgid "Make and model"
+msgstr "Марка и модел"
+
+msgid "Licence plate"
+msgstr "Регистрационен номер"
+
+msgid "Mileage (km)"
+msgstr "Пробег (км)"
+
+msgid "During the repair"
+msgstr "По време на ремонта"
+
+msgid "I will wait"
+msgstr "Ще изчакам на място"
+
+msgid "I will leave the vehicle"
+msgstr "Ще оставя превозното средство"
+
+msgid "Describe the problem"
+msgstr "Опишете проблема"
+
+msgid "Course & class"
+msgstr "Курс и занимание"
+
+msgid "For services with several places, e.g. yoga, workshops, training."
+msgstr "За услуги с няколко места, напр. йога, уъркшопи, обучения."
+
+msgid "Course"
+msgstr "Курс"
+
+msgid "Experience"
+msgstr "Опит"
+
+msgid "Beginner"
+msgstr "Начинаещ"
+
+msgid "Anything we should know?"
+msgstr "Има ли нещо, което трябва да знаем?"
+
+msgid "Contact form"
+msgstr "Форма за контакт"
+
+msgid "Name, email, phone and message."
+msgstr "Име, имейл, телефон и съобщение."
+
+msgid "Quote request"
+msgstr "Запитване за оферта"
+
+msgid "Description, desired date and upload of photos or plans."
+msgstr "Описание, желана дата и качване на снимки или планове."
+
+msgid "Desired date"
+msgstr "Желана дата"
+
+msgid "What can we do for you?"
+msgstr "С какво можем да Ви помогнем?"
+
+msgid "Photos or plans (optional)"
+msgstr "Снимки или планове (по избор)"
+
+msgid "Callback request"
+msgstr "Заявка за обратно обаждане"
+
+msgid "Phone number and the best time to call."
+msgstr "Телефонен номер и най-подходящото време за обаждане."
+
+msgid "Best time to call"
+msgstr "Най-подходящо време за обаждане"
+
+msgid "Morning"
+msgstr "Сутрин"
+
+msgid "Midday"
+msgstr "Обяд"
+
+msgid "Afternoon"
+msgstr "Следобед"
+
+msgid "Feedback"
+msgstr "Обратна връзка"
+
+msgid "Rating, recommendation and comments."
+msgstr "Оценка, препоръка и коментари."
+
+msgid "How satisfied were you?"
+msgstr "Колко доволни бяхте?"
+
+msgid "Would you recommend us?"
+msgstr "Бихте ли ни препоръчали?"
+
+msgid "Maybe"
+msgstr "Може би"
+
+msgid "Comments"
+msgstr "Коментари"
+
+msgid "Email (optional, if you would like an answer)"
+msgstr "Имейл (по избор, ако желаете отговор)"
+
+msgid "Month"
+msgstr "Месец"
+
+msgid "Year"
+msgstr "Година"
+
+msgid "Previous month"
+msgstr "Предишен месец"
+
+msgid "Next month"
+msgstr "Следващ месец"
+
+msgid "Loading available days…"
+msgstr "Зареждане на наличните дни…"
+
+msgid "No free days in this month. Please choose another month."
+msgstr "Няма свободни дни през този месец. Моля, изберете друг месец."
+
+msgid "Availability could not be loaded. Please try again."
+msgstr "Наличността не можа да се зареди. Моля, опитайте отново."
+
+msgid "Please enter your first and last name."
+msgstr "Моля, въведете Вашето име и фамилия."
+
+msgid "Please wait until all files have been uploaded."
+msgstr "Моля, изчакайте, докато всички файлове бъдат качени."
+
+msgid "Something went wrong. Please try again."
+msgstr "Нещо се обърка. Моля, опитайте отново."
+
+msgid "Connection problem. Please check your internet connection and try again."
+msgstr "Проблем с връзката. Моля, проверете интернет връзката си и опитайте отново."
+
+msgid "Please choose a service first."
+msgstr "Моля, първо изберете услуга."
+
+msgid "Show times in"
+msgstr "Показване на часовете в"
+
+msgid "local time of the business (%s)"
+msgstr "местно време на бизнеса (%s)"
+
+msgid "my time (%s)"
+msgstr "моето време (%s)"
+
+msgid "Choose a day to see the free times."
+msgstr "Изберете ден, за да видите свободните часове."
+
+msgid "Available times"
+msgstr "Свободни часове"
+
+msgid "until %s"
+msgstr "до %s"
+
+msgid "%d free"
+msgstr "%d свободни"
+
+msgid "No free times on this day."
+msgstr "Няма свободни часове в този ден."
+
+msgid "(%1$s in %2$s)"
+msgstr "(%1$s в %2$s)"
+
+msgid "Selected: %1$s, %2$s"
+msgstr "Избрано: %1$s, %2$s"
+
+msgid "%1$s at %2$s"
+msgstr "%1$s в %2$s"
+
+msgid "Please upload at most %d file(s)."
+msgstr "Моля, качете най-много %d файл(а)."
+
+msgid "Uploading %s"
+msgstr "Качване на %s"
+
+msgid "Remove %s"
+msgstr "Премахни %s"
+
+msgid "Sign by hand instead"
+msgstr "Подпишете се на ръка"

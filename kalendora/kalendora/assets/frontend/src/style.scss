@@ -1,0 +1,1001 @@
+/*
+ * Kalendora frontend styles.
+ * Everything is themable via CSS custom properties on .kalendora, e.g.:
+ * .kalendora { --kalendora-primary: #1f6f50; --kalendora-radius: 16px; }
+ */
+.kalendora {
+	--kalendora-primary: #2563eb;
+	--kalendora-primary-contrast: #fff;
+	--kalendora-text: inherit;
+	--kalendora-muted: #6b7280;
+	--kalendora-border: #d1d5db;
+	--kalendora-bg: #fff;
+	--kalendora-soft: color-mix(in srgb, var(--kalendora-primary) 10%, #fff);
+	--kalendora-error: #c81e1e;
+	--kalendora-radius: 10px;
+	--kalendora-gap: 18px;
+	--kalendora-input-height: 46px;
+
+	color: var(--kalendora-text);
+	font-size: 1rem;
+	line-height: 1.5;
+	max-width: 760px;
+
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+	}
+
+	[hidden] {
+		display: none !important;
+	}
+}
+
+.kalendora__draft {
+	background: #fef3c7;
+	color: #92400e;
+	border-radius: var(--kalendora-radius);
+	padding: 8px 12px;
+	font-size: 0.875rem;
+}
+
+.kalendora__fields {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--kalendora-gap) 4%;
+}
+
+.kalendora__field {
+	width: 100%;
+	min-width: 0;
+
+	&.kalendora__w--half {
+		width: 48%;
+	}
+
+	&.kalendora__w--third {
+		width: 30.66%;
+	}
+
+	&.is-hidden-by-logic {
+		display: none;
+	}
+}
+
+.kalendora__group {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	min-width: 0;
+}
+
+.kalendora__label {
+	display: block;
+	font-weight: 600;
+	margin: 0 0 6px;
+	padding: 0;
+}
+
+.kalendora__req {
+	color: var(--kalendora-error);
+	margin-left: 3px;
+}
+
+.kalendora__help {
+	color: var(--kalendora-muted);
+	font-size: 0.875rem;
+	margin: 6px 0 0;
+}
+
+.kalendora__error {
+	color: var(--kalendora-error);
+	font-size: 0.875rem;
+	margin: 6px 0 0;
+}
+
+.kalendora__muted,
+.kalendora__hint {
+	color: var(--kalendora-muted);
+	font-size: 0.9375rem;
+	margin: 0;
+}
+
+.kalendora__hint {
+	background: var(--kalendora-soft);
+	border-radius: var(--kalendora-radius);
+	padding: 10px 14px;
+	margin-bottom: 12px;
+}
+
+.kalendora__static {
+	margin: 0;
+	padding: 10px 0;
+	font-weight: 600;
+}
+
+.kalendora__row {
+	display: flex;
+	gap: 12px;
+
+	> * {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.kalendora__zip {
+		flex: 0 0 32%;
+	}
+
+	+ input {
+		margin-top: 12px;
+	}
+}
+
+.kalendora input + .kalendora__row {
+	margin-top: 12px;
+}
+
+/* Inputs */
+.kalendora input[type="text"],
+.kalendora input[type="email"],
+.kalendora input[type="tel"],
+.kalendora input[type="number"],
+.kalendora input[type="url"],
+.kalendora input[type="date"],
+.kalendora input[type="time"],
+.kalendora select,
+.kalendora textarea,
+.kalendora-date__display {
+	display: block;
+	width: 100%;
+	min-height: var(--kalendora-input-height);
+	padding: 10px 14px;
+	border: 1px solid var(--kalendora-border);
+	border-radius: var(--kalendora-radius);
+	background: var(--kalendora-bg);
+	color: inherit;
+	font: inherit;
+	line-height: 1.4;
+	transition: border-color 0.15s, box-shadow 0.15s;
+	margin: 0;
+
+	&:focus,
+	&:focus-visible {
+		outline: none;
+		border-color: var(--kalendora-primary);
+		box-shadow: 0 0 0 3px color-mix(in srgb, var(--kalendora-primary) 25%, transparent);
+	}
+
+	&:disabled {
+		opacity: 0.6;
+	}
+}
+
+.kalendora textarea {
+	resize: vertical;
+}
+
+.kalendora__field.has-error {
+
+	input:not([type="radio"]):not([type="checkbox"]),
+	select,
+	textarea,
+	.kalendora-date__display {
+		border-color: var(--kalendora-error);
+	}
+}
+
+/* Choices */
+.kalendora__choices {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+
+	&--inline {
+		flex-direction: row;
+		flex-wrap: wrap;
+		gap: 10px 24px;
+	}
+}
+
+.kalendora__choice {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+	cursor: pointer;
+
+	input {
+		width: 20px;
+		height: 20px;
+		margin: 2px 0 0;
+		flex: none;
+		accent-color: var(--kalendora-primary);
+	}
+}
+
+.kalendora__consent {
+	font-size: 0.9375rem;
+}
+
+/* Rating */
+.kalendora__rating {
+	display: inline-flex;
+	flex-direction: row-reverse;
+	gap: 4px;
+
+	input {
+		position: absolute;
+		opacity: 0;
+		width: 1px;
+		height: 1px;
+	}
+
+	label {
+		width: 32px;
+		height: 32px;
+		cursor: pointer;
+		background: currentcolor;
+		color: #d1d5db;
+		clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+		transition: color 0.1s;
+	}
+
+	input:checked ~ label,
+	label:hover,
+	label:hover ~ label {
+		color: #f59e0b;
+	}
+
+	input:focus-visible + label {
+		outline: 2px solid var(--kalendora-primary);
+		outline-offset: 2px;
+	}
+
+	.screen-reader-text {
+		position: absolute;
+		clip: rect(1px, 1px, 1px, 1px);
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+	}
+}
+
+/* Range */
+.kalendora__range {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+
+	input {
+		flex: 1;
+		accent-color: var(--kalendora-primary);
+	}
+
+	output {
+		min-width: 3ch;
+		font-weight: 600;
+		text-align: right;
+	}
+}
+
+/* Layout fields */
+.kalendora__heading {
+	margin: 8px 0 0;
+}
+
+.kalendora__paragraph p {
+	margin: 0 0 0.5em;
+}
+
+.kalendora__divider {
+	border: 0;
+	border-top: 1px solid var(--kalendora-border);
+	margin: 4px 0;
+}
+
+/* Honeypot */
+.kalendora__hp {
+	position: absolute !important;
+	left: -9999px !important;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+/* Buttons */
+.kalendora__nav {
+	display: flex;
+	gap: 12px;
+	margin-top: calc(var(--kalendora-gap) * 1.5);
+	flex-wrap: wrap;
+}
+
+.kalendora__button {
+	appearance: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	min-height: 48px;
+	padding: 12px 28px;
+	border: 2px solid var(--kalendora-primary);
+	border-radius: var(--kalendora-radius);
+	background: var(--kalendora-primary);
+	color: var(--kalendora-primary-contrast);
+	font: inherit;
+	font-weight: 600;
+	cursor: pointer;
+	transition: filter 0.15s, transform 0.05s;
+
+	&:hover {
+		filter: brightness(1.08);
+	}
+
+	&:active {
+		transform: translateY(1px);
+	}
+
+	&:focus-visible {
+		outline: 3px solid color-mix(in srgb, var(--kalendora-primary) 40%, transparent);
+		outline-offset: 2px;
+	}
+
+	&:disabled {
+		opacity: 0.6;
+		cursor: wait;
+	}
+
+	&--secondary {
+		background: transparent;
+		color: var(--kalendora-primary);
+	}
+
+	&.is-busy::after {
+		content: "";
+		width: 16px;
+		height: 16px;
+		border: 2px solid currentcolor;
+		border-right-color: transparent;
+		border-radius: 50%;
+		animation: kalendora-spin 0.7s linear infinite;
+	}
+}
+
+@keyframes kalendora-spin {
+
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.kalendora__message {
+	margin-top: var(--kalendora-gap);
+	padding: 12px 16px;
+	border-radius: var(--kalendora-radius);
+
+	&--error {
+		background: #fde8e8;
+		color: #9b1c1c;
+	}
+}
+
+.kalendora__success {
+	padding: 24px;
+	border-radius: var(--kalendora-radius);
+	background: var(--kalendora-soft);
+	border-left: 4px solid var(--kalendora-primary);
+
+	p:last-child {
+		margin-bottom: 0;
+	}
+
+	&:focus {
+		outline: none;
+	}
+}
+
+/* Progress */
+.kalendora__progress {
+	margin-bottom: calc(var(--kalendora-gap) * 1.5);
+
+	ol {
+		display: flex;
+		gap: 8px;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		counter-reset: kalendora-step;
+	}
+
+	li {
+		flex: 1;
+		font-size: 0.875rem;
+		color: var(--kalendora-muted);
+		border-top: 3px solid var(--kalendora-border);
+		padding-top: 8px;
+		counter-increment: kalendora-step;
+
+		&::before {
+			content: counter(kalendora-step) ". ";
+		}
+
+		&.is-active,
+		&.is-done {
+			border-color: var(--kalendora-primary);
+			color: inherit;
+		}
+
+		&.is-active {
+			font-weight: 600;
+		}
+	}
+}
+
+.kalendora__progress-bar {
+	display: block;
+	height: 6px;
+	border-radius: 3px;
+	background: var(--kalendora-border);
+	overflow: hidden;
+
+	span {
+		display: block;
+		height: 100%;
+		width: 0;
+		background: var(--kalendora-primary);
+		transition: width 0.3s;
+	}
+}
+
+/* Calendar */
+.kalendora-cal {
+	background: var(--kalendora-bg);
+	border: 1px solid var(--kalendora-border);
+	border-radius: var(--kalendora-radius);
+	padding: 14px;
+	user-select: none;
+
+	&__head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+		margin-bottom: 10px;
+	}
+
+	&__title {
+		display: flex;
+		gap: 6px;
+		flex: 1;
+		min-width: 0;
+		justify-content: center;
+
+		select {
+			width: auto !important;
+			min-width: 0;
+			flex: 0 1 auto;
+			min-height: 38px !important;
+			padding: 4px 28px 4px 10px !important;
+			font-weight: 600;
+			font-size: 1rem;
+		}
+	}
+
+	&__nav {
+		flex: none;
+		width: 38px;
+		height: 38px;
+		border-radius: 50%;
+		border: 0;
+		background: transparent;
+		color: var(--kalendora-primary);
+		font-size: 1.6rem;
+		line-height: 1;
+		cursor: pointer;
+
+		&:hover:not(:disabled) {
+			background: var(--kalendora-soft);
+		}
+
+		&:disabled {
+			color: var(--kalendora-border);
+			cursor: default;
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--kalendora-primary);
+		}
+	}
+
+	&__grid {
+		display: grid;
+		grid-template-columns: repeat(7, minmax(0, 1fr));
+		gap: 4px;
+		text-align: center;
+
+		&[aria-busy="true"] {
+			opacity: 0.6;
+		}
+	}
+
+	&__weekday {
+		font-size: 0.8125rem;
+		color: var(--kalendora-muted);
+		padding: 4px 0 8px;
+	}
+
+	&__day {
+		aspect-ratio: 1;
+		width: 100%;
+		max-width: 46px;
+		justify-self: center;
+		border: 2px solid transparent;
+		border-radius: 50%;
+		background: transparent;
+		color: #c4c7cc;
+		font: inherit;
+		font-size: 0.9375rem;
+		padding: 0;
+		cursor: default;
+
+		&.is-available {
+			color: inherit;
+			font-weight: 600;
+			background: var(--kalendora-soft);
+			cursor: pointer;
+
+			&:hover {
+				border-color: var(--kalendora-primary);
+			}
+		}
+
+		&[aria-current="date"] {
+			border-color: color-mix(in srgb, var(--kalendora-primary) 50%, transparent);
+		}
+
+		&[aria-pressed="true"] {
+			background: var(--kalendora-primary);
+			color: var(--kalendora-primary-contrast);
+			border-color: var(--kalendora-primary);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--kalendora-primary);
+			outline-offset: 2px;
+		}
+	}
+
+	&__status {
+		margin: 10px 0 0;
+		font-size: 0.875rem;
+		color: var(--kalendora-muted);
+		text-align: center;
+	}
+}
+
+/* Appointment picker */
+.kalendora-appt {
+	display: grid;
+	grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+	gap: 16px;
+	align-items: start;
+
+	&__day {
+		font-weight: 600;
+		margin: 4px 0 10px;
+	}
+
+	&__times {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+		gap: 8px;
+	}
+
+	&__time {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		min-height: 44px;
+		justify-content: center;
+		border: 1px solid var(--kalendora-primary);
+		border-radius: var(--kalendora-radius);
+		background: var(--kalendora-bg);
+		color: var(--kalendora-primary);
+		font: inherit;
+		font-weight: 600;
+		cursor: pointer;
+		padding: 6px;
+
+		small {
+			font-size: 0.75rem;
+			font-weight: 400;
+			opacity: 0.8;
+			line-height: 1.2;
+		}
+
+		&:hover {
+			background: var(--kalendora-soft);
+		}
+
+		&[aria-selected="true"] {
+			background: var(--kalendora-primary);
+			color: var(--kalendora-primary-contrast);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--kalendora-primary);
+			outline-offset: 2px;
+		}
+	}
+
+	&__summary {
+		margin: 12px 0 0;
+		padding: 10px 14px;
+		border-radius: var(--kalendora-radius);
+		background: var(--kalendora-soft);
+		font-weight: 600;
+	}
+}
+
+/* Date field */
+.kalendora-date {
+	position: relative;
+
+	&__display {
+		text-align: left;
+		cursor: pointer;
+		color: var(--kalendora-muted) !important;
+		background-image: linear-gradient(transparent, transparent);
+
+		&.has-value {
+			color: inherit !important;
+		}
+	}
+
+	&__panel {
+		margin-top: 8px;
+		max-width: 420px;
+
+		.kalendora-cal {
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+		}
+	}
+
+	&__times {
+		margin-top: 12px;
+
+		.kalendora-appt__day {
+			grid-column: 1 / -1;
+			margin: 0;
+		}
+	}
+}
+
+/* Labels left */
+.kalendora--labels-left .kalendora__field:not(.kalendora__field--heading):not(.kalendora__field--paragraph):not(.kalendora__field--divider) {
+	display: grid;
+	grid-template-columns: 30% 1fr;
+	gap: 0 16px;
+	align-items: start;
+
+	> .kalendora__help,
+	> .kalendora__error {
+		grid-column: 2;
+	}
+}
+
+.kalendora--labels-hidden .kalendora__label {
+	position: absolute;
+	clip: rect(1px, 1px, 1px, 1px);
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+@media (max-width: 640px) {
+
+	.kalendora__field.kalendora__w--half,
+	.kalendora__field.kalendora__w--third {
+		width: 100%;
+	}
+
+	.kalendora-appt {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.kalendora-cal {
+		padding: 10px 8px;
+	}
+
+	.kalendora-cal__head {
+		gap: 2px;
+	}
+
+	.kalendora-cal__title select {
+		padding: 4px 22px 4px 8px !important;
+		font-size: 0.9375rem;
+	}
+
+	.kalendora-cal__weekday {
+		font-size: 0.75rem;
+	}
+
+	.kalendora--labels-left .kalendora__field {
+		display: block !important;
+	}
+
+	.kalendora__nav .kalendora__button {
+		flex: 1;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.kalendora * {
+		transition: none !important;
+		animation: none !important;
+	}
+}
+
+/* Design settings (Kalendora → Settings → Design) */
+.kalendora.kalendora--compact {
+	--kalendora-gap: 12px;
+	--kalendora-input-height: 40px;
+	font-size: 0.95rem;
+}
+
+.kalendora.kalendora--comfortable {
+	--kalendora-gap: 24px;
+	--kalendora-input-height: 52px;
+	font-size: 1.05rem;
+}
+
+.kalendora.kalendora--font-system {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+@mixin kalendora-dark {
+	--kalendora-text: #f3f4f6;
+	--kalendora-muted: #9ca3af;
+	--kalendora-border: #4b5563;
+	--kalendora-bg: #1f2937;
+	--kalendora-soft: color-mix(in srgb, var(--kalendora-primary) 22%, #1f2937);
+	--kalendora-error: #f87171;
+	color-scheme: dark;
+}
+
+.kalendora.kalendora--scheme-dark {
+
+	@include kalendora-dark;
+}
+
+@media (prefers-color-scheme: dark) {
+
+	.kalendora.kalendora--scheme-auto {
+
+		@include kalendora-dark;
+	}
+}
+
+/* File upload */
+.kalendora-upload__drop {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+	padding: 18px;
+	border: 2px dashed var(--kalendora-border);
+	border-radius: var(--kalendora-radius);
+	background: var(--kalendora-bg);
+	text-align: center;
+	cursor: pointer;
+
+	&:hover,
+	&.is-over {
+		border-color: var(--kalendora-primary);
+		background: var(--kalendora-soft);
+	}
+
+	&:focus-within {
+		outline: 3px solid var(--kalendora-primary);
+		outline-offset: 2px;
+	}
+}
+
+.kalendora-upload__input {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	cursor: pointer;
+}
+
+.kalendora-upload__cta {
+	font-weight: 600;
+	color: var(--kalendora-primary);
+}
+
+.kalendora-upload__hint {
+	font-size: 0.875em;
+	color: var(--kalendora-muted);
+}
+
+.kalendora-upload__list {
+	list-style: none;
+	margin: 8px 0 0;
+	padding: 0;
+	display: grid;
+	gap: 6px;
+
+	&:empty {
+		display: none;
+	}
+}
+
+.kalendora-upload__item {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 8px 10px;
+	border: 1px solid var(--kalendora-border);
+	border-radius: var(--kalendora-radius);
+	background: var(--kalendora-bg);
+
+	&.is-done::before {
+		content: "✓";
+		color: #15803d;
+		font-weight: 700;
+	}
+
+	progress {
+		flex: 0 0 90px;
+		height: 6px;
+		accent-color: var(--kalendora-primary);
+	}
+}
+
+.kalendora-upload__name {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.kalendora-upload__meta {
+	font-size: 0.875em;
+	color: var(--kalendora-muted);
+}
+
+.kalendora-upload__remove {
+	border: 0;
+	background: none;
+	color: var(--kalendora-muted);
+	font-size: 1.4em;
+	line-height: 1;
+	min-width: 32px;
+	min-height: 32px;
+	cursor: pointer;
+
+	&:hover,
+	&:focus-visible {
+		color: var(--kalendora-error);
+	}
+}
+
+/* Signature: always on white "paper", also in dark mode */
+.kalendora-sign__pad {
+	display: block;
+	width: 100%;
+	height: 180px;
+	border: 1px solid var(--kalendora-border);
+	border-radius: var(--kalendora-radius);
+	background: #fff linear-gradient(to top, transparent 44px, #d1d5db 44px, #d1d5db 45px, transparent 45px);
+	touch-action: none;
+	cursor: crosshair;
+}
+
+.kalendora-sign__how {
+	margin: 6px 0 0;
+	font-size: 0.875em;
+	color: var(--kalendora-muted);
+}
+
+.kalendora-sign__tools {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 8px;
+}
+
+.kalendora-sign__btn {
+	padding: 6px 12px;
+	border: 1px solid var(--kalendora-border);
+	border-radius: var(--kalendora-radius);
+	background: var(--kalendora-bg);
+	color: inherit;
+	font: inherit;
+	font-size: 0.875em;
+	cursor: pointer;
+
+	&:focus-visible {
+		outline: 3px solid var(--kalendora-primary);
+		outline-offset: 2px;
+	}
+}
+
+.kalendora-sign__typed {
+	margin-top: 8px;
+
+	label {
+		display: block;
+		margin-bottom: 4px;
+		font-size: 0.875em;
+	}
+
+	input {
+		width: 100%;
+		min-height: var(--kalendora-input-height);
+		padding: 0 12px;
+		border: 1px solid var(--kalendora-border);
+		border-radius: var(--kalendora-radius);
+		font-family: "Segoe Script", "Bradley Hand", "Brush Script MT", cursive;
+		font-size: 1.3em;
+	}
+}
+
+/* Visitor in another time zone: switch between business time and own time */
+.kalendora-tz {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px 8px;
+	margin: 0 0 12px;
+	padding: 0;
+	border: 0;
+
+	legend {
+		float: left;
+		margin: 0 4px 0 0;
+		padding: 0;
+		color: var(--kalendora-muted);
+		font-size: 0.9em;
+	}
+
+	&__option {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		padding: 6px 12px;
+		border: 1px solid var(--kalendora-border);
+		border-radius: 999px;
+		cursor: pointer;
+		font-size: 0.9em;
+
+		input {
+			margin: 0;
+			accent-color: var(--kalendora-primary);
+		}
+
+		&:has(input:checked) {
+			border-color: var(--kalendora-primary);
+			background: var(--kalendora-soft);
+		}
+
+		&:has(input:focus-visible) {
+			outline: 2px solid var(--kalendora-primary);
+			outline-offset: 2px;
+		}
+	}
+}
+
+/* Calculated field (e.g. total price) */
+.kalendora-calc {
+	display: block;
+	font-size: 1.4em;
+	font-weight: 700;
+	font-variant-numeric: tabular-nums;
+}
