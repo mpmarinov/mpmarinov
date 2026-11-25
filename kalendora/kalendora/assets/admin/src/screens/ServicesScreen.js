@@ -150,6 +150,119 @@ function ServiceCancellation( { value, onChange } ) {
 	);
 }
 
+/**
+ * Where the appointment takes place: customer address (with travel time), office or remote.
+ *
+ * @param {Object}   props
+ * @param {Object}   props.value    Service settings.
+ * @param {Function} props.onChange Change handler (whole settings object).
+ */
+function ServiceLocation( { value, onChange } ) {
+	const loc = value.location || {};
+	const types = config.locationTypes || {};
+	const type = loc.type || '';
+	const upd = ( key ) => ( v ) =>
+		onChange( { ...value, location: { ...loc, [ key ]: v } } );
+	const has = ( t ) =>
+		type === t ||
+		( type === 'choice' && ( loc.choices || [] ).includes( t ) );
+	const toggleChoice = ( t, on ) =>
+		upd( 'choices' )(
+			on
+				? [ ...( loc.choices || [] ), t ]
+				: ( loc.choices || [] ).filter( ( c ) => c !== t )
+		);
+
+	return (
+		<fieldset className="kalendora-fieldset">
+			<legend>{ __( 'Location', 'kalendora' ) }</legend>
+			<SelectControl
+				__nextHasNoMarginBottom
+				label={ __(
+					'Where does the appointment take place?',
+					'kalendora'
+				) }
+				value={ type }
+				options={ [
+					{ label: __( 'Not specified', 'kalendora' ), value: '' },
+					...Object.entries( types ).map( ( [ v, label ] ) => ( {
+						label,
+						value: v,
+					} ) ),
+				] }
+				onChange={ upd( 'type' ) }
+			/>
+			{ type === 'choice' && (
+				<div className="kalendora-fieldset__row">
+					{ [ 'onsite', 'office', 'remote' ].map( ( t ) => (
+						<CheckboxControl
+							__nextHasNoMarginBottom
+							key={ t }
+							label={ types[ t ] }
+							checked={ ( loc.choices || [] ).includes( t ) }
+							onChange={ ( on ) => toggleChoice( t, on ) }
+						/>
+					) ) }
+				</div>
+			) }
+			{ has( 'onsite' ) && (
+				<TextControl
+					__nextHasNoMarginBottom
+					type="number"
+					min={ 0 }
+					step={ 5 }
+					label={ __(
+						'Travel time each way (minutes)',
+						'kalendora'
+					) }
+					help={
+						config.travelAuto
+							? __(
+									'Calculated automatically from the customer’s address. This value is used if the route cannot be calculated.',
+									'kalendora'
+							  )
+							: __(
+									'Blocked before and after the appointment, within the working hours. The customer enters the address when booking.',
+									'kalendora'
+							  )
+					}
+					value={ loc.travel ?? 0 }
+					onChange={ ( v ) =>
+						upd( 'travel' )( Math.max( 0, Number( v ) || 0 ) )
+					}
+				/>
+			) }
+			{ ( has( 'office' ) || has( 'remote' ) ) && (
+				<TextareaControl
+					__nextHasNoMarginBottom
+					rows={ 2 }
+					label={
+						has( 'remote' )
+							? __(
+									'Access details for remote appointments (link, ID, instructions)',
+									'kalendora'
+							  )
+							: __( 'Directions to the office', 'kalendora' )
+					}
+					help={
+						has( 'office' ) && ! config.officeAddress
+							? __(
+									'Please enter your address under Settings → General – it is used for office appointments.',
+									'kalendora'
+							  )
+							: __(
+									'Shown in the confirmation and the reminder.',
+									'kalendora'
+							  )
+					}
+					value={ loc.info || '' }
+					onChange={ upd( 'info' ) }
+				/>
+			) }
+		</fieldset>
+	);
+}
+
 function ServiceForm( { service, resources, weekly, onSave, onClose } ) {
 	const [ data, setData ] = useState( { ...EMPTY, ...service } );
 	const [ error, setError ] = useState( null );
@@ -356,6 +469,15 @@ function ServiceForm( { service, resources, weekly, onSave, onClose } ) {
 					weekly={ weekly }
 					data={ data }
 					weekStart={ Number( config.weekStart ?? 1 ) }
+				/>
+
+				<ServiceLocation
+					value={
+						data.settings && ! Array.isArray( data.settings )
+							? data.settings
+							: {}
+					}
+					onChange={ set( 'settings' ) }
 				/>
 
 				<ServiceCancellation

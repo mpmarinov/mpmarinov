@@ -610,6 +610,12 @@ final class EntryRepository {
 			'fee_status'    => (string) ( $b['fee_status'] ?? '' ),
 			'fee_reason'    => (string) ( $b['fee_reason'] ?? '' ),
 			'cancelled_by'  => (string) ( $b['cancelled_by'] ?? '' ),
+			'location_type' => (string) ( $b['location_type'] ?? '' ),
+			'location'      => (string) ( $b['location'] ?? '' ),
+			'travel_before' => (int) ( $b['travel_before'] ?? 0 ),
+			'travel_after'  => (int) ( $b['travel_after'] ?? 0 ),
+			'travel_km'     => (float) ( $b['travel_km'] ?? 0 ),
+			'travel_cost'   => (float) ( $b['travel_cost'] ?? 0 ),
 		);
 	}
 

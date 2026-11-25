@@ -116,6 +116,24 @@ msgid_plural "Free cancellation up to %d hours before the appointment."
 msgstr[0] "Kostenlose Absage bis %d Stunde vor dem Termin."
 msgstr[1] "Kostenlose Absage bis %d Stunden vor dem Termin."
 
+msgid "At the customer’s address"
+msgstr "Beim Kunden vor Ort"
+
+msgid "At our office"
+msgstr "In unserem Büro"
+
+msgid "Remote / online"
+msgstr "Fernwartung / online"
+
+msgid "Please choose where the appointment should take place."
+msgstr "Bitte wählen Sie, wo der Termin stattfinden soll."
+
+msgid "Please enter the address where the appointment should take place."
+msgstr "Bitte geben Sie die Adresse ein, an der der Termin stattfinden soll."
+
+msgid "At your address"
+msgstr "Bei Ihnen vor Ort"
+
 msgid "Link not valid"
 msgstr "Link ungültig"
 
@@ -709,6 +727,18 @@ msgstr "Zu Google Kalender hinzufügen"
 msgid "Move or cancel appointment"
 msgstr "Termin verschieben oder absagen"
 
+msgid "Open map"
+msgstr "Karte öffnen"
+
+msgid "Travel costs: %s"
+msgstr "Anfahrtskosten: %s"
+
+msgid "%s km"
+msgstr "%s km"
+
+msgid "Travel time blocked: %d min each way"
+msgstr "Geblockte Fahrzeit: je %d Min. hin und zurück"
+
 msgid "customer"
 msgstr "Kunde"
 
@@ -919,6 +949,15 @@ msgstr "Dauer"
 
 msgid "Price"
 msgstr "Preis"
+
+msgid "Location: customer address, office or \"remote\""
+msgstr "Einsatzort: Adresse des Kunden, Büro oder „Fernwartung / online“"
+
+msgid "Box with location, map link, access details and travel costs (added automatically if missing)"
+msgstr "Kasten mit Einsatzort, Kartenlink, Zugangsdaten und Anfahrtskosten (wird automatisch ergänzt, wenn er fehlt)"
+
+msgid "Travel costs (Pro)"
+msgstr "Anfahrtskosten (Pro)"
 
 msgid "Business name"
 msgstr "Name des Betriebs"
@@ -1855,6 +1894,9 @@ msgstr "wieder geöffnet"
 msgid "%d places"
 msgstr "%d Plätze"
 
+msgid "Location"
+msgstr "Einsatzort"
+
 msgid "Booked on"
 msgstr "Gebucht am"
 
@@ -2786,6 +2828,33 @@ msgstr "Gebühr in €"
 msgid "Fee in %"
 msgstr "Gebühr in %"
 
+msgid "Where does the appointment take place?"
+msgstr "Wo findet der Termin statt?"
+
+msgid "Not specified"
+msgstr "Nicht festgelegt"
+
+msgid "Travel time each way (minutes)"
+msgstr "Fahrzeit je Strecke (Minuten)"
+
+msgid "Calculated automatically from the customer’s address. This value is used if the route cannot be calculated."
+msgstr "Wird automatisch aus der Adresse des Kunden berechnet. Dieser Wert gilt, wenn die Route nicht berechnet werden kann."
+
+msgid "Blocked before and after the appointment, within the working hours. The customer enters the address when booking."
+msgstr "Wird vor und nach dem Termin innerhalb der Arbeitszeit geblockt. Der Kunde gibt die Adresse bei der Buchung ein."
+
+msgid "Access details for remote appointments (link, ID, instructions)"
+msgstr "Zugangsdaten für Fernwartung/Online-Termine (Link, ID, Hinweise)"
+
+msgid "Directions to the office"
+msgstr "Wegbeschreibung zum Büro"
+
+msgid "Please enter your address under Settings → General – it is used for office appointments."
+msgstr "Bitte tragen Sie Ihre Adresse unter Einstellungen → Allgemein ein – sie wird für Termine im Büro verwendet."
+
+msgid "Shown in the confirmation and the reminder."
+msgstr "Erscheint in der Bestätigung und in der Erinnerung."
+
 msgid "Edit service"
 msgstr "Leistung bearbeiten"
 
@@ -2941,6 +3010,12 @@ msgstr "Leer lassen für den automatischen Text. Platzhalter: {hours}, {fee}."
 
 msgid "The free version records the fee and shows it in the bookings – you invoice it yourself. Note: In Germany a fee is only enforceable if it was agreed before; Kalendora stores the customer's consent with the booking. This is not legal advice."
 msgstr "Die kostenlose Version erfasst die Gebühr und zeigt sie in den Buchungen an – die Rechnung stellen Sie selbst. Hinweis: In Deutschland ist eine Ausfallgebühr nur durchsetzbar, wenn sie vorher vereinbart wurde; Kalendora speichert die Zustimmung des Kunden zur Buchung. Dies ist keine Rechtsberatung."
+
+msgid "Address of the business"
+msgstr "Adresse des Betriebs"
+
+msgid "Used for office appointments and as the starting point for travel times. Placeholder {business_address} in emails."
+msgstr "Für Termine im Büro und als Startpunkt für Fahrzeiten. Platzhalter {business_address} in E-Mails."
 
 msgid "Shown to customers when a short-notice change is only possible by phone. Placeholder {business_phone} in emails."
 msgstr "Wird Kunden angezeigt, wenn eine kurzfristige Änderung nur telefonisch möglich ist. Platzhalter {business_phone} in E-Mails."
@@ -3349,6 +3424,27 @@ msgstr "Ortszeit des Betriebs (%s)"
 
 msgid "my time (%s)"
 msgstr "meiner Zeit (%s)"
+
+msgid "Street and no., postcode, town"
+msgstr "Straße und Nr., PLZ, Ort"
+
+msgid "Address of the appointment"
+msgstr "Adresse des Einsatzorts"
+
+msgid "You will receive the access details by email."
+msgstr "Die Zugangsdaten erhalten Sie per E-Mail."
+
+msgid "Where should the appointment take place?"
+msgstr "Wo soll der Termin stattfinden?"
+
+msgid "Travel time approx. %d min"
+msgstr "Anfahrt ca. %d Min."
+
+msgid "Travel costs %s"
+msgstr "Anfahrtskosten %s"
+
+msgid "Please enter the address first – then the free times are shown."
+msgstr "Bitte geben Sie zuerst die Adresse ein – dann erscheinen die freien Zeiten."
 
 msgid "Choose a day to see the free times."
 msgstr "Wählen Sie einen Tag, um die freien Zeiten zu sehen."

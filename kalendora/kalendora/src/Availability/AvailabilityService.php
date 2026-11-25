@@ -53,9 +53,10 @@ final class AvailabilityService {
 	 * @param string   $from        Y-m-d.
 	 * @param string   $to          Y-m-d.
 	 * @param int      $seats       Requested seats.
+	 * @param int[]    $travel      Travel minutes [before, after] (appointments at the customer's address).
 	 * @return array<int, array{start:int,end:int,available:int,resources:int[]}>|WP_Error
 	 */
-	public function slots( int $service_id, ?int $resource_id, string $from, string $to, int $seats = 1 ) {
+	public function slots( int $service_id, ?int $resource_id, string $from, string $to, int $seats = 1, array $travel = array() ) {
 		$service = $this->services->find( $service_id );
 		if ( ! $service || 'active' !== $service['status'] ) {
 			return new WP_Error( 'kalendora_unknown_service', __( 'This service is not available.', 'kalendora' ), array( 'status' => 404 ) );
@@ -71,7 +72,7 @@ final class AvailabilityService {
 			return $candidates;
 		}
 
-		$rules  = SlotRules::from_service( $service, $this->settings->all(), $seats );
+		$rules  = SlotRules::from_service( $service, $this->settings->all(), $seats )->with_travel( (int) ( $travel[0] ?? 0 ), (int) ( $travel[1] ?? 0 ) );
 		$now    = time();
 		$merged = array();
 

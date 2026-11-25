@@ -999,3 +999,55 @@
 	font-weight: 700;
 	font-variant-numeric: tabular-nums;
 }
+
+// Where the appointment takes place.
+.kalendora-place {
+	display: grid;
+	gap: 10px;
+	margin: 0 0 14px;
+
+	&__choice {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px 16px;
+		margin: 0;
+		padding: 0;
+		border: 0;
+
+		legend {
+			width: 100%;
+			margin-bottom: 6px;
+			padding: 0;
+		}
+	}
+
+	&__option {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		cursor: pointer;
+	}
+
+	&__type {
+		margin: 0;
+		font-weight: 600;
+	}
+
+	&__address {
+		display: grid;
+		gap: 4px;
+	}
+
+	&__info {
+		margin: -4px 0 14px;
+		padding: 8px 12px;
+		border-radius: var(--kalendora-radius, 8px);
+		background: var(--kalendora-soft, #f1f5f9);
+		font-size: 0.95em;
+
+		&.is-error {
+			background: #fef2f2;
+			color: #991b1b;
+		}
+	}
+}

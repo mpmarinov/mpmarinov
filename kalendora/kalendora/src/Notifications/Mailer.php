@@ -8,6 +8,7 @@
 namespace Kalendora\Notifications;
 
 use Kalendora\Booking\CancellationPolicy;
+use Kalendora\Booking\Location;
 use Kalendora\Booking\ManagePage;
 use Kalendora\Install\Schema;
 use Kalendora\Repository\EntryRepository;
@@ -402,7 +403,7 @@ final class Mailer {
 		$this->attachments = array();
 		if ( ! $admin && ! empty( $ctx['booking'] ) && in_array( $event, array( 'booking_confirmed', 'booking_reminder', 'booking_cancelled', 'booking_rescheduled' ), true ) ) {
 			$this->attachments[] = array(
-				'content' => Ics::event( $ctx['booking'], $ctx['vars']['service'] . ' – ' . $ctx['vars']['business_name'], $ctx['vars']['business_address'], '', 'booking_cancelled' === $event ? 'CANCELLED' : 'CONFIRMED' ),
+				'content' => Ics::event( $ctx['booking'], $ctx['vars']['service'] . ' – ' . $ctx['vars']['business_name'], self::event_location( $ctx['booking'], Location::describe( $ctx['booking'], null ), $ctx['vars']['business_address'] ), '', 'booking_cancelled' === $event ? 'CANCELLED' : 'CONFIRMED' ),
 				'name'    => 'termin.ics',
 				'type'    => 'text/calendar; charset=utf-8; method=PUBLISH',
 			);
@@ -662,9 +663,14 @@ final class Mailer {
 			'{admin_link}'      => $this->admin_link( $ctx ),
 			'{calendar_button}' => $this->calendar_button( $ctx ),
 			'{manage_button}'   => $this->manage_button( $ctx ),
+			'{location_block}'  => $this->location_block( $ctx, 'admin_new_booking' === $event ),
 		);
 
 		$body = wp_kses_post( (string) $tpl['body'] );
+		// Appointments with a location: show it even in templates written before this feature existed.
+		if ( '' !== $blocks['{location_block}'] && ! preg_match( '/\{location(_block)?\}/', $body ) && ! empty( $ctx['booking'] ) && 'booking_cancelled' !== $event ) {
+			$body = false !== strpos( $body, '{staff}' ) ? (string) preg_replace( '/\{staff\}/', "{staff}\n{location_block}", $body, 1 ) : $body . "\n\n{location_block}";
+		}
 		foreach ( array_keys( $blocks ) as $i => $token ) {
 			$body = str_replace( $token, '%%KALENDORA_BLOCK_' . $i . '%%', $body );
 		}
@@ -693,6 +699,63 @@ final class Mailer {
 		}
 
 		return array( $subject, $this->layout( $subject, $body ) );
+	}
+
+	/**
+	 * Location for calendar entries: the customer's address, the office, or the remote link.
+	 *
+	 * @param array<string, mixed> $booking  Booking.
+	 * @param array<string, mixed> $place    Location::describe().
+	 * @param string               $fallback Business address.
+	 */
+	private static function event_location( array $booking, array $place, string $fallback ): string {
+		$type = (string) ( $booking['location_type'] ?? '' );
+		if ( Location::ONSITE === $type && '' !== $place['place'] ) {
+			return $place['place'];
+		}
+		if ( Location::REMOTE === $type ) {
+			return '' !== $place['link'] ? $place['link'] : $place['label'];
+		}
+		return $fallback;
+	}
+
+	/**
+	 * Block with the location of the appointment (address + map link, office directions, remote access).
+	 *
+	 * @param array<string, mixed> $ctx   Context.
+	 * @param bool                 $admin Email to the business (adds travel details).
+	 */
+	private function location_block( array $ctx, bool $admin ): string {
+		$booking = (array) ( $ctx['booking'] ?? array() );
+		if ( '' === (string) ( $booking['location_type'] ?? '' ) ) {
+			return '';
+		}
+		$service = ! empty( $booking['service_id'] ) ? $this->services->find( (int) $booking['service_id'] ) : null;
+		$place   = Location::describe( $booking, $service );
+		$rows    = array();
+
+		if ( '' !== $place['place'] ) {
+			$rows[] = esc_html( $place['place'] ) . ( '' !== $place['link'] && Location::REMOTE !== $booking['location_type'] ? ' – <a href="' . esc_url( $place['link'] ) . '">' . esc_html__( 'Open map', 'kalendora' ) . '</a>' : '' );
+		}
+		if ( '' !== $place['info'] ) {
+			$rows[] = nl2br( esc_html( $place['info'] ) );
+		}
+		if ( Location::REMOTE === $booking['location_type'] && '' !== $place['link'] && false === strpos( $place['info'], $place['link'] ) ) {
+			$rows[] = '<a href="' . esc_url( $place['link'] ) . '">' . esc_html( $place['link'] ) . '</a>';
+		}
+		if ( $place['cost'] > 0 ) {
+			/* translators: %s: amount. */
+			$rows[] = esc_html( sprintf( __( 'Travel costs: %s', 'kalendora' ), number_format_i18n( $place['cost'], 2 ) . ' ' . apply_filters( 'kalendora_currency_symbol', '€' ) ) )
+				/* translators: %s: distance in km. */
+				. ( $place['km'] > 0 ? ' (' . esc_html( sprintf( __( '%s km', 'kalendora' ), number_format_i18n( $place['km'], 1 ) ) ) . ')' : '' );
+		}
+		if ( $admin && (int) ( $booking['travel_before'] ?? 0 ) > 0 ) {
+			/* translators: %d: minutes. */
+			$rows[] = esc_html( sprintf( __( 'Travel time blocked: %d min each way', 'kalendora' ), (int) $booking['travel_before'] ) );
+		}
+
+		return '<div style="margin:16px 0;padding:12px 16px;border-radius:8px;background:#f1f5f9;">'
+			. '<strong>' . esc_html( $place['label'] ) . '</strong><br>' . implode( '<br>', $rows ) . '</div>';
 	}
 
 	/**
@@ -728,7 +791,11 @@ final class Mailer {
 			'previous_date'  => '',
 			'previous_time'  => '',
 		);
-		$vars['google_calendar_link'] = Ics::google_link( $booking, $vars['service'] . ' – ' . $vars['business_name'], $vars['business_address'] );
+		$place                        = Location::describe( $booking, $service );
+		$vars['location']             = '' !== $place['place'] ? $place['place'] : $place['label'];
+		$vars['location_type']        = $place['label'];
+		$vars['travel_cost']          = $place['cost'] > 0 ? number_format_i18n( $place['cost'], 2 ) . ' ' . apply_filters( 'kalendora_currency_symbol', '€' ) : '';
+		$vars['google_calendar_link'] = Ics::google_link( $booking, $vars['service'] . ' – ' . $vars['business_name'], self::event_location( $booking, $place, $vars['business_address'] ) );
 		$vars['calendar_link']        = '' !== $booking['uid'] ? CalendarLink::url( $booking['uid'] ) : '';
 		$vars                        += $this->policy_vars( $booking, $service );
 		$vars['time_until']           = self::time_until( $ts, time() );
@@ -922,6 +989,9 @@ final class Mailer {
 			'business_address' => (string) $this->settings->get( 'business_address', '' ),
 			'business_phone'   => (string) $this->settings->get( 'business_phone', '' ),
 			'site_url'         => home_url( '/' ),
+			'location'         => '',
+			'location_type'    => '',
+			'travel_cost'      => '',
 		);
 	}
 

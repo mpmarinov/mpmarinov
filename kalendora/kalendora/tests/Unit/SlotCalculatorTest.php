@@ -73,6 +73,27 @@ final class SlotCalculatorTest extends TestCase {
 		$this->assertSame( array( '09:00', '11:30' ), array_slice( $this->starts( $slots ), 0, 2 ) );
 	}
 
+	public function test_travel_time_lies_within_working_hours(): void {
+		$calc  = new SlotCalculator( $this->tz, array( 1 => array( array( '08:00', '12:00' ) ) ) );
+		$slots = $calc->slots( '2026-12-07', '2026-12-07', ( new SlotRules( duration: 60, interval: 30 ) )->with_travel( 30, 45 ), $this->past );
+
+		// Leaves at 08:00, arrives 08:30; must be back by 12:00 → last start 10:15 is off-grid, so 10:00.
+		$this->assertSame( array( '08:30', '09:00', '09:30', '10:00' ), $this->starts( $slots ) );
+	}
+
+	public function test_travel_time_keeps_distance_to_other_bookings(): void {
+		$busy  = array( array( 'start' => $this->ts( '2026-12-07 10:00' ), 'end' => $this->ts( '2026-12-07 11:00' ) ) );
+		$calc  = new SlotCalculator( $this->tz, $this->weekly, array(), $busy );
+		$slots = $calc->slots( '2026-12-07', '2026-12-07', ( new SlotRules( duration: 30, interval: 30 ) )->with_travel( 20, 20 ), $this->past );
+
+		// Every slot incl. 20 min travel each way stays clear of 10:00–11:00 and within the hours.
+		$this->assertNotEmpty( $slots );
+		foreach ( $slots as $slot ) {
+			$this->assertTrue( $slot['end'] + 1200 <= $this->ts( '2026-12-07 10:00' ) || $slot['start'] - 1200 >= $this->ts( '2026-12-07 11:00' ) );
+		}
+		$this->assertSame( '13:20', $this->starts( $slots )[0] );
+	}
+
 	public function test_group_capacity_counts_seats(): void {
 		$start = $this->ts( '2026-12-07 09:00' );
 		$busy  = array(

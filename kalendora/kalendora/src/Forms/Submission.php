@@ -8,6 +8,7 @@
 namespace Kalendora\Forms;
 
 use Kalendora\Availability\AvailabilityService;
+use Kalendora\Booking\Location;
 use Kalendora\Booking\BookingService;
 use Kalendora\Booking\CancellationPolicy;
 use Kalendora\Install\Schema;
@@ -378,7 +379,7 @@ final class Submission {
 	 * @param array<string, mixed>  $form   Form.
 	 * @param array<string, mixed>  $values Raw values.
 	 * @param array<string, string> $errors Errors (by reference).
-	 * @return array{policy_accepted:bool, service_id:int, resource_id:int|null, start:int, seats:int}|null
+	 * @return array{policy_accepted:bool, service_id:int, resource_id:int|null, start:int, seats:int, location:array<string, mixed>}|null
 	 */
 	private function booking_input( array $form, array $values, array &$errors ): ?array {
 		$fields      = (array) $form['fields'];
@@ -432,6 +433,20 @@ final class Submission {
 			$resource_id = absint( $raw['resource'] );
 		}
 
+		// Where the appointment takes place (customer address, office, remote) incl. travel time.
+		$place = array();
+		if ( Location::options( $service ) ) {
+			$place = Location::resolve(
+				$service,
+				is_array( $raw ) ? (string) ( $raw['place'] ?? '' ) : '',
+				is_array( $raw ) ? (string) ( $raw['address'] ?? '' ) : ''
+			);
+			if ( is_wp_error( $place ) ) {
+				$errors[ $appointment['key'] ] = $place->get_error_message();
+				return null;
+			}
+		}
+
 		// Cancellation fee rule: the customer has to accept it explicitly.
 		$rule     = CancellationPolicy::for_service( $service, ( $this->settings ?? new Settings() )->all() );
 		$accepted = false;
@@ -449,6 +464,7 @@ final class Submission {
 			'resource_id'     => $resource_id,
 			'start'           => (int) $time,
 			'seats'           => max( 1, min( (int) $service['capacity'], absint( $values['_seats'] ?? 1 ) ) ),
+			'location'        => $place,
 		);
 	}
 

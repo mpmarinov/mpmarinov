@@ -190,6 +190,10 @@ kalendora.setValue( 'quelle', new URLSearchParams( location.search ).get( 'quell
 | `kalendora_currency`, `kalendora_currency_symbol` | `string` | Währung |
 | `kalendora_resource_limit` | `int` | Anzahl Mitarbeiter (Free: 3) |
 | `kalendora_is_pro` | `bool` | Wird vom Pro-Add-on gesetzt |
+| `kalendora_location_types` | `array $types` → `array` | Einsatzorte einer Leistung (`onsite`, `office`, `remote`; Pro ergänzt `choice`) |
+| `kalendora_location_resolve` | `array\|WP_Error $result, array $service, array $config` → `array\|WP_Error` | Fahrzeit (`travel_before`/`travel_after` in Min.), `km`, `cost` einer Kundenadresse berechnen oder Adresse ablehnen (Pro: Route, Einsatzgebiet) |
+| `kalendora_travel_auto` | `bool` | Fahrzeit wird automatisch berechnet (Hinweis im Leistungs-Dialog) |
+| `kalendora_pro_route_limit` | `int` | Pro: neue Adressabfragen pro Besucher und Stunde (Standard 20) |
 
 ### Beispiele
 

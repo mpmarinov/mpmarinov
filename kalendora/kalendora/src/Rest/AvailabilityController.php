@@ -8,6 +8,7 @@
 namespace Kalendora\Rest;
 
 use Kalendora\Availability\AvailabilityService;
+use Kalendora\Booking\Location;
 use Kalendora\Repository\ServiceRepository;
 use DateTimeImmutable;
 use DateTimeZone;
@@ -79,6 +80,17 @@ final class AvailabilityController {
 						'type'    => 'string',
 						'default' => '',
 					),
+					// Appointments at the customer's address: chosen type and address.
+					'place'    => array(
+						'type'      => 'string',
+						'default'   => '',
+						'maxLength' => 20,
+					),
+					'address'  => array(
+						'type'      => 'string',
+						'default'   => '',
+						'maxLength' => 300,
+					),
 				),
 			)
 		);
@@ -124,7 +136,18 @@ final class AvailabilityController {
 	 */
 	public function availability( WP_REST_Request $request ) {
 		$resource = (int) $request['resource'];
-		$slots    = $this->availability->slots( (int) $request['service'], $resource ? $resource : null, (string) $request['from'], (string) $request['to'], (int) $request['seats'] );
+		$service  = $this->services->find( (int) $request['service'] );
+		$place    = null;
+
+		if ( $service && Location::options( $service ) ) {
+			$place = Location::resolve( $service, (string) $request['place'], (string) $request['address'] );
+			if ( is_wp_error( $place ) ) {
+				return $place;
+			}
+		}
+
+		$travel = $place ? array( $place['travel_before'], $place['travel_after'] ) : array();
+		$slots  = $this->availability->slots( (int) $request['service'], $resource ? $resource : null, (string) $request['from'], (string) $request['to'], (int) $request['seats'], $travel );
 
 		if ( is_wp_error( $slots ) ) {
 			return $slots;
@@ -151,6 +174,14 @@ final class AvailabilityController {
 			array(
 				'timezone' => $tz->getName(),
 				'days'     => (object) $days,
+				// Travel time, distance and costs for the visitor (no internal data).
+				'place'    => $place ? array(
+					'type'   => $place['type'],
+					'travel' => $place['travel_before'],
+					'km'     => $place['km'],
+					'cost'   => $place['cost'],
+					'note'   => $place['note'],
+				) : null,
 			)
 		);
 		$response->header( 'Cache-Control', 'no-store' );

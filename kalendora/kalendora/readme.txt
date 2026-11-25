@@ -19,6 +19,7 @@ Kalendora by Marinov Solutions turns your WordPress site into a complete booking
 * Services with duration, buffers, places for courses and a daily maximum
 * Staff members and rooms with their own working hours (up to 3 in this plugin; the paid add-on Kalendora Pro removes the limit)
 * Customers in another time zone can see the times in their own time
+* Location per service: at the customer's address (with travel time blocked before and after, within working hours), at your office or remote/online – address with map link, directions or access details in the emails and calendar entries
 * Setup wizard and 10 form templates (medical practice, hair salon, workshop, consulting, course, contact, quote request …)
 
 = Fewer no-shows =
@@ -56,7 +57,7 @@ Kalendora by Marinov Solutions turns your WordPress site into a complete booking
 * Design without code: main color, corner radius, spacing, light/dark/automatic color scheme
 
 = Kalendora Pro =
-The separate, paid add-on Kalendora Pro adds online payment and deposits (Stripe, PayPal), unlimited staff members and resources and webhooks for Zapier, Make, n8n and Google Sheets. It is not required: everything listed above works with this plugin alone. More: https://mpmarinov.com/kalendora
+The separate, paid add-on Kalendora Pro adds online payment and deposits (Stripe, PayPal), calculated travel time and kilometre allowance per customer address with service area and customer choice of location, unlimited staff members and resources and webhooks for Zapier, Make, n8n and Google Sheets. It is not required: everything listed above works with this plugin alone. More: https://mpmarinov.com/kalendora
 
 == External services ==
 

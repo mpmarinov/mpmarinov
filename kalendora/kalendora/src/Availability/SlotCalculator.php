@@ -123,6 +123,12 @@ final class SlotCalculator {
 				continue;
 			}
 			foreach ( $this->windows_for( $day ) as [ $win_start, $win_end ] ) {
+				// Travel to and from the customer happens within the working hours.
+				$win_start += $rules->travel_before * 60;
+				$win_end   -= $rules->travel_after * 60;
+				if ( $win_end <= $win_start ) {
+					continue;
+				}
 				foreach ( $this->candidates( $win_start, $win_end, $rules ) as $start ) {
 					if ( $start < $earliest ) {
 						continue;
@@ -186,7 +192,7 @@ final class SlotCalculator {
 
 		if ( $rules->fill_gaps ) {
 			foreach ( $this->busy as $busy ) {
-				$t = $busy['end'] + $rules->buffer_before * 60;
+				$t = $busy['end'] + ( $rules->buffer_before + $rules->travel_before ) * 60;
 				if ( $t > $win_start && $t <= $last ) {
 					$times[] = $t;
 				}
@@ -246,8 +252,8 @@ final class SlotCalculator {
 	 * @param SlotRules $rules Rules.
 	 */
 	private function seats_left( int $start, int $end, SlotRules $rules ): int {
-		$block_start = $start - $rules->buffer_before * 60;
-		$block_end   = $end + $rules->buffer_after * 60;
+		$block_start = $start - ( $rules->buffer_before + $rules->travel_before ) * 60;
+		$block_end   = $end + ( $rules->buffer_after + $rules->travel_after ) * 60;
 		$used        = 0;
 
 		foreach ( $this->busy as $busy ) {

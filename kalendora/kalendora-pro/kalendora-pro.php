@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Kalendora Pro
  * Plugin URI:        https://mpmarinov.com/kalendora
- * Description:       Pro add-on for Kalendora: online payment and deposits (Stripe, PayPal), unlimited staff and resources, webhooks for Zapier, Make, n8n and Google Sheets, automatic updates.
+ * Description:       Pro add-on for Kalendora: online payment and deposits (Stripe, PayPal), travel time and kilometre allowance, unlimited staff and resources, webhooks for Zapier, Make, n8n and Google Sheets, automatic updates.
  * Version:           1.1.0
  * Requires at least: 6.6
  * Requires PHP:      8.1
@@ -50,6 +50,9 @@ add_action(
 		$license  = new \KalendoraPro\License();
 		$webhooks = new \KalendoraPro\Webhooks();
 		$payments = new \KalendoraPro\Payments();
+		$travel   = new \KalendoraPro\Travel();
+		$travel->register();
+		( new \KalendoraPro\TravelAdmin( $travel ) )->register();
 		$license->register();
 		$webhooks->register();
 		$payments->register();

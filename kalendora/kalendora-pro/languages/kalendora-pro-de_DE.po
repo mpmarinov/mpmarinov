@@ -452,6 +452,144 @@ msgstr "Stripe ist nicht erreichbar. Bitte versuchen Sie es gleich noch einmal."
 msgid "Stripe: %s"
 msgstr "Stripe: %s"
 
+msgid "The customer chooses (on site, office or remote)"
+msgstr "Kunde wählt (vor Ort, Büro oder Fernwartung)"
+
+msgid "Please enter the API key of the route service."
+msgstr "Bitte den API-Schlüssel des Routendienstes eintragen."
+
+msgid "Please enter the starting address (or your business address under Kalendora → Settings)."
+msgstr "Bitte die Startadresse eintragen (oder Ihre Adresse unter Kalendora → Einstellungen)."
+
+msgid "Sorry, this address is outside our service area. Please contact us directly."
+msgstr "Diese Adresse liegt leider außerhalb unseres Einsatzgebiets. Bitte kontaktieren Sie uns direkt."
+
+msgid "Too many address lookups. Please try again later or contact us directly."
+msgstr "Zu viele Adressabfragen. Bitte versuchen Sie es später erneut oder kontaktieren Sie uns direkt."
+
+msgid "The starting address could not be found."
+msgstr "Die Startadresse wurde nicht gefunden."
+
+msgid "The route service could not be reached."
+msgstr "Der Routendienst ist nicht erreichbar."
+
+msgid "Route service: %s"
+msgstr "Routendienst: %s"
+
+msgid "The address could not be found. Please check street, postcode and town."
+msgstr "Die Adresse wurde nicht gefunden. Bitte prüfen Sie Straße, PLZ und Ort."
+
+msgid "Please choose a route service and save first."
+msgstr "Bitte zuerst einen Routendienst wählen und speichern."
+
+msgid "%1$s: %2$s km, %3$d min driving → %4$d min blocked each way, travel costs %5$s."
+msgstr "%1$s: %2$s km, %3$d Min. Fahrt → je %4$d Min. geblockt hin und zurück, Anfahrtskosten %5$s."
+
+msgid "Travel settings saved."
+msgstr "Anfahrt-Einstellungen gespeichert."
+
+msgid "Travel time & kilometre allowance"
+msgstr "Fahrzeit & Kilometerpauschale"
+
+msgid "For services \"at the customer’s address\": the route from your address to the customer is calculated when booking. The driving time is blocked before and after the appointment (there and back), the travel costs are shown to the customer and added to the booking."
+msgstr "Für Leistungen „Beim Kunden vor Ort“: Bei der Buchung wird die Route von Ihrer Adresse zum Kunden berechnet. Die Fahrzeit wird vor und nach dem Termin geblockt (hin und zurück), die Anfahrtskosten sieht der Kunde vorab und sie werden zur Buchung gespeichert."
+
+msgid "Route service"
+msgstr "Routendienst"
+
+msgid "Off – fixed travel time from the service"
+msgstr "Aus – feste Fahrzeit aus der Leistung"
+
+msgid "OpenRouteService (free key, servers in Germany)"
+msgstr "OpenRouteService (kostenloser Schlüssel, Server in Deutschland)"
+
+msgid "Google Maps (Routes API, paid after the free quota)"
+msgstr "Google Maps (Routes API, kostenpflichtig nach dem Freikontingent)"
+
+msgid "OpenRouteService: register at openrouteservice.org → Dashboard → create token. Google: Google Cloud Console → enable \"Routes API\" → create API key (restrict it to the Routes API)."
+msgstr "OpenRouteService: auf openrouteservice.org registrieren → Dashboard → Token erstellen. Google: Google Cloud Console → „Routes API“ aktivieren → API-Schlüssel erstellen (auf die Routes API beschränken)."
+
+msgid "API key"
+msgstr "API-Schlüssel"
+
+msgid "Starting address"
+msgstr "Startadresse"
+
+msgid "Empty = your business address from Kalendora → Settings."
+msgstr "Leer = Ihre Adresse aus Kalendora → Einstellungen."
+
+msgid "Country"
+msgstr "Land"
+
+msgid "Two-letter code, e.g. DE, AT, CH, BG. Empty = worldwide."
+msgstr "Zweistelliger Code, z. B. DE, AT, CH, BG. Leer = weltweit."
+
+msgid "Travel time"
+msgstr "Fahrzeit"
+
+msgid "Surcharge for traffic and parking"
+msgstr "Zuschlag für Verkehr und Parkplatzsuche"
+
+msgid "Round up to"
+msgstr "Aufrunden auf"
+
+msgid "%d min"
+msgstr "%d Min."
+
+msgid "Kilometre allowance"
+msgstr "Kilometerpauschale"
+
+msgid "€ per km"
+msgstr "€ pro km"
+
+msgid "Charged distance"
+msgstr "Berechnete Strecke"
+
+msgid "there and back"
+msgstr "hin und zurück"
+
+msgid "one way only"
+msgstr "nur Hinweg"
+
+msgid "Free kilometres"
+msgstr "Freikilometer"
+
+msgid "0 € = travel costs are not charged (only the travel time is blocked). Example: 12 km, there and back, 0.30 €/km, 10 free km → (24 − 10) × 0.30 = 4.20 €."
+msgstr "0 € = keine Anfahrtskosten (nur die Fahrzeit wird geblockt). Beispiel: 12 km, hin und zurück, 0,30 €/km, 10 Freikilometer → (24 − 10) × 0,30 = 4,20 €."
+
+msgid "Service area"
+msgstr "Einsatzgebiet"
+
+msgid "Max. distance"
+msgstr "Max. Entfernung"
+
+msgid "km (0 = no limit)"
+msgstr "km (0 = keine Grenze)"
+
+msgid "Only these postcodes"
+msgstr "Nur diese Postleitzahlen"
+
+msgid "Comma separated; 12* = all postcodes starting with 12. Empty = everywhere. Works without a route service, too."
+msgstr "Mit Komma getrennt; 12* = alle PLZ, die mit 12 beginnen. Leer = überall. Funktioniert auch ohne Routendienst."
+
+msgid "Data protection:"
+msgstr "Datenschutz:"
+
+msgid "The address entered by the customer is sent to the chosen route service to calculate the route. Please mention this in your privacy policy (OpenRouteService: HeiGIT gGmbH, Heidelberg; Google: Google Ireland Ltd.)."
+msgstr "Die vom Kunden eingegebene Adresse wird zur Routenberechnung an den gewählten Routendienst übermittelt. Bitte nennen Sie das in Ihrer Datenschutzerklärung (OpenRouteService: HeiGIT gGmbH, Heidelberg; Google: Google Ireland Ltd.)."
+
+msgid "Save travel settings"
+msgstr "Anfahrt-Einstellungen speichern"
+
+msgid "Test with an address:"
+msgstr "Mit einer Adresse testen:"
+
+msgid "Street and no., postcode, town"
+msgstr "Straße und Nr., PLZ, Ort"
+
+msgid "Calculate route"
+msgstr "Route berechnen"
+
 msgid "Please enter a public https:// address."
 msgstr "Bitte geben Sie eine öffentliche https://-Adresse ein."
 

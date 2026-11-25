@@ -28,6 +28,8 @@ final class SlotRules {
 	 * @param int  $max_per_day   Max appointments of this service per day (0 = unlimited).
 	 * @param int  $max_day_total Max appointments of all services per day (0 = unlimited).
 	 * @param bool $fill_gaps     Also offer a start right after existing appointments (less idle time).
+	 * @param int  $travel_before Travel time to the customer (blocked, has to lie within working hours).
+	 * @param int  $travel_after  Travel time back (blocked, has to lie within working hours).
 	 */
 	public function __construct(
 		public readonly int $duration = 60,
@@ -41,7 +43,33 @@ final class SlotRules {
 		public readonly int $max_per_day = 0,
 		public readonly int $max_day_total = 0,
 		public readonly bool $fill_gaps = false,
+		public readonly int $travel_before = 0,
+		public readonly int $travel_after = 0,
 	) {}
+
+	/**
+	 * Same rules with travel time before/after the appointment.
+	 *
+	 * @param int $before Minutes.
+	 * @param int $after  Minutes.
+	 */
+	public function with_travel( int $before, int $after ): self {
+		return new self(
+			$this->duration,
+			$this->interval,
+			$this->buffer_before,
+			$this->buffer_after,
+			$this->capacity,
+			$this->min_notice,
+			$this->max_advance,
+			$this->seats,
+			$this->max_per_day,
+			$this->max_day_total,
+			$this->fill_gaps,
+			max( 0, $before ),
+			max( 0, $after )
+		);
+	}
 
 	/**
 	 * Build from a service row and global settings, clamping invalid values.

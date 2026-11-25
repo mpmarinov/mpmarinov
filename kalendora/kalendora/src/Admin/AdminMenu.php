@@ -199,6 +199,14 @@ final class AdminMenu {
 				'generalUrl'    => admin_url( 'options-general.php' ),
 				'locale'        => str_replace( '_', '-', get_user_locale() ),
 				'exportUrl'     => wp_nonce_url( admin_url( 'admin-post.php?action=' . Export::ACTION ), Export::ACTION ),
+				'locationTypes' => \Kalendora\Booking\Location::types(),
+				'officeAddress' => (string) $this->settings->get( 'business_address', '' ),
+				/**
+				 * Travel time is calculated per address (Kalendora Pro route calculation is set up).
+				 *
+				 * @param bool $auto Auto.
+				 */
+				'travelAuto'    => (bool) apply_filters( 'kalendora_travel_auto', false ),
 			)
 		);
 	}

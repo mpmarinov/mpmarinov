@@ -1654,3 +1654,21 @@
 	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 	gap: 0 16px;
 }
+
+// Location settings of a service: keep space between the controls.
+.kalendora-fieldset > .components-base-control + .components-base-control,
+.kalendora-fieldset > .components-base-control + .kalendora-fieldset__row,
+.kalendora-fieldset__row + .components-base-control {
+	margin-top: 16px;
+}
+
+.kalendora-fieldset__row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px 20px;
+	margin-top: 12px;
+}
+
+.kalendora-fieldset__row .components-checkbox-control {
+	margin: 0;
+}

@@ -259,8 +259,8 @@ final class EntriesController {
 		}
 
 		$service = $row['service_id'] ? $this->services->find( (int) $row['service_id'] ) : null;
-		$before  = (int) ( $service['buffer_before'] ?? 0 ) * 60;
-		$after   = (int) ( $service['buffer_after'] ?? 0 ) * 60;
+		$before  = ( (int) ( $service['buffer_before'] ?? 0 ) + (int) ( $row['travel_before'] ?? 0 ) ) * 60;
+		$after   = ( (int) ( $service['buffer_after'] ?? 0 ) + (int) ( $row['travel_after'] ?? 0 ) ) * 60;
 		$cap     = max( 1, (int) ( $service['capacity'] ?? 1 ) );
 		$start   = BookingRepository::ts( $row['start_utc'] ) - $before;
 		$end     = BookingRepository::ts( $row['end_utc'] ) + $after;

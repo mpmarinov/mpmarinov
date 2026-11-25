@@ -83,6 +83,10 @@ final class BookingService {
 		$rules = SlotRules::from_service( $service, $this->settings->all(), $seats );
 		$end   = $start + $rules->duration * 60;
 
+		// Where the appointment takes place (resolved by the form: address, travel time, costs).
+		$place = is_array( $input['location'] ?? null ) ? $input['location'] : array();
+		$rules = $rules->with_travel( (int) ( $place['travel_before'] ?? 0 ), (int) ( $place['travel_after'] ?? 0 ) );
+
 		foreach ( $candidates as $resource_id ) {
 			$lock = $this->lock_name( $resource_id );
 
@@ -153,8 +157,8 @@ final class BookingService {
 
 		$duration = strtotime( $row['end_utc'] . ' UTC' ) - strtotime( $row['start_utc'] . ' UTC' );
 		$end      = $start + $duration;
-		$before   = (int) ( $service['buffer_before'] ?? 0 ) * 60;
-		$after    = (int) ( $service['buffer_after'] ?? 0 ) * 60;
+		$before   = ( (int) ( $service['buffer_before'] ?? 0 ) + (int) ( $row['travel_before'] ?? 0 ) ) * 60;
+		$after    = ( (int) ( $service['buffer_after'] ?? 0 ) + (int) ( $row['travel_after'] ?? 0 ) ) * 60;
 		$capacity = max( 1, (int) ( $service['capacity'] ?? 1 ) );
 		$lock     = $this->lock_name( $target );
 
@@ -398,22 +402,28 @@ final class BookingService {
 			$ok         = $wpdb->insert(
 				Schema::table( $wpdb->prefix, 'bookings' ),
 				array(
-					'uid'         => $uid,
-					'entry_id'    => $entry_id,
-					'form_id'     => $form_id,
-					'service_id'  => (int) $service['id'],
-					'resource_id' => $resource_id,
-					'customer_id' => $customer_id,
-					'start_utc'   => gmdate( 'Y-m-d H:i:s', $start ),
-					'end_utc'     => gmdate( 'Y-m-d H:i:s', $end ),
-					'timezone'    => $tz,
-					'status'      => $status,
-					'seats'       => $seats,
-					'notes'       => sanitize_textarea_field( (string) ( $input['notes'] ?? '' ) ),
-					'source'      => 'web',
-					'policy'      => wp_json_encode( $policy ),
-					'created_at'  => $now,
-					'updated_at'  => $now,
+					'uid'           => $uid,
+					'entry_id'      => $entry_id,
+					'form_id'       => $form_id,
+					'service_id'    => (int) $service['id'],
+					'resource_id'   => $resource_id,
+					'customer_id'   => $customer_id,
+					'start_utc'     => gmdate( 'Y-m-d H:i:s', $start ),
+					'end_utc'       => gmdate( 'Y-m-d H:i:s', $end ),
+					'timezone'      => $tz,
+					'status'        => $status,
+					'seats'         => $seats,
+					'notes'         => sanitize_textarea_field( (string) ( $input['notes'] ?? '' ) ),
+					'source'        => 'web',
+					'policy'        => wp_json_encode( $policy ),
+					'location_type' => mb_substr( sanitize_key( (string) ( $input['location']['type'] ?? '' ) ), 0, 20 ),
+					'location'      => mb_substr( sanitize_text_field( (string) ( $input['location']['location'] ?? '' ) ), 0, 500 ),
+					'travel_before' => max( 0, min( 720, (int) ( $input['location']['travel_before'] ?? 0 ) ) ),
+					'travel_after'  => max( 0, min( 720, (int) ( $input['location']['travel_after'] ?? 0 ) ) ),
+					'travel_km'     => round( max( 0, (float) ( $input['location']['km'] ?? 0 ) ), 1 ),
+					'travel_cost'   => round( max( 0, (float) ( $input['location']['cost'] ?? 0 ) ), 2 ),
+					'created_at'    => $now,
+					'updated_at'    => $now,
 				)
 			);
 			$booking_id = $ok ? (int) $wpdb->insert_id : 0;

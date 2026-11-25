@@ -219,11 +219,12 @@ final class Payments {
 	 * @param array<string, mixed>|null $service Service.
 	 * @param int                       $seats   Places.
 	 * @param array<string, mixed>|null $s       Settings.
+	 * @param float                     $extra   Travel costs of this booking.
 	 * @return array{amount:float, total:float, kind:string}
 	 */
-	public static function amount( ?array $service, int $seats = 1, ?array $s = null ): array {
+	public static function amount( ?array $service, int $seats = 1, ?array $s = null, float $extra = 0.0 ): array {
 		$s     = $s ?? self::settings();
-		$total = $service ? round( (float) $service['price'] * max( 1, $seats ), 2 ) : 0.0;
+		$total = $service ? round( (float) $service['price'] * max( 1, $seats ) + max( 0.0, $extra ), 2 ) : 0.0;
 		$none  = array(
 			'amount' => 0.0,
 			'total'  => $total,
@@ -264,9 +265,9 @@ final class Payments {
 	 */
 	public function booking_input( array $input ): array {
 		$service = Kalendora::instance()->container()->get( ServiceRepository::class )->find( (int) ( $input['service_id'] ?? 0 ) );
-		$amount  = self::amount( $service, (int) ( $input['seats'] ?? 1 ) );
+		$amount  = self::amount( $service, (int) ( $input['seats'] ?? 1 ), null, (float) ( $input['location']['cost'] ?? 0 ) );
 		if ( $amount['amount'] > 0 ) {
-			$input['status']               = 'pending';
+			$input['status']                 = 'pending';
 			$input['_kalendora_pro_payment'] = $amount;
 		}
 		return $input;
@@ -531,8 +532,8 @@ final class Payments {
 			do_action( 'kalendora_pro_payment_paid', $payment );
 			return; // Booking and emails were already handled when "on site" was chosen.
 		}
-		$entries     = Kalendora::instance()->container()->get( EntryRepository::class );
-		$booking     = $entries->booking( (int) $payment['booking_id'] );
+		$entries = Kalendora::instance()->container()->get( EntryRepository::class );
+		$booking = $entries->booking( (int) $payment['booking_id'] );
 		if ( ! $booking ) {
 			return;
 		}
@@ -636,7 +637,7 @@ final class Payments {
 	 */
 	public function mark_received( int $id ): bool {
 		global $wpdb;
-		$changed = (bool) $wpdb->query( $wpdb->prepare( 'UPDATE ' . self::table() . " SET status = 'paid', provider = 'onsite', reference = 'onsite', amount = total, kind = 'full', paid_at = %s, updated_at = %s WHERE id = %d AND status = 'onsite'", current_time( 'mysql', true ), current_time( 'mysql', true ), $id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.NotPrepared
+		$changed     = (bool) $wpdb->query( $wpdb->prepare( 'UPDATE ' . self::table() . " SET status = 'paid', provider = 'onsite', reference = 'onsite', amount = total, kind = 'full', paid_at = %s, updated_at = %s WHERE id = %d AND status = 'onsite'", current_time( 'mysql', true ), current_time( 'mysql', true ), $id ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.NotPrepared
 		self::$cache = array();
 		if ( $changed ) {
 			do_action( 'kalendora_pro_payment_paid', self::find( $id ) );

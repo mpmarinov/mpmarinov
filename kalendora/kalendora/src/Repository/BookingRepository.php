@@ -54,7 +54,7 @@ final class BookingRepository {
 		$rows = (array) $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT b.start_utc, b.end_utc, b.seats, b.service_id,
-					COALESCE(s.buffer_before, 0) AS buffer_before, COALESCE(s.buffer_after, 0) AS buffer_after
+					COALESCE(s.buffer_before, 0) + b.travel_before AS buffer_before, COALESCE(s.buffer_after, 0) + b.travel_after AS buffer_after
 				FROM {$bookings} b LEFT JOIN {$services} s ON s.id = b.service_id
 				WHERE b.resource_id {$res_sql} AND b.status IN ({$statuses}) AND b.id <> %d
 				AND b.start_utc < %s AND b.end_utc > %s",

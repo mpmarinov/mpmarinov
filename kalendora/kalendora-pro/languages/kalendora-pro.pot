@@ -449,6 +449,144 @@ msgstr ""
 msgid "Stripe: %s"
 msgstr ""
 
+msgid "The customer chooses (on site, office or remote)"
+msgstr ""
+
+msgid "Please enter the API key of the route service."
+msgstr ""
+
+msgid "Please enter the starting address (or your business address under Kalendora → Settings)."
+msgstr ""
+
+msgid "Sorry, this address is outside our service area. Please contact us directly."
+msgstr ""
+
+msgid "Too many address lookups. Please try again later or contact us directly."
+msgstr ""
+
+msgid "The starting address could not be found."
+msgstr ""
+
+msgid "The route service could not be reached."
+msgstr ""
+
+msgid "Route service: %s"
+msgstr ""
+
+msgid "The address could not be found. Please check street, postcode and town."
+msgstr ""
+
+msgid "Please choose a route service and save first."
+msgstr ""
+
+msgid "%1$s: %2$s km, %3$d min driving → %4$d min blocked each way, travel costs %5$s."
+msgstr ""
+
+msgid "Travel settings saved."
+msgstr ""
+
+msgid "Travel time & kilometre allowance"
+msgstr ""
+
+msgid "For services \"at the customer’s address\": the route from your address to the customer is calculated when booking. The driving time is blocked before and after the appointment (there and back), the travel costs are shown to the customer and added to the booking."
+msgstr ""
+
+msgid "Route service"
+msgstr ""
+
+msgid "Off – fixed travel time from the service"
+msgstr ""
+
+msgid "OpenRouteService (free key, servers in Germany)"
+msgstr ""
+
+msgid "Google Maps (Routes API, paid after the free quota)"
+msgstr ""
+
+msgid "OpenRouteService: register at openrouteservice.org → Dashboard → create token. Google: Google Cloud Console → enable \"Routes API\" → create API key (restrict it to the Routes API)."
+msgstr ""
+
+msgid "API key"
+msgstr ""
+
+msgid "Starting address"
+msgstr ""
+
+msgid "Empty = your business address from Kalendora → Settings."
+msgstr ""
+
+msgid "Country"
+msgstr ""
+
+msgid "Two-letter code, e.g. DE, AT, CH, BG. Empty = worldwide."
+msgstr ""
+
+msgid "Travel time"
+msgstr ""
+
+msgid "Surcharge for traffic and parking"
+msgstr ""
+
+msgid "Round up to"
+msgstr ""
+
+msgid "%d min"
+msgstr ""
+
+msgid "Kilometre allowance"
+msgstr ""
+
+msgid "€ per km"
+msgstr ""
+
+msgid "Charged distance"
+msgstr ""
+
+msgid "there and back"
+msgstr ""
+
+msgid "one way only"
+msgstr ""
+
+msgid "Free kilometres"
+msgstr ""
+
+msgid "0 € = travel costs are not charged (only the travel time is blocked). Example: 12 km, there and back, 0.30 €/km, 10 free km → (24 − 10) × 0.30 = 4.20 €."
+msgstr ""
+
+msgid "Service area"
+msgstr ""
+
+msgid "Max. distance"
+msgstr ""
+
+msgid "km (0 = no limit)"
+msgstr ""
+
+msgid "Only these postcodes"
+msgstr ""
+
+msgid "Comma separated; 12* = all postcodes starting with 12. Empty = everywhere. Works without a route service, too."
+msgstr ""
+
+msgid "Data protection:"
+msgstr ""
+
+msgid "The address entered by the customer is sent to the chosen route service to calculate the route. Please mention this in your privacy policy (OpenRouteService: HeiGIT gGmbH, Heidelberg; Google: Google Ireland Ltd.)."
+msgstr ""
+
+msgid "Save travel settings"
+msgstr ""
+
+msgid "Test with an address:"
+msgstr ""
+
+msgid "Street and no., postcode, town"
+msgstr ""
+
+msgid "Calculate route"
+msgstr ""
+
 msgid "Please enter a public https:// address."
 msgstr ""
 

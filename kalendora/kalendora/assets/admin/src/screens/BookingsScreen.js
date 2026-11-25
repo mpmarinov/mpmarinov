@@ -86,6 +86,80 @@ export function FeeBadge( { booking } ) {
 	);
 }
 
+/**
+ * Where the appointment takes place: address with map link, travel time and costs.
+ *
+ * @param {Object} props
+ * @param {Object} props.booking Booking.
+ */
+function LocationText( { booking } ) {
+	const labels = {
+		onsite: __( 'At the customer’s address', 'kalendora' ),
+		office: __( 'At our office', 'kalendora' ),
+		remote: __( 'Remote / online', 'kalendora' ),
+	};
+	const parts = [];
+	if ( booking.travel_before > 0 ) {
+		parts.push(
+			sprintf(
+				/* translators: %d: minutes. */
+				__( 'Travel time blocked: %d min each way', 'kalendora' ),
+				booking.travel_before
+			)
+		);
+	}
+	if ( booking.travel_km > 0 ) {
+		parts.push(
+			sprintf(
+				/* translators: %s: distance in km. */
+				__( '%s km', 'kalendora' ),
+				booking.travel_km.toLocaleString( config.locale || undefined )
+			)
+		);
+	}
+	if ( booking.travel_cost > 0 ) {
+		parts.push(
+			sprintf(
+				/* translators: %s: amount. */
+				__( 'Travel costs: %s', 'kalendora' ),
+				booking.travel_cost.toLocaleString(
+					config.locale || undefined,
+					{
+						style: 'currency',
+						currency: config.currency || 'EUR',
+					}
+				)
+			)
+		);
+	}
+	return (
+		<>
+			<strong>{ labels[ booking.location_type ] || '' }</strong>
+			{ booking.location_type === 'onsite' && booking.location && (
+				<>
+					<br />
+					{ booking.location }{ ' ' }
+					<a
+						href={ `https://www.google.com/maps/search/?api=1&query=${ encodeURIComponent(
+							booking.location
+						) }` }
+						target="_blank"
+						rel="noreferrer noopener"
+					>
+						{ __( 'Open map', 'kalendora' ) }
+					</a>
+				</>
+			) }
+			{ parts.length > 0 && (
+				<>
+					<br />
+					<small>{ parts.join( ' · ' ) }</small>
+				</>
+			) }
+		</>
+	);
+}
+
 function FeePanel( { booking, onUpdated } ) {
 	const [ amount, setAmount ] = useState( '' );
 	const [ busy, setBusy ] = useState( false );
@@ -350,6 +424,14 @@ export function BookingDetail( {
 								>
 									{ booking.phone }
 								</a>
+							</dd>
+						</>
+					) }
+					{ booking.location_type && (
+						<>
+							<dt>{ __( 'Location', 'kalendora' ) }</dt>
+							<dd>
+								<LocationText booking={ booking } />
 							</dd>
 						</>
 					) }
@@ -641,6 +723,13 @@ export default function BookingsScreen() {
 														{ b.resource_name }
 													</span>
 												) }
+												{ b.location_type ===
+													'onsite' &&
+													b.location && (
+														<span>
+															{ b.location }
+														</span>
+													) }
 												{ b.phone && (
 													<span>{ b.phone }</span>
 												) }

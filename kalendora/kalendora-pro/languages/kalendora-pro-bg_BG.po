@@ -452,6 +452,144 @@ msgstr "Stripe не може да бъде достигнат. Моля, опи�
 msgid "Stripe: %s"
 msgstr "Stripe: %s"
 
+msgid "The customer chooses (on site, office or remote)"
+msgstr "Клиентът избира (на място, в офиса или дистанционно)"
+
+msgid "Please enter the API key of the route service."
+msgstr "Моля, въведете API ключа на услугата за маршрути."
+
+msgid "Please enter the starting address (or your business address under Kalendora → Settings)."
+msgstr "Моля, въведете начален адрес (или адреса на фирмата в Kalendora → Настройки)."
+
+msgid "Sorry, this address is outside our service area. Please contact us directly."
+msgstr "За съжаление адресът е извън района ни на обслужване. Моля, свържете се директно с нас."
+
+msgid "Too many address lookups. Please try again later or contact us directly."
+msgstr "Твърде много търсения на адреси. Моля, опитайте по-късно или се свържете директно с нас."
+
+msgid "The starting address could not be found."
+msgstr "Началният адрес не беше намерен."
+
+msgid "The route service could not be reached."
+msgstr "Услугата за маршрути не е достъпна."
+
+msgid "Route service: %s"
+msgstr "Услуга за маршрути: %s"
+
+msgid "The address could not be found. Please check street, postcode and town."
+msgstr "Адресът не беше намерен. Моля, проверете улица, пощенски код и град."
+
+msgid "Please choose a route service and save first."
+msgstr "Моля, първо изберете услуга за маршрути и запазете."
+
+msgid "%1$s: %2$s km, %3$d min driving → %4$d min blocked each way, travel costs %5$s."
+msgstr "%1$s: %2$s км, %3$d мин. път → блокирани по %4$d мин. в посока, пътни разходи %5$s."
+
+msgid "Travel settings saved."
+msgstr "Настройките за пътуване са запазени."
+
+msgid "Travel time & kilometre allowance"
+msgstr "Време за път и тарифа на километър"
+
+msgid "For services \"at the customer’s address\": the route from your address to the customer is calculated when booking. The driving time is blocked before and after the appointment (there and back), the travel costs are shown to the customer and added to the booking."
+msgstr "За услуги „на адреса на клиента“: при резервация се изчислява маршрутът от вашия адрес до клиента. Времето за път се блокира преди и след часа (отиване и връщане), а пътните разходи се показват на клиента и се записват към резервацията."
+
+msgid "Route service"
+msgstr "Услуга за маршрути"
+
+msgid "Off – fixed travel time from the service"
+msgstr "Изключено – фиксирано време за път от услугата"
+
+msgid "OpenRouteService (free key, servers in Germany)"
+msgstr "OpenRouteService (безплатен ключ, сървъри в Германия)"
+
+msgid "Google Maps (Routes API, paid after the free quota)"
+msgstr "Google Maps (Routes API, платено след безплатната квота)"
+
+msgid "OpenRouteService: register at openrouteservice.org → Dashboard → create token. Google: Google Cloud Console → enable \"Routes API\" → create API key (restrict it to the Routes API)."
+msgstr "OpenRouteService: регистрация на openrouteservice.org → Dashboard → създайте токен. Google: Google Cloud Console → активирайте „Routes API“ → създайте API ключ (ограничете го до Routes API)."
+
+msgid "API key"
+msgstr "API ключ"
+
+msgid "Starting address"
+msgstr "Начален адрес"
+
+msgid "Empty = your business address from Kalendora → Settings."
+msgstr "Празно = адресът на фирмата от Kalendora → Настройки."
+
+msgid "Country"
+msgstr "Държава"
+
+msgid "Two-letter code, e.g. DE, AT, CH, BG. Empty = worldwide."
+msgstr "Двубуквен код, напр. DE, AT, CH, BG. Празно = навсякъде по света."
+
+msgid "Travel time"
+msgstr "Време за път"
+
+msgid "Surcharge for traffic and parking"
+msgstr "Надбавка за трафик и паркиране"
+
+msgid "Round up to"
+msgstr "Закръгляне нагоре до"
+
+msgid "%d min"
+msgstr "%d мин."
+
+msgid "Kilometre allowance"
+msgstr "Тарифа на километър"
+
+msgid "€ per km"
+msgstr "€ на км"
+
+msgid "Charged distance"
+msgstr "Таксувано разстояние"
+
+msgid "there and back"
+msgstr "в двете посоки"
+
+msgid "one way only"
+msgstr "само в едната посока"
+
+msgid "Free kilometres"
+msgstr "Безплатни километри"
+
+msgid "0 € = travel costs are not charged (only the travel time is blocked). Example: 12 km, there and back, 0.30 €/km, 10 free km → (24 − 10) × 0.30 = 4.20 €."
+msgstr "0 € = без пътни разходи (блокира се само времето за път). Пример: 12 км, в двете посоки, 0,30 €/км, 10 безплатни км → (24 − 10) × 0,30 = 4,20 €."
+
+msgid "Service area"
+msgstr "Район на обслужване"
+
+msgid "Max. distance"
+msgstr "Макс. разстояние"
+
+msgid "km (0 = no limit)"
+msgstr "км (0 = без ограничение)"
+
+msgid "Only these postcodes"
+msgstr "Само тези пощенски кодове"
+
+msgid "Comma separated; 12* = all postcodes starting with 12. Empty = everywhere. Works without a route service, too."
+msgstr "Разделени със запетая; 12* = всички пощенски кодове, започващи с 12. Празно = навсякъде. Работи и без услуга за маршрути."
+
+msgid "Data protection:"
+msgstr "Защита на данните:"
+
+msgid "The address entered by the customer is sent to the chosen route service to calculate the route. Please mention this in your privacy policy (OpenRouteService: HeiGIT gGmbH, Heidelberg; Google: Google Ireland Ltd.)."
+msgstr "Въведеният от клиента адрес се изпраща до избраната услуга за изчисляване на маршрута. Моля, посочете това в политиката си за поверителност (OpenRouteService: HeiGIT gGmbH, Хайделберг; Google: Google Ireland Ltd.)."
+
+msgid "Save travel settings"
+msgstr "Запази настройките за пътуване"
+
+msgid "Test with an address:"
+msgstr "Тест с адрес:"
+
+msgid "Street and no., postcode, town"
+msgstr "Улица и №, пощенски код, град"
+
+msgid "Calculate route"
+msgstr "Изчисли маршрута"
+
 msgid "Please enter a public https:// address."
 msgstr "Моля, въведете публичен https:// адрес."
 

@@ -25,6 +25,15 @@ function fetchJson( url ) {
 		} );
 }
 
+function formatNumber( value, decimals, config ) {
+	const [ int, frac ] = Number( value ).toFixed( decimals ).split( '.' );
+	const grouped = int.replace(
+		/\B(?=(\d{3})+(?!\d))/g,
+		config.thousands ?? ','
+	);
+	return frac ? grouped + ( config.decimal ?? '.' ) + frac : grouped;
+}
+
 function monthRange( year, month, pad = 0 ) {
 	return [
 		ymd( new Date( year, month, 1 - pad ) ),
@@ -213,7 +222,25 @@ export class AppointmentPicker {
 			] );
 		}
 
+		// Where the appointment takes place (customer address, office, remote).
+		const base = this.inputStart.name.replace( /\[start\]$/, '' );
+		this.placeName = base;
+		this.placeBox = el( 'div', {
+			className: 'kalendora-place',
+			hidden: true,
+		} );
+		this.placeInfo = el( 'p', {
+			className: 'kalendora-place__info',
+			'aria-live': 'polite',
+			hidden: true,
+		} );
+		this.placeService = null;
+		this.place = '';
+		this.address = '';
+
 		this.container.append(
+			this.placeBox,
+			this.placeInfo,
 			...( this.tzSwitch ? [ this.tzSwitch ] : [] ),
 			this.hint,
 			el( 'div', { className: 'kalendora-appt' }, [
@@ -238,6 +265,179 @@ export class AppointmentPicker {
 	}
 
 	/**
+	 * Location choice and address input for the selected service.
+	 */
+	renderPlace() {
+		const service = this.getService();
+		if ( service === this.placeService ) {
+			return;
+		}
+		this.placeService = service;
+		const cfg = this.config.places?.[ service ];
+		this.placeBox.replaceChildren();
+		this.placeInfo.hidden = true;
+		this.placeBox.hidden = ! cfg;
+		if ( ! cfg ) {
+			this.place = '';
+			this.address = '';
+			return;
+		}
+		if ( ! cfg.options.includes( this.place ) ) {
+			this.place = cfg.options[ 0 ];
+		}
+
+		const address = el( 'input', {
+			type: 'text',
+			name: `${ this.placeName }[address]`,
+			id: `${ this.placeName }-address`.replace( /[^\w-]/g, '-' ),
+			className: 'kalendora__input',
+			autocomplete: 'street-address',
+			placeholder: __( 'Street and no., postcode, town', 'kalendora' ),
+			value: this.address,
+		} );
+		let timer = 0;
+		const apply = () => {
+			window.clearTimeout( timer );
+			const next = address.value.trim();
+			if ( next !== this.address ) {
+				this.address = next;
+				this.reset();
+			}
+		};
+		address.addEventListener( 'input', () => {
+			window.clearTimeout( timer );
+			timer = window.setTimeout( apply, 900 );
+		} );
+		address.addEventListener( 'change', apply );
+		address.addEventListener( 'keydown', ( e ) => {
+			if ( e.key === 'Enter' ) {
+				e.preventDefault();
+				apply();
+			}
+		} );
+		const addressRow = el(
+			'div',
+			{ className: 'kalendora-place__address' },
+			[
+				el( 'label', {
+					for: address.id,
+					className: 'kalendora__label',
+					text: __( 'Address of the appointment', 'kalendora' ),
+				} ),
+				address,
+			]
+		);
+		const note = el( 'p', { className: 'kalendora__muted' } );
+		const update = () => {
+			addressRow.hidden = this.place !== 'onsite';
+			if ( this.place === 'office' ) {
+				note.textContent = [ cfg.office, cfg.info ]
+					.filter( Boolean )
+					.join( ' – ' );
+			} else if ( this.place === 'remote' ) {
+				note.textContent = __(
+					'You will receive the access details by email.',
+					'kalendora'
+				);
+			} else {
+				note.textContent = '';
+			}
+			note.hidden = ! note.textContent;
+		};
+
+		if ( cfg.options.length > 1 ) {
+			const name = `${ this.placeName }[place]`;
+			this.placeBox.append(
+				el( 'fieldset', { className: 'kalendora-place__choice' }, [
+					el( 'legend', {
+						className: 'kalendora__label',
+						text: __(
+							'Where should the appointment take place?',
+							'kalendora'
+						),
+					} ),
+					...cfg.options.map( ( type ) =>
+						el( 'label', { className: 'kalendora-place__option' }, [
+							el( 'input', {
+								type: 'radio',
+								name,
+								value: type,
+								checked: type === this.place,
+								onChange: () => {
+									this.place = type;
+									update();
+									this.reset();
+								},
+							} ),
+							el( 'span', { text: cfg.labels[ type ] } ),
+						] )
+					),
+				] )
+			);
+		} else {
+			this.placeBox.append(
+				el( 'input', {
+					type: 'hidden',
+					name: `${ this.placeName }[place]`,
+					value: this.place,
+				} ),
+				el( 'p', {
+					className: 'kalendora-place__type',
+					text: cfg.labels[ this.place ],
+				} )
+			);
+		}
+		this.placeBox.append( addressRow, note );
+		update();
+	}
+
+	/**
+	 * Travel time, distance and costs from the availability answer.
+	 *
+	 * @param {Object|null} place Place info.
+	 */
+	showTravel( place ) {
+		this.placeInfo.classList.remove( 'is-error' );
+		const parts = [];
+		if ( place && place.type === 'onsite' ) {
+			if ( place.travel > 0 ) {
+				parts.push(
+					sprintf(
+						/* translators: %d: minutes. */
+						__( 'Travel time approx. %d min', 'kalendora' ),
+						place.travel
+					)
+				);
+			}
+			if ( place.km > 0 ) {
+				parts.push(
+					sprintf(
+						/* translators: %s: distance in km. */
+						__( '%s km', 'kalendora' ),
+						formatNumber( place.km, 1, this.config )
+					)
+				);
+			}
+			if ( place.cost > 0 ) {
+				parts.push(
+					sprintf(
+						/* translators: %s: amount with currency. */
+						__( 'Travel costs %s', 'kalendora' ),
+						formatNumber( place.cost, 2, this.config ) +
+							' ' +
+							( this.config.currency || '€' )
+					)
+				);
+			}
+			if ( place.note ) {
+				parts.push( place.note );
+			}
+		}
+		this.placeInfo.textContent = parts.join( ' · ' );
+		this.placeInfo.hidden = ! parts.length;
+	}
+
+	/**
 	 * Switch the time zone the slots are shown in.
 	 *
 	 * @param {string} tz Time zone.
@@ -252,6 +452,8 @@ export class AppointmentPicker {
 			this.tz,
 			this.getService(),
 			this.getResource() || 0,
+			this.place,
+			this.address,
 			year,
 			month,
 		].join( '|' );
@@ -268,6 +470,20 @@ export class AppointmentPicker {
 			this.currentDays = {};
 			return Promise.resolve();
 		}
+		this.renderPlace();
+		if ( this.place === 'onsite' && this.address.length < 5 ) {
+			this.hint.hidden = false;
+			this.hint.textContent = __(
+				'Please enter the address first – then the free times are shown.',
+				'kalendora'
+			);
+			this.currentDays = {};
+			return Promise.resolve();
+		}
+		this.hint.textContent = __(
+			'Please choose a service first.',
+			'kalendora'
+		);
 		const key = this.key( year, month );
 		if ( ! this.cache.has( key ) ) {
 			// In another time zone, days at the month edge can shift by one.
@@ -280,16 +496,33 @@ export class AppointmentPicker {
 			if ( this.getResource() ) {
 				params.resource = this.getResource();
 			}
+			if ( this.place ) {
+				params.place = this.place;
+				params.address = this.address;
+			}
 			this.cache.set(
 				key,
 				fetchJson(
 					apiUrl( this.config.rest, '/availability', params )
-				).then( ( res ) => res.days || {} )
+				).then( ( res ) => {
+					this.showTravel( res.place );
+					return res.days || {};
+				} )
 			);
 		}
-		return this.cache.get( key ).then( ( days ) => {
-			this.currentDays = days;
-		} );
+		return this.cache.get( key ).then(
+			( days ) => {
+				this.currentDays = days;
+			},
+			( error ) => {
+				// E.g. address outside the service area.
+				this.cache.delete( key );
+				this.currentDays = {};
+				this.placeInfo.hidden = false;
+				this.placeInfo.classList.add( 'is-error' );
+				this.placeInfo.textContent = error.message;
+			}
+		);
 	}
 
 	/** Called when service or staff member changes. */

@@ -294,6 +294,17 @@ export default function SettingsScreen() {
 						__nextHasNoMarginBottom
 					/>
 					<TextControl
+						label={ __( 'Address of the business', 'kalendora' ) }
+						help={ __(
+							'Used for office appointments and as the starting point for travel times. Placeholder {business_address} in emails.',
+							'kalendora'
+						) }
+						value={ settings.business_address || '' }
+						onChange={ set( 'business_address' ) }
+						autoComplete="street-address"
+						__nextHasNoMarginBottom
+					/>
+					<TextControl
 						type="tel"
 						label={ __( 'Phone', 'kalendora' ) }
 						help={ __(

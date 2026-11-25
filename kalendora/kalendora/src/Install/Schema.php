@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  */
 final class Schema {
 
-	public const VERSION = '1.8.0';
+	public const VERSION = '1.9.0';
 
 	/**
 	 * Unprefixed table names.
@@ -209,6 +209,12 @@ final class Schema {
   fee_status varchar(20) NOT NULL DEFAULT '',
   fee_reason varchar(20) NOT NULL DEFAULT '',
   cancelled_by varchar(20) NOT NULL DEFAULT '',
+  location_type varchar(20) NOT NULL DEFAULT '',
+  location varchar(500) NOT NULL DEFAULT '',
+  travel_before smallint(5) unsigned NOT NULL DEFAULT 0,
+  travel_after smallint(5) unsigned NOT NULL DEFAULT 0,
+  travel_km decimal(8,1) NOT NULL DEFAULT 0.0,
+  travel_cost decimal(12,2) NOT NULL DEFAULT 0.00,
   created_at datetime NOT NULL,
   updated_at datetime NOT NULL,
   PRIMARY KEY  (id),

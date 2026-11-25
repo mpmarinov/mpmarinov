@@ -55,6 +55,28 @@ Für jede Behandlung bzw. Dienstleistung:
 - **Max. pro Tag** (z. B. höchstens 2 Massagen am Tag)
 - **Mitarbeiter**, die diese Leistung anbieten; optional „Beliebiger Mitarbeiter“ anbieten
 - Abweichende Absage-Regeln oder Erinnerungen nur für diese Leistung (z. B. keine Ausfallgebühr für die Erstberatung)
+- **Einsatzort** – siehe Abschnitt 5a
+
+## 5a. Einsatzort: beim Kunden, im Büro oder per Fernwartung
+
+Gedacht z. B. für IT-Dienstleister, Handwerker, mobile Pflege oder Coaches. In der Leistung unter **Einsatzort**:
+
+| Einsatzort | Was passiert |
+|---|---|
+| **Beim Kunden vor Ort** | Der Kunde gibt im Formular die Adresse ein, erst dann erscheinen freie Zeiten. Die **Fahrzeit je Strecke** wird vor und nach dem Termin geblockt – innerhalb der Arbeitszeit (Arbeitsbeginn 08:00, 30 Min. Fahrt → erster Termin 08:30). Adresse mit Google-Maps-Link in den E-Mails und im Kalendereintrag. |
+| **In unserem Büro** | Ihre Adresse (Einstellungen → Allgemein → *Adresse des Betriebs*) und die Wegbeschreibung erscheinen in Bestätigung und Erinnerung. |
+| **Fernwartung / online** | Ihre Zugangsdaten (z. B. AnyDesk-/TeamViewer-Link, Teams/Zoom) erscheinen in Bestätigung und Erinnerung. Keine Fahrzeit. |
+| **Kunde wählt** (Pro) | Der Kunde entscheidet beim Buchen zwischen den angehakten Varianten. |
+
+Die Fahrzeit gilt auch beim Verschieben im Zeitstrahl: Ein Termin kann nicht in die Rückfahrt eines anderen gelegt werden.
+In E-Mail-Vorlagen gibt es die Platzhalter `{location}`, `{location_block}` und `{travel_cost}`. Fehlt der Block in einer Vorlage, ergänzt Kalendora ihn automatisch.
+
+**Mit Kalendora Pro (Pro → Fahrzeit & Kilometerpauschale):**
+- **Fahrzeit automatisch:** Route von Ihrer Adresse zum Kunden mit OpenRouteService (kostenloser Schlüssel, Server in Deutschland) oder Google Maps (Routes API). Zuschlag für Verkehr (z. B. +10 %) und Aufrunden (z. B. auf 5 Min.) einstellbar. Ist der Dienst nicht erreichbar, gilt die feste Fahrzeit der Leistung.
+- **Kilometerpauschale:** z. B. 0,30 €/km, hin und zurück oder nur Hinweg, mit Freikilometern. Der Kunde sieht vor dem Buchen „Anfahrt ca. 25 Min. · 12 km · Anfahrtskosten 4,20 €“. Mit Online-Zahlung werden die Anfahrtskosten mit kassiert.
+- **Einsatzgebiet:** maximale Entfernung in km und/oder Liste von Postleitzahlen (`10115, 12*`).
+- Mit **„Mit einer Adresse testen“** prüfen Sie Ihre Einstellungen, ohne zu buchen.
+- **Datenschutz:** Die Kundenadresse geht zur Routenberechnung an den gewählten Dienst – bitte in der Datenschutzerklärung nennen.
 
 ## 6. Buchungsformular erstellen (Kalendora → Formulare)
 

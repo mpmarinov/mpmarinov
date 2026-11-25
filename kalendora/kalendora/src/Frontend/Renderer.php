@@ -8,6 +8,7 @@
 namespace Kalendora\Frontend;
 
 use Kalendora\Booking\CancellationPolicy;
+use Kalendora\Booking\Location;
 use Kalendora\Forms\FileStore;
 use Kalendora\Forms\Submission;
 use Kalendora\Repository\FormRepository;
@@ -372,6 +373,7 @@ final class Renderer {
 		$numbers_of_services = array();
 
 		$resources       = array();
+		$places          = array();
 		$default_service = 0;
 		$policies        = $this->policies( $form );
 		if ( $policies ) {
@@ -386,7 +388,17 @@ final class Renderer {
 			foreach ( $this->services->all( array( 'status' => 'active' ) ) as $service ) {
 				$numbers_of_services[ (int) $service['id'] ] = array( (float) $service['price'], (int) $service['duration'] );
 				$default_service                             = $default_service ? $default_service : (int) $service['id'];
-				$resources[ $service['id'] ]                 = array();
+				$options                                     = Location::options( $service );
+				if ( $options ) {
+					$loc                            = Location::config( $service );
+					$places[ (int) $service['id'] ] = array(
+						'options' => $options,
+						'labels'  => array_combine( $options, array_map( array( Location::class, 'label' ), $options ) ),
+						'office'  => (string) $site['business_address'],
+						'info'    => $loc['info'],
+					);
+				}
+				$resources[ $service['id'] ] = array();
 				foreach ( $this->services->resource_ids( (int) $service['id'] ) as $rid ) {
 					if ( isset( $active[ $rid ] ) ) {
 						$resources[ $service['id'] ][] = array(
@@ -413,6 +425,9 @@ final class Renderer {
 			'timezone'   => wp_timezone_string(),
 			'tzMode'     => (string) $site['customer_timezone'],
 			'services'   => (object) $numbers_of_services,
+			'places'     => (object) $places,
+			'currency'   => (string) apply_filters( 'kalendora_currency_symbol', '€' ), // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- own prefix.
+
 			'decimal'    => (string) ( $GLOBALS['wp_locale']->number_format['decimal_point'] ?? '.' ),
 			'thousands'  => (string) ( $GLOBALS['wp_locale']->number_format['thousands_sep'] ?? ',' ),
 		);

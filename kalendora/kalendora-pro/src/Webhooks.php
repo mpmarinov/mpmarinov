@@ -316,8 +316,8 @@ final class Webhooks {
 				'timeout'     => 10,
 				'redirection' => 0,
 				'headers'     => array(
-					'Content-Type'        => 'application/json',
-					'User-Agent'          => 'Kalendora/' . ( defined( 'KALENDORA_VERSION' ) ? KALENDORA_VERSION : '1' ) . '; ' . home_url(),
+					'Content-Type'          => 'application/json',
+					'User-Agent'            => 'Kalendora/' . ( defined( 'KALENDORA_VERSION' ) ? KALENDORA_VERSION : '1' ) . '; ' . home_url(),
 					'X-Kalendora-Event'     => $delivery['event'],
 					'X-Kalendora-Delivery'  => $delivery['id'],
 					'X-Kalendora-Signature' => 'sha256=' . hash_hmac( 'sha256', $delivery['body'], $hook['secret'] ),
