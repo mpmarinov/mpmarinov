@@ -53,7 +53,7 @@ $row = $wpdb->get_row( 'SELECT * FROM ' . Licenses::table( 'licenses' ) . ' WHER
 check( ! str_contains( wp_json_encode( $row ), $one['key'] ) && Licenses::key_of( $row ) === $one['key'], 'key is stored only as hash + encrypted copy' );
 check( null !== $lic->find_by_key( strtolower( str_replace( '-', ' ', $one['key'] ) ) ), 'key is found with spaces and lower case' );
 check( 'shop.example.com/de' === Licenses::normalize_site( 'https://www.Shop.Example.com/de/' ) && '' === Licenses::normalize_site( 'javascript:alert(1)' ), 'website addresses are normalised' );
-check( Licenses::is_dev_site( 'localhost' ) && Licenses::is_dev_site( 'staging.kunde.de' ) && Licenses::is_dev_site( 'stag.mpmarinov.com' ) && Licenses::is_dev_site( 'kunde.local' ) && ! Licenses::is_dev_site( 'kunde.de' ), 'local and staging sites are recognised' );
+check( Licenses::is_dev_site( 'localhost' ) && Licenses::is_dev_site( 'staging.kunde.de' ) && Licenses::is_dev_site( 'stag.mpmarinov.com' ) && Licenses::is_dev_site( 'stg.mpmarinov.com' ) && Licenses::is_dev_site( 'kunde.local' ) && ! Licenses::is_dev_site( 'kunde.de' ), 'local and staging sites are recognised' );
 
 echo "Activation over HTTP\n";
 [ $c, $d ] = post( $api . 'activate', array( 'key' => $one['key'], 'site' => 'https://praxis-a.de', 'product' => 'bookora-pro', 'version' => '1.0.0' ) );
