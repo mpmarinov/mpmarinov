@@ -8,8 +8,20 @@ import { del, errorMessage, get, post, put } from '../api';
  * @param {string} route Collection route, e.g. "/services".
  * @return {Object} State and actions.
  */
+// Last loaded list per route: switching screens shows it at once, then refreshes.
+const CACHE = new Map();
+
 export default function useCollection( route ) {
-	const [ items, setItems ] = useState( null );
+	const [ items, setItemsState ] = useState( () =>
+		CACHE.has( route ) ? CACHE.get( route ) : null
+	);
+	const setItems = useCallback(
+		( data ) => {
+			CACHE.set( route, data );
+			setItemsState( data );
+		},
+		[ route ]
+	);
 	const [ notice, setNotice ] = useState( null );
 
 	const reload = useCallback( () => {
@@ -18,7 +30,7 @@ export default function useCollection( route ) {
 			.catch( ( e ) =>
 				setNotice( { status: 'error', text: errorMessage( e ) } )
 			);
-	}, [ route ] );
+	}, [ route, setItems ] );
 
 	useEffect( () => {
 		reload();

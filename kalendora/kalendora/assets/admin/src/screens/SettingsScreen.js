@@ -66,7 +66,9 @@ function CancellationCard( { settings, set } ) {
 	return (
 		<Card>
 			<CardHeader>
-				<h2>{ __( 'Cancelling & moving by customers', 'kalendora' ) }</h2>
+				<h2>
+					{ __( 'Cancelling & moving by customers', 'kalendora' ) }
+				</h2>
 			</CardHeader>
 			<CardBody>
 				<p className="kalendora-muted">
@@ -134,7 +136,10 @@ function CancellationCard( { settings, set } ) {
 									value: 'percent',
 								},
 								{
-									label: __( 'Fixed amount (€)', 'kalendora' ),
+									label: __(
+										'Fixed amount (€)',
+										'kalendora'
+									),
 									value: 'fixed',
 								},
 							] }
@@ -196,7 +201,10 @@ function CancellationCard( { settings, set } ) {
 						/>
 						<TextareaControl
 							__nextHasNoMarginBottom
-							label={ __( 'Own wording (optional)', 'kalendora' ) }
+							label={ __(
+								'Own wording (optional)',
+								'kalendora'
+							) }
 							help={ __(
 								'Leave empty for the automatic text. Placeholders: {hours}, {fee}.',
 								'kalendora'
@@ -381,7 +389,10 @@ export default function SettingsScreen() {
 					<TextControl
 						type="number"
 						__nextHasNoMarginBottom
-						label={ __( 'Bookable up to (days ahead)', 'kalendora' ) }
+						label={ __(
+							'Bookable up to (days ahead)',
+							'kalendora'
+						) }
 						min={ 1 }
 						value={ settings.max_advance_days }
 						onChange={ ( v ) =>
@@ -565,7 +576,9 @@ export default function SettingsScreen() {
 							'kalendora'
 						) }
 						value={ settings.global_css }
-						disabled={ ! window.kalendoraAdmin?.caps?.unfilteredHtml }
+						disabled={
+							! window.kalendoraAdmin?.caps?.unfilteredHtml
+						}
 						onChange={ set( 'global_css' ) }
 					/>
 					<CodeEditor
@@ -576,7 +589,9 @@ export default function SettingsScreen() {
 							'kalendora'
 						) }
 						value={ settings.global_js }
-						disabled={ ! window.kalendoraAdmin?.caps?.unfilteredHtml }
+						disabled={
+							! window.kalendoraAdmin?.caps?.unfilteredHtml
+						}
 						onChange={ set( 'global_js' ) }
 					/>
 				</CardBody>

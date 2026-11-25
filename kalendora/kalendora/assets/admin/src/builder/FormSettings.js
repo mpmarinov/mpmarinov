@@ -146,10 +146,16 @@ export default function FormSettings( { form, onChange } ) {
 			>
 				<SelectControl
 					__nextHasNoMarginBottom
-					label={ __( 'Sign up for the newsletter with', 'kalendora' ) }
+					label={ __(
+						'Sign up for the newsletter with',
+						'kalendora'
+					) }
 					value={ settings.newsletter || '' }
 					options={ [
-						{ value: '', label: __( 'No newsletter', 'kalendora' ) },
+						{
+							value: '',
+							label: __( 'No newsletter', 'kalendora' ),
+						},
 						{ value: 'mailchimp', label: 'Mailchimp' },
 						{ value: 'brevo', label: 'Brevo' },
 					] }
@@ -158,7 +164,10 @@ export default function FormSettings( { form, onChange } ) {
 				{ !! settings.newsletter && (
 					<SelectControl
 						__nextHasNoMarginBottom
-						label={ __( 'Only if this box is ticked', 'kalendora' ) }
+						label={ __(
+							'Only if this box is ticked',
+							'kalendora'
+						) }
 						help={ __(
 							'Add a consent field such as “Yes, I would like to receive the newsletter.” The visitor then gets a confirmation email from the newsletter service (double opt-in). Access data: Kalendora → Integrations.',
 							'kalendora'
@@ -212,7 +221,10 @@ export default function FormSettings( { form, onChange } ) {
 						},
 						{
 							value: 'hidden',
-							label: __( 'Hidden (placeholder only)', 'kalendora' ),
+							label: __(
+								'Hidden (placeholder only)',
+								'kalendora'
+							),
 						},
 					] }
 					onChange={ setting( 'labelPlacement' ) }

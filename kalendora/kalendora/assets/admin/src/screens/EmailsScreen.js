@@ -74,7 +74,10 @@ function ReminderEditor( { rows, onChange } ) {
 						type="number"
 						min={ 1 }
 						max={ r.unit === 'days' ? 30 : 720 }
-						label={ __( 'Time before the appointment', 'kalendora' ) }
+						label={ __(
+							'Time before the appointment',
+							'kalendora'
+						) }
 						value={ r.value }
 						onChange={ ( v ) => update( i, { value: v } ) }
 					/>
@@ -188,7 +191,10 @@ function SenderCard() {
 				<div className="kalendora-grid">
 					<TextControl
 						__nextHasNoMarginBottom
-						label={ __( 'Business name (sender name)', 'kalendora' ) }
+						label={ __(
+							'Business name (sender name)',
+							'kalendora'
+						) }
 						value={ s.business_name }
 						onChange={ set( 'business_name' ) }
 					/>

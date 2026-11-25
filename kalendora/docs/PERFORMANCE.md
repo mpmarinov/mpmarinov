@@ -52,3 +52,16 @@ Alle 348 Integrationsprüfungen laufen auf **MySQL/MariaDB und SQLite** grün.
 - **Volltextsuche über Formularwerte** (725 ms bei 420.000 Werten): `LIKE '%…%'` kann keinen Index nutzen. Für Praxen absolut ausreichend; ein FULLTEXT-Index wäre auf SQLite (Playground) nicht verfügbar.
 - **„Beliebiger Mitarbeiter“** fragt je Mitarbeiter ab (~7 Abfragen). Bei 20 Mitarbeitern 107 ms – gut. Bei Bedarf später bündeln.
 - **CSV-Export 2,9 s** für 95.000 Buchungen – läuft einmalig und speicherschonend.
+
+## Admin: Wechsel zwischen Menüpunkten (25.11.2026)
+
+Vorher lud jeder Klick im Kalendora-Menü die komplette WordPress-Admin-Seite neu (WordPress + alle Plugins starten,
+danach die Daten per REST). Auf einem Server mit WooCommerce und vielen Plugins kostete das 2–3 Sekunden.
+
+Jetzt wechselt die Admin-Oberfläche zwischen ihren Seiten ohne Neuladen (Menü, Links in der App, Zurück/Vor im Browser).
+Es werden nur noch die Daten der Seite geladen; bereits besuchte Listen erscheinen sofort und werden im Hintergrund
+aktualisiert. Strg-/Mittelklick öffnet weiterhin einen neuen Tab, die Pro-Seite lädt normal.
+Ungespeicherte Änderungen im Formular-Builder lösen vor dem Wechsel eine Rückfrage aus.
+
+Gemessen (lokal, Klick bis Seite fertig): vorher ~650–900 ms je Menüpunkt, jetzt 50–80 ms (Daten im Cache) bzw. eine
+REST-Anfrage beim ersten Besuch.

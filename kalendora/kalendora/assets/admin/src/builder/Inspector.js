@@ -191,7 +191,10 @@ function OptionsEditor( { options = [], onChange, showNumbers = false } ) {
 							__nextHasNoMarginBottom
 							hideLabelFromVision
 							className="kalendora-options__number"
-							label={ __( 'Value for calculations', 'kalendora' ) }
+							label={ __(
+								'Value for calculations',
+								'kalendora'
+							) }
 							placeholder="0"
 							inputMode="decimal"
 							value={ option.price ?? '' }
@@ -330,7 +333,10 @@ function LogicEditor( { field, fields, onChange } ) {
 						},
 						{
 							value: 'any',
-							label: __( 'if any condition matches', 'kalendora' ),
+							label: __(
+								'if any condition matches',
+								'kalendora'
+							),
 						},
 					] }
 					onChange={ ( match ) => onChange( { ...logic, match } ) }
@@ -762,7 +768,10 @@ export default function Inspector( {
 							options={ [
 								{
 									value: 'vertical',
-									label: __( 'Below each other', 'kalendora' ),
+									label: __(
+										'Below each other',
+										'kalendora'
+									),
 								},
 								{
 									value: 'inline',
@@ -836,7 +845,10 @@ export default function Inspector( {
 						<>
 							<TextControl
 								__nextHasNoMarginBottom
-								label={ __( 'Allowed file types', 'kalendora' ) }
+								label={ __(
+									'Allowed file types',
+									'kalendora'
+								) }
 								help={ __(
 									'Comma separated, e.g. jpg, png, pdf',
 									'kalendora'
@@ -861,7 +873,10 @@ export default function Inspector( {
 									type="number"
 									min={ 1 }
 									max={ 50 }
-									label={ __( 'Max. size (MB)', 'kalendora' ) }
+									label={ __(
+										'Max. size (MB)',
+										'kalendora'
+									) }
 									help={
 										( field.maxSize || 5 ) >
 										( config.maxUploadMb || 50 )

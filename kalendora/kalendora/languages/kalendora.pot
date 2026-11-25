@@ -1128,6 +1128,9 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
+msgid "Discard unsaved changes?"
+msgstr ""
+
 msgid "Form saved."
 msgstr ""
 
@@ -1147,9 +1150,6 @@ msgid "%1$s was moved to position %2$d."
 msgstr ""
 
 msgid "Moving %s was cancelled."
-msgstr ""
-
-msgid "Discard unsaved changes?"
 msgstr ""
 
 msgid "All forms"

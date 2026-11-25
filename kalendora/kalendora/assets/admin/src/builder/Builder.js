@@ -265,8 +265,24 @@ export default function Builder( { formId, onBack } ) {
 				e.returnValue = '';
 			}
 		};
+		// Switching to another Kalendora screen inside the app.
+		const leave = ( e ) => {
+			if (
+				dirty &&
+				// eslint-disable-next-line no-alert
+				! window.confirm(
+					__( 'Discard unsaved changes?', 'kalendora' )
+				)
+			) {
+				e.preventDefault();
+			}
+		};
 		window.addEventListener( 'beforeunload', warn );
-		return () => window.removeEventListener( 'beforeunload', warn );
+		window.addEventListener( 'kalendora:navigate', leave );
+		return () => {
+			window.removeEventListener( 'beforeunload', warn );
+			window.removeEventListener( 'kalendora:navigate', leave );
+		};
 	}, [ dirty ] );
 
 	const save = useCallback( () => {
@@ -370,7 +386,8 @@ export default function Builder( { formId, onBack } ) {
 
 	// Screen reader texts for keyboard reordering (dnd-kit only ships English).
 	const fieldName = ( id ) =>
-		fields.find( ( f ) => f.id === id )?.label || __( 'Field', 'kalendora' );
+		fields.find( ( f ) => f.id === id )?.label ||
+		__( 'Field', 'kalendora' );
 	const position = ( id ) => fields.findIndex( ( f ) => f.id === id ) + 1;
 	const dragA11y = {
 		screenReaderInstructions: {
@@ -400,7 +417,10 @@ export default function Builder( { formId, onBack } ) {
 				over
 					? sprintf(
 							/* translators: 1: field label, 2: position. */
-							__( '%1$s was moved to position %2$d.', 'kalendora' ),
+							__(
+								'%1$s was moved to position %2$d.',
+								'kalendora'
+							),
 							fieldName( active.id ),
 							position( over.id )
 					  )
@@ -640,7 +660,10 @@ export default function Builder( { formId, onBack } ) {
 							}
 						} }
 						tabs={ [
-							{ name: 'field', title: __( 'Field', 'kalendora' ) },
+							{
+								name: 'field',
+								title: __( 'Field', 'kalendora' ),
+							},
 							{ name: 'form', title: __( 'Form', 'kalendora' ) },
 						] }
 					>

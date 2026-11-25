@@ -123,13 +123,18 @@ function FeePanel( { booking, onUpdated } ) {
 					{ policy.accepted_at &&
 						` ${ sprintf(
 							/* translators: %s: date and time. */
-							__( '(accepted by the customer on %s)', 'kalendora' ),
+							__(
+								'(accepted by the customer on %s)',
+								'kalendora'
+							),
 							formatDateTime( policy.accepted_at )
 						) }` }
 				</p>
 			) }
 			{ booking.cancelled_by === 'customer' && (
-				<p>{ __( 'Cancelled online by the customer.', 'kalendora' ) }</p>
+				<p>
+					{ __( 'Cancelled online by the customer.', 'kalendora' ) }
+				</p>
 			) }
 			{ error && (
 				<Notice status="error" isDismissible={ false }>

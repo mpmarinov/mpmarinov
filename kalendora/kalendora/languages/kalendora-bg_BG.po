@@ -1130,6 +1130,9 @@ msgstr "Дублирай"
 msgid "Delete"
 msgstr "Изтрий"
 
+msgid "Discard unsaved changes?"
+msgstr "Да се отхвърлят ли незапазените промени?"
+
 msgid "Form saved."
 msgstr "Формулярът е запазен."
 
@@ -1150,9 +1153,6 @@ msgstr "%1$s беше преместено на позиция %2$d."
 
 msgid "Moving %s was cancelled."
 msgstr "Преместването на %s беше отменено."
-
-msgid "Discard unsaved changes?"
-msgstr "Да се отхвърлят ли незапазените промени?"
 
 msgid "All forms"
 msgstr "Всички формуляри"

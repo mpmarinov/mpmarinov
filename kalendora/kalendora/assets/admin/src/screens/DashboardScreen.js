@@ -217,7 +217,10 @@ export function SetupWizard( { onFinish } ) {
 						<TextControl
 							__nextHasNoMarginBottom
 							type="email"
-							label={ __( 'Email for new bookings', 'kalendora' ) }
+							label={ __(
+								'Email for new bookings',
+								'kalendora'
+							) }
 							value={ business.admin_email }
 							onChange={ ( v ) =>
 								setBusiness( { ...business, admin_email: v } )
@@ -298,7 +301,9 @@ export function SetupWizard( { onFinish } ) {
 							{ __( 'When are you open?', 'kalendora' ) }
 						</h2>
 						<fieldset className="kalendora-wizard__days">
-							<legend>{ __( 'Opening days', 'kalendora' ) }</legend>
+							<legend>
+								{ __( 'Opening days', 'kalendora' ) }
+							</legend>
 							{ WEEKDAYS.map( ( [ d, label ] ) => (
 								<CheckboxControl
 									__nextHasNoMarginBottom
@@ -494,7 +499,10 @@ export function SetupWizard( { onFinish } ) {
 							</li>
 							<li>
 								<strong>
-									{ __( 'Other page builders:', 'kalendora' ) }
+									{ __(
+										'Other page builders:',
+										'kalendora'
+									) }
 								</strong>{ ' ' }
 								{ __( 'paste this shortcode', 'kalendora' ) }{ ' ' }
 								<code>{ shortcode }</code>

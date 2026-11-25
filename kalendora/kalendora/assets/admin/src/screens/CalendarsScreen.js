@@ -739,7 +739,10 @@ export default function CalendarsScreen() {
 											{ __( 'Edit', 'kalendora' ) }
 										</Button>
 										<ConfirmButton
-											label={ __( 'Remove', 'kalendora' ) }
+											label={ __(
+												'Remove',
+												'kalendora'
+											) }
 											message={ __(
 												'The calendar is disconnected and its busy times are released.',
 												'kalendora'

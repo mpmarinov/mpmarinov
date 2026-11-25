@@ -1130,6 +1130,9 @@ msgstr "Duplizieren"
 msgid "Delete"
 msgstr "Löschen"
 
+msgid "Discard unsaved changes?"
+msgstr "Ungespeicherte Änderungen verwerfen?"
+
 msgid "Form saved."
 msgstr "Formular gespeichert."
 
@@ -1150,9 +1153,6 @@ msgstr "%1$s wurde an Position %2$d verschoben."
 
 msgid "Moving %s was cancelled."
 msgstr "Verschieben von %s abgebrochen."
-
-msgid "Discard unsaved changes?"
-msgstr "Ungespeicherte Änderungen verwerfen?"
 
 msgid "All forms"
 msgstr "Alle Formulare"

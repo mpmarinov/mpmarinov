@@ -70,7 +70,10 @@ function ServiceCancellation( { value, onChange } ) {
 						'Free cancellation up to (hours before)',
 						'kalendora'
 					) }
-					help={ __( 'Empty = use the global setting.', 'kalendora' ) }
+					help={ __(
+						'Empty = use the global setting.',
+						'kalendora'
+					) }
 					value={ value.cancel_limit_hours ?? '' }
 					onChange={ ( v ) =>
 						upd( 'cancel_limit_hours' )(
@@ -92,7 +95,10 @@ function ServiceCancellation( { value, onChange } ) {
 							value: 'off',
 						},
 						{
-							label: __( 'Own fee for this service', 'kalendora' ),
+							label: __(
+								'Own fee for this service',
+								'kalendora'
+							),
 							value: 'custom',
 						},
 					] }
@@ -113,7 +119,10 @@ function ServiceCancellation( { value, onChange } ) {
 									value: 'percent',
 								},
 								{
-									label: __( 'Fixed amount (€)', 'kalendora' ),
+									label: __(
+										'Fixed amount (€)',
+										'kalendora'
+									),
 									value: 'fixed',
 								},
 							] }
@@ -285,7 +294,10 @@ function ServiceForm( { service, resources, weekly, onSave, onClose } ) {
 						type="number"
 						min={ 0 }
 						label={ __( 'Minimum notice (minutes)', 'kalendora' ) }
-						help={ __( '0 = use the global setting.', 'kalendora' ) }
+						help={ __(
+							'0 = use the global setting.',
+							'kalendora'
+						) }
 						value={ data.min_notice }
 						onChange={ num( 'min_notice' ) }
 					/>
@@ -293,8 +305,14 @@ function ServiceForm( { service, resources, weekly, onSave, onClose } ) {
 						__nextHasNoMarginBottom
 						type="number"
 						min={ 0 }
-						label={ __( 'Bookable up to (days ahead)', 'kalendora' ) }
-						help={ __( '0 = use the global setting.', 'kalendora' ) }
+						label={ __(
+							'Bookable up to (days ahead)',
+							'kalendora'
+						) }
+						help={ __(
+							'0 = use the global setting.',
+							'kalendora'
+						) }
 						value={ data.max_advance }
 						onChange={ num( 'max_advance' ) }
 					/>
@@ -469,7 +487,10 @@ export default function ServicesScreen() {
 			) : (
 				<div className="kalendora-list">
 					{ items.map( ( service ) => (
-						<Card key={ service.id } className="kalendora-list__item">
+						<Card
+							key={ service.id }
+							className="kalendora-list__item"
+						>
 							<CardBody>
 								<span
 									className="kalendora-dot"

@@ -169,7 +169,11 @@ export const TEMPLATES = [
 			service( __( 'Topic', 'kalendora' ) ),
 			appointment(),
 			name(),
-			{ type: 'text', label: __( 'Company', 'kalendora' ), width: 'half' },
+			{
+				type: 'text',
+				label: __( 'Company', 'kalendora' ),
+				width: 'half',
+			},
 			phone(),
 			email( 'full' ),
 			{
@@ -223,7 +227,10 @@ export const TEMPLATES = [
 				layout: 'vertical',
 				options: [
 					opt( 'wait', __( 'I will wait', 'kalendora' ) ),
-					opt( 'leave', __( 'I will leave the vehicle', 'kalendora' ) ),
+					opt(
+						'leave',
+						__( 'I will leave the vehicle', 'kalendora' )
+					),
 				],
 			},
 			message( __( 'Describe the problem', 'kalendora' ), false, 4 ),

@@ -124,8 +124,8 @@ final class Feed {
 	/**
 	 * Email the subscription link (e.g. to a staff member's phone).
 	 *
-	 * @param string                        $scope  Scope.
-	 * @param string                        $to     Recipient.
+	 * @param string                          $scope  Scope.
+	 * @param string                          $to     Recipient.
 	 * @param \Kalendora\Notifications\Mailer $mailer Mailer.
 	 */
 	public function send_link( string $scope, string $to, \Kalendora\Notifications\Mailer $mailer ): bool {

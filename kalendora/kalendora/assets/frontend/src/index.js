@@ -164,7 +164,9 @@ function runQueued( item ) {
 		}
 	}
 }
-const queued = Array.isArray( window.kalendoraQueue ) ? window.kalendoraQueue : [];
+const queued = Array.isArray( window.kalendoraQueue )
+	? window.kalendoraQueue
+	: [];
 window.kalendoraQueue = { push: runQueued };
 queued.forEach( runQueued );
 

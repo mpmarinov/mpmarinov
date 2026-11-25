@@ -438,7 +438,10 @@ function ExceptionsEditor( { resourceId } ) {
 								value: 'closed',
 							},
 							{
-								label: __( 'Special opening hours', 'kalendora' ),
+								label: __(
+									'Special opening hours',
+									'kalendora'
+								),
 								value: 'open',
 							},
 						] }
