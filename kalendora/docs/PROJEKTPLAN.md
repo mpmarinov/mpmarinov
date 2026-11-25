@@ -259,6 +259,23 @@ Statt Merchant of Record (Freemius/Paddle/Lemon Squeezy) Verkauf im bestehenden 
 - **Gefunden durch den Browser-Test:** Eine WordPress-Hilfsfunktion fehlte auf der öffentlichen Seite (nur im Admin geladen) → Absturz beim Absenden mit Unterschrift; Download-Links waren doppelt kodiert. Beides behoben, neuer HTTP-Test deckt den ersten Fall ab (Gegenprobe gemacht).
 - Tests: 348 Integrationsprüfungen (+32), Browser-Test Desktop/Handy/Admin.
 
+## 10c. Offen: Pro nur mit gültiger Lizenz (notiert 25.11.2026)
+
+**Heute:** Kalendora Pro funktioniert nach dem Hochladen sofort vollständig – auch ganz ohne Lizenzschlüssel. Der Schlüssel schaltet nur automatische Updates frei. Wer die ZIP weitergibt, gibt damit alle Pro-Funktionen weiter.
+
+**Gewünscht (Marin):** Pro-Funktionen erst nach Aktivierung eines gültigen Schlüssels. Umsetzung **vor dem Verkaufsstart**:
+
+1. **Ohne aktivierten Schlüssel:** Pro ist installiert, aber gesperrt (Online-Zahlung, Fahrzeit/km-Pauschale, Webhooks, unbegrenzte Mitarbeiter aus). Hinweis „Bitte Lizenz aktivieren“. Die kostenlosen Funktionen laufen normal weiter.
+2. **Aktivierung:** einmalig online beim Lizenzserver (gibt es schon). Ergebnis wird signiert gespeichert und regelmäßig erneut geprüft.
+3. **Server nicht erreichbar:** Kulanzzeit (Vorschlag 14 Tage) – Kunden dürfen nie wegen eines Ausfalls bei uns plötzlich keine Buchungen/Zahlungen mehr haben.
+4. **Lizenz abgelaufen – Entscheidung offen:**
+   - (a) Pro läuft weiter, nur Updates/Support enden (heutige Zusage auf Produktseite und im Lizenzentwurf; kundenfreundlich, üblich bei WordPress-Plugins), oder
+   - (b) Pro-Funktionen werden nach Ablauf gesperrt (Abo-Modell; mehr Einnahmen, aber Achtung: laufende Online-Zahlungen/Erstattungen müssen weiter funktionieren, bestehende Buchungen bleiben sichtbar).
+5. **Lizenz gesperrt/erstattet:** Pro aus (nach Kulanzzeit).
+6. **Texte anpassen:** Produktseite („Läuft die Lizenz aus, funktioniert Pro weiter …“), Lizenzbedingungen-Entwurf, readme, Code-Kommentar in `kalendora-pro.php`.
+
+**Ehrlich zur Grenze:** Pro steht wie alle WordPress-Plugins unter der GPL. Eine Lizenzprüfung hält normale Kunden zuverlässig ab, technisch versierte Personen könnten sie aus dem Code entfernen. Das ist bei allen kommerziellen WordPress-Plugins so; der eigentliche Wert für zahlende Kunden sind Updates, Support und Vertrauen.
+
 ## 11. Fortschritt
 
 | Phase | Status |
